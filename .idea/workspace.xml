@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ComposerSettings">
+    <execution />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;last_opened_file_path&quot;: &quot;D:/projekty/wisdomfactory&quot;
+  }
+}</component>
+  <component name="RunManager">
+    <configuration name="Main" type="PestRunConfigurationType">
+      <PestRunner configuration_file="$PROJECT_DIR$/phpunit.xml.dist" scope="ConfigurationFile" use_alternative_configuration_file="true" />
+      <method v="2" />
+    </configuration>
+  </component>
+</project>
