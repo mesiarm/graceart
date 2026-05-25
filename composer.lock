@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "cef3bd734da3fd256f096c20c3d54803",
+    "content-hash": "b26f3aeedbbdabc670a77fd910a8e42b",
     "packages": [
         {
             "name": "composer/installers",
@@ -1023,6 +1023,37 @@
                 }
             ],
             "time": "2025-12-27T19:49:13+00:00"
+        },
+        {
+            "name": "wp-plugin/woocommerce",
+            "version": "10.7.0",
+            "source": {
+                "type": "svn",
+                "url": "https://plugins.svn.wordpress.org/woocommerce/",
+                "reference": "tags/10.7.0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://downloads.wordpress.org/plugin/woocommerce.10.7.0.zip"
+            },
+            "require": {
+                "composer/installers": "~1.0|~2.0"
+            },
+            "type": "wordpress-plugin",
+            "notification-url": "https://wp-packages.org/downloads",
+            "authors": [
+                {
+                    "name": "Automattic"
+                }
+            ],
+            "description": "Everything you need to launch an online store in days and keep it growing for years. From your first sale to millions in revenue, Woo is with you.",
+            "homepage": "https://woocommerce.com/",
+            "support": {
+                "changelog": "https://wordpress.org/plugins/woocommerce/#developers",
+                "issues": "https://wordpress.org/support/plugin/woocommerce",
+                "source": "https://plugins.svn.wordpress.org/woocommerce"
+            },
+            "time": "2026-05-25T10:05:57+00:00"
         }
     ],
     "packages-dev": [

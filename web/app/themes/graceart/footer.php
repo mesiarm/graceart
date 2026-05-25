@@ -3,30 +3,11 @@
         <div class="row text-center row-cols-1">
 
             <div class="footer1-logo col text-center">
-                <img src="assets/images/logo/logo.webp" alt="">
+                <img src="<?php echo fullTemplateUri('assets/images/logo/logo.webp'); ?>" alt="">
             </div>
 
             <div class="footer1-menu col">
-                <ul class="widget-menu justify-content-center">
-                    <li><a href="#">About us</a></li>
-                    <li><a href="#">Store location</a></li>
-                    <li><a href="#">Contact</a></li>
-                    <li><a href="#">Support</a></li>
-                    <li><a href="#">Policy</a></li>
-                    <li><a href="#">FAQs</a></li>
-                </ul>
-            </div>
-            <div class="footer1-subscribe d-flex flex-column col">
-                <form id="mc-form" class="mc-form widget-subscibe">
-                    <input id="mc-email" autocomplete="off" type="email" placeholder="Enter your e-mail address">
-                    <button id="mc-submit" class="btn btn-dark">subscibe</button>
-                </form>
-                <!-- mailchimp-alerts Start -->
-                <div class="mailchimp-alerts text-centre">
-                    <div class="mailchimp-submitting"></div><!-- mailchimp-submitting end -->
-                    <div class="mailchimp-success text-success"></div><!-- mailchimp-success end -->
-                    <div class="mailchimp-error text-danger"></div><!-- mailchimp-error end -->
-                </div><!-- mailchimp-alerts end -->
+                <?php graceartFooterMenu(); ?>
             </div>
             <div class="footer1-social col">
                 <ul class="widget-social justify-content-center">
@@ -54,17 +35,17 @@
                 <div class="col-lg-6 col-12 learts-mb-30">
                     <div class="product-images">
                         <div class="product-gallery-slider-quickview">
-                            <div class="product-zoom" data-image="assets/images/product/single/1/product-zoom-1.webp">
-                                <img src="assets/images/product/single/1/product-1.webp" alt="">
+                            <div class="product-zoom" data-image="<?php echo fullTemplateUri('assets/images/product/single/1/product-zoom-1.webp'); ?>">
+                                <img src="<?php echo fullTemplateUri('assets/images/product/single/1/product-1.webp'); ?>" alt="">
                             </div>
-                            <div class="product-zoom" data-image="assets/images/product/single/1/product-zoom-2.webp">
-                                <img src="assets/images/product/single/1/product-2.webp" alt="">
+                            <div class="product-zoom" data-image="<?php echo fullTemplateUri('assets/images/product/single/1/product-zoom-2.webp'); ?>">
+                                <img src="<?php echo fullTemplateUri('assets/images/product/single/1/product-2.webp'); ?>" alt="">
                             </div>
-                            <div class="product-zoom" data-image="assets/images/product/single/1/product-zoom-3.webp">
-                                <img src="assets/images/product/single/1/product-3.webp" alt="">
+                            <div class="product-zoom" data-image="<?php echo fullTemplateUri('assets/images/product/single/1/product-zoom-3.webp'); ?>">
+                                <img src="<?php echo fullTemplateUri('assets/images/product/single/1/product-3.webp'); ?>" alt="">
                             </div>
-                            <div class="product-zoom" data-image="assets/images/product/single/1/product-zoom-4.webp">
-                                <img src="assets/images/product/single/1/product-4.webp" alt="">
+                            <div class="product-zoom" data-image="<?php echo fullTemplateUri('assets/images/product/single/1/product-zoom-4.webp'); ?>">
+                                <img src="<?php echo fullTemplateUri('assets/images/product/single/1/product-4.webp'); ?>" alt="">
                             </div>
                         </div>
                     </div>
@@ -128,8 +109,8 @@
                         <div class="product-brands">
                             <span class="title">Brands</span>
                             <div class="brands">
-                                <a href="#"><img src="assets/images/brands/brand-3.webp" alt=""></a>
-                                <a href="#"><img src="assets/images/brands/brand-8.webp" alt=""></a>
+                                <a href="#"><img src="<?php echo fullTemplateUri('assets/images/brands/brand-3.webp'); ?>" alt=""></a>
+                                <a href="#"><img src="<?php echo fullTemplateUri('assets/images/brands/brand-8.webp'); ?>" alt=""></a>
                             </div>
                         </div>
                         <div class="product-meta mb-0">
@@ -183,44 +164,7 @@
     </div>
 </div>
 
-<!-- JS
-============================================ -->
-
-<!-- Vendors JS -->
-<script src="assets/js/vendor/modernizr-3.6.0.min.js"></script>
-<script src="assets/js/vendor/jquery-3.4.1.min.js"></script>
-<script src="assets/js/vendor/jquery-migrate-3.1.0.min.js"></script>
-<script src="assets/js/vendor/bootstrap.bundle.min.js"></script>
-
-<!-- Plugins JS -->
-<script src="assets/js/plugins/select2.min.js"></script>
-<script src="assets/js/plugins/jquery.nice-select.min.js"></script>
-<script src="assets/js/plugins/perfect-scrollbar.min.js"></script>
-<script src="assets/js/plugins/swiper.min.js"></script>
-<script src="assets/js/plugins/slick.min.js"></script>
-<script src="assets/js/plugins/mo.min.js"></script>
-<script src="assets/js/plugins/jquery.ajaxchimp.min.js"></script>
-<script src="assets/js/plugins/jquery.countdown.min.js"></script>
-<script src="assets/js/plugins/imagesloaded.pkgd.min.js"></script>
-<script src="assets/js/plugins/isotope.pkgd.min.js"></script>
-<script src="assets/js/plugins/jquery.matchHeight-min.js"></script>
-<script src="assets/js/plugins/ion.rangeSlider.min.js"></script>
-<script src="assets/js/plugins/photoswipe.min.js"></script>
-<script src="assets/js/plugins/photoswipe-ui-default.min.js"></script>
-<script src="assets/js/plugins/jquery.zoom.min.js"></script>
-<script src="assets/js/plugins/ResizeSensor.js"></script>
-<script src="assets/js/plugins/jquery.sticky-sidebar.min.js"></script>
-<script src="assets/js/plugins/product360.js"></script>
-<script src="assets/js/plugins/jquery.magnific-popup.min.js"></script>
-<script src="assets/js/plugins/jquery.scrollUp.min.js"></script>
-<script src="assets/js/plugins/scrollax.min.js"></script>
-
-<!-- Use the minified version files listed below for better performance and remove the files listed above -->
-<!-- <script src="assets/js/vendor/vendor.min.js"></script>
-<script src="assets/js/plugins/plugins.min.js"></script> -->
-
-<!-- Main Activation JS -->
-<script src="assets/js/main.js"></script>
+<?php wp_footer(); ?>
 
 </body>
 

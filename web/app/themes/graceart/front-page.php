@@ -2,36 +2,36 @@
 <!-- Slider main container Start -->
 <div class="home1-slider swiper-container">
     <div class="swiper-wrapper">
-        <div class="home1-slide-item swiper-slide" data-swiper-autoplay="5000" data-bg-image="assets/images/slider/home1/slide-1.webp">
+        <div class="home1-slide-item swiper-slide" data-swiper-autoplay="5000" data-bg-image="<?php echo fullTemplateUri('assets/images/slider/home1/slide-1.webp'); ?>">
             <div class="home1-slide1-content">
                 <span class="bg"></span>
                 <span class="slide-border"></span>
-                <span class="icon"><img src="assets/images/slider/home1/slide-1-1.webp" alt="Slide Icon"></span>
+                <span class="icon"><img src="<?php echo fullTemplateUri('assets/images/slider/home1/slide-1-1.webp'); ?>" alt="Slide Icon"></span>
                 <h2 class="title">Handicraft Shop</h2>
                 <h3 class="sub-title">Just for you</h3>
                 <div class="link"><a href="shop.html">shop now</a></div>
             </div>
         </div>
-        <div class="home1-slide-item swiper-slide" data-swiper-autoplay="5000" data-bg-image="assets/images/slider/home1/slide-2.webp">
+        <div class="home1-slide-item swiper-slide" data-swiper-autoplay="5000" data-bg-image="<?php echo fullTemplateUri('assets/images/slider/home1/slide-2.webp'); ?>">
             <div class="home1-slide2-content">
-                <span class="bg" data-bg-image="assets/images/slider/home1/slide-2-1.webp"></span>
+                <span class="bg" data-bg-image="<?php echo fullTemplateUri('assets/images/slider/home1/slide-2-1.webp'); ?>"></span>
                 <span class="slide-border"></span>
                 <span class="icon">
-                        <img src="assets/images/slider/home1/slide-2-2.webp" alt="Slide Icon">
-                        <img src="assets/images/slider/home1/slide-2-3.webp" alt="Slide Icon">
+                        <img src="<?php echo fullTemplateUri('assets/images/slider/home1/slide-2-2.webp'); ?>" alt="Slide Icon">
+                        <img src="<?php echo fullTemplateUri('assets/images/slider/home1/slide-2-3.webp'); ?>" alt="Slide Icon">
                     </span>
                 <h2 class="title">Newly arrived</h2>
                 <h3 class="sub-title">Sale up to <br>10%</h3>
                 <div class="link"><a href="shop.html">shop now</a></div>
             </div>
         </div>
-        <div class="home1-slide-item swiper-slide" data-swiper-autoplay="5000" data-bg-image="assets/images/slider/home1/slide-3.webp">
+        <div class="home1-slide-item swiper-slide" data-swiper-autoplay="5000" data-bg-image="<?php echo fullTemplateUri('assets/images/slider/home1/slide-3.webp'); ?>">
             <div class="home1-slide3-content">
                 <h2 class="title">Affectious gifts</h2>
                 <h3 class="sub-title">
-                    <img class="left-icon " src="assets/images/slider/home1/slide-2-2.webp" alt="Slide Icon">
+                    <img class="left-icon " src="<?php echo fullTemplateUri('assets/images/slider/home1/slide-2-2.webp'); ?>" alt="Slide Icon">
                     For friends & family
-                    <img class="right-icon " src="assets/images/slider/home1/slide-2-3.webp" alt="Slide Icon">
+                    <img class="right-icon " src="<?php echo fullTemplateUri('assets/images/slider/home1/slide-2-3.webp'); ?>" alt="Slide Icon">
                 </h3>
                 <div class="link"><a href="shop.html">shop now</a></div>
             </div>
@@ -56,9 +56,9 @@
         <div class="row learts-mb-n40">
 
             <div class="col-lg-5 col-md-6 col-12 me-auto learts-mb-40">
-                <div class="sale-banner1" data-bg-image="assets/images/banner/sale/sale-banner1-1.webp">
+                <div class="sale-banner1" data-bg-image="<?php echo fullTemplateUri('assets/images/banner/sale/sale-banner1-1.webp'); ?>">
                     <div class="inner">
-                        <img src="assets/images/banner/sale/sale-banner1-1.1.webp" alt="Sale Banner Icon">
+                        <img src="<?php echo fullTemplateUri('assets/images/banner/sale/sale-banner1-1.1.webp'); ?>" alt="Sale Banner Icon">
                         <span class="title">Spring sale</span>
                         <h2 class="sale-percent">
                             <span class="number">40</span> % <br> off
@@ -71,7 +71,7 @@
             <div class="col-lg-6 col-md-6 col-12 learts-mb-40">
                 <div class="sale-banner2">
                     <div class="inner">
-                        <div class="image"><img src="assets/images/banner/sale/sale-banner2-1.webp" alt=""></div>
+                        <div class="image"><img src="<?php echo fullTemplateUri('assets/images/banner/sale/sale-banner2-1.webp'); ?>" alt=""></div>
                         <div class="content row justify-content-between mb-n3">
                             <div class="col-auto mb-3">
                                 <h2 class="sale-percent">10% off</h2>
@@ -98,7 +98,7 @@
             <div class="col">
                 <div class="category-banner1">
                     <div class="inner">
-                        <a href="shop.html" class="image"><img src="assets/images/banner/category/banner-s1-1.webp" alt=""></a>
+                        <a href="shop.html" class="image"><img src="<?php echo fullTemplateUri('assets/images/banner/category/banner-s1-1.webp'); ?>" alt=""></a>
                         <div class="content">
                             <h3 class="title">
                                 <a href="shop.html">Gift ideas</a>
@@ -112,7 +112,7 @@
             <div class="col">
                 <div class="category-banner1">
                     <div class="inner">
-                        <a href="shop.html" class="image"><img src="assets/images/banner/category/banner-s1-2.webp" alt=""></a>
+                        <a href="shop.html" class="image"><img src="<?php echo fullTemplateUri('assets/images/banner/category/banner-s1-2.webp'); ?>" alt=""></a>
                         <div class="content">
                             <h3 class="title">
                                 <a href="shop.html">Home Decor</a>
@@ -126,7 +126,7 @@
             <div class="col">
                 <div class="category-banner1">
                     <div class="inner">
-                        <a href="shop.html" class="image"><img src="assets/images/banner/category/banner-s1-3.webp" alt=""></a>
+                        <a href="shop.html" class="image"><img src="<?php echo fullTemplateUri('assets/images/banner/category/banner-s1-3.webp'); ?>" alt=""></a>
                         <div class="content">
                             <h3 class="title">
                                 <a href="shop.html">Kids & Babies</a>
@@ -140,7 +140,7 @@
             <div class="col">
                 <div class="category-banner1">
                     <div class="inner">
-                        <a href="shop.html" class="image"><img src="assets/images/banner/category/banner-s1-4.webp" alt=""></a>
+                        <a href="shop.html" class="image"><img src="<?php echo fullTemplateUri('assets/images/banner/category/banner-s1-4.webp'); ?>" alt=""></a>
                         <div class="content">
                             <h3 class="title">
                                 <a href="shop.html">Kitchen</a>
@@ -154,7 +154,7 @@
             <div class="col">
                 <div class="category-banner1">
                     <div class="inner">
-                        <a href="shop.html" class="image"><img src="assets/images/banner/category/banner-s1-5.webp" alt=""></a>
+                        <a href="shop.html" class="image"><img src="<?php echo fullTemplateUri('assets/images/banner/category/banner-s1-5.webp'); ?>" alt=""></a>
                         <div class="content">
                             <h3 class="title">
                                 <a href="shop.html">Kniting & Sewing</a>
@@ -191,8 +191,8 @@
                                 <span class="product-badges">
                                     <span class="onsale">-13%</span>
                                 </span>
-                            <img src="assets/images/product/s328/product-1.webp" alt="Product Image">
-                            <img class="image-hover " src="assets/images/product/s328/product-1-hover.webp" alt="Product Image">
+                            <img src="<?php echo fullTemplateUri('assets/images/product/s328/product-1.webp'); ?>" alt="Product Image">
+                            <img class="image-hover " src="<?php echo fullTemplateUri('assets/images/product/s328/product-1-hover.webp'); ?>" alt="Product Image">
                         </a>
                         <a href="wishlist.html" class="add-to-wishlist hintT-left" data-hint="Add to wishlist"><i class="far fa-heart"></i></a>
                     </div>
@@ -215,8 +215,8 @@
                 <div class="product">
                     <div class="product-thumb">
                         <a href="product-details.html" class="image">
-                            <img src="assets/images/product/s328/product-2.webp" alt="Product Image">
-                            <img class="image-hover " src="assets/images/product/s328/product-2-hover.webp" alt="Product Image">
+                            <img src="<?php echo fullTemplateUri('assets/images/product/s328/product-2.webp'); ?>" alt="Product Image">
+                            <img class="image-hover " src="<?php echo fullTemplateUri('assets/images/product/s328/product-2-hover.webp'); ?>" alt="Product Image">
                         </a>
                         <a href="wishlist.html" class="add-to-wishlist hintT-left" data-hint="Add to wishlist"><i class="far fa-heart"></i></a>
                     </div>
@@ -241,8 +241,8 @@
                                 <span class="hot">hot</span>
                             </span>
                         <a href="product-details.html" class="image">
-                            <img src="assets/images/product/s328/product-3.webp" alt="Product Image">
-                            <img class="image-hover " src="assets/images/product/s328/product-3-hover.webp" alt="Product Image">
+                            <img src="<?php echo fullTemplateUri('assets/images/product/s328/product-3.webp'); ?>" alt="Product Image">
+                            <img class="image-hover " src="<?php echo fullTemplateUri('assets/images/product/s328/product-3-hover.webp'); ?>" alt="Product Image">
                         </a>
                         <a href="wishlist.html" class="add-to-wishlist hintT-left" data-hint="Add to wishlist"><i class="far fa-heart"></i></a>
                     </div>
@@ -267,8 +267,8 @@
                                 <span class="product-badges">
                                     <span class="onsale">-27%</span>
                                 </span>
-                            <img src="assets/images/product/s328/product-4.webp" alt="Product Image">
-                            <img class="image-hover " src="assets/images/product/s328/product-4-hover.webp" alt="Product Image">
+                            <img src="<?php echo fullTemplateUri('assets/images/product/s328/product-4.webp'); ?>" alt="Product Image">
+                            <img class="image-hover " src="<?php echo fullTemplateUri('assets/images/product/s328/product-4-hover.webp'); ?>" alt="Product Image">
                         </a>
                         <a href="wishlist.html" class="add-to-wishlist hintT-left" data-hint="Add to wishlist"><i class="far fa-heart"></i></a>
                     </div>
@@ -291,8 +291,8 @@
                 <div class="product">
                     <div class="product-thumb">
                         <a href="product-details.html" class="image">
-                            <img src="assets/images/product/s328/product-5.webp" alt="Product Image">
-                            <img class="image-hover " src="assets/images/product/s328/product-5-hover.webp" alt="Product Image">
+                            <img src="<?php echo fullTemplateUri('assets/images/product/s328/product-5.webp'); ?>" alt="Product Image">
+                            <img class="image-hover " src="<?php echo fullTemplateUri('assets/images/product/s328/product-5-hover.webp'); ?>" alt="Product Image">
                         </a>
                         <a href="wishlist.html" class="add-to-wishlist hintT-left" data-hint="Add to wishlist"><i class="far fa-heart"></i></a>
                         <div class="product-options">
@@ -326,8 +326,8 @@
                 <div class="product">
                     <div class="product-thumb">
                         <a href="product-details.html" class="image">
-                            <img src="assets/images/product/s328/product-6.webp" alt="Product Image">
-                            <img class="image-hover " src="assets/images/product/s328/product-6-hover.webp" alt="Product Image">
+                            <img src="<?php echo fullTemplateUri('assets/images/product/s328/product-6.webp'); ?>" alt="Product Image">
+                            <img class="image-hover " src="<?php echo fullTemplateUri('assets/images/product/s328/product-6-hover.webp'); ?>" alt="Product Image">
                         </a>
                         <a href="wishlist.html" class="add-to-wishlist hintT-left" data-hint="Add to wishlist"><i class="far fa-heart"></i></a>
                     </div>
@@ -352,8 +352,8 @@
                                 <span class="product-badges">
                                     <span class="hot">hot</span>
                                 </span>
-                            <img src="assets/images/product/s328/product-7.webp" alt="Product Image">
-                            <img class="image-hover " src="assets/images/product/s328/product-7-hover.webp" alt="Product Image">
+                            <img src="<?php echo fullTemplateUri('assets/images/product/s328/product-7.webp'); ?>" alt="Product Image">
+                            <img class="image-hover " src="<?php echo fullTemplateUri('assets/images/product/s328/product-7-hover.webp'); ?>" alt="Product Image">
                         </a>
                         <a href="wishlist.html" class="add-to-wishlist hintT-left" data-hint="Add to wishlist"><i class="far fa-heart"></i></a>
                     </div>
@@ -379,8 +379,8 @@
                                     <span class="outofstock"><i class="far fa-frown"></i></span>
                                 <span class="hot">hot</span>
                                 </span>
-                            <img src="assets/images/product/s328/product-8.webp" alt="Product Image">
-                            <img class="image-hover " src="assets/images/product/s328/product-8-hover.webp" alt="Product Image">
+                            <img src="<?php echo fullTemplateUri('assets/images/product/s328/product-8.webp'); ?>" alt="Product Image">
+                            <img class="image-hover " src="<?php echo fullTemplateUri('assets/images/product/s328/product-8-hover.webp'); ?>" alt="Product Image">
                         </a>
                         <a href="wishlist.html" class="add-to-wishlist hintT-left" data-hint="Add to wishlist"><i class="far fa-heart"></i></a>
                         <div class="product-options">
@@ -413,8 +413,8 @@
                 <div class="product">
                     <div class="product-thumb">
                         <a href="product-details.html" class="image">
-                            <img src="assets/images/product/s328/product-9.webp" alt="Product Image">
-                            <img class="image-hover " src="assets/images/product/s328/product-9-hover.webp" alt="Product Image">
+                            <img src="<?php echo fullTemplateUri('assets/images/product/s328/product-9.webp'); ?>" alt="Product Image">
+                            <img class="image-hover " src="<?php echo fullTemplateUri('assets/images/product/s328/product-9-hover.webp'); ?>" alt="Product Image">
                         </a>
                         <a href="wishlist.html" class="add-to-wishlist hintT-left" data-hint="Add to wishlist"><i class="far fa-heart"></i></a>
                     </div>
@@ -436,8 +436,8 @@
                 <div class="product">
                     <div class="product-thumb">
                         <a href="product-details.html" class="image">
-                            <img src="assets/images/product/s328/product-10.webp" alt="Product Image">
-                            <img class="image-hover " src="assets/images/product/s328/product-10-hover.webp" alt="Product Image">
+                            <img src="<?php echo fullTemplateUri('assets/images/product/s328/product-10.webp'); ?>" alt="Product Image">
+                            <img class="image-hover " src="<?php echo fullTemplateUri('assets/images/product/s328/product-10-hover.webp'); ?>" alt="Product Image">
                         </a>
                         <a href="wishlist.html" class="add-to-wishlist hintT-left" data-hint="Add to wishlist"><i class="far fa-heart"></i></a>
                     </div>
@@ -459,8 +459,8 @@
                 <div class="product">
                     <div class="product-thumb">
                         <a href="product-details.html" class="image">
-                            <img src="assets/images/product/s328/product-11.webp" alt="Product Image">
-                            <img class="image-hover " src="assets/images/product/s328/product-11-hover.webp" alt="Product Image">
+                            <img src="<?php echo fullTemplateUri('assets/images/product/s328/product-11.webp'); ?>" alt="Product Image">
+                            <img class="image-hover " src="<?php echo fullTemplateUri('assets/images/product/s328/product-11-hover.webp'); ?>" alt="Product Image">
                         </a>
                         <a href="wishlist.html" class="add-to-wishlist hintT-left" data-hint="Add to wishlist"><i class="far fa-heart"></i></a>
                     </div>
@@ -482,8 +482,8 @@
                 <div class="product">
                     <div class="product-thumb">
                         <a href="product-details.html" class="image">
-                            <img src="assets/images/product/s328/product-12.webp" alt="Product Image">
-                            <img class="image-hover " src="assets/images/product/s328/product-12-hover.webp" alt="Product Image">
+                            <img src="<?php echo fullTemplateUri('assets/images/product/s328/product-12.webp'); ?>" alt="Product Image">
+                            <img class="image-hover " src="<?php echo fullTemplateUri('assets/images/product/s328/product-12-hover.webp'); ?>" alt="Product Image">
                         </a>
                         <a href="wishlist.html" class="add-to-wishlist hintT-left" data-hint="Add to wishlist"><i class="far fa-heart"></i></a>
                     </div>
@@ -505,8 +505,8 @@
                 <div class="product">
                     <div class="product-thumb">
                         <a href="product-details.html" class="image">
-                            <img src="assets/images/product/s328/product-13.webp" alt="Product Image">
-                            <img class="image-hover " src="assets/images/product/s328/product-13-hover.webp" alt="Product Image">
+                            <img src="<?php echo fullTemplateUri('assets/images/product/s328/product-13.webp'); ?>" alt="Product Image">
+                            <img class="image-hover " src="<?php echo fullTemplateUri('assets/images/product/s328/product-13-hover.webp'); ?>" alt="Product Image">
                         </a>
                         <a href="wishlist.html" class="add-to-wishlist hintT-left" data-hint="Add to wishlist"><i class="far fa-heart"></i></a>
                         <div class="product-options">
@@ -537,8 +537,8 @@
                                 <span class="product-badges">
                                     <span class="outofstock"><i class="far fa-frown"></i></span>
                                 </span>
-                            <img src="assets/images/product/s328/product-14.webp" alt="Product Image">
-                            <img class="image-hover " src="assets/images/product/s328/product-14-hover.webp" alt="Product Image">
+                            <img src="<?php echo fullTemplateUri('assets/images/product/s328/product-14.webp'); ?>" alt="Product Image">
+                            <img class="image-hover " src="<?php echo fullTemplateUri('assets/images/product/s328/product-14-hover.webp'); ?>" alt="Product Image">
                         </a>
                         <a href="wishlist.html" class="add-to-wishlist hintT-left" data-hint="Add to wishlist"><i class="far fa-heart"></i></a>
                         <div class="product-options">
@@ -566,8 +566,8 @@
                 <div class="product">
                     <div class="product-thumb">
                         <a href="product-details.html" class="image">
-                            <img src="assets/images/product/s328/product-15.webp" alt="Product Image">
-                            <img class="image-hover " src="assets/images/product/s328/product-15-hover.webp" alt="Product Image">
+                            <img src="<?php echo fullTemplateUri('assets/images/product/s328/product-15.webp'); ?>" alt="Product Image">
+                            <img class="image-hover " src="<?php echo fullTemplateUri('assets/images/product/s328/product-15-hover.webp'); ?>" alt="Product Image">
                         </a>
                         <a href="wishlist.html" class="add-to-wishlist hintT-left" data-hint="Add to wishlist"><i class="far fa-heart"></i></a>
                     </div>
