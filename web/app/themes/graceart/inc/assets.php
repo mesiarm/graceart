@@ -34,6 +34,7 @@ add_action('wp_enqueue_scripts', function () {
     wp_enqueue_style('slick-style', fullTemplateUri('assets/css/plugins/slick.css'), [], graceartAssetVersion('assets/css/plugins/slick.css'));
 
     wp_enqueue_style('main-style', fullTemplateUri('assets/css/style.min.css'), [], graceartAssetVersion('assets/css/style.min.css'));
+    wp_enqueue_style('custom-style', fullTemplateUri('assets/css/custom_styles.css'), ['main-style'], graceartAssetVersion('assets/css/custom_styles.css'));
 
     wp_enqueue_script('modernizr-script', fullTemplateUri('assets/js/vendor/modernizr-3.6.0.min.js'), [], graceartAssetVersion('assets/js/vendor/modernizr-3.6.0.min.js'), true);
     wp_enqueue_script('jquery-script', fullTemplateUri('assets/js/vendor/jquery-3.4.1.min.js'), [], graceartAssetVersion('assets/js/vendor/jquery-3.4.1.min.js'), true);

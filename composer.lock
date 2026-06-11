@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b26f3aeedbbdabc670a77fd910a8e42b",
+    "content-hash": "acb6e6f2e5e1878b0a174359bd6fb902",
     "packages": [
         {
             "name": "composer/installers",
@@ -1054,6 +1054,37 @@
                 "source": "https://plugins.svn.wordpress.org/woocommerce"
             },
             "time": "2026-05-25T10:05:57+00:00"
+        },
+        {
+            "name": "wp-plugin/yith-woocommerce-wishlist",
+            "version": "4.15.0",
+            "source": {
+                "type": "svn",
+                "url": "https://plugins.svn.wordpress.org/yith-woocommerce-wishlist/",
+                "reference": "tags/4.15.0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://downloads.wordpress.org/plugin/yith-woocommerce-wishlist.4.15.0.zip"
+            },
+            "require": {
+                "composer/installers": "~1.0|~2.0"
+            },
+            "type": "wordpress-plugin",
+            "notification-url": "https://wp-packages.org/downloads",
+            "authors": [
+                {
+                    "name": "YITHEMES"
+                }
+            ],
+            "description": "YITH WooCommerce Wishlist add all Wishlist features to your website. Needs WooCommerce to work. WooCommerce 10.8.x compatible.",
+            "homepage": "https://yithemes.com/themes/plugins/yith-woocommerce-wishlist/",
+            "support": {
+                "changelog": "https://wordpress.org/plugins/yith-woocommerce-wishlist/#developers",
+                "issues": "https://wordpress.org/support/plugin/yith-woocommerce-wishlist",
+                "source": "https://plugins.svn.wordpress.org/yith-woocommerce-wishlist"
+            },
+            "time": "2026-05-14T14:45:59+00:00"
         }
     ],
     "packages-dev": [

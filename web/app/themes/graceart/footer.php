@@ -3,7 +3,7 @@
         <div class="row text-center row-cols-1">
 
             <div class="footer1-logo col text-center">
-                <img src="<?php echo fullTemplateUri('assets/images/logo/logo.webp'); ?>" alt="">
+                <img src="<?php echo fullTemplateUri('assets/images/logo/logo.svg'); ?>" alt="Grace Art Logo">
             </div>
 
             <div class="footer1-menu col">

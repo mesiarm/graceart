@@ -1,0 +1,163 @@
+<?php
+
+add_filter('woocommerce_product_single_add_to_cart_text', fn(): string => __('Pridať do košíka', 'graceart'));
+
+add_filter('woocommerce_product_add_to_cart_text', function (string $text, WC_Product $product): string {
+    if ($product->is_type('variable')) {
+        return __('Vybrať možnosti', 'graceart');
+    }
+
+    if ($product->is_type('grouped')) {
+        return __('Zobraziť produkty', 'graceart');
+    }
+
+    if (! $product->is_in_stock()) {
+        return __('Nie je skladom', 'graceart');
+    }
+
+    if (! $product->is_purchasable()) {
+        return __('Zobraziť produkt', 'graceart');
+    }
+
+    return __('Pridať do košíka', 'graceart');
+}, 10, 2);
+
+add_filter('woocommerce_product_tabs', function (array $tabs): array {
+    if (isset($tabs['description'])) {
+        $tabs['description']['title'] = __('Popis', 'graceart');
+    }
+
+    if (isset($tabs['reviews'])) {
+        global $product;
+
+        $review_count = $product instanceof WC_Product ? $product->get_review_count() : 0;
+        $tabs['reviews']['title'] = sprintf(__('Recenzie (%d)', 'graceart'), $review_count);
+    }
+
+    return $tabs;
+}, 20);
+
+add_filter('woocommerce_product_description_heading', fn(): string => __('Popis', 'graceart'));
+
+add_filter('woocommerce_product_related_products_heading', fn(): string => __('Mohlo by sa vám páčiť', 'graceart'));
+
+add_filter('woocommerce_reviews_title', function (string $title, int $count, WC_Product $product): string {
+    if ($count > 0) {
+        return sprintf(__('Recenzie (%d) pre %s', 'graceart'), $count, '<span>' . esc_html($product->get_name()) . '</span>');
+    }
+
+    return __('Recenzie', 'graceart');
+}, 10, 3);
+
+function graceartWishlistProductUrl(WC_Product $product): string
+{
+    if (function_exists('YITH_WCWL')) {
+        return add_query_arg('add_to_wishlist', $product->get_id(), $product->get_permalink());
+    }
+
+    return graceartWishlistUrl();
+}
+
+function graceartWishlistButton(WC_Product $product): string
+{
+    return sprintf(
+        '<a href="%1$s" class="btn btn-icon btn-outline-body btn-hover-dark hintT-top add_to_wishlist single_add_to_wishlist" data-hint="%2$s" data-product-id="%3$s" data-product-type="%4$s" aria-label="%2$s"><i class="far fa-heart"></i></a>',
+        esc_url(graceartWishlistProductUrl($product)),
+        esc_attr__('Pridať do zoznamu prianí', 'graceart'),
+        esc_attr($product->get_id()),
+        esc_attr($product->get_type()),
+    );
+}
+
+function graceartProductGalleryImages(WC_Product $product): array
+{
+    $image_ids = array_filter(array_merge(
+        [$product->get_image_id()],
+        $product->get_gallery_image_ids(),
+    ));
+
+    if (! $image_ids) {
+        return [[
+            'alt' => $product->get_name(),
+            'thumb' => wc_placeholder_img_src('woocommerce_thumbnail'),
+            'full' => wc_placeholder_img_src('woocommerce_single'),
+            'large' => wc_placeholder_img_src('woocommerce_single'),
+            'width' => 700,
+            'height' => 1100,
+        ]];
+    }
+
+    return array_map(function (int $image_id) use ($product) {
+        $full = wp_get_attachment_image_src($image_id, 'full');
+
+        return [
+            'alt' => get_post_meta($image_id, '_wp_attachment_image_alt', true) ?: $product->get_name(),
+            'thumb' => wp_get_attachment_image_url($image_id, 'woocommerce_thumbnail'),
+            'full' => $full[0] ?? wp_get_attachment_image_url($image_id, 'full'),
+            'large' => wp_get_attachment_image_url($image_id, 'woocommerce_single'),
+            'width' => $full[1] ?? 700,
+            'height' => $full[2] ?? 1100,
+        ];
+    }, $image_ids);
+}
+
+function graceartProductGalleryPopupImages(array $images): string
+{
+    return wp_json_encode(array_map(fn(array $image) => [
+        'src' => $image['full'],
+        'w' => $image['width'],
+        'h' => $image['height'],
+    ], $images));
+}
+
+function graceartProductLoopClasses(WC_Product $product): string
+{
+    $classes = ['grid-item', 'col'];
+
+    if ($product->is_featured()) {
+        $classes[] = 'featured';
+    }
+
+    if ($product->is_on_sale()) {
+        $classes[] = 'sales';
+    }
+
+    if ((time() - get_post_time('U', true, $product->get_id())) < MONTH_IN_SECONDS) {
+        $classes[] = 'new';
+    }
+
+    return implode(' ', $classes);
+}
+
+function graceartProductBadgeHtml(WC_Product $product): string
+{
+    $badges = [];
+
+    if (! $product->is_in_stock()) {
+        $badges[] = '<span class="outofstock"><i class="far fa-frown"></i></span>';
+    }
+
+    if ($product->is_featured()) {
+        $badges[] = '<span class="hot">' . esc_html__('top', 'graceart') . '</span>';
+    }
+
+    if ($product->is_on_sale()) {
+        $badges[] = '<span class="onsale">' . esc_html__('zľava', 'graceart') . '</span>';
+    }
+
+    return $badges ? '<span class="product-badges">' . implode('', $badges) . '</span>' : '';
+}
+
+function graceartProductImageUrl(WC_Product $product, string $size = 'woocommerce_thumbnail'): string
+{
+    $image_id = $product->get_image_id();
+
+    return $image_id ? wp_get_attachment_image_url($image_id, $size) : wc_placeholder_img_src($size);
+}
+
+function graceartProductHoverImageUrl(WC_Product $product, string $size = 'woocommerce_thumbnail'): string
+{
+    $gallery_ids = $product->get_gallery_image_ids();
+
+    return $gallery_ids ? wp_get_attachment_image_url((int) $gallery_ids[0], $size) : '';
+}

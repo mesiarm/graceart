@@ -43,7 +43,8 @@
     "roots/wordpress": "6.9.4",
     "roots/wp-config": "1.0.0",
     "vlucas/phpdotenv": "^5.5",
-    "wp-plugin/woocommerce": "^10.7"
+    "wp-plugin/woocommerce": "^10.7",
+    "wp-plugin/yith-woocommerce-wishlist": "^4.15"
   },
   "require-dev": {
     "laravel/pint": "^1.27",

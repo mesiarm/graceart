@@ -16,7 +16,9 @@
             <div class="col"></div>
             <div class="col">
                 <div class="header-logo justify-content-center">
-                    <a href="index.html"><img src="<?php echo fullTemplateUri('assets/images/logo/logo.webp'); ?>" alt="Learts Logo"></a>
+                    <a href="<?php echo home_url(); ?>">
+                        <img src="<?php echo fullTemplateUri('assets/images/logo/logo.jpg'); ?>" alt="Grace Art Logo">
+                    </a>
                 </div>
             </div>
             <!-- Header Logo End -->
@@ -31,10 +33,10 @@
                         <a href="#offcanvas-search" class="offcanvas-toggle"><i class="fas fa-search"></i></a>
                     </div>
                     <div class="header-wishlist">
-                        <a href="#offcanvas-wishlist" class="offcanvas-toggle"><span class="wishlist-count">3</span><i class="far fa-heart"></i></a>
+                        <a href="<?php echo esc_url(graceartWishlistUrl()); ?>"><span class="wishlist-count"><?php echo esc_html((string) graceartWishlistCount()); ?></span><i class="far fa-heart"></i></a>
                     </div>
                     <div class="header-cart">
-                        <a href="#offcanvas-cart" class="offcanvas-toggle"><span class="cart-count">3</span><i class="fas fa-shopping-cart"></i></a>
+                        <a href="<?php echo esc_url(graceartCartUrl()); ?>"><span class="cart-count"><?php echo esc_html((string) graceartCartCount()); ?></span><i class="fas fa-shopping-cart"></i></a>
                     </div>
                 </div>
             </div>
@@ -62,7 +64,9 @@
             <!-- Header Logo Start -->
             <div class="col">
                 <div class="header-logo">
-                    <a href="index.html"><img src="<?php echo fullTemplateUri('assets/images/logo/logo-2.webp'); ?>" alt="Learts Logo"></a>
+                    <a href="<?php echo home_url(); ?>">
+                        <img src="<?php echo fullTemplateUri('assets/images/logo/logo.jpg'); ?>" alt="Grace Art Logo">
+                    </a>
                 </div>
             </div>
             <!-- Header Logo End -->
@@ -83,10 +87,10 @@
                         <a href="#offcanvas-search" class="offcanvas-toggle"><i class="fas fa-search"></i></a>
                     </div>
                     <div class="header-wishlist">
-                        <a href="#offcanvas-wishlist" class="offcanvas-toggle"><span class="wishlist-count">3</span><i class="far fa-heart"></i></a>
+                        <a href="<?php echo esc_url(graceartWishlistUrl()); ?>"><span class="wishlist-count"><?php echo esc_html((string) graceartWishlistCount()); ?></span><i class="far fa-heart"></i></a>
                     </div>
                     <div class="header-cart">
-                        <a href="#offcanvas-cart" class="offcanvas-toggle"><span class="cart-count">3</span><i class="fas fa-shopping-cart"></i></a>
+                        <a href="<?php echo esc_url(graceartCartUrl()); ?>"><span class="cart-count"><?php echo esc_html((string) graceartCartCount()); ?></span><i class="fas fa-shopping-cart"></i></a>
                     </div>
                     <div class="mobile-menu-toggle d-xl-none">
                         <a href="#offcanvas-mobile-menu" class="offcanvas-toggle">
@@ -114,7 +118,9 @@
             <!-- Header Logo Start -->
             <div class="col">
                 <div class="header-logo">
-                    <a href="index.html"><img src="<?php echo fullTemplateUri('assets/images/logo/logo-2.webp'); ?>" alt="Learts Logo"></a>
+                    <a href="<?php echo home_url(); ?>">
+                        <img src="<?php echo fullTemplateUri('assets/images/logo/logo.png'); ?>" alt="Grace Art Logo">
+                    </a>
                 </div>
             </div>
             <!-- Header Logo End -->
@@ -129,10 +135,10 @@
                         <a href="#offcanvas-search" class="offcanvas-toggle"><i class="fas fa-search"></i></a>
                     </div>
                     <div class="header-wishlist d-none d-sm-block">
-                        <a href="#offcanvas-wishlist" class="offcanvas-toggle"><span class="wishlist-count">3</span><i class="far fa-heart"></i></a>
+                        <a href="<?php echo esc_url(graceartWishlistUrl()); ?>"><span class="wishlist-count"><?php echo esc_html((string) graceartWishlistCount()); ?></span><i class="far fa-heart"></i></a>
                     </div>
                     <div class="header-cart">
-                        <a href="#offcanvas-cart" class="offcanvas-toggle"><span class="cart-count">3</span><i class="fas fa-shopping-cart"></i></a>
+                        <a href="<?php echo esc_url(graceartCartUrl()); ?>"><span class="cart-count"><?php echo esc_html((string) graceartCartCount()); ?></span><i class="fas fa-shopping-cart"></i></a>
                     </div>
                     <div class="mobile-menu-toggle">
                         <a href="#offcanvas-mobile-menu" class="offcanvas-toggle">
@@ -160,7 +166,9 @@
             <!-- Header Logo Start -->
             <div class="col">
                 <div class="header-logo">
-                    <a href="index.html"><img src="<?php echo fullTemplateUri('assets/images/logo/logo-2.webp'); ?>" alt="Learts Logo"></a>
+                    <a href="<?php echo home_url(); ?>">
+                        <img src="<?php echo fullTemplateUri('assets/images/logo/logo.png'); ?>" alt="Grace Art Logo">
+                    </a>
                 </div>
             </div>
             <!-- Header Logo End -->
@@ -175,10 +183,10 @@
                         <a href="#offcanvas-search" class="offcanvas-toggle"><i class="fas fa-search"></i></a>
                     </div>
                     <div class="header-wishlist d-none d-sm-block">
-                        <a href="#offcanvas-wishlist" class="offcanvas-toggle"><span class="wishlist-count">3</span><i class="far fa-heart"></i></a>
+                        <a href="<?php echo esc_url(graceartWishlistUrl()); ?>"><span class="wishlist-count"><?php echo esc_html((string) graceartWishlistCount()); ?></span><i class="far fa-heart"></i></a>
                     </div>
                     <div class="header-cart">
-                        <a href="#offcanvas-cart" class="offcanvas-toggle"><span class="cart-count">3</span><i class="fas fa-shopping-cart"></i></a>
+                        <a href="<?php echo esc_url(graceartCartUrl()); ?>"><span class="cart-count"><?php echo esc_html((string) graceartCartCount()); ?></span><i class="fas fa-shopping-cart"></i></a>
                     </div>
                     <div class="mobile-menu-toggle">
                         <a href="#offcanvas-mobile-menu" class="offcanvas-toggle">
@@ -263,7 +271,7 @@
         </div>
         <div class="foot">
             <div class="buttons">
-                <a href="wishlist.html" class="btn btn-dark btn-hover-primary">view wishlist</a>
+                <a href="<?php echo esc_url(graceartWishlistUrl()); ?>" class="btn btn-dark btn-hover-primary"><?php esc_html_e('Zobraziť wishlist', 'graceart'); ?></a>
             </div>
         </div>
     </div>
@@ -311,8 +319,8 @@
                 <span class="amount">$144.00</span>
             </div>
             <div class="buttons">
-                <a href="shopping-cart.html" class="btn btn-dark btn-hover-primary">view cart</a>
-                <a href="checkout.html" class="btn btn-outline-dark">checkout</a>
+                <a href="<?php echo esc_url(graceartCartUrl()); ?>" class="btn btn-dark btn-hover-primary"><?php esc_html_e('Zobraziť košík', 'graceart'); ?></a>
+                <a href="<?php echo esc_url(graceartCheckoutUrl()); ?>" class="btn btn-outline-dark"><?php esc_html_e('Pokladňa', 'graceart'); ?></a>
             </div>
             <p class="minicart-message">Free Shipping on All Orders Over $100!</p>
         </div>
@@ -338,10 +346,10 @@
                     <a href="<?php echo esc_url(graceartMyAccountUrl()); ?>"><i class="far fa-user"></i></a>
                 </div>
                 <div class="header-wishlist">
-                    <a href="wishlist.html"><span>3</span><i class="far fa-heart"></i></a>
+                    <a href="<?php echo esc_url(graceartWishlistUrl()); ?>"><span class="wishlist-count"><?php echo esc_html((string) graceartWishlistCount()); ?></span><i class="far fa-heart"></i></a>
                 </div>
                 <div class="header-cart">
-                    <a href="shopping-cart.html"><span class="cart-count">3</span><i class="fas fa-shopping-cart"></i></a>
+                    <a href="<?php echo esc_url(graceartCartUrl()); ?>"><span class="cart-count"><?php echo esc_html((string) graceartCartCount()); ?></span><i class="fas fa-shopping-cart"></i></a>
                 </div>
             </div>
         </div>
