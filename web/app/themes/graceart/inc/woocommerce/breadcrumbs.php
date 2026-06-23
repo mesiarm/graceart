@@ -12,14 +12,25 @@ function graceartWooBreadcrumb(): void
     ]);
 }
 
+function graceartLocalizeWooPageLabel(string $label): string
+{
+    $labels = [
+        'Cart' => __('Košík', 'graceart'),
+        'Checkout' => __('Pokladňa', 'graceart'),
+        'Shop' => __('Obchod', 'graceart'),
+    ];
+
+    return $labels[$label] ?? $label;
+}
+
 add_filter('woocommerce_get_breadcrumb', function (array $crumbs): array {
     $crumbs = array_filter($crumbs, function (array $crumb): bool {
         return ($crumb[0] ?? '') !== _x('Home', 'breadcrumb', 'woocommerce');
     });
 
     return array_values(array_map(function (array $crumb): array {
-        if (($crumb[0] ?? '') === 'Shop') {
-            $crumb[0] = __('Obchod', 'graceart');
+        if (isset($crumb[0])) {
+            $crumb[0] = graceartLocalizeWooPageLabel($crumb[0]);
         }
 
         return $crumb;

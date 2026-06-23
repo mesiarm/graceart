@@ -21,7 +21,7 @@ get_header();
 </div>
 
 <div class="section section-padding pt-0">
-    <div class="shop-toolbar border-bottom">
+    <div class="shop-toolbar section-fluid border-bottom">
         <div class="container">
             <div class="row learts-mb-n20">
                 <div class="col-md col-12 align-self-center learts-mb-20">
@@ -42,8 +42,7 @@ get_header();
                         </li>
                         <li>
                             <div class="product-column-toggle d-none d-xl-flex">
-                                <button class="toggle active hintT-top" data-hint="<?php esc_attr_e('5 stĺpcov', 'graceart'); ?>" data-column="5"><i class="ti-layout-grid4-alt"></i></button>
-                                <button class="toggle hintT-top" data-hint="<?php esc_attr_e('4 stĺpce', 'graceart'); ?>" data-column="4"><i class="ti-layout-grid3-alt"></i></button>
+                                <button class="toggle active hintT-top" data-hint="<?php esc_attr_e('4 stĺpce', 'graceart'); ?>" data-column="4"><i class="ti-layout-grid3-alt"></i></button>
                                 <button class="toggle hintT-top" data-hint="<?php esc_attr_e('3 stĺpce', 'graceart'); ?>" data-column="3"><i class="ti-layout-grid2-alt"></i></button>
                             </div>
                         </li>
@@ -56,14 +55,26 @@ get_header();
         </div>
     </div>
 
-    <div id="product-filter" class="product-filter bg-light">
+    <div id="product-filter" class="product-filter section-fluid bg-light">
         <div class="container">
             <div class="row row-cols-lg-5 row-cols-md-3 row-cols-sm-2 row-cols-1 learts-mb-n30">
                 <div class="col learts-mb-30">
-                    <h3 class="widget-title product-filter-widget-title"><?php esc_html_e('Zoradiť podľa', 'graceart'); ?></h3>
                     <ul class="widget-list product-filter-widget customScroll">
                         <?php foreach (graceartCatalogOrderingOptions() as $orderby => $label) { ?>
                             <li><a href="<?php echo esc_url(add_query_arg('orderby', $orderby)); ?>"><?php echo esc_html($label); ?></a></li>
+                        <?php } ?>
+                    </ul>
+                </div>
+
+                <div class="col learts-mb-30">
+                    <h3 class="widget-title product-filter-widget-title"><?php esc_html_e('Cena', 'graceart'); ?></h3>
+                    <ul class="widget-list product-filter-widget customScroll">
+                        <?php foreach (graceartCatalogPriceRanges() as $range) { ?>
+                            <li>
+                                <a href="<?php echo esc_url(graceartCatalogPriceRangeUrl($range['min'], $range['max'])); ?>">
+                                    <?php echo wp_kses_post(graceartCatalogPriceRangeLabel($range['min'], $range['max'])); ?>
+                                </a>
+                            </li>
                         <?php } ?>
                     </ul>
                 </div>
@@ -81,18 +92,41 @@ get_header();
 ?>
                     </ul>
                 </div>
+
+                <div class="col learts-mb-30">
+                    <h3 class="widget-title product-filter-widget-title"><?php esc_html_e('Farby', 'graceart'); ?></h3>
+                    <ul class="widget-colors product-filter-widget customScroll">
+                        <?php foreach (graceartCatalogTerms('pa_color') as $term) { ?>
+                            <li>
+                                <a href="<?php echo esc_url(get_term_link($term)); ?>" class="hintT-top" data-hint="<?php echo esc_attr($term->name); ?>">
+                                    <span><?php echo esc_html($term->name); ?></span>
+                                </a>
+                            </li>
+                        <?php } ?>
+                    </ul>
+                </div>
+
+                <div class="col learts-mb-30">
+                    <h3 class="widget-title product-filter-widget-title"><?php esc_html_e('Značky', 'graceart'); ?></h3>
+                    <ul class="widget-list product-filter-widget customScroll">
+                        <?php foreach (graceartCatalogTerms(graceartCatalogBrandTaxonomy()) as $term) { ?>
+                            <li>
+                                <a href="<?php echo esc_url(get_term_link($term)); ?>"><?php echo esc_html($term->name); ?></a>
+                                <span class="count">(<?php echo esc_html((string) $term->count); ?>)</span>
+                            </li>
+                        <?php } ?>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
 
-    <div class="section learts-mt-70">
+    <div class="section section-fluid learts-mt-70">
         <div class="container">
             <?php woocommerce_output_all_notices(); ?>
 
             <?php if (woocommerce_product_loop()) { ?>
-                <?php woocommerce_result_count(); ?>
-
-                <div id="shop-products" class="products isotope-grid row row-cols-xl-5 row-cols-lg-4 row-cols-md-3 row-cols-sm-2 row-cols-1">
+                <div id="shop-products" class="products isotope-grid row row-cols-xl-4 row-cols-lg-3 row-cols-md-2 row-cols-sm-2 row-cols-1">
                     <div class="grid-sizer col-1"></div>
 
                     <?php while (have_posts()) { ?>

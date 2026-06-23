@@ -5,7 +5,13 @@ get_header();
 while (have_posts()) :
     the_post();
 
-    graceartPageHero(get_the_title());
+    $graceart_page_title = get_the_title();
+
+    if (function_exists('graceartLocalizeWooPageLabel')) {
+        $graceart_page_title = graceartLocalizeWooPageLabel($graceart_page_title);
+    }
+
+    graceartPageHero($graceart_page_title);
     ?>
 
     <div class="section section-padding">
