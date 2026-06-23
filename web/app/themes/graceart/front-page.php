@@ -42,128 +42,27 @@
 </div>
 <!-- Slider main container End -->
 
-<!-- Sale Banner Section Start -->
-<div class="section section-padding">
-    <div class="container">
-
-        <!-- Section Title Start -->
-        <div class="section-title text-center">
-            <h3 class="sub-title">Just for you</h3>
-            <h2 class="title title-icon-both">Making & crafting</h2>
-        </div>
-        <!-- Section Title End -->
-
-        <div class="row learts-mb-n40">
-
-            <div class="col-lg-5 col-md-6 col-12 me-auto learts-mb-40">
-                <div class="sale-banner1" data-bg-image="<?php echo fullTemplateUri('assets/images/banner/sale/sale-banner1-1.webp'); ?>">
-                    <div class="inner">
-                        <img src="<?php echo fullTemplateUri('assets/images/banner/sale/sale-banner1-1.1.webp'); ?>" alt="Sale Banner Icon">
-                        <span class="title">Spring sale</span>
-                        <h2 class="sale-percent">
-                            <span class="number">40</span> % <br> off
-                        </h2>
-                        <a href="shop.html" class="link">shop now</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-6 col-md-6 col-12 learts-mb-40">
-                <div class="sale-banner2">
-                    <div class="inner">
-                        <div class="image"><img src="<?php echo fullTemplateUri('assets/images/banner/sale/sale-banner2-1.webp'); ?>" alt=""></div>
-                        <div class="content row justify-content-between mb-n3">
-                            <div class="col-auto mb-3">
-                                <h2 class="sale-percent">10% off</h2>
-                                <span class="text">YOUR NEXT PURCHASE</span>
-                            </div>
-                            <div class="col-auto mb-3">
-                                <a class="btn btn-hover-dark" href="shop.html">SHOP NOW</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </div>
-</div>
-<!-- Sale Banner Section End -->
-
 <!-- Category Banner Section Start -->
-<div class="section section-fluid section-padding pt-0">
+<div class="section section-fluid section-padding">
     <div class="container">
         <div class="category-banner1-carousel">
-
-            <div class="col">
-                <div class="category-banner1">
-                    <div class="inner">
-                        <a href="shop.html" class="image"><img src="<?php echo fullTemplateUri('assets/images/banner/category/banner-s1-1.webp'); ?>" alt=""></a>
-                        <div class="content">
-                            <h3 class="title">
-                                <a href="shop.html">Gift ideas</a>
-                                <span class="number">16</span>
-                            </h3>
+            <?php foreach (graceartHomepageCategoryBanners((int) get_queried_object_id()) as $banner): ?>
+                <div class="col">
+                    <div class="category-banner1">
+                        <div class="inner">
+                            <a href="<?php echo esc_url($banner['url']); ?>" class="image">
+                                <img src="<?php echo esc_url($banner['image']); ?>" alt="<?php echo esc_attr($banner['label']); ?>">
+                            </a>
+                            <div class="content">
+                                <h3 class="title">
+                                    <a href="<?php echo esc_url($banner['url']); ?>"><?php echo esc_html($banner['label']); ?></a>
+                                    <span class="number"><?php echo esc_html((string) $banner['count']); ?></span>
+                                </h3>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-
-            <div class="col">
-                <div class="category-banner1">
-                    <div class="inner">
-                        <a href="shop.html" class="image"><img src="<?php echo fullTemplateUri('assets/images/banner/category/banner-s1-2.webp'); ?>" alt=""></a>
-                        <div class="content">
-                            <h3 class="title">
-                                <a href="shop.html">Home Decor</a>
-                                <span class="number">16</span>
-                            </h3>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col">
-                <div class="category-banner1">
-                    <div class="inner">
-                        <a href="shop.html" class="image"><img src="<?php echo fullTemplateUri('assets/images/banner/category/banner-s1-3.webp'); ?>" alt=""></a>
-                        <div class="content">
-                            <h3 class="title">
-                                <a href="shop.html">Kids & Babies</a>
-                                <span class="number">6</span>
-                            </h3>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col">
-                <div class="category-banner1">
-                    <div class="inner">
-                        <a href="shop.html" class="image"><img src="<?php echo fullTemplateUri('assets/images/banner/category/banner-s1-4.webp'); ?>" alt=""></a>
-                        <div class="content">
-                            <h3 class="title">
-                                <a href="shop.html">Kitchen</a>
-                                <span class="number">15</span>
-                            </h3>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col">
-                <div class="category-banner1">
-                    <div class="inner">
-                        <a href="shop.html" class="image"><img src="<?php echo fullTemplateUri('assets/images/banner/category/banner-s1-5.webp'); ?>" alt=""></a>
-                        <div class="content">
-                            <h3 class="title">
-                                <a href="shop.html">Kniting & Sewing</a>
-                                <span class="number">4</span>
-                            </h3>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <?php endforeach; ?>
 
         </div>
     </div>
