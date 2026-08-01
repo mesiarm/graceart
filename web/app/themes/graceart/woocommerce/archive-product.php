@@ -11,9 +11,8 @@ get_header();
             <div class="col">
                 <div class="page-title">
                     <h1 class="title">
-                        <?php echo is_shop() ? esc_html__('Obchod', 'graceart') : woocommerce_page_title(false); ?>
+                        <?php echo is_shop() ? esc_html__('Graceart', 'graceart') : woocommerce_page_title(false); ?>
                     </h1>
-                    <?php graceartWooBreadcrumb(); ?>
                 </div>
             </div>
         </div>

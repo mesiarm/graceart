@@ -29,7 +29,7 @@ while (have_posts()) :
             <div class="row">
                 <div class="col">
                     <div class="page-title">
-                        <h1 class="title"><?php esc_html_e('Obchod', 'graceart'); ?></h1>
+                        <h1 class="title"><?php esc_html_e('Graceart', 'graceart'); ?></h1>
                         <?php graceartWooBreadcrumb(); ?>
                     </div>
                 </div>
@@ -48,17 +48,29 @@ while (have_posts()) :
 
                         <div class="product-gallery-slider">
                             <?php foreach ($gallery_images as $image) : ?>
-                                <div class="product-zoom" data-image="<?php echo esc_url($image['full']); ?>">
-                                    <img src="<?php echo esc_url($image['large']); ?>" alt="<?php echo esc_attr($image['alt']); ?>">
-                                </div>
+                                <?php if ($image['type'] === 'video') : ?>
+                                    <div class="product-video-slide">
+                                        <video controls playsinline preload="metadata">
+                                            <source src="<?php echo esc_url($image['video_url']); ?>" type="<?php echo esc_attr($image['mime']); ?>">
+                                        </video>
+                                    </div>
+                                <?php else : ?>
+                                    <div class="product-zoom" data-image="<?php echo esc_url($image['full']); ?>">
+                                        <img src="<?php echo esc_url($image['large']); ?>" alt="<?php echo esc_attr($image['alt']); ?>">
+                                    </div>
+                                <?php endif; ?>
                             <?php endforeach; ?>
                         </div>
 
                         <?php if (count($gallery_images) > 1) : ?>
                             <div class="product-thumb-slider">
                                 <?php foreach ($gallery_images as $image) : ?>
-                                    <div class="item">
-                                        <img src="<?php echo esc_url($image['thumb']); ?>" alt="<?php echo esc_attr($image['alt']); ?>">
+                                    <div class="item<?php echo $image['type'] === 'video' ? ' item-video' : ''; ?>">
+                                        <?php if ($image['type'] === 'video') : ?>
+                                            <span class="video-thumb-icon"><i class="fas fa-play"></i></span>
+                                        <?php else : ?>
+                                            <img src="<?php echo esc_url($image['thumb']); ?>" alt="<?php echo esc_attr($image['alt']); ?>">
+                                        <?php endif; ?>
                                     </div>
                                 <?php endforeach; ?>
                             </div>

@@ -78,6 +78,7 @@ function graceartProductGalleryImages(WC_Product $product): array
 
     if (! $image_ids) {
         return [[
+            'type' => 'image',
             'alt' => $product->get_name(),
             'thumb' => wc_placeholder_img_src('woocommerce_thumbnail'),
             'full' => wc_placeholder_img_src('woocommerce_single'),
@@ -88,9 +89,19 @@ function graceartProductGalleryImages(WC_Product $product): array
     }
 
     return array_map(function (int $image_id) use ($product) {
+        if (wp_attachment_is('video', $image_id)) {
+            return [
+                'type' => 'video',
+                'alt' => get_the_title($image_id) ?: $product->get_name(),
+                'video_url' => wp_get_attachment_url($image_id),
+                'mime' => get_post_mime_type($image_id) ?: 'video/mp4',
+            ];
+        }
+
         $full = wp_get_attachment_image_src($image_id, 'full');
 
         return [
+            'type' => 'image',
             'alt' => get_post_meta($image_id, '_wp_attachment_image_alt', true) ?: $product->get_name(),
             'thumb' => wp_get_attachment_image_url($image_id, 'woocommerce_thumbnail'),
             'full' => $full[0] ?? wp_get_attachment_image_url($image_id, 'full'),
@@ -103,6 +114,8 @@ function graceartProductGalleryImages(WC_Product $product): array
 
 function graceartProductGalleryPopupImages(array $images): string
 {
+    $images = array_values(array_filter($images, fn(array $image) => $image['type'] === 'image'));
+
     return wp_json_encode(array_map(fn(array $image) => [
         'src' => $image['full'],
         'w' => $image['width'],

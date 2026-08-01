@@ -52,7 +52,7 @@ echo wc_get_stock_html($product); // phpcs:ignore WordPress.Security.EscapeOutpu
         <div class="product-buttons">
             <?php echo wp_kses_post(graceartWishlistButton($product)); ?>
 
-            <button type="submit" name="add-to-cart" value="<?php echo esc_attr($product->get_id()); ?>" class="single_add_to_cart_button button alt btn btn-dark btn-outline-hover-dark">
+            <button type="submit" name="add-to-cart" value="<?php echo esc_attr($product->get_id()); ?>" class="single_add_to_cart_button button alt btn btn-dark btn-hover-primary">
                 <i class="fas fa-shopping-cart"></i>
                 <?php echo esc_html($product->single_add_to_cart_text()); ?>
             </button>

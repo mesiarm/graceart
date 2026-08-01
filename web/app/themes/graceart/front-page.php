@@ -1,41 +1,28 @@
-<?php get_header(); ?>
+<?php
+get_header();
+
+$hero_slides = graceartHomepageHeroSlides((int) get_queried_object_id());
+?>
 <!-- Slider main container Start -->
 <div class="home1-slider swiper-container">
     <div class="swiper-wrapper">
-        <div class="home1-slide-item swiper-slide" data-swiper-autoplay="5000" data-bg-image="<?php echo fullTemplateUri('assets/images/slider/home1/slide-1.webp'); ?>">
-            <div class="home1-slide1-content">
-                <span class="bg"></span>
-                <span class="slide-border"></span>
-                <span class="icon"><img src="<?php echo fullTemplateUri('assets/images/slider/home1/slide-1-1.webp'); ?>" alt="Slide Icon"></span>
-                <h2 class="title">Handicraft Shop</h2>
-                <h3 class="sub-title">Just for you</h3>
-                <div class="link"><a href="shop.html">shop now</a></div>
+        <?php foreach ($hero_slides as $slide) : ?>
+            <div class="home1-slide-item swiper-slide" data-bg-image="<?php echo esc_url($slide['image']); ?>">
+                <div class="home1-slide1-content">
+                    <span class="bg"></span>
+                    <span class="slide-border"></span>
+                    <?php if ($slide['title']) : ?>
+                        <h2 class="title"><?php echo esc_html($slide['title']); ?></h2>
+                    <?php endif; ?>
+                    <?php if ($slide['subtitle']) : ?>
+                        <h3 class="sub-title"><?php echo esc_html($slide['subtitle']); ?></h3>
+                    <?php endif; ?>
+                    <?php if ($slide['button_text'] && $slide['button_url']) : ?>
+                        <div class="link"><a href="<?php echo esc_url($slide['button_url']); ?>"><?php echo esc_html($slide['button_text']); ?></a></div>
+                    <?php endif; ?>
+                </div>
             </div>
-        </div>
-        <div class="home1-slide-item swiper-slide" data-swiper-autoplay="5000" data-bg-image="<?php echo fullTemplateUri('assets/images/slider/home1/slide-2.webp'); ?>">
-            <div class="home1-slide2-content">
-                <span class="bg" data-bg-image="<?php echo fullTemplateUri('assets/images/slider/home1/slide-2-1.webp'); ?>"></span>
-                <span class="slide-border"></span>
-                <span class="icon">
-                        <img src="<?php echo fullTemplateUri('assets/images/slider/home1/slide-2-2.webp'); ?>" alt="Slide Icon">
-                        <img src="<?php echo fullTemplateUri('assets/images/slider/home1/slide-2-3.webp'); ?>" alt="Slide Icon">
-                    </span>
-                <h2 class="title">Newly arrived</h2>
-                <h3 class="sub-title">Sale up to <br>10%</h3>
-                <div class="link"><a href="shop.html">shop now</a></div>
-            </div>
-        </div>
-        <div class="home1-slide-item swiper-slide" data-swiper-autoplay="5000" data-bg-image="<?php echo fullTemplateUri('assets/images/slider/home1/slide-3.webp'); ?>">
-            <div class="home1-slide3-content">
-                <h2 class="title">Affectious gifts</h2>
-                <h3 class="sub-title">
-                    <img class="left-icon " src="<?php echo fullTemplateUri('assets/images/slider/home1/slide-2-2.webp'); ?>" alt="Slide Icon">
-                    For friends & family
-                    <img class="right-icon " src="<?php echo fullTemplateUri('assets/images/slider/home1/slide-2-3.webp'); ?>" alt="Slide Icon">
-                </h3>
-                <div class="link"><a href="shop.html">shop now</a></div>
-            </div>
-        </div>
+        <?php endforeach; ?>
     </div>
     <div class="home1-slider-prev swiper-button-prev"><i class="ti-angle-left"></i></div>
     <div class="home1-slider-next swiper-button-next"><i class="ti-angle-right"></i></div>
