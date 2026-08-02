@@ -2,7 +2,7 @@
 
 get_header();
 
-graceartPageHero(__('Zoznam prianí', 'graceart'));
+graceartPageHero(__('Zoznam prianí', 'graceart'), false);
 ?>
 
 <div class="section section-padding">

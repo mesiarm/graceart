@@ -38,6 +38,21 @@ add_action('init', function (): void {
             return current_user_can('edit_pages');
         },
     ]);
+
+    register_post_meta('page', '_graceart_home_bestseller_ids', [
+        'type' => 'array',
+        'single' => true,
+        'default' => [],
+        'show_in_rest' => [
+            'schema' => [
+                'type' => 'array',
+                'items' => ['type' => 'integer'],
+            ],
+        ],
+        'auth_callback' => function (): bool {
+            return current_user_can('edit_pages');
+        },
+    ]);
 });
 
 function graceartHomepageCategoryBanners(?int $post_id = null): array
@@ -123,6 +138,34 @@ function graceartDefaultHomepageHeroSlides(): array
     ];
 }
 
+function graceartHomepageBestsellerIds(?int $post_id = null): array
+{
+    $post_id = $post_id ?: (int) get_option('page_on_front');
+    $raw = $post_id ? get_post_meta($post_id, '_graceart_home_bestseller_ids', true) : [];
+
+    $ids = is_array($raw) ? array_values(array_unique(array_map('absint', $raw))) : [];
+    $ids = array_values(array_filter($ids, function (int $id): bool {
+        return get_post_status($id) === 'publish' && get_post_type($id) === 'product';
+    }));
+
+    if ($ids) {
+        return $ids;
+    }
+
+    if (! function_exists('wc_get_products')) {
+        return [];
+    }
+
+    return wc_get_products([
+        'status' => 'publish',
+        'limit' => 10,
+        'orderby' => 'meta_value_num',
+        'meta_key' => 'total_sales',
+        'order' => 'DESC',
+        'return' => 'ids',
+    ]);
+}
+
 add_action('admin_menu', function () {
     remove_menu_page('wc-admin&path=/payments/overview');
     remove_submenu_page('woocommerce', 'wc-admin&path=/payments/overview');
@@ -171,7 +214,7 @@ add_action('enqueue_block_editor_assets', function (): void {
         if (! is_wp_error($terms)) {
             foreach ($terms as $term) {
                 $categories[] = [
-                    'label' => $term->name,
+                    'label' => $term->slug === 'uncategorized' ? __('Nezaradené', 'graceart') : $term->name,
                     'value' => (int) $term->term_id,
                 ];
             }
@@ -210,4 +253,36 @@ add_action('enqueue_block_editor_assets', function (): void {
     wp_localize_script('graceart-homepage-hero-editor', 'graceartHomepageHero', [
         'frontPageId' => (int) get_option('page_on_front'),
     ]);
+
+    if (function_exists('wc_get_products')) {
+        $products = wc_get_products([
+            'status' => 'publish',
+            'limit' => -1,
+            'orderby' => 'title',
+            'order' => 'ASC',
+        ]);
+
+        $product_options = array_map(function (WC_Product $product): array {
+            return [
+                'label' => $product->get_name(),
+                'value' => $product->get_id(),
+            ];
+        }, $products);
+
+        $bestsellers_script_path = get_template_directory() . '/assets/js/admin-homepage-bestsellers.js';
+        $bestsellers_script_url = get_template_directory_uri() . '/assets/js/admin-homepage-bestsellers.js';
+
+        wp_enqueue_script(
+            'graceart-homepage-bestsellers-editor',
+            $bestsellers_script_url,
+            ['wp-data'],
+            file_exists($bestsellers_script_path) ? (string) filemtime($bestsellers_script_path) : null,
+            true,
+        );
+
+        wp_localize_script('graceart-homepage-bestsellers-editor', 'graceartHomepageBestsellers', [
+            'frontPageId' => (int) get_option('page_on_front'),
+            'products' => $product_options,
+        ]);
+    }
 });

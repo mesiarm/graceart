@@ -8,6 +8,8 @@ $graceart_woocommerce_files = [
     'product.php',
     'catalog.php',
     'checkout.php',
+    'search.php',
+    'wishlist.php',
 ];
 
 foreach ($graceart_woocommerce_files as $graceart_woocommerce_file) {

@@ -52,7 +52,10 @@ add_filter('woocommerce_reviews_title', function (string $title, int $count, WC_
 function graceartWishlistProductUrl(WC_Product $product): string
 {
     if (function_exists('YITH_WCWL')) {
-        return add_query_arg('add_to_wishlist', $product->get_id(), $product->get_permalink());
+        return wp_nonce_url(
+            add_query_arg('add_to_wishlist', $product->get_id(), $product->get_permalink()),
+            'add_to_wishlist',
+        );
     }
 
     return graceartWishlistUrl();
@@ -60,12 +63,14 @@ function graceartWishlistProductUrl(WC_Product $product): string
 
 function graceartWishlistButton(WC_Product $product): string
 {
+    if (function_exists('YITH_WCWL')) {
+        return '<span class="graceart-wishlist-button">' . do_shortcode('[yith_wcwl_add_to_wishlist]') . '</span>';
+    }
+
     return sprintf(
-        '<a href="%1$s" class="btn btn-icon btn-outline-body btn-hover-dark hintT-top add_to_wishlist single_add_to_wishlist" data-hint="%2$s" data-product-id="%3$s" data-product-type="%4$s" aria-label="%2$s"><i class="far fa-heart"></i></a>',
+        '<a href="%1$s" class="btn btn-icon btn-outline-body btn-hover-dark hintT-top" data-hint="%2$s" aria-label="%2$s"><i class="far fa-heart"></i></a>',
         esc_url(graceartWishlistProductUrl($product)),
         esc_attr__('Pridať do zoznamu prianí', 'graceart'),
-        esc_attr($product->get_id()),
-        esc_attr($product->get_type()),
     );
 }
 
@@ -127,19 +132,34 @@ function graceartProductLoopClasses(WC_Product $product): string
 {
     $classes = ['grid-item', 'col'];
 
-    if ($product->is_featured()) {
-        $classes[] = 'featured';
-    }
-
-    if ($product->is_on_sale()) {
-        $classes[] = 'sales';
-    }
-
-    if ((time() - get_post_time('U', true, $product->get_id())) < MONTH_IN_SECONDS) {
-        $classes[] = 'new';
+    foreach (wc_get_product_term_ids($product->get_id(), 'product_cat') as $term_id) {
+        $classes[] = 'cat-' . $term_id;
     }
 
     return implode(' ', $classes);
+}
+
+function graceartProductLoopCategoryFilters(): array
+{
+    if (! taxonomy_exists('product_cat')) {
+        return [];
+    }
+
+    $terms = get_terms([
+        'taxonomy' => 'product_cat',
+        'hide_empty' => true,
+    ]);
+
+    if (is_wp_error($terms)) {
+        return [];
+    }
+
+    return array_map(function (WP_Term $term): array {
+        return [
+            'label' => $term->slug === 'uncategorized' ? __('Nezaradené', 'graceart') : $term->name,
+            'filter' => '.cat-' . $term->term_id,
+        ];
+    }, $terms);
 }
 
 function graceartProductBadgeHtml(WC_Product $product): string

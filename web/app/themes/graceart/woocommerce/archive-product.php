@@ -11,7 +11,7 @@ get_header();
             <div class="col">
                 <div class="page-title">
                     <h1 class="title">
-                        <?php echo is_shop() ? esc_html__('Graceart', 'graceart') : woocommerce_page_title(false); ?>
+                        <?php echo is_shop() ? esc_html__('Produkty', 'graceart') : woocommerce_page_title(false); ?>
                     </h1>
                 </div>
             </div>
@@ -26,9 +26,9 @@ get_header();
                 <div class="col-md col-12 align-self-center learts-mb-20">
                     <div class="isotope-filter shop-product-filter" data-target="#shop-products">
                         <button class="active" data-filter="*"><?php esc_html_e('Všetko', 'graceart'); ?></button>
-                        <button data-filter=".featured"><?php esc_html_e('Odporúčané', 'graceart'); ?></button>
-                        <button data-filter=".new"><?php esc_html_e('Novinky', 'graceart'); ?></button>
-                        <button data-filter=".sales"><?php esc_html_e('Zľavnené', 'graceart'); ?></button>
+                        <?php foreach (graceartProductLoopCategoryFilters() as $category_filter) : ?>
+                            <button data-filter="<?php echo esc_attr($category_filter['filter']); ?>"><?php echo esc_html($category_filter['label']); ?></button>
+                        <?php endforeach; ?>
                     </div>
                 </div>
 

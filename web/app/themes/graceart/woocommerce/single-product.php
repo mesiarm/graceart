@@ -29,7 +29,7 @@ while (have_posts()) :
             <div class="row">
                 <div class="col">
                     <div class="page-title">
-                        <h1 class="title"><?php esc_html_e('Graceart', 'graceart'); ?></h1>
+                        <h1 class="title"><?php the_title(); ?></h1>
                         <?php graceartWooBreadcrumb(); ?>
                     </div>
                 </div>

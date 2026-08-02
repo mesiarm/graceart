@@ -11,7 +11,9 @@ while (have_posts()) :
         $graceart_page_title = graceartLocalizeWooPageLabel($graceart_page_title);
     }
 
-    graceartPageHero($graceart_page_title);
+    $graceart_show_breadcrumb = ! (function_exists('is_cart') && is_cart()) && ! (function_exists('is_checkout') && is_checkout());
+
+    graceartPageHero($graceart_page_title, $graceart_show_breadcrumb);
     ?>
 
     <div class="section section-padding">

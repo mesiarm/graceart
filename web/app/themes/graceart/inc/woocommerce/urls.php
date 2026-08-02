@@ -9,6 +9,11 @@ function graceartMyAccountUrl(): string
     return home_url('/my-account/');
 }
 
+function graceartShopUrl(): string
+{
+    return function_exists('wc_get_page_permalink') ? wc_get_page_permalink('shop') : home_url('/');
+}
+
 function graceartCartUrl(): string
 {
     return function_exists('wc_get_cart_url') ? wc_get_cart_url() : home_url('/cart/');

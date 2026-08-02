@@ -1,27 +1,54 @@
-<div class="footer1-section section section-padding">
+<div class="footer2-section section section-padding">
     <div class="container">
-        <div class="row text-center row-cols-1">
+        <div class="row learts-mb-n40">
 
-            <div class="footer1-logo col text-center">
-                <img src="<?php echo fullTemplateUri('assets/images/logo/logo.svg'); ?>" alt="Grace Art Logo">
+            <div class="col-lg-4 learts-mb-40">
+                <div class="widget-about">
+                    <img src="<?php echo fullTemplateUri('assets/images/logo/logo.svg'); ?>" alt="Grace Art Logo">
+                </div>
             </div>
 
-            <div class="footer1-menu col">
-                <?php graceartFooterMenu(); ?>
+            <div class="col-lg-4 learts-mb-40">
+                <div class="row">
+                    <div class="col">
+                        <ul class="widget-list">
+                            <li><a href="<?php echo esc_url(graceartShopUrl()); ?>"><?php esc_html_e('Obchod', 'graceart'); ?></a></li>
+                            <?php $graceart_about_page = get_page_by_path('o-nas'); ?>
+                            <?php if ($graceart_about_page instanceof WP_Post) : ?>
+                                <li><a href="<?php echo esc_url(get_permalink($graceart_about_page)); ?>"><?php esc_html_e('O nás', 'graceart'); ?></a></li>
+                            <?php endif; ?>
+                            <?php $graceart_contact_page = get_page_by_path('kontakt'); ?>
+                            <?php if ($graceart_contact_page instanceof WP_Post) : ?>
+                                <li><a href="<?php echo esc_url(get_permalink($graceart_contact_page)); ?>"><?php esc_html_e('Kontaktujte nás', 'graceart'); ?></a></li>
+                            <?php endif; ?>
+                        </ul>
+                    </div>
+                    <div class="col">
+                        <ul class="widget-list">
+                            <li><a href="<?php echo esc_url(graceartMyAccountUrl()); ?>"><?php esc_html_e('Môj účet', 'graceart'); ?></a></li>
+                            <li><a href="<?php echo esc_url(graceartCartUrl()); ?>"><?php esc_html_e('Košík', 'graceart'); ?></a></li>
+                            <li><a href="<?php echo esc_url(graceartCheckoutUrl()); ?>"><?php esc_html_e('Pokladňa', 'graceart'); ?></a></li>
+                        </ul>
+                    </div>
+                </div>
             </div>
-            <div class="footer1-social col">
-                <ul class="widget-social justify-content-center">
-                    <li class="hintT-top" data-hint="Twitter"> <a href="https://www.twitter.com/"><i class="fab fa-twitter"></i></a></li>
-                    <li class="hintT-top" data-hint="Facebook"> <a href="https://www.facebook.com/"><i class="fab fa-facebook-f"></i></a></li>
-                    <li class="hintT-top" data-hint="Instagram"> <a href="https://www.instagram.com/"><i class="fab fa-instagram"></i></a></li>
-                    <li class="hintT-top" data-hint="Youtube"> <a href="https://www.youtube.com/"><i class="fab fa-youtube"></i></a></li>
+
+            <div class="col-lg-4 learts-mb-40">
+                <ul class="widget-list">
+                    <li> <i class="fab fa-twitter"></i> <a href="https://www.twitter.com/">Twitter</a></li>
+                    <li> <i class="fab fa-facebook-f"></i> <a href="https://www.facebook.com/">Facebook</a></li>
+                    <li> <i class="fab fa-instagram"></i> <a href="https://www.instagram.com/">Instagram</a></li>
+                    <li> <i class="fab fa-youtube"></i> <a href="https://www.youtube.com/">Youtube</a></li>
                 </ul>
-            </div>
-            <div class="footer1-copyright col">
-                <p class="copyright">&copy; 2023 learts. All Rights Reserved | <strong>(+00) 123 567990</strong> | <a href="mailto:contact@learts.com">contact@learts.com</a></p>
             </div>
 
         </div>
+    </div>
+</div>
+
+<div class="footer2-copyright section">
+    <div class="container">
+        <p class="copyright text-center">&copy; <?php echo esc_html(gmdate('Y')); ?> Graceart. <?php esc_html_e('Všetky práva vyhradené.', 'graceart'); ?></p>
     </div>
 </div>
 <!-- Modal -->
