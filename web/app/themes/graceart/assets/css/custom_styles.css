@@ -1,0 +1,839 @@
+.home1-slide1-content .title,
+.home1-slide1-content .sub-title {
+    text-align: center;
+}
+
+.graceart-404-code {
+    margin-bottom: 10px;
+    font-size: 120px;
+    font-weight: 400;
+    line-height: 1;
+    color: #333333;
+}
+
+.graceart-404-message {
+    margin-bottom: 30px;
+    font-size: 18px;
+    color: #666666;
+}
+
+.page-title .page-title-subtitle {
+    margin-top: -20px;
+    margin-bottom: 20px;
+    font-size: 16px;
+    color: #999999;
+}
+
+.product:hover .product-info .title,
+.product:hover .product-info .graceart-loop-top .price {
+    visibility: visible !important;
+    transform: translateY(0) !important;
+    opacity: 1 !important;
+}
+
+.graceart-loop-top {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 12px;
+    margin-bottom: 8px;
+}
+
+.graceart-loop-top .price {
+    margin: 0;
+}
+
+.graceart-loop-availability {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.graceart-loop-availability.is-in-stock {
+    color: #2e7d32;
+}
+
+.graceart-loop-availability.is-backorder {
+    color: #999999;
+}
+
+.graceart-loop-buy-button {
+    display: inline-flex;
+    align-items: center;
+    margin-left: auto;
+    padding: 6px 16px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #fff;
+    border: none;
+    border-radius: 500px;
+    background-color: #333333;
+}
+
+.graceart-loop-buy-button:hover {
+    color: #fff;
+    background-color: #f8796c;
+}
+
+#shop-products.isotope-grid .grid-item {
+    margin-bottom: 50px;
+}
+
+.product-main-section.section-padding {
+    padding-bottom: 50px;
+}
+
+@media (max-width: 767px) {
+    .product-main-section.section-padding {
+        padding-bottom: 35px;
+    }
+}
+
+/* Description tabs sit under the gallery now, so they get column-sized type. */
+.product-gallery-tabs {
+    margin-top: 40px;
+}
+
+.product-gallery-tabs .product-info-tab-list {
+    justify-content: flex-start;
+    margin: 0 -12px 20px;
+}
+
+.product-gallery-tabs .product-info-tab-list li {
+    padding: 0 12px 10px;
+}
+
+/* The theme fades inactive tabs to 20% opacity; keep them black and mark the
+   active one with weight and an underline instead. */
+.product-gallery-tabs .product-info-tab-list li a {
+    font-size: 22px;
+    opacity: 1;
+    color: #333333;
+}
+
+.product-gallery-tabs .product-info-tab-list li a.active {
+    font-weight: 600;
+    border-bottom: 2px solid #333333;
+}
+
+.product-gallery-tabs .product-infor-tab-content {
+    font-size: 16px;
+}
+
+/* One frame for every photo, sized to the tallest upload (1280x1191) so the
+   images fill it as much as possible — like sashe, which scales each photo to a
+   fixed frame height. Shorter shots keep their proportions and get white bars. */
+.product-gallery-slider .product-zoom,
+.product-gallery-slider .product-video-slide {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+    aspect-ratio: 1.075 / 1;
+
+    background-color: #ffffff;
+}
+
+.product-gallery-slider .product-zoom img:not(.zoomImg),
+.product-gallery-slider .product-video-slide video {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.product-thumb-slider-vertical .item,
+.product-thumb-slider .item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    aspect-ratio: 1.075 / 1;
+
+    background-color: #ffffff;
+}
+
+.product-thumb-slider-vertical .item img,
+.product-thumb-slider .item img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+/* No arrows under the thumb rail — the strip follows the main slider anyway. */
+.product-thumb-slider-vertical .slick-arrow,
+.product-thumb-slider .slick-arrow {
+    display: none !important;
+}
+
+.product-thumb-slider-vertical {
+    padding-bottom: 0;
+}
+
+/* Vertical gallery: the theme's 195px thumb rail eats half the column on wide
+   screens, so keep the strip narrow and give the main image the space. */
+@media (min-width: 1200px) {
+    .product-images.vertical {
+        padding-left: 110px;
+    }
+
+    .product-thumb-slider-vertical {
+        width: 95px;
+    }
+}
+
+/* Single product summary: keep the column compact enough to sit beside the gallery */
+/* Title, price and availability share one 15px rhythm; only the card-payment
+   line keeps a 30px gap below it. The negative top margin cancels the line box's
+   leading so the title starts level with the top of the gallery. */
+.product-summery .product-title {
+    margin-top: -5px;
+    margin-bottom: 15px;
+    font-size: 32px;
+    line-height: 1.25;
+}
+
+@media (max-width: 767px) {
+    .product-summery .product-title {
+        font-size: 26px;
+    }
+}
+
+.product-summery .product-ratings {
+    margin-bottom: 15px;
+    padding: 0;
+}
+
+.product-summery .product-price {
+    margin-bottom: 15px;
+    font-size: 25px;
+}
+
+/* WooCommerce paints span.price green; the selected variant's price is injected
+   with that wrapper, so keep every price in the summary the same black. */
+.product-summery .product-price,
+.product-summery .product-price .price,
+.product-summery .product-price .amount,
+.product-summery .product-price bdi {
+    color: #333333;
+}
+
+/* Same 16px as a variant row, so both read as one list. */
+.product-summery .product-availability,
+.product-summery .product-availability strong,
+.product-summery .product-availability .graceart-availability-value {
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+/* The theme's body text is dimgray; the product detail reads black throughout. */
+.product-summery,
+.product-summery p,
+.product-gallery-tabs,
+.product-gallery-tabs p,
+.product-gallery-tabs li,
+.product-gallery-tabs td,
+.product-gallery-tabs th {
+    color: #333333;
+}
+
+.product-availability {
+    margin-bottom: 15px;
+    color: #333333;
+}
+
+.graceart-availability-value {
+    font-weight: 600;
+    color: #333333;
+}
+
+.product-payment-info {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    margin-top: 0;
+    margin-bottom: 30px;
+    font-size: 14px;
+    color: #333333;
+}
+
+.product-payment-info__text {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.product-payment-info__icon {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.product-payment-info__icon img {
+    display: block;
+    height: 22px;
+    width: auto;
+}
+
+.product-summery .product-buttons {
+    margin-bottom: 20px;
+}
+
+.product-shipping-info {
+    margin-top: 18px;
+    padding: 0;
+    border: none;
+    background-color: transparent;
+}
+
+.product-shipping-info__title {
+    margin-bottom: 10px;
+    font-size: 16px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #333333;
+}
+
+.product-shipping-info__tabs {
+    display: flex;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #e7ded6;
+}
+
+.product-shipping-info__tab {
+    padding: 6px 14px;
+    font-size: 16px;
+    cursor: pointer;
+    color: #333333;
+    border: none;
+    border-bottom: 2px solid transparent;
+    background: none;
+}
+
+.product-shipping-info__tab.active {
+    color: #333333;
+    border-bottom-color: #333333;
+}
+
+.product-shipping-info__list {
+    display: none;
+    flex-direction: column;
+    gap: 6px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.product-shipping-info__list.active {
+    display: flex;
+}
+
+.product-shipping-info__list li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 16px;
+    color: #333333;
+}
+
+.product-shipping-info__list i {
+    color: #333333;
+}
+
+.product-shipping-info__list strong {
+    margin-left: auto;
+}
+
+.graceart-variations-table {
+    display: none;
+}
+
+/* The price is shown once in the summary, like on simple products, so hide the
+   one WooCommerce injects into .single_variation when a variation is selected. */
+.single_variation_wrap .woocommerce-variation-price {
+    display: none;
+}
+
+.graceart-variation-options {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin-bottom: 20px;
+}
+
+.graceart-variation-option {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    /* Bootstrap gives every label a 0.5rem bottom margin — drop it so the rows
+       sit on the same rhythm as the "Dostupnosť" line. */
+    margin: 0;
+    padding: 0;
+
+    cursor: pointer;
+    border: none;
+    line-height: 1.5;
+
+    /* The theme tracks every label out by 1.6px. */
+    letter-spacing: normal;
+}
+
+.graceart-variation-option__content {
+    gap: 0;
+}
+
+.graceart-variation-option:has(.graceart-variation-radio:checked) .graceart-variation-option__meta {
+    font-weight: 700;
+}
+
+.graceart-variation-radio {
+    flex: 0 0 auto;
+    width: 18px;
+    height: 18px;
+    margin: 0;
+}
+
+.graceart-variation-option__content {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    gap: 2px;
+}
+
+/* Same size and weight as the "Dostupnosť" line. */
+.graceart-variation-option__meta {
+    font-size: 16px;
+    font-weight: 600;
+    color: #333333;
+}
+
+.graceart-variation-option__stock {
+    font-size: 16px;
+    font-weight: 600;
+    color: #333333;
+}
+
+.graceart-variation-option__stock.is-in-stock {
+    color: #4a9b36;
+}
+
+.product-buttons .graceart-wishlist-button {
+    display: flex !important;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: center;
+
+    box-sizing: border-box;
+    width: 42px;
+    height: 42px;
+    margin: 0 15px 10px;
+
+    border: 1px solid #ababab !important;
+    border-radius: 50% !important;
+    background-color: #fff;
+}
+
+.product-buttons .graceart-wishlist-button > div {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+.product-buttons .graceart-wishlist-button a {
+    justify-content: center !important;
+    align-items: center !important;
+    width: 100% !important;
+    height: 100% !important;
+    gap: 0 !important;
+}
+
+.product-buttons .graceart-wishlist-button:hover {
+    border-color: #333333 !important;
+}
+
+.product-buttons .graceart-wishlist-button * {
+    font-size: 0;
+    line-height: 0;
+}
+
+.product-buttons .graceart-wishlist-button svg,
+.product-buttons .graceart-wishlist-button i,
+.product-buttons .graceart-wishlist-button [class*="icon"] {
+    font-size: 14px;
+    line-height: 1;
+}
+
+.product-buttons .graceart-wishlist-button svg {
+    width: 16px;
+    height: 16px;
+}
+
+.product-summery .product-buttons .single_add_to_cart_button {
+    padding: 10px 24px;
+    font-size: 13px;
+    letter-spacing: 0.5px;
+
+    /* WooCommerce's own "button.button.alt" rule outranks this selector. */
+    color: #ffffff !important;
+    border-color: #4a9b36 !important;
+    background-color: #4a9b36 !important;
+}
+
+.product-summery .product-buttons .single_add_to_cart_button:hover,
+.product-summery .product-buttons .single_add_to_cart_button:focus {
+    color: #ffffff !important;
+    border-color: #333333 !important;
+    background-color: #333333 !important;
+}
+
+.product-summery .product-buttons .single_add_to_cart_button i {
+    margin-right: 8px;
+    font-size: 13px;
+}
+
+/* Replace decorative "Modesty" script font (missing Slovak diacritic glyphs) with Dancing Script */
+@font-face {
+    font-family: "Modesty";
+    font-weight: 400 700;
+    font-style: normal;
+
+    font-display: swap;
+    src: url("../fonts/dancing-script/dancing-script-latin-ext.woff2") format("woff2");
+    unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+@font-face {
+    font-family: "Modesty";
+    font-weight: 400 700;
+    font-style: normal;
+
+    font-display: swap;
+    src: url("../fonts/dancing-script/dancing-script-latin.woff2") format("woff2");
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+.site,
+body,
+button,
+input,
+textarea,
+select,
+.btn,
+.site-main-menu,
+.menu-text,
+.page-title .title,
+.section-title,
+.block-title,
+.widget-title,
+.product-info .title,
+.product-filter-widget-title,
+.cart-totals table tbody tr,
+.woocommerce,
+.woocommerce-page {
+    font-family: "Inter", "Segoe UI", "Noto Sans", "Helvetica Neue", Arial, sans-serif;
+}
+
+.product-info .price,
+.product-info .price .amount,
+.product-info .price bdi {
+    font-family: "Futura", "Segoe UI", "Noto Sans", "Helvetica Neue", Arial, sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1;
+    color: #333;
+}
+
+.product-info .price {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.product-info .price del,
+.product-info .price del .amount,
+.product-info .price del bdi {
+    color: #aaa;
+}
+
+.product-info .price ins {
+    margin-left: 10px;
+    color: #f8796c;
+    text-decoration: none;
+}
+
+.product-info .price ins .amount,
+.product-info .price ins bdi {
+    color: #f8796c;
+}
+
+.woocommerce-notices-wrapper {
+    margin-bottom: 30px;
+}
+
+.graceart-woo-notice,
+.woocommerce-message,
+.woocommerce-info,
+.woocommerce-error {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    width: 100%;
+    margin: 0 0 30px;
+    padding: 18px 22px;
+    list-style: none;
+    color: #333;
+    border: 1px solid #e7ded6;
+    background: #fbf7f3;
+}
+
+.graceart-woo-notice--success {
+    border-left: 4px solid #72a499;
+}
+
+.graceart-woo-notice__icon {
+    flex: 0 0 auto;
+    font-size: 22px;
+    line-height: 1;
+    color: #72a499;
+}
+
+.graceart-woo-notice__content {
+    display: flex;
+    align-items: center;
+    flex: 1 1 auto;
+    gap: 16px;
+    justify-content: space-between;
+}
+
+.graceart-woo-notice .button,
+.woocommerce-message .button,
+.woocommerce-info .button,
+.woocommerce-error .button {
+    order: 2;
+    flex: 0 0 auto;
+    margin-left: auto;
+    padding: 10px 22px;
+    color: #fff;
+    background-color: #333;
+}
+
+.graceart-woo-notice .button:hover,
+.woocommerce-message .button:hover,
+.woocommerce-info .button:hover,
+.woocommerce-error .button:hover {
+    color: #fff;
+    background-color: #f8796c;
+}
+
+@media only screen and (max-width: 767px) {
+    .graceart-woo-notice,
+    .woocommerce-message,
+    .woocommerce-info,
+    .woocommerce-error {
+        align-items: flex-start;
+        padding: 16px;
+    }
+
+    .graceart-woo-notice__content {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .graceart-woo-notice .button,
+    .woocommerce-message .button,
+    .woocommerce-info .button,
+    .woocommerce-error .button {
+        margin-left: 0;
+    }
+}
+
+.product-video-slide {
+    display: flex;
+    width: 100%;
+}
+
+.product-video-slide video {
+    width: 100%;
+    max-height: 550px;
+    background-color: #000;
+}
+
+.product-thumb-slider .item.item-video {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background-color: #333333;
+}
+
+.product-thumb-slider .item.item-video::before {
+    content: "";
+
+    display: block;
+
+    padding-top: 100%;
+}
+
+.product-thumb-slider .item.item-video .video-thumb-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 32px;
+    height: 32px;
+
+    transform: translate(-50%, -50%);
+
+    color: #fff;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.25);
+}
+
+.product-thumb-slider .item.item-video .video-thumb-icon i {
+    font-size: 12px;
+
+    margin-left: 2px;
+}
+
+.single_add_to_cart_button.button.alt.btn {
+    border-radius: 500px;
+    background-color: #333333;
+    border-color: #333333;
+    color: #fff;
+}
+
+.single_add_to_cart_button.button.alt.btn:hover {
+    background-color: #f8796c;
+    border-color: #f8796c;
+    color: #fff;
+}
+
+.woocommerce-cart-form .product-quantity .quantity {
+    margin: 0;
+}
+
+.woocommerce-cart-form .product-quantity input.qty {
+    width: 70px;
+    text-align: center;
+}
+
+.cart-collaterals .cart_totals {
+    float: none;
+    width: 100%;
+}
+
+.cart-totals .wc-proceed-to-checkout {
+    padding: 0;
+}
+
+.cart-totals .checkout-button {
+    margin-top: 20px;
+}
+
+.checkout-billing-fields,
+.checkout-shipping-fields,
+.woocommerce-additional-fields {
+    margin-bottom: 40px;
+}
+
+.checkout .form-row {
+    display: block;
+    float: none;
+    width: 100%;
+}
+
+.checkout .form-row-first,
+.checkout .form-row-last {
+    width: 50%;
+}
+
+.checkout .form-row-first {
+    float: left;
+    padding-right: 15px;
+}
+
+.checkout .form-row-last {
+    float: right;
+    padding-left: 15px;
+}
+
+.checkout .form-row-wide {
+    clear: both;
+}
+
+.checkout input.input-text,
+.checkout textarea,
+.checkout select,
+.cart-coupon input {
+    width: 100%;
+}
+
+.woocommerce-checkout-review-order::before,
+.woocommerce-checkout-review-order::after,
+.checkout-billing-fields .row::after,
+.checkout-shipping-fields .row::after,
+.woocommerce-additional-fields .row::after {
+    display: table;
+    clear: both;
+    content: "";
+}
+
+.payment_methods {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.payment_methods .card {
+    margin-bottom: 10px;
+}
+
+.payment_methods .card-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.payment_methods .card-header label {
+    flex: 1 1 auto;
+    margin-bottom: 0;
+    cursor: pointer;
+}
+
+.payment_methods .payment_box {
+    position: static;
+    width: auto;
+    margin: 0;
+    padding: 0;
+    color: inherit;
+    background: transparent;
+}
+
+.payment_methods .payment_box::before {
+    display: none;
+}
+
+.woocommerce-terms-and-conditions-wrapper {
+    margin-bottom: 20px;
+}
+
+@media only screen and (max-width: 767px) {
+    .checkout .form-row-first,
+    .checkout .form-row-last {
+        float: none;
+        width: 100%;
+        padding-right: 0;
+        padding-left: 0;
+    }
+}
