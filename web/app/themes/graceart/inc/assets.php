@@ -63,5 +63,5 @@ add_action('wp_enqueue_scripts', function () {
     wp_enqueue_script('scrollup-script', fullTemplateUri('assets/js/plugins/jquery.scrollUp.min.js'), [], graceartAssetVersion('assets/js/plugins/jquery.scrollUp.min.js'), true);
     wp_enqueue_script('scrollax-script', fullTemplateUri('assets/js/plugins/scrollax.min.js'), [], graceartAssetVersion('assets/js/plugins/scrollax.min.js'), true);
 
-    wp_enqueue_script('main-script', fullTemplateUri('assets/js/main.js'), [], graceartAssetVersion('assets/js/main.js'), true);
+    wp_enqueue_script('main-script', fullTemplateUri('assets/js/main.js'), ['jquery', 'wc-add-to-cart-variation'], graceartAssetVersion('assets/js/main.js'), true);
 });

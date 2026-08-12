@@ -57,6 +57,7 @@ add_filter('woocommerce_default_address_fields', function (array $fields): array
 add_filter('woocommerce_checkout_fields', function (array $fields): array {
     if (isset($fields['billing']['billing_phone'])) {
         $fields['billing']['billing_phone']['label'] = __('Telefón', 'graceart');
+        $fields['billing']['billing_phone']['required'] = true;
     }
 
     if (isset($fields['billing']['billing_email'])) {

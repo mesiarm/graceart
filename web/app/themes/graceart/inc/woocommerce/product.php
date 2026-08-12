@@ -1,5 +1,67 @@
 <?php
 
+function graceartOrderVariationBySize(int $post_id, WP_Post $post): void
+{
+    if (wp_is_post_revision($post_id) || (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE)) {
+        return;
+    }
+
+    $size = get_post_meta($post_id, 'attribute_pa_velkost', true);
+    $order_by_size = ['a5' => 0, 'a4' => 1];
+
+    if (! isset($order_by_size[$size]) || (int) $post->menu_order === $order_by_size[$size]) {
+        return;
+    }
+
+    remove_action('save_post_product_variation', 'graceartOrderVariationBySize', 20);
+    wp_update_post(['ID' => $post_id, 'menu_order' => $order_by_size[$size]]);
+    add_action('save_post_product_variation', 'graceartOrderVariationBySize', 20, 2);
+
+    delete_transient('wc_product_children_' . $post->post_parent);
+}
+add_action('save_post_product_variation', 'graceartOrderVariationBySize', 20, 2);
+
+add_action('template_redirect', function (): void {
+    if (! is_singular('product') || ! is_main_query()) {
+        return;
+    }
+
+    $post_id = get_queried_object_id();
+
+    if (! $post_id) {
+        return;
+    }
+
+    $terms = wp_get_object_terms($post_id, 'product_visibility', ['fields' => 'slugs']);
+    $terms = is_wp_error($terms) ? [] : $terms;
+
+    $is_hidden = in_array('exclude-from-catalog', $terms, true) && in_array('exclude-from-search', $terms, true);
+
+    if (! $is_hidden) {
+        return;
+    }
+
+    global $wp_query;
+    $wp_query->set_404();
+    status_header(404);
+    nocache_headers();
+}, 5);
+
+add_action('template_redirect', function (): void {
+    if (! is_singular('product') || ! is_main_query() || is_admin()) {
+        return;
+    }
+
+    $post_id = get_queried_object_id();
+
+    if (! $post_id) {
+        return;
+    }
+
+    $views = (int) get_post_meta($post_id, '_graceart_view_count', true);
+    update_post_meta($post_id, '_graceart_view_count', $views + 1);
+});
+
 add_filter('woocommerce_product_single_add_to_cart_text', fn(): string => __('Pridať do košíka', 'graceart'));
 
 add_filter('woocommerce_product_add_to_cart_text', function (string $text, WC_Product $product): string {
@@ -193,4 +255,425 @@ function graceartProductHoverImageUrl(WC_Product $product, string $size = 'wooco
     $gallery_ids = $product->get_gallery_image_ids();
 
     return $gallery_ids ? wp_get_attachment_image_url((int) $gallery_ids[0], $size) : '';
+}
+
+function graceartLeadTimeOptions(): array
+{
+    return [
+        '3_dni' => __('3 dni', 'graceart'),
+        '1_tyzden' => __('1 týždeň', 'graceart'),
+        '2_tyzdne' => __('2 týždne', 'graceart'),
+    ];
+}
+
+function graceartAvailabilityModeOptions(): array
+{
+    return [
+        'stock' => __('Na sklade', 'graceart'),
+        'backorder' => __('Na objednávku', 'graceart'),
+    ];
+}
+
+add_action('woocommerce_product_options_stock_fields', function (): void {
+    global $post;
+
+    woocommerce_wp_radio([
+        'id' => '_graceart_availability_mode',
+        'label' => __('Dostupnosť', 'graceart'),
+        'description' => __('Určuje, či sa zákazníkovi zobrazí „Na sklade“ alebo „Na objednávku“.', 'graceart'),
+        'desc_tip' => true,
+        'value' => get_post_meta($post->ID, '_graceart_availability_mode', true) ?: 'stock',
+        'options' => graceartAvailabilityModeOptions(),
+        'wrapper_class' => 'hide_if_variable',
+    ]);
+
+    woocommerce_wp_text_input([
+        'id' => '_graceart_backorder_qty',
+        'label' => __('Počet na objednávku', 'graceart'),
+        'description' => __('Počet kusov dostupných na objednávku.', 'graceart'),
+        'desc_tip' => true,
+        'type' => 'number',
+        'custom_attributes' => ['step' => '1', 'min' => '0'],
+        'wrapper_class' => 'hide_if_variable',
+    ]);
+
+    woocommerce_wp_select([
+        'id' => '_graceart_lead_time',
+        'label' => __('Dodacia lehota (na objednávku)', 'graceart'),
+        'description' => __('Zobrazí sa zákazníkovi pri dostupnosti „Na objednávku“.', 'graceart'),
+        'desc_tip' => true,
+        'options' => graceartLeadTimeOptions(),
+        'wrapper_class' => 'hide_if_variable',
+    ]);
+    ?>
+    <style>
+    .graceart-inline-stock-qty {
+        display: inline-block;
+        margin-left: 10px;
+    }
+    </style>
+    <script>
+    jQuery(function ($) {
+        function graceartToggleFields() {
+            var isBackorder = $('input[name="_graceart_availability_mode"]:checked').val() === 'backorder';
+            $('.form-field._graceart_backorder_qty_field, .form-field._graceart_lead_time_field').toggle(isBackorder);
+        }
+
+        if ($('#product-type').val() !== 'variable') {
+            $(document.body).on('change', 'input[name="_graceart_availability_mode"]', graceartToggleFields);
+            graceartToggleFields();
+
+            // Move the native stock quantity input next to the "Na sklade" radio option.
+            var $stockInput = $('#_stock'),
+                $stockLabel = $('input[name="_graceart_availability_mode"][value="stock"]').closest('label'),
+                $manageStock = $('#_manage_stock');
+
+            if ($stockInput.length && $stockLabel.length) {
+                var $originalStockRow = $stockInput.closest('.form-field'),
+                    $wrap = $('<span class="graceart-inline-stock-qty"></span>');
+
+                $stockInput.css({width: '70px'}).appendTo($wrap);
+                $wrap.appendTo($stockLabel);
+                $originalStockRow.remove();
+
+                function graceartSyncStockVisibility() {
+                    $wrap.toggle($manageStock.is(':checked'));
+                }
+
+                $(document.body).on('change', '#_manage_stock', graceartSyncStockVisibility);
+                graceartSyncStockVisibility();
+            }
+
+            // Redundant with the "Dostupnosť" toggle above.
+            $('.form-field._backorders_field, .form-field._low_stock_amount_field').remove();
+        }
+
+        // Same cleanup, per variation, whenever variation rows are (re)loaded.
+        $('#woocommerce-product-data, #variable_product_options').on('woocommerce_variations_loaded woocommerce_variations_added', function () {
+            $('.woocommerce_variation').each(function () {
+                var $variation = $(this);
+
+                if ($variation.data('graceart-processed')) {
+                    return;
+                }
+
+                $variation.data('graceart-processed', true);
+
+                function graceartToggleVariationFields() {
+                    var isBackorder = $variation.find('input[name^="_graceart_availability_mode["]:checked').val() === 'backorder';
+                    $variation.find('.form-field[class*="_graceart_backorder_qty"], .form-field[class*="_graceart_lead_time"]').toggle(isBackorder);
+                }
+
+                $variation.on('change', 'input[name^="_graceart_availability_mode["]', graceartToggleVariationFields);
+                graceartToggleVariationFields();
+
+                var $vStockInput = $variation.find('input[name^="variable_stock["]'),
+                    $vStockLabel = $variation.find('input[name^="_graceart_availability_mode["][value="stock"]').closest('label'),
+                    $vManageStock = $variation.find('input[name^="variable_manage_stock["]');
+
+                if ($vStockInput.length && $vStockLabel.length) {
+                    var $vWrap = $('<span class="graceart-inline-stock-qty"></span>');
+
+                    $vStockInput.closest('.form-row').remove();
+                    $vStockInput.css({width: '70px'}).appendTo($vWrap);
+                    $vWrap.appendTo($vStockLabel);
+
+                    function graceartSyncVariationStockVisibility() {
+                        $vWrap.toggle($vManageStock.length ? $vManageStock.is(':checked') : true);
+                    }
+
+                    $variation.on('change', 'input[name^="variable_manage_stock["]', graceartSyncVariationStockVisibility);
+                    graceartSyncVariationStockVisibility();
+                }
+
+                $variation.find('.form-row:has(select[name^="variable_backorders["]), .form-row:has(input[name^="variable_low_stock_amount["])').remove();
+            });
+        });
+
+        $('#woocommerce-product-data').trigger('woocommerce_variations_loaded');
+    });
+    </script>
+    <?php
+});
+
+add_action('woocommerce_process_product_meta', function (int $post_id): void {
+    if (isset($_POST['_graceart_availability_mode'])) {
+        $mode = sanitize_text_field(wp_unslash($_POST['_graceart_availability_mode']));
+
+        if (array_key_exists($mode, graceartAvailabilityModeOptions())) {
+            update_post_meta($post_id, '_graceart_availability_mode', $mode);
+        }
+    }
+
+    if (isset($_POST['_graceart_backorder_qty'])) {
+        update_post_meta($post_id, '_graceart_backorder_qty', absint(wp_unslash($_POST['_graceart_backorder_qty'])));
+    }
+
+    if (! isset($_POST['_graceart_lead_time'])) {
+        return;
+    }
+
+    $lead_time = sanitize_text_field(wp_unslash($_POST['_graceart_lead_time']));
+
+    if (array_key_exists($lead_time, graceartLeadTimeOptions())) {
+        update_post_meta($post_id, '_graceart_lead_time', $lead_time);
+    }
+});
+
+add_action('woocommerce_product_after_variable_attributes', function (int $loop, array $variation_data, WP_Post $variation): void {
+    $mode = get_post_meta($variation->ID, '_graceart_availability_mode', true) ?: 'stock';
+    $backorder_qty = get_post_meta($variation->ID, '_graceart_backorder_qty', true);
+    $lead_time = get_post_meta($variation->ID, '_graceart_lead_time', true) ?: '3_dni';
+    ?>
+    <p class="form-row form-row-full">
+        <strong><?php esc_html_e('Dostupnosť', 'graceart'); ?></strong>
+    </p>
+    <?php
+    woocommerce_wp_radio([
+        'id' => "_graceart_availability_mode{$loop}",
+        'name' => "_graceart_availability_mode[{$loop}]",
+        'value' => $mode,
+        'options' => graceartAvailabilityModeOptions(),
+        'wrapper_class' => 'form-row form-row-full',
+    ]);
+
+    woocommerce_wp_text_input([
+        'id' => "_graceart_backorder_qty{$loop}",
+        'name' => "_graceart_backorder_qty[{$loop}]",
+        'label' => __('Počet na objednávku', 'graceart'),
+        'value' => $backorder_qty,
+        'type' => 'number',
+        'custom_attributes' => ['step' => '1', 'min' => '0'],
+        'wrapper_class' => 'form-row form-row-first',
+    ]);
+
+    woocommerce_wp_select([
+        'id' => "_graceart_lead_time{$loop}",
+        'name' => "_graceart_lead_time[{$loop}]",
+        'label' => __('Dodacia lehota', 'graceart'),
+        'value' => $lead_time,
+        'options' => graceartLeadTimeOptions(),
+        'wrapper_class' => 'form-row form-row-last',
+    ]);
+}, 10, 3);
+
+add_action('woocommerce_save_product_variation', function (int $variation_id, int $loop): void {
+    if (isset($_POST['_graceart_availability_mode'][$loop])) {
+        $mode = sanitize_text_field(wp_unslash($_POST['_graceart_availability_mode'][$loop]));
+
+        if (array_key_exists($mode, graceartAvailabilityModeOptions())) {
+            update_post_meta($variation_id, '_graceart_availability_mode', $mode);
+        }
+    }
+
+    if (isset($_POST['_graceart_backorder_qty'][$loop])) {
+        update_post_meta($variation_id, '_graceart_backorder_qty', absint(wp_unslash($_POST['_graceart_backorder_qty'][$loop])));
+    }
+
+    if (! isset($_POST['_graceart_lead_time'][$loop])) {
+        return;
+    }
+
+    $lead_time = sanitize_text_field(wp_unslash($_POST['_graceart_lead_time'][$loop]));
+
+    if (array_key_exists($lead_time, graceartLeadTimeOptions())) {
+        update_post_meta($variation_id, '_graceart_lead_time', $lead_time);
+    }
+}, 10, 2);
+
+function graceartAvailabilityText(WC_Product $product): string
+{
+    $meta_product_id = $product->get_id();
+    $mode = get_post_meta($meta_product_id, '_graceart_availability_mode', true) ?: 'stock';
+
+    if ($mode === 'backorder') {
+        $lead_time_options = graceartLeadTimeOptions();
+        $lead_time = get_post_meta($meta_product_id, '_graceart_lead_time', true);
+        $lead_time_label = $lead_time_options[$lead_time] ?? reset($lead_time_options);
+        $backorder_qty = (int) get_post_meta($meta_product_id, '_graceart_backorder_qty', true);
+
+        return $backorder_qty > 0
+            ? sprintf(__('Na objednávku (%d ks, dodanie do: %s)', 'graceart'), $backorder_qty, $lead_time_label)
+            : sprintf(__('Na objednávku (dodanie do: %s)', 'graceart'), $lead_time_label);
+    }
+
+    $status = $product->get_stock_status();
+
+    if ($status === 'outofstock') {
+        return __('Nie je skladom', 'graceart');
+    }
+
+    $quantity = $product->get_stock_quantity();
+
+    if ($product->managing_stock() && $quantity !== null) {
+        return sprintf(__('Skladom (%d ks)', 'graceart'), $quantity);
+    }
+
+    return __('Skladom', 'graceart');
+}
+
+function graceartAvailabilityShortLabel(WC_Product $product): array
+{
+    $meta_product_id = $product->get_id();
+    $mode = get_post_meta($meta_product_id, '_graceart_availability_mode', true) ?: 'stock';
+
+    if ($mode === 'backorder') {
+        return ['label' => __('Na objednávku', 'graceart'), 'in_stock' => false];
+    }
+
+    if ($product->get_stock_status() === 'outofstock') {
+        return ['label' => __('Nie je skladom', 'graceart'), 'in_stock' => false];
+    }
+
+    return ['label' => __('Skladom', 'graceart'), 'in_stock' => true];
+}
+
+function graceartShippingMethodCostLabel(WC_Shipping_Method $method): string
+{
+    if ($method->id === 'free_shipping') {
+        return __('Zadarmo', 'graceart');
+    }
+
+    if (! method_exists($method, 'get_option')) {
+        return '';
+    }
+
+    $cost = $method->get_option('cost');
+
+    if ($cost === '' || ! is_numeric($cost)) {
+        return '';
+    }
+
+    return (float) $cost > 0 ? wp_strip_all_tags(wc_price((float) $cost)) : __('Zadarmo', 'graceart');
+}
+
+function graceartShippingCountryLabels(): array
+{
+    return [
+        'SK' => __('Slovenská republika', 'graceart'),
+        'CZ' => __('Česká republika', 'graceart'),
+    ];
+}
+
+function graceartShippingMethodsByCountry(): array
+{
+    if (! class_exists('WC_Shipping_Zones')) {
+        return [];
+    }
+
+    $country_labels = graceartShippingCountryLabels();
+    $groups = [];
+
+    foreach (WC_Shipping_Zones::get_zones() as $zone_data) {
+        $zone = new WC_Shipping_Zone($zone_data['zone_id']);
+        $country_code = null;
+
+        foreach ($zone->get_zone_locations() as $location) {
+            if ($location->type === 'country' && isset($country_labels[$location->code])) {
+                $country_code = $location->code;
+
+                break;
+            }
+        }
+
+        if (! $country_code || isset($groups[$country_code])) {
+            continue;
+        }
+
+        $methods = [];
+
+        foreach ($zone->get_shipping_methods() as $method) {
+            if (! $method instanceof WC_Shipping_Method || ! $method->is_enabled()) {
+                continue;
+            }
+
+            $methods[] = [
+                'title' => $method->get_title() === 'Free shipping' ? __('Doprava zdarma', 'graceart') : $method->get_title(),
+                'cost' => graceartShippingMethodCostLabel($method),
+            ];
+        }
+
+        if ($methods) {
+            $groups[$country_code] = [
+                'label' => $country_labels[$country_code],
+                'methods' => $methods,
+            ];
+        }
+    }
+
+    uksort($groups, fn(string $a, string $b): int => array_search($a, array_keys($country_labels), true) <=> array_search($b, array_keys($country_labels), true));
+
+    return $groups;
+}
+
+function graceartCardPaymentEnabled(): bool
+{
+    if (! function_exists('WC')) {
+        return false;
+    }
+
+    return array_key_exists('cheque', WC()->payment_gateways()->get_available_payment_gateways());
+}
+
+function graceartResolveSelectedVariationData(WC_Product $product): ?array
+{
+    if (! $product->is_type('variable')) {
+        return null;
+    }
+
+    $variations = $product->get_available_variations();
+
+    if (! $variations) {
+        return null;
+    }
+
+    foreach ($variations as $variation) {
+        $matches = true;
+
+        foreach ($variation['attributes'] as $attribute_key => $attribute_value) {
+            if ($attribute_value === '') {
+                continue;
+            }
+
+            $requested = isset($_GET[$attribute_key]) ? sanitize_title(wp_unslash($_GET[$attribute_key])) : null; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+
+            if ($requested !== $attribute_value) {
+                $matches = false;
+
+                break;
+            }
+        }
+
+        if ($matches) {
+            return $variation;
+        }
+    }
+
+    return $variations[0];
+}
+
+function graceartProductLoopPermalink(WC_Product $product): string
+{
+    $url = get_permalink($product->get_id());
+
+    $variation_data = graceartResolveSelectedVariationData($product);
+
+    if (! $variation_data) {
+        return $url;
+    }
+
+    return add_query_arg($variation_data['attributes'], $url);
+}
+
+function graceartProductLoopPriceHtml(WC_Product $product): string
+{
+    $variation_data = graceartResolveSelectedVariationData($product);
+
+    if (! $variation_data) {
+        return $product->get_price_html();
+    }
+
+    $variation = wc_get_product($variation_data['variation_id']);
+
+    return $variation instanceof WC_Product ? $variation->get_price_html() : $product->get_price_html();
 }

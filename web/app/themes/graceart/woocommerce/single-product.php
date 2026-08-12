@@ -29,7 +29,8 @@ while (have_posts()) :
             <div class="row">
                 <div class="col">
                     <div class="page-title">
-                        <h1 class="title"><?php the_title(); ?></h1>
+                        <h1 class="title"><?php esc_html_e('Graceart', 'graceart'); ?></h1>
+                        <p class="page-title-subtitle"><?php esc_html_e('Ručne vyrobené kožené zápisníky a fotoalbumy od roku 2016', 'graceart'); ?></p>
                         <?php graceartWooBreadcrumb(); ?>
                     </div>
                 </div>
@@ -86,9 +87,33 @@ while (have_posts()) :
 
                         <h3 class="product-title"><?php the_title(); ?></h3>
 
+                        <?php
+                        $graceart_selected_variation_data = graceartResolveSelectedVariationData($product);
+    $graceart_price_product = $graceart_selected_variation_data
+        ? wc_get_product($graceart_selected_variation_data['variation_id'])
+        : $product;
+    $graceart_price_product = $graceart_price_product instanceof WC_Product ? $graceart_price_product : $product;
+    ?>
                         <div class="product-price">
-                            <?php echo wp_kses_post($product->get_price_html()); ?>
+                            <?php echo wp_kses_post($graceart_price_product->get_price_html()); ?>
                         </div>
+
+                        <p class="product-availability" id="graceart-product-availability">
+                            <strong><?php esc_html_e('Dostupnosť:', 'graceart'); ?></strong>
+                            <span class="graceart-availability-value"><?php echo esc_html(graceartAvailabilityText($graceart_price_product)); ?></span>
+                        </p>
+
+                        <?php if (graceartCardPaymentEnabled()) : ?>
+                            <div class="product-payment-info">
+                                <span class="product-payment-info__icon">
+                                    <img src="<?php echo esc_url(fullTemplateUri('assets/images/payment/visa.svg')); ?>" alt="Visa">
+                                    <img src="<?php echo esc_url(fullTemplateUri('assets/images/payment/mastercard.svg')); ?>" alt="Mastercard">
+                                    <img src="<?php echo esc_url(fullTemplateUri('assets/images/payment/googlepay.svg')); ?>" alt="Google Pay">
+                                    <img src="<?php echo esc_url(fullTemplateUri('assets/images/payment/applepay.svg')); ?>" alt="Apple Pay">
+                                </span>
+                                <span class="product-payment-info__text"><?php esc_html_e('Možná okamžitá platba kartou.', 'graceart'); ?></span>
+                            </div>
+                        <?php endif; ?>
 
                         <?php if ($product->get_short_description()) : ?>
                             <div class="product-description">
@@ -97,6 +122,44 @@ while (have_posts()) :
                         <?php endif; ?>
 
                         <?php woocommerce_template_single_add_to_cart(); ?>
+
+                        <?php $graceart_shipping_by_country = graceartShippingMethodsByCountry(); ?>
+                        <?php if ($graceart_shipping_by_country) : ?>
+                            <div class="product-shipping-info">
+                                <h4 class="product-shipping-info__title"><?php esc_html_e('Cena a spôsob dopravy', 'graceart'); ?></h4>
+
+                                <?php if (count($graceart_shipping_by_country) > 1) : ?>
+                                    <div class="product-shipping-info__tabs">
+                                        <?php foreach (array_keys($graceart_shipping_by_country) as $graceart_shipping_index => $graceart_country_code) : ?>
+                                            <button
+                                                type="button"
+                                                class="product-shipping-info__tab <?php echo $graceart_shipping_index === 0 ? 'active' : ''; ?>"
+                                                data-graceart-shipping-tab="<?php echo esc_attr($graceart_country_code); ?>"
+                                            >
+                                                <?php echo esc_html($graceart_shipping_by_country[$graceart_country_code]['label']); ?>
+                                            </button>
+                                        <?php endforeach; ?>
+                                    </div>
+                                <?php endif; ?>
+
+                                <?php foreach (array_keys($graceart_shipping_by_country) as $graceart_shipping_index => $graceart_country_code) : ?>
+                                    <ul
+                                        class="product-shipping-info__list <?php echo $graceart_shipping_index === 0 ? 'active' : ''; ?>"
+                                        data-graceart-shipping-panel="<?php echo esc_attr($graceart_country_code); ?>"
+                                    >
+                                        <?php foreach ($graceart_shipping_by_country[$graceart_country_code]['methods'] as $graceart_shipping_method) : ?>
+                                            <li>
+                                                <i class="fas fa-truck"></i>
+                                                <span><?php echo esc_html($graceart_shipping_method['title']); ?></span>
+                                                <?php if ($graceart_shipping_method['cost'] !== '') : ?>
+                                                    <strong><?php echo esc_html($graceart_shipping_method['cost']); ?></strong>
+                                                <?php endif; ?>
+                                            </li>
+                                        <?php endforeach; ?>
+                                    </ul>
+                                <?php endforeach; ?>
+                            </div>
+                        <?php endif; ?>
 
                         <div class="product-meta">
                             <table>
@@ -156,9 +219,9 @@ while (have_posts()) :
                             <div class="row">
                                 <div class="col-lg-10 col-12 mx-auto">
                                     <?php
-                                    if (isset($tab['callback']) && is_callable($tab['callback'])) {
-                                        call_user_func($tab['callback'], $key, $tab);
-                                    }
+                if (isset($tab['callback']) && is_callable($tab['callback'])) {
+                    call_user_func($tab['callback'], $key, $tab);
+                }
                         ?>
                                 </div>
                             </div>

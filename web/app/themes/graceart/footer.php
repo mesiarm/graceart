@@ -26,8 +26,6 @@
                     <div class="col">
                         <ul class="widget-list">
                             <li><a href="<?php echo esc_url(graceartMyAccountUrl()); ?>"><?php esc_html_e('Môj účet', 'graceart'); ?></a></li>
-                            <li><a href="<?php echo esc_url(graceartCartUrl()); ?>"><?php esc_html_e('Košík', 'graceart'); ?></a></li>
-                            <li><a href="<?php echo esc_url(graceartCheckoutUrl()); ?>"><?php esc_html_e('Pokladňa', 'graceart'); ?></a></li>
                         </ul>
                     </div>
                 </div>
@@ -35,10 +33,8 @@
 
             <div class="col-lg-4 learts-mb-40">
                 <ul class="widget-list">
-                    <li> <i class="fab fa-twitter"></i> <a href="https://www.twitter.com/">Twitter</a></li>
-                    <li> <i class="fab fa-facebook-f"></i> <a href="https://www.facebook.com/">Facebook</a></li>
-                    <li> <i class="fab fa-instagram"></i> <a href="https://www.instagram.com/">Instagram</a></li>
-                    <li> <i class="fab fa-youtube"></i> <a href="https://www.youtube.com/">Youtube</a></li>
+                    <li> <i class="fab fa-facebook-f"></i> <a href="<?php echo esc_url(graceartFacebookUrl()); ?>">Facebook</a></li>
+                    <li> <i class="fab fa-instagram"></i> <a href="<?php echo esc_url(graceartInstagramUrl()); ?>">Instagram</a></li>
                 </ul>
             </div>
 
