@@ -32,6 +32,9 @@ add_action('init', function () {
     flush_rewrite_rules(false);
 });
 
+// Drop empty decimals: "70,00 €" reads as "70 €", while "12,50 €" keeps its cents.
+add_filter('woocommerce_price_trim_zeros', '__return_true');
+
 add_filter('woocommerce_register_post_type_product', function (array $args): array {
     if (($args['has_archive'] ?? 'shop') === 'shop') {
         $args['has_archive'] = 'produkty';

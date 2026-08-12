@@ -38,11 +38,11 @@ while (have_posts()) :
         </div>
     </div>
 
-    <div id="product-<?php the_ID(); ?>" <?php wc_product_class('section section-padding border-bottom', $product); ?>>
+    <div id="product-<?php the_ID(); ?>" <?php wc_product_class('section section-padding product-main-section border-bottom', $product); ?>>
         <div class="container">
             <div class="row learts-mb-n40">
-                <div class="col-lg-6 col-12 learts-mb-40">
-                    <div class="product-images">
+                <div class="col-lg-7 col-12 learts-mb-40">
+                    <div class="product-images<?php echo count($gallery_images) > 1 ? ' vertical' : ''; ?>">
                         <button class="product-gallery-popup hintT-left" data-hint="<?php esc_attr_e('Kliknite pre zväčšenie', 'graceart'); ?>" data-images="<?php echo esc_attr(graceartProductGalleryPopupImages($gallery_images)); ?>">
                             <i class="fas fa-expand"></i>
                         </button>
@@ -64,7 +64,7 @@ while (have_posts()) :
                         </div>
 
                         <?php if (count($gallery_images) > 1) : ?>
-                            <div class="product-thumb-slider">
+                            <div class="product-thumb-slider-vertical">
                                 <?php foreach ($gallery_images as $image) : ?>
                                     <div class="item<?php echo $image['type'] === 'video' ? ' item-video' : ''; ?>">
                                         <?php if ($image['type'] === 'video') : ?>
@@ -77,15 +77,48 @@ while (have_posts()) :
                             </div>
                         <?php endif; ?>
                     </div>
+
+                    <?php if ($tabs) : ?>
+                        <div class="product-gallery-tabs">
+                            <ul class="nav product-info-tab-list">
+                                <?php $tab_index = 0; ?>
+                                <?php foreach ($tabs as $key => $tab) : ?>
+                                    <li>
+                                        <a class="<?php echo $tab_index === 0 ? 'active' : ''; ?>" data-bs-toggle="tab" href="#tab-<?php echo esc_attr($key); ?>">
+                                            <?php echo esc_html($tab['title']); ?>
+                                        </a>
+                                    </li>
+                                    <?php $tab_index++; ?>
+                                <?php endforeach; ?>
+                            </ul>
+
+                            <div class="tab-content product-infor-tab-content">
+                                <?php $tab_index = 0; ?>
+                                <?php foreach ($tabs as $key => $tab) : ?>
+                                    <div class="tab-pane fade <?php echo $tab_index === 0 ? 'show active' : ''; ?>" id="tab-<?php echo esc_attr($key); ?>">
+                                        <?php
+                                        if (isset($tab['callback']) && is_callable($tab['callback'])) {
+                                            call_user_func($tab['callback'], $key, $tab);
+                                        }
+                                        ?>
+                                    </div>
+                                    <?php $tab_index++; ?>
+                                <?php endforeach; ?>
+                            </div>
+                        </div>
+                    <?php endif; ?>
                 </div>
 
-                <div class="col-lg-6 col-12 learts-mb-40">
+                <div class="col-lg-5 col-12 learts-mb-40">
                     <div class="product-summery">
-                        <div class="product-ratings">
-                            <?php woocommerce_template_single_rating(); ?>
-                        </div>
-
+                        <?php /* Title first, so it lines up with the top of the gallery. */ ?>
                         <h3 class="product-title"><?php the_title(); ?></h3>
+
+                        <?php if ($product->get_review_count() > 0) : ?>
+                            <div class="product-ratings">
+                                <?php woocommerce_template_single_rating(); ?>
+                            </div>
+                        <?php endif; ?>
 
                         <?php
                         $graceart_selected_variation_data = graceartResolveSelectedVariationData($product);
@@ -112,12 +145,6 @@ while (have_posts()) :
                                     <img src="<?php echo esc_url(fullTemplateUri('assets/images/payment/applepay.svg')); ?>" alt="Apple Pay">
                                 </span>
                                 <span class="product-payment-info__text"><?php esc_html_e('Možná okamžitá platba kartou.', 'graceart'); ?></span>
-                            </div>
-                        <?php endif; ?>
-
-                        <?php if ($product->get_short_description()) : ?>
-                            <div class="product-description">
-                                <?php echo wp_kses_post(wpautop($product->get_short_description())); ?>
                             </div>
                         <?php endif; ?>
 
@@ -161,77 +188,35 @@ while (have_posts()) :
                             </div>
                         <?php endif; ?>
 
-                        <div class="product-meta">
-                            <table>
-                                <tbody>
-                                    <?php if ($product->get_sku()) : ?>
-                                        <tr>
-                                            <td class="label"><span><?php esc_html_e('Kód produktu', 'graceart'); ?></span></td>
-                                            <td class="value"><?php echo esc_html($product->get_sku()); ?></td>
-                                        </tr>
-                                    <?php endif; ?>
-                                    <tr>
-                                        <td class="label"><span><?php esc_html_e('Kategória', 'graceart'); ?></span></td>
-                                        <td class="value">
-                                            <ul class="product-category">
-                                                <?php echo wp_kses_post(wc_get_product_category_list($product->get_id(), '</li><li>', '<li>', '</li>')); ?>
-                                            </ul>
-                                        </td>
-                                    </tr>
-                                    <?php if (wc_get_product_tag_list($product->get_id())) : ?>
-                                        <tr>
-                                            <td class="label"><span><?php esc_html_e('Značky', 'graceart'); ?></span></td>
-                                            <td class="value">
-                                                <ul class="product-tags">
-                                                    <?php echo wp_kses_post(wc_get_product_tag_list($product->get_id(), '</li><li>', '<li>', '</li>')); ?>
-                                                </ul>
-                                            </td>
-                                        </tr>
-                                    <?php endif; ?>
-                                </tbody>
-                            </table>
-                        </div>
+                        <?php if ($product->get_sku() || wc_get_product_tag_list($product->get_id())) : ?>
+                            <div class="product-meta">
+                                <table>
+                                    <tbody>
+                                        <?php if ($product->get_sku()) : ?>
+                                            <tr>
+                                                <td class="label"><span><?php esc_html_e('Kód produktu', 'graceart'); ?></span></td>
+                                                <td class="value"><?php echo esc_html($product->get_sku()); ?></td>
+                                            </tr>
+                                        <?php endif; ?>
+                                        <?php if (wc_get_product_tag_list($product->get_id())) : ?>
+                                            <tr>
+                                                <td class="label"><span><?php esc_html_e('Značky', 'graceart'); ?></span></td>
+                                                <td class="value">
+                                                    <ul class="product-tags">
+                                                        <?php echo wp_kses_post(wc_get_product_tag_list($product->get_id(), '</li><li>', '<li>', '</li>')); ?>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                        <?php endif; ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
-    <?php if ($tabs) : ?>
-        <div class="section section-padding border-bottom">
-            <div class="container">
-                <ul class="nav product-info-tab-list">
-                    <?php $tab_index = 0; ?>
-                    <?php foreach ($tabs as $key => $tab) : ?>
-                        <li>
-                            <a class="<?php echo $tab_index === 0 ? 'active' : ''; ?>" data-bs-toggle="tab" href="#tab-<?php echo esc_attr($key); ?>">
-                                <?php echo esc_html($tab['title']); ?>
-                            </a>
-                        </li>
-                        <?php $tab_index++; ?>
-                    <?php endforeach; ?>
-                </ul>
-
-                <div class="tab-content product-infor-tab-content">
-                    <?php $tab_index = 0; ?>
-                    <?php foreach ($tabs as $key => $tab) : ?>
-                        <div class="tab-pane fade <?php echo $tab_index === 0 ? 'show active' : ''; ?>" id="tab-<?php echo esc_attr($key); ?>">
-                            <div class="row">
-                                <div class="col-lg-10 col-12 mx-auto">
-                                    <?php
-                if (isset($tab['callback']) && is_callable($tab['callback'])) {
-                    call_user_func($tab['callback'], $key, $tab);
-                }
-                        ?>
-                                </div>
-                            </div>
-                        </div>
-                        <?php $tab_index++; ?>
-                    <?php endforeach; ?>
-                </div>
-            </div>
-        </div>
-    <?php endif; ?>
 
     <div class="section section-padding">
         <div class="container">

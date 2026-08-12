@@ -5,6 +5,12 @@ defined('ABSPATH') || exit;
 global $product;
 
 $attribute_keys = array_keys($attributes);
+
+// Sold-out variants are hidden; ones on backorder stay, they can still be ordered.
+if (is_array($available_variations) && $available_variations) {
+    $available_variations = graceartOfferedVariations($available_variations);
+}
+
 $variations_json = wp_json_encode($available_variations);
 $variations_attr = function_exists('wc_esc_json') ? wc_esc_json($variations_json) : _wp_specialchars($variations_json, ENT_QUOTES, 'UTF-8', true);
 
@@ -61,11 +67,19 @@ do_action('woocommerce_before_add_to_cart_form');
                                 }
                             }
 
+                            // In stock the option shows a plain "(Skladom)" — the count belongs
+                            // in the "Dostupnosť" row — while backorders carry their lead time.
                             $variation_product = wc_get_product($variation_id);
                             $variation_availability = '';
+                            $variation_stock = ['label' => '', 'in_stock' => false];
+
                             if ($variation_product instanceof WC_Product) {
-                                $meta_parts[] = $variation_product->is_in_stock() ? __('Skladom', 'graceart') : __('Na objednávku', 'graceart');
                                 $variation_availability = graceartAvailabilityText($variation_product);
+                                $variation_stock = graceartAvailabilityShortLabel($variation_product);
+
+                                if (! $variation_stock['in_stock']) {
+                                    $variation_stock['label'] = $variation_availability;
+                                }
                             }
 
                             $price_html = $variation['price_html'] ? $variation['price_html'] : wp_kses_post(wc_price($variation['display_price']));
@@ -83,10 +97,16 @@ do_action('woocommerce_before_add_to_cart_form');
                     >
                     <span class="graceart-variation-option__content">
                         <?php if ($meta_parts) : ?>
-                            <span class="graceart-variation-option__meta"><?php echo esc_html(implode(', ', $meta_parts)); ?></span>
+                            <span class="graceart-variation-option__meta">
+                                <?php echo esc_html(implode(', ', $meta_parts)); ?>
+                                <?php if ($variation_stock['label']) : ?>
+                                    <span class="graceart-variation-option__stock<?php echo $variation_stock['in_stock'] ? ' is-in-stock' : ''; ?>">
+                                        (<?php echo esc_html($variation_stock['label']); ?>)
+                                    </span>
+                                <?php endif; ?>
+                            </span>
                         <?php endif; ?>
                     </span>
-                    <span class="graceart-variation-option__price"><?php echo wp_kses_post($price_html); ?></span>
                 </label>
             <?php endforeach; ?>
         </div>

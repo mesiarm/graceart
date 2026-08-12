@@ -266,6 +266,18 @@ function graceartLeadTimeOptions(): array
     ];
 }
 
+/**
+ * Lead times in the genitive form used after "do" ("Na objednávku do 1 týždňa").
+ */
+function graceartLeadTimePhrases(): array
+{
+    return [
+        '3_dni' => __('do 3 dní', 'graceart'),
+        '1_tyzden' => __('do 1 týždňa', 'graceart'),
+        '2_tyzdne' => __('do 2 týždňov', 'graceart'),
+    ];
+}
+
 function graceartAvailabilityModeOptions(): array
 {
     return [
@@ -481,20 +493,23 @@ add_action('woocommerce_save_product_variation', function (int $variation_id, in
     }
 }, 10, 2);
 
+// WooCommerce's own "X na sklade" line duplicates the theme's "Dostupnosť" row,
+// on simple products and in the availability_html of variations alike.
+add_filter('woocommerce_get_stock_html', function (string $html): string {
+    return is_admin() ? $html : '';
+});
+
 function graceartAvailabilityText(WC_Product $product): string
 {
     $meta_product_id = $product->get_id();
     $mode = get_post_meta($meta_product_id, '_graceart_availability_mode', true) ?: 'stock';
 
     if ($mode === 'backorder') {
-        $lead_time_options = graceartLeadTimeOptions();
+        $lead_time_phrases = graceartLeadTimePhrases();
         $lead_time = get_post_meta($meta_product_id, '_graceart_lead_time', true);
-        $lead_time_label = $lead_time_options[$lead_time] ?? reset($lead_time_options);
-        $backorder_qty = (int) get_post_meta($meta_product_id, '_graceart_backorder_qty', true);
+        $lead_time_phrase = $lead_time_phrases[$lead_time] ?? reset($lead_time_phrases);
 
-        return $backorder_qty > 0
-            ? sprintf(__('Na objednávku (%d ks, dodanie do: %s)', 'graceart'), $backorder_qty, $lead_time_label)
-            : sprintf(__('Na objednávku (dodanie do: %s)', 'graceart'), $lead_time_label);
+        return sprintf(__('Na objednávku %s', 'graceart'), $lead_time_phrase);
     }
 
     $status = $product->get_stock_status();
@@ -506,7 +521,7 @@ function graceartAvailabilityText(WC_Product $product): string
     $quantity = $product->get_stock_quantity();
 
     if ($product->managing_stock() && $quantity !== null) {
-        return sprintf(__('Skladom (%d ks)', 'graceart'), $quantity);
+        return sprintf(__('Skladom %d ks', 'graceart'), $quantity);
     }
 
     return __('Skladom', 'graceart');
@@ -615,6 +630,34 @@ function graceartCardPaymentEnabled(): bool
     return array_key_exists('cheque', WC()->payment_gateways()->get_available_payment_gateways());
 }
 
+/**
+ * Sold-out variants are not offered at all; backordered ones still are.
+ */
+function graceartVariationIsOffered(int $variation_id): bool
+{
+    $variation = wc_get_product($variation_id);
+
+    if (! $variation instanceof WC_Product) {
+        return false;
+    }
+
+    if (get_post_meta($variation_id, '_graceart_availability_mode', true) === 'backorder') {
+        return true;
+    }
+
+    return $variation->is_in_stock();
+}
+
+function graceartOfferedVariations(array $variations): array
+{
+    $offered = array_values(array_filter(
+        $variations,
+        fn(array $variation): bool => graceartVariationIsOffered((int) $variation['variation_id'])
+    ));
+
+    return $offered ?: $variations;
+}
+
 function graceartResolveSelectedVariationData(WC_Product $product): ?array
 {
     if (! $product->is_type('variable')) {
@@ -626,6 +669,8 @@ function graceartResolveSelectedVariationData(WC_Product $product): ?array
     if (! $variations) {
         return null;
     }
+
+    $variations = graceartOfferedVariations($variations);
 
     foreach ($variations as $variation) {
         $matches = true;
