@@ -1,0 +1,370 @@
+/* GraceArt invoice template
+ *
+ * Note: dompdf compounds percentage line-heights down the inheritance chain, so
+ * line-height is always given as an absolute value here (see the "fixes inherit
+ * dompdf bug" comment in the plugin's own Simple template).
+ */
+
+@page {
+	margin-top: 0.65cm;
+	/* Keep in sync with #footer's height and negative bottom offset. */
+	margin-bottom: 1.4cm;
+	margin-left: 1cm;
+	margin-right: 1cm;
+	footer: docFooter;
+}
+
+body {
+	background: #fff;
+	color: #000;
+	margin: 0;
+	font-family: 'Open Sans', sans-serif;
+	font-size: 10pt;
+	line-height: 12.5pt;
+	overflow-wrap: anywhere;
+}
+
+h1, h2, h3, h4 {
+	font-weight: bold;
+	margin: 0;
+}
+
+h1 { font-size: 12pt; line-height: 15pt; }
+h2 { font-size: 11pt; line-height: 14pt; }
+h3, h4 { font-size: 10pt; line-height: 12.5pt; }
+
+p {
+	margin: 0;
+	padding: 0;
+}
+
+ol, ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+a { text-decoration: none; }
+
+span.label { font-weight: bold; }
+
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+	border: 0;
+	margin: 0;
+	padding: 0;
+	width: 100%;
+}
+
+th, td {
+	vertical-align: top;
+	text-align: left;
+}
+
+div.bottom-spacer {
+	clear: both;
+	height: 8mm;
+}
+
+/* ---------------------------------------------------------------- Header */
+
+table.document-head {
+	margin-bottom: 3.5mm;
+}
+
+td.logo {
+	width: 45%;
+}
+
+td.logo img {
+	max-height: 2cm;
+	max-width: 100%;
+	width: auto;
+}
+
+td.document-title {
+	text-align: right;
+	vertical-align: bottom;
+}
+
+/* ------------------------------------------------- Supplier / customer box */
+
+table.parties {
+	border: 0.7pt solid #000;
+	margin-bottom: 0;
+}
+
+table.parties td.party {
+	width: 50%;
+	padding: 3mm 2mm 3.5mm 2mm;
+}
+
+table.parties td.supplier {
+	border-right: 0.7pt solid #000;
+}
+
+.party-label {
+	font-size: 8pt;
+	line-height: 10pt;
+	margin-bottom: 4.5mm;
+}
+
+.party-block {
+	margin-top: 12.5pt;
+}
+
+/* ------------------------------------------- Payment data / delivery address */
+
+table.order-meta {
+	margin-top: 6mm;
+	margin-bottom: 2mm;
+}
+
+td.payment-data {
+	width: 52%;
+	padding: 0 4mm 0 3.5mm;
+	font-size: 8pt;
+	line-height: 10pt;
+}
+
+td.payment-data .dates {
+	margin-top: 10pt;
+}
+
+table.order-data-extra {
+	font-size: 8pt;
+	line-height: 10pt;
+}
+
+table.order-data-extra th {
+	font-weight: normal;
+	padding-right: 2mm;
+}
+
+td.delivery-data {
+	width: 48%;
+}
+
+.delivery-label {
+	font-size: 8pt;
+	line-height: 10pt;
+	font-weight: bold;
+	margin-bottom: 0.4mm;
+}
+
+.delivery-address {
+	font-size: 12pt;
+	line-height: 15pt;
+	font-weight: bold;
+}
+
+/* -------------------------------------------------------- Order details */
+
+table.order-details {
+	border: 0.7pt solid #000;
+	page-break-inside: auto;
+}
+
+table.order-details th,
+table.order-details td {
+	border: 0.7pt solid #000;
+	padding: 0.6mm 1.2mm;
+}
+
+table.order-details thead th {
+	font-weight: bold;
+	font-size: 6pt;
+	line-height: 7.5pt;
+	text-align: center;
+	padding-top: 1mm;
+	padding-bottom: 1mm;
+}
+
+table.order-details thead th.product {
+	text-align: left;
+	font-size: 8pt;
+	line-height: 10pt;
+}
+
+table.order-details th.single-price,
+table.order-details td.single-price {
+	width: 10%;
+}
+
+table.order-details th.quantity,
+table.order-details td.quantity {
+	width: 9%;
+}
+
+table.order-details th.line-total,
+table.order-details td.line-total {
+	width: 11%;
+}
+
+table.order-details td.product {
+	font-size: 9pt;
+	line-height: 11.5pt;
+}
+
+table.order-details td.single-price,
+table.order-details td.quantity {
+	font-size: 8pt;
+	line-height: 10pt;
+	text-align: right;
+}
+
+table.order-details td.line-total {
+	font-size: 12pt;
+	line-height: 15pt;
+	font-weight: bold;
+	text-align: right;
+}
+
+table.order-details td.extra-line {
+	font-size: 8pt;
+	line-height: 10pt;
+	text-align: right;
+}
+
+table.order-details tr.shipping td.product,
+table.order-details tr.fee td.product,
+table.order-details tr.discount td.product,
+table.order-details tr.tax td.product {
+	font-size: 8pt;
+	line-height: 10pt;
+}
+
+table.order-details td.grand-total-cell {
+	text-align: right;
+	font-size: 14pt;
+	line-height: 17.5pt;
+	padding: 1.3mm 2mm;
+}
+
+.grand-total-amount {
+	font-weight: bold;
+}
+
+/* item meta */
+.item-meta {
+	margin: 1.2mm 0 0 0;
+	font-size: 7pt;
+	line-height: 8.5pt;
+	overflow-wrap: anywhere;
+}
+
+.wc-item-meta {
+	margin: 0;
+}
+
+.wc-item-meta li {
+	margin-top: 1mm;
+	margin-left: 0;
+}
+
+.wc-item-meta li p,
+.wc-item-meta li dd {
+	display: inline;
+}
+
+.wc-item-meta p,
+.wc-item-meta dd,
+.item-meta p {
+	margin-top: 1mm;
+	margin-left: 0;
+}
+
+/* product bundles compatibility */
+table.order-details tr.bundled-item td.product {
+	padding-left: 5mm;
+}
+
+table.order-details tr.bundled-item.hidden {
+	display: none;
+}
+
+/* --------------------------------------------------------- Below details */
+
+.below-details {
+	margin-top: 7mm;
+	font-size: 8pt;
+	line-height: 10pt;
+}
+
+.document-notes,
+.customer-notes {
+	margin-top: 5mm;
+	overflow-wrap: anywhere;
+}
+
+/* -------------------------------------------------------- Packing slip */
+/* Falls back to the plugin's Simple packing-slip.php, keep it readable. */
+
+table.head {
+	margin-bottom: 10mm;
+}
+
+td.header {
+	font-size: 12pt;
+	line-height: 15pt;
+	font-weight: bold;
+}
+
+td.header img {
+	max-height: 2cm;
+	max-width: 100%;
+	width: auto;
+}
+
+td.shop-info {
+	width: 40%;
+}
+
+table.order-data-addresses {
+	margin-bottom: 8mm;
+}
+
+td.order-data {
+	width: 40%;
+}
+
+td.order-data table th {
+	font-weight: normal;
+	padding-right: 2mm;
+	width: 50%;
+}
+
+.document-type-label {
+	text-transform: uppercase;
+}
+
+/* ---------------------------------------------------------------- Footer */
+
+.rtl {
+	direction: rtl;
+}
+
+/* Same absolute positioning the plugin's own templates use. Note that with the
+   dompdf engine this puts the footer on the last page only -- the Simple
+   template behaves identically; repeating it needs the mPDF engine. */
+#footer {
+	position: absolute;
+	bottom: -1.4cm;
+	left: 0;
+	right: 0;
+	height: 1.4cm;
+	text-align: center;
+	font-size: 8pt;
+	line-height: 10pt;
+	margin-bottom: 0;
+	padding-top: 2mm;
+}
+
+.pagenum:before {
+	content: counter(page);
+}
+
+.pagenum, .pagecount {
+	font-family: sans-serif;
+}

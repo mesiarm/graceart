@@ -14,7 +14,10 @@ while (have_posts()) :
     }
 
     $gallery_images = graceartProductGalleryImages($product);
-    $tabs = apply_filters('woocommerce_product_tabs', []);
+
+    // Only the description is shown under the gallery — no tabs, no additional
+    // information table, no reviews.
+    $graceart_description = trim(apply_filters('the_content', $product->get_description()));
 
     do_action('woocommerce_before_single_product');
 
@@ -29,7 +32,7 @@ while (have_posts()) :
             <div class="row">
                 <div class="col">
                     <div class="page-title">
-                        <h1 class="title"><?php esc_html_e('Graceart', 'graceart'); ?></h1>
+                        <h1 class="title"><?php esc_html_e('Grace Art', 'graceart'); ?></h1>
                         <p class="page-title-subtitle"><?php esc_html_e('Ručne vyrobené kožené zápisníky a fotoalbumy od roku 2016', 'graceart'); ?></p>
                         <?php graceartWooBreadcrumb(); ?>
                     </div>
@@ -42,7 +45,7 @@ while (have_posts()) :
         <div class="container">
             <div class="row learts-mb-n40">
                 <div class="col-lg-7 col-12 learts-mb-40">
-                    <div class="product-images<?php echo count($gallery_images) > 1 ? ' vertical' : ''; ?>">
+                    <div class="product-images">
                         <button class="product-gallery-popup hintT-left" data-hint="<?php esc_attr_e('Kliknite pre zväčšenie', 'graceart'); ?>" data-images="<?php echo esc_attr(graceartProductGalleryPopupImages($gallery_images)); ?>">
                             <i class="fas fa-expand"></i>
                         </button>
@@ -64,7 +67,7 @@ while (have_posts()) :
                         </div>
 
                         <?php if (count($gallery_images) > 1) : ?>
-                            <div class="product-thumb-slider-vertical">
+                            <div class="product-thumb-slider">
                                 <?php foreach ($gallery_images as $image) : ?>
                                     <div class="item<?php echo $image['type'] === 'video' ? ' item-video' : ''; ?>">
                                         <?php if ($image['type'] === 'video') : ?>
@@ -78,33 +81,9 @@ while (have_posts()) :
                         <?php endif; ?>
                     </div>
 
-                    <?php if ($tabs) : ?>
+                    <?php if ($graceart_description !== '') : ?>
                         <div class="product-gallery-tabs">
-                            <ul class="nav product-info-tab-list">
-                                <?php $tab_index = 0; ?>
-                                <?php foreach ($tabs as $key => $tab) : ?>
-                                    <li>
-                                        <a class="<?php echo $tab_index === 0 ? 'active' : ''; ?>" data-bs-toggle="tab" href="#tab-<?php echo esc_attr($key); ?>">
-                                            <?php echo esc_html($tab['title']); ?>
-                                        </a>
-                                    </li>
-                                    <?php $tab_index++; ?>
-                                <?php endforeach; ?>
-                            </ul>
-
-                            <div class="tab-content product-infor-tab-content">
-                                <?php $tab_index = 0; ?>
-                                <?php foreach ($tabs as $key => $tab) : ?>
-                                    <div class="tab-pane fade <?php echo $tab_index === 0 ? 'show active' : ''; ?>" id="tab-<?php echo esc_attr($key); ?>">
-                                        <?php
-                                        if (isset($tab['callback']) && is_callable($tab['callback'])) {
-                                            call_user_func($tab['callback'], $key, $tab);
-                                        }
-                                        ?>
-                                    </div>
-                                    <?php $tab_index++; ?>
-                                <?php endforeach; ?>
-                            </div>
+                            <div class="product-infor-tab-content"><?php echo wp_kses_post($graceart_description); ?></div>
                         </div>
                     <?php endif; ?>
                 </div>
@@ -186,6 +165,22 @@ while (have_posts()) :
                                     </ul>
                                 <?php endforeach; ?>
                             </div>
+                        <?php endif; ?>
+
+                        <?php $graceart_free_shipping_min = graceartFreeShippingMinAmount(); ?>
+                        <?php if ($graceart_free_shipping_min !== null) : ?>
+                            <p class="product-free-shipping">
+                                <i class="fas fa-truck"></i>
+                                <span>
+                                    <?php
+                                    echo wp_kses_post(sprintf(
+                                        /* translators: %s: formatted minimum order total */
+                                        __('Poštovné zdarma pri objednávkach od %s', 'graceart'),
+                                        '<strong>' . wp_strip_all_tags(wc_price($graceart_free_shipping_min)) . '</strong>'
+                                    ));
+                                    ?>
+                                </span>
+                            </p>
                         <?php endif; ?>
 
                         <?php if ($product->get_sku() || wc_get_product_tag_list($product->get_id())) : ?>

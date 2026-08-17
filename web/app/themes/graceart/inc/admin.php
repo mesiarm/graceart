@@ -39,20 +39,6 @@ add_action('init', function (): void {
         },
     ]);
 
-    register_post_meta('page', '_graceart_home_bestseller_ids', [
-        'type' => 'array',
-        'single' => true,
-        'default' => [],
-        'show_in_rest' => [
-            'schema' => [
-                'type' => 'array',
-                'items' => ['type' => 'integer'],
-            ],
-        ],
-        'auth_callback' => function (): bool {
-            return current_user_can('edit_pages');
-        },
-    ]);
 });
 
 function graceartHomepageCategoryBanners(?int $post_id = null): array
@@ -138,32 +124,33 @@ function graceartDefaultHomepageHeroSlides(): array
     ];
 }
 
-function graceartHomepageBestsellerIds(?int $post_id = null): array
+const GRACEART_HOMEPAGE_BESTSELLER_COUNT = 8;
+
+/**
+ * Best selling products for the homepage, generated automatically from total_sales.
+ *
+ * Only products that have actually sold are returned, so early on the section
+ * shows fewer than $limit rather than padding it out with unsold products.
+ */
+function graceartHomepageBestsellerIds(int $limit = GRACEART_HOMEPAGE_BESTSELLER_COUNT): array
 {
-    $post_id = $post_id ?: (int) get_option('page_on_front');
-    $raw = $post_id ? get_post_meta($post_id, '_graceart_home_bestseller_ids', true) : [];
-
-    $ids = is_array($raw) ? array_values(array_unique(array_map('absint', $raw))) : [];
-    $ids = array_values(array_filter($ids, function (int $id): bool {
-        return get_post_status($id) === 'publish' && get_post_type($id) === 'product';
-    }));
-
-    if ($ids) {
-        return $ids;
-    }
-
     if (! function_exists('wc_get_products')) {
         return [];
     }
 
-    return wc_get_products([
+    $ids = wc_get_products([
         'status' => 'publish',
-        'limit' => 10,
-        'orderby' => 'meta_value_num',
+        'limit' => $limit,
         'meta_key' => 'total_sales',
-        'order' => 'DESC',
+        // Date is the tiebreak so the order stays stable while sales counts are equal.
+        'orderby' => ['meta_value_num' => 'DESC', 'date' => 'DESC'],
         'return' => 'ids',
     ]);
+
+    // Sorted by sales descending, so anything never sold sits at the tail.
+    return array_values(array_filter($ids, function ($id): bool {
+        return (int) get_post_meta($id, 'total_sales', true) > 0;
+    }));
 }
 
 add_action('admin_menu', function () {
@@ -253,38 +240,6 @@ add_action('enqueue_block_editor_assets', function (): void {
     wp_localize_script('graceart-homepage-hero-editor', 'graceartHomepageHero', [
         'frontPageId' => (int) get_option('page_on_front'),
     ]);
-
-    if (function_exists('wc_get_products')) {
-        $products = wc_get_products([
-            'status' => 'publish',
-            'limit' => -1,
-            'orderby' => 'title',
-            'order' => 'ASC',
-        ]);
-
-        $product_options = array_map(function (WC_Product $product): array {
-            return [
-                'label' => $product->get_name(),
-                'value' => $product->get_id(),
-            ];
-        }, $products);
-
-        $bestsellers_script_path = get_template_directory() . '/assets/js/admin-homepage-bestsellers.js';
-        $bestsellers_script_url = get_template_directory_uri() . '/assets/js/admin-homepage-bestsellers.js';
-
-        wp_enqueue_script(
-            'graceart-homepage-bestsellers-editor',
-            $bestsellers_script_url,
-            ['wp-data'],
-            file_exists($bestsellers_script_path) ? (string) filemtime($bestsellers_script_path) : null,
-            true,
-        );
-
-        wp_localize_script('graceart-homepage-bestsellers-editor', 'graceartHomepageBestsellers', [
-            'frontPageId' => (int) get_option('page_on_front'),
-            'products' => $product_options,
-        ]);
-    }
 });
 
 add_filter('manage_edit-product_columns', function (array $columns): array {

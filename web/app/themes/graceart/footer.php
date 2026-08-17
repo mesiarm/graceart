@@ -15,11 +15,11 @@
                             <li><a href="<?php echo esc_url(graceartShopUrl()); ?>"><?php esc_html_e('Obchod', 'graceart'); ?></a></li>
                             <?php $graceart_about_page = get_page_by_path('o-nas'); ?>
                             <?php if ($graceart_about_page instanceof WP_Post) : ?>
-                                <li><a href="<?php echo esc_url(get_permalink($graceart_about_page)); ?>"><?php esc_html_e('O nás', 'graceart'); ?></a></li>
+                                <li><a href="<?php echo esc_url(get_permalink($graceart_about_page)); ?>"><?php esc_html_e('O mne', 'graceart'); ?></a></li>
                             <?php endif; ?>
                             <?php $graceart_contact_page = get_page_by_path('kontakt'); ?>
                             <?php if ($graceart_contact_page instanceof WP_Post) : ?>
-                                <li><a href="<?php echo esc_url(get_permalink($graceart_contact_page)); ?>"><?php esc_html_e('Kontaktujte nás', 'graceart'); ?></a></li>
+                                <li><a href="<?php echo esc_url(get_permalink($graceart_contact_page)); ?>"><?php esc_html_e('Kontakt', 'graceart'); ?></a></li>
                             <?php endif; ?>
                         </ul>
                     </div>
@@ -44,7 +44,7 @@
 
 <div class="footer2-copyright section">
     <div class="container">
-        <p class="copyright text-center">&copy; <?php echo esc_html(gmdate('Y')); ?> Graceart. <?php esc_html_e('Všetky práva vyhradené.', 'graceart'); ?></p>
+        <p class="copyright text-center">&copy; <?php echo esc_html(gmdate('Y')); ?> Grace Art. <?php esc_html_e('Všetky práva vyhradené.', 'graceart'); ?></p>
     </div>
 </div>
 <!-- Modal -->

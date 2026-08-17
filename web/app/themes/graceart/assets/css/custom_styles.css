@@ -130,7 +130,10 @@
 .product-gallery-slider .product-zoom,
 .product-gallery-slider .product-video-slide {
     display: flex !important;
-    align-items: center;
+
+    /* Top-aligned, not centred: a wide photo letterboxed in the middle of the
+       frame would start below the thumbnails and the title. */
+    align-items: flex-start;
     justify-content: center;
 
     width: 100%;
@@ -144,6 +147,7 @@
     width: 100%;
     height: 100%;
     object-fit: contain;
+    object-position: top center;
 }
 
 .product-thumb-slider-vertical .item,
@@ -174,24 +178,15 @@
     padding-bottom: 0;
 }
 
-/* Vertical gallery: the theme's 195px thumb rail eats half the column on wide
-   screens, so keep the strip narrow and give the main image the space. */
-@media (min-width: 1200px) {
-    .product-images.vertical {
-        padding-left: 110px;
-    }
-
-    .product-thumb-slider-vertical {
-        width: 95px;
-    }
+/* Thumb strip sits under the main image. */
+.product-thumb-slider {
+    margin-top: 10px;
 }
 
 /* Single product summary: keep the column compact enough to sit beside the gallery */
 /* Title, price and availability share one 15px rhythm; only the card-payment
-   line keeps a 30px gap below it. The negative top margin cancels the line box's
-   leading so the title starts level with the top of the gallery. */
+   line keeps a 30px gap below it. */
 .product-summery .product-title {
-    margin-top: -5px;
     margin-bottom: 15px;
     font-size: 32px;
     line-height: 1.25;
@@ -836,4 +831,248 @@ select,
         padding-right: 0;
         padding-left: 0;
     }
+}
+
+/* Product card titles in black (homepage, shop, category archives) */
+.product-info .title,
+.product-info .title a {
+    font-weight: 400;
+    color: #000;
+}
+
+.product-info .title a:hover {
+    color: #000;
+}
+
+/* Section heading rendered in the decorative sub-title face & colour */
+.section-title .title.title-script {
+    font-family: "Modesty";
+    font-weight: 300;
+    color: #72A499;
+}
+
+/* Larger price & availability on the product cards */
+.product-info .price,
+.product-info .price .amount,
+.product-info .price bdi,
+.product-info .price ins .amount,
+.product-info .price ins bdi,
+.product-info .price del .amount,
+.product-info .price del bdi {
+    font-size: 19px;
+}
+
+.graceart-loop-availability {
+    font-size: 15px;
+}
+
+/* Category filter on the shop toolbar links to the category archives, so the
+   button styling from style.css needs to apply to anchors too. */
+.shop-product-filter a {
+    font-size: 18px;
+    line-height: 1;
+    margin: 0 20px 10px;
+    padding: 0;
+    text-transform: uppercase;
+    color: #ABABAB;
+    border: none;
+    background-color: transparent;
+}
+
+.shop-product-filter a:hover,
+.shop-product-filter a.active {
+    color: #333333;
+}
+
+@media only screen and (max-width: 1199px) {
+    .shop-product-filter a {
+        font-size: 16px;
+        margin: 0 15px 10px;
+    }
+}
+
+@media only screen and (max-width: 575px) {
+    .shop-product-filter a {
+        font-size: 14px;
+        margin: 0 10px 10px;
+    }
+}
+
+/* "O nás" page content */
+.graceart-about-content {
+    font-size: 17px;
+    line-height: 1.8;
+    color: #555;
+}
+
+.graceart-about-content > *:first-child {
+    margin-top: 0;
+}
+
+.graceart-about-content > *:last-child {
+    margin-bottom: 0;
+}
+
+.graceart-about-content p {
+    margin-bottom: 24px;
+}
+
+.graceart-about-content h2,
+.graceart-about-content h3,
+.graceart-about-content h4 {
+    margin-bottom: 18px;
+    color: #333;
+}
+
+.graceart-about-content h2 {
+    font-size: 30px;
+}
+
+.graceart-about-content h3 {
+    font-size: 24px;
+}
+
+.graceart-about-content img {
+    max-width: 100%;
+    height: auto;
+}
+
+.graceart-about-content .wp-block-gallery {
+    margin: 40px 0;
+}
+
+.graceart-about-content .wp-block-image {
+    margin-bottom: 24px;
+}
+
+.graceart-about-content .wp-block-image img {
+    display: block;
+}
+
+/* Kontakt page */
+.graceart-contact-intro {
+    margin-bottom: 30px;
+    font-size: 17px;
+    line-height: 1.8;
+}
+
+
+.graceart-contact-hp {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+}
+
+.graceart-contact-notice {
+    margin-bottom: 25px;
+    padding: 12px 16px;
+    font-size: 15px;
+    border-left: 3px solid #2e7d32;
+    background-color: #f4f8f4;
+}
+
+.graceart-contact-notice.is-error {
+    border-left-color: #b32d2e;
+    background-color: #fdf4f4;
+}
+
+/* Free shipping threshold notice on the product detail */
+.product-free-shipping {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 18px;
+    margin-bottom: 0;
+    padding: 12px 16px;
+    font-size: 15px;
+    color: #333333;
+    background-color: #f5f5f5;
+}
+
+.product-free-shipping i {
+    flex: 0 0 auto;
+    font-size: 18px;
+}
+
+.product-free-shipping strong {
+    font-weight: 600;
+}
+
+/* O mne gallery: one photo per row, full column width */
+.graceart-about-content .wp-block-gallery.columns-1 {
+    display: block;
+}
+
+.graceart-about-content .wp-block-gallery.columns-1 .wp-block-image {
+    width: 100%;
+    max-width: 100%;
+    margin: 0 0 30px;
+}
+
+.graceart-about-content .wp-block-gallery.columns-1 .wp-block-image:last-child {
+    margin-bottom: 0;
+}
+
+.graceart-about-content .wp-block-gallery.columns-1 .wp-block-image img {
+    width: 100%;
+    height: auto;
+}
+
+/* Cart info lines (via [graceart_cart_info]) */
+.graceart-cart-info {
+    margin: 25px 0 0;
+    padding: 0;
+    list-style: none;
+}
+
+.graceart-cart-info__item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 10px;
+    padding: 12px 16px;
+    font-size: 15px;
+    color: #333333;
+    background-color: #f5f5f5;
+}
+
+.graceart-cart-info__item:last-child {
+    margin-bottom: 0;
+}
+
+.graceart-cart-info__item i {
+    flex: 0 0 auto;
+    font-size: 18px;
+}
+
+.graceart-cart-info__icons {
+    display: flex;
+    flex: 0 0 auto;
+    align-items: center;
+    gap: 6px;
+}
+
+.graceart-cart-info__icons img {
+    display: block;
+    height: 20px;
+    width: auto;
+}
+
+/* Block checkout: place-order button in the product-detail green, and larger */
+.wc-block-components-checkout-place-order-button {
+    padding: 16px 32px !important;
+    font-size: 16px !important;
+    font-weight: 600 !important;
+    color: #ffffff !important;
+    border-color: #4a9b36 !important;
+    background-color: #4a9b36 !important;
+}
+
+.wc-block-components-checkout-place-order-button:hover,
+.wc-block-components-checkout-place-order-button:focus {
+    color: #ffffff !important;
+    border-color: #333333 !important;
+    background-color: #333333 !important;
 }

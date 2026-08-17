@@ -16,6 +16,19 @@ $graceart_availability_product = $graceart_loop_variation_data
     ? (wc_get_product($graceart_loop_variation_data['variation_id']) ?: $product)
     : $product;
 $graceart_availability = graceartAvailabilityShortLabel($graceart_availability_product);
+
+// With "redirect to cart after adding" on, the button has to be a real
+// add-to-cart link — an AJAX add would keep the shopper on the listing.
+$graceart_redirect_after_add = get_option('woocommerce_cart_redirect_after_add') === 'yes';
+$graceart_can_add_directly = $product->is_type('simple') && $product->is_purchasable() && $product->is_in_stock();
+$graceart_ajax_add = $graceart_can_add_directly
+    && ! $graceart_redirect_after_add
+    && get_option('woocommerce_enable_ajax_add_to_cart') === 'yes'
+    && $product->supports('ajax_add_to_cart');
+
+$graceart_buy_url = ($graceart_can_add_directly && $graceart_redirect_after_add)
+    ? $product->add_to_cart_url()
+    : $product_url;
 ?>
 
 <div <?php wc_product_class(graceartProductLoopClasses($product), $product); ?>>
@@ -40,11 +53,11 @@ $graceart_availability = graceartAvailabilityShortLabel($graceart_availability_p
                     <?php echo esc_html($graceart_availability['label']); ?>
                 </span>
                 <a
-                    href="<?php echo esc_url($product_url); ?>"
+                    href="<?php echo esc_url($graceart_buy_url); ?>"
                     data-quantity="1"
                     data-product_id="<?php echo esc_attr($product->get_id()); ?>"
                     data-product_sku="<?php echo esc_attr($product->get_sku()); ?>"
-                    class="graceart-loop-buy-button add_to_cart_button <?php echo $product->is_type('simple') && $product->supports('ajax_add_to_cart') ? 'ajax_add_to_cart' : ''; ?>"
+                    class="graceart-loop-buy-button add_to_cart_button <?php echo $graceart_ajax_add ? 'ajax_add_to_cart' : ''; ?>"
                 >
                     <?php esc_html_e('Kúpiť', 'graceart'); ?>
                 </a>

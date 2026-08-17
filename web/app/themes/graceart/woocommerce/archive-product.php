@@ -11,7 +11,7 @@ get_header();
             <div class="col">
                 <div class="page-title">
                     <h1 class="title">
-                        <?php echo is_shop() ? esc_html__('Graceart', 'graceart') : woocommerce_page_title(false); ?>
+                        <?php echo is_shop() ? esc_html__('Grace Art', 'graceart') : woocommerce_page_title(false); ?>
                     </h1>
                     <?php if (is_shop()) : ?>
                         <p class="page-title-subtitle"><?php esc_html_e('Ručne vyrobené kožené zápisníky a fotoalbumy od roku 2016', 'graceart'); ?></p>
@@ -27,10 +27,14 @@ get_header();
         <div class="container">
             <div class="row learts-mb-n20">
                 <div class="col-md col-12 align-self-center learts-mb-20">
-                    <div class="isotope-filter shop-product-filter" data-target="#shop-products">
-                        <button class="active" data-filter="*"><?php esc_html_e('Všetko', 'graceart'); ?></button>
+                    <div class="shop-product-filter">
+                        <a class="<?php echo is_shop() ? 'active' : ''; ?>" href="<?php echo esc_url(graceartShopUrl()); ?>"><?php esc_html_e('Všetko', 'graceart'); ?></a>
+                        <?php $graceart_current_cat = is_product_category() ? (int) get_queried_object_id() : 0; ?>
                         <?php foreach (graceartProductLoopCategoryFilters() as $category_filter) : ?>
-                            <button data-filter="<?php echo esc_attr($category_filter['filter']); ?>"><?php echo esc_html($category_filter['label']); ?></button>
+                            <a
+                                class="<?php echo $graceart_current_cat === $category_filter['term_id'] ? 'active' : ''; ?>"
+                                href="<?php echo esc_url($category_filter['url']); ?>"
+                            ><?php echo esc_html($category_filter['label']); ?></a>
                         <?php endforeach; ?>
                     </div>
                 </div>
@@ -44,8 +48,8 @@ get_header();
                         </li>
                         <li>
                             <div class="product-column-toggle d-none d-xl-flex">
-                                <button class="toggle active hintT-top" data-hint="<?php esc_attr_e('3 stĺpce', 'graceart'); ?>" data-column="3"><i class="ti-layout-grid2-alt"></i></button>
-                                <button class="toggle hintT-top" data-hint="<?php esc_attr_e('4 stĺpce', 'graceart'); ?>" data-column="4"><i class="ti-layout-grid3-alt"></i></button>
+                                <button class="toggle hintT-top" data-hint="<?php esc_attr_e('3 stĺpce', 'graceart'); ?>" data-column="3"><i class="ti-layout-grid2-alt"></i></button>
+                                <button class="toggle active hintT-top" data-hint="<?php esc_attr_e('4 stĺpce', 'graceart'); ?>" data-column="4"><i class="ti-layout-grid3-alt"></i></button>
                             </div>
                         </li>
                         <li>
@@ -104,7 +108,7 @@ get_header();
             <?php woocommerce_output_all_notices(); ?>
 
             <?php if (woocommerce_product_loop()) { ?>
-                <div id="shop-products" class="products isotope-grid row row-cols-xl-3 row-cols-lg-3 row-cols-md-2 row-cols-sm-2 row-cols-1">
+                <div id="shop-products" class="products isotope-grid row row-cols-xl-4 row-cols-lg-4 row-cols-md-2 row-cols-sm-2 row-cols-1">
                     <div class="grid-sizer col-1"></div>
 
                     <?php while (have_posts()) { ?>

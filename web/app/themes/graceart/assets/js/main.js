@@ -570,7 +570,7 @@
     // Category Banner Slider/Carousel
     $('.category-banner1-carousel').slick({
         infinite: true,
-        slidesToShow: 3,
+        slidesToShow: 4,
         slidesToScroll: 1,
         prevArrow: '<button class="slick-prev"><i class="fas fa-long-arrow-alt-left"></i></button>',
         nextArrow: '<button class="slick-next"><i class="fas fa-long-arrow-alt-right"></i></button>',

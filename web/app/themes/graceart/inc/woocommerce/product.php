@@ -216,12 +216,20 @@ function graceartProductLoopCategoryFilters(): array
         return [];
     }
 
-    return array_map(function (WP_Term $term): array {
+    $filters = array_map(function (WP_Term $term): array {
+        $link = get_term_link($term);
+
         return [
             'label' => $term->slug === 'uncategorized' ? __('Nezaradené', 'graceart') : $term->name,
             'filter' => '.cat-' . $term->term_id,
+            'term_id' => $term->term_id,
+            'url' => is_wp_error($link) ? '' : $link,
         ];
     }, $terms);
+
+    return array_values(array_filter($filters, function (array $filter): bool {
+        return $filter['url'] !== '';
+    }));
 }
 
 function graceartProductBadgeHtml(WC_Product $product): string
@@ -602,8 +610,14 @@ function graceartShippingMethodsByCountry(): array
                 continue;
             }
 
+            // Free shipping has no fixed price; it is shown as the threshold
+            // notice under the table instead of as a row with an empty cost.
+            if ($method->id === 'free_shipping') {
+                continue;
+            }
+
             $methods[] = [
-                'title' => $method->get_title() === 'Free shipping' ? __('Doprava zdarma', 'graceart') : $method->get_title(),
+                'title' => $method->get_title(),
                 'cost' => graceartShippingMethodCostLabel($method),
             ];
         }
@@ -619,6 +633,42 @@ function graceartShippingMethodsByCountry(): array
     uksort($groups, fn(string $a, string $b): int => array_search($a, array_keys($country_labels), true) <=> array_search($b, array_keys($country_labels), true));
 
     return $groups;
+}
+
+/**
+ * Lowest order total that qualifies for free shipping, taken from the enabled
+ * "Free shipping" methods in the WooCommerce shipping zones, or null when none
+ * of them is set up with a minimum amount.
+ */
+function graceartFreeShippingMinAmount(): ?float
+{
+    if (! class_exists('WC_Shipping_Zones')) {
+        return null;
+    }
+
+    $amounts = [];
+
+    foreach (WC_Shipping_Zones::get_zones() as $zone_data) {
+        $zone = new WC_Shipping_Zone($zone_data['zone_id']);
+
+        foreach ($zone->get_shipping_methods() as $method) {
+            if (! $method instanceof WC_Shipping_Method || $method->id !== 'free_shipping' || ! $method->is_enabled()) {
+                continue;
+            }
+
+            if (! in_array($method->get_option('requires'), ['min_amount', 'either', 'both'], true)) {
+                continue;
+            }
+
+            $amount = (float) $method->get_option('min_amount');
+
+            if ($amount > 0) {
+                $amounts[] = $amount;
+            }
+        }
+    }
+
+    return $amounts ? min($amounts) : null;
 }
 
 function graceartCardPaymentEnabled(): bool

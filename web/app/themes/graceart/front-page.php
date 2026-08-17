@@ -2,7 +2,7 @@
 get_header();
 
 $hero_slides = graceartHomepageHeroSlides((int) get_queried_object_id());
-$bestseller_ids = graceartHomepageBestsellerIds((int) get_queried_object_id());
+$bestseller_ids = graceartHomepageBestsellerIds();
 ?>
 <!-- Slider main container Start -->
 <div class="home1-slider swiper-container">
@@ -57,43 +57,42 @@ $bestseller_ids = graceartHomepageBestsellerIds((int) get_queried_object_id());
 </div>
 <!-- Category Banner Section End -->
 
+<?php if ($bestseller_ids) : ?>
 <!-- Product Section Start -->
 <div class="section section-fluid section-padding pt-0">
     <div class="container">
 
         <!-- Section Title Start -->
         <div class="section-title text-center">
-            <h3 class="sub-title"><?php esc_html_e('Nakupujte teraz', 'graceart'); ?></h3>
-            <h2 class="title title-icon-both"><?php esc_html_e('Naše najpredávanejšie produkty', 'graceart'); ?></h2>
+            <h2 class="title title-icon-both title-script"><?php esc_html_e('Naše najpredávanejšie produkty', 'graceart'); ?></h2>
         </div>
         <!-- Section Title End -->
 
         <!-- Products Start -->
-        <div class="products row row-cols-xl-5 row-cols-lg-4 row-cols-md-3 row-cols-sm-2 row-cols-1">
+        <div class="products graceart-bestsellers row row-cols-xl-4 row-cols-lg-4 row-cols-md-3 row-cols-sm-2 row-cols-1">
             <?php
-            if ($bestseller_ids) :
-                $bestsellers_query = new WP_Query([
-                    'post_type' => 'product',
-                    'post__in' => $bestseller_ids,
-                    'orderby' => 'post__in',
-                    'posts_per_page' => count($bestseller_ids),
-                ]);
+            $bestsellers_query = new WP_Query([
+                'post_type' => 'product',
+                'post__in' => $bestseller_ids,
+                'orderby' => 'post__in',
+                'posts_per_page' => count($bestseller_ids),
+            ]);
 
-                while ($bestsellers_query->have_posts()) :
-                    $bestsellers_query->the_post();
+            while ($bestsellers_query->have_posts()) :
+                $bestsellers_query->the_post();
 
-                    global $product;
-                    $product = wc_get_product(get_the_ID());
+                global $product;
+                $product = wc_get_product(get_the_ID());
 
-                    wc_get_template_part('content', 'product');
-                endwhile;
+                wc_get_template_part('content', 'product');
+            endwhile;
 
-                wp_reset_postdata();
-            endif;
+            wp_reset_postdata();
 ?>
         </div>
         <!-- Products End -->
 
     </div>
 </div>
+<?php endif; ?>
 <?php get_footer();
