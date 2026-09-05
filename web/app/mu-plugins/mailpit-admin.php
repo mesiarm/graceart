@@ -300,11 +300,25 @@ function graceartMailpitAttachment(): void
         wp_die(esc_html__('Prílohu sa nepodarilo načítať.', 'graceart'));
     }
 
-    $type = wp_remote_retrieve_header($response, 'content-type') ?: 'application/octet-stream';
+    // The part endpoint carries no filename, so take it from the message metadata.
+    $filename = $part;
+    $message = graceartMailpitGet('/api/v1/message/' . rawurlencode($id));
 
+    foreach ($message['Attachments'] ?? [] as $attachment) {
+        if ((string) ($attachment['PartID'] ?? '') === $part && ! empty($attachment['FileName'])) {
+            $filename = sanitize_file_name($attachment['FileName']);
+            break;
+        }
+    }
+
+    $type = wp_remote_retrieve_header($response, 'content-type') ?: 'application/octet-stream';
+    $body = wp_remote_retrieve_body($response);
+
+    nocache_headers();
     header('Content-Type: ' . $type);
-    header('Content-Disposition: attachment; filename="' . $part . '"');
-    echo wp_remote_retrieve_body($response); // phpcs:ignore WordPress.Security.EscapeOutput
+    header('Content-Disposition: attachment; filename="' . $filename . '"');
+    header('Content-Length: ' . strlen($body));
+    echo $body; // phpcs:ignore WordPress.Security.EscapeOutput
     exit;
 }
 add_action('admin_post_graceart_mailpit_attachment', 'graceartMailpitAttachment');
