@@ -173,6 +173,26 @@ function graceartMailpitList(): void
     echo '</tbody></table>';
 }
 
+/**
+ * srcdoc has no base URL, so relative image paths would resolve against
+ * about:srcdoc. Point them back at the site instead. Scripts stay blocked
+ * by the iframe sandbox.
+ */
+function graceartMailpitPreviewHtml(string $html): string
+{
+    if (stripos($html, '<base ') !== false) {
+        return $html;
+    }
+
+    $base = sprintf('<base href="%s">', esc_url(home_url('/')));
+
+    if (preg_match('/<head[^>]*>/i', $html, $matches)) {
+        return preg_replace('/<head[^>]*>/i', $matches[0] . $base, $html, 1);
+    }
+
+    return $base . $html;
+}
+
 function graceartMailpitDetail(string $id): void
 {
     $message = graceartMailpitGet('/api/v1/message/' . rawurlencode($id));
@@ -247,7 +267,7 @@ function graceartMailpitDetail(string $id): void
         printf('<h2>%s</h2>', esc_html__('Náhľad', 'graceart'));
         printf(
             '<iframe sandbox="" srcdoc="%s" style="width:100%%;height:60vh;min-height:420px;border:1px solid #c3c4c7;background:#fff;"></iframe>',
-            esc_attr($html),
+            esc_attr(graceartMailpitPreviewHtml($html)),
         );
     }
 
