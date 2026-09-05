@@ -33,3 +33,8 @@ phpunit.xml
 wp-cli.local.yml
 
 .idea
+# WP-CLI
+wp-cli.phar
+
+# DB dumps
+*.sql

@@ -16,6 +16,9 @@ get_header();
                     <?php if (is_shop()) : ?>
                         <p class="page-title-subtitle"><?php esc_html_e('Ručne vyrobené kožené zápisníky a fotoalbumy od roku 2016', 'graceart'); ?></p>
                     <?php endif; ?>
+                    <?php if (! is_shop() && graceartHasBreadcrumbTrail()) : ?>
+                        <?php graceartWooBreadcrumb(); ?>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>

@@ -148,8 +148,16 @@ function graceartHomepageBestsellerIds(int $limit = GRACEART_HOMEPAGE_BESTSELLER
     ]);
 
     // Sorted by sales descending, so anything never sold sits at the tail.
+    // Catalog-hidden products are dropped too — content-product.php refuses to
+    // render them, so returning them would silently short the row.
     return array_values(array_filter($ids, function ($id): bool {
-        return (int) get_post_meta($id, 'total_sales', true) > 0;
+        if ((int) get_post_meta($id, 'total_sales', true) <= 0) {
+            return false;
+        }
+
+        $product = wc_get_product($id);
+
+        return $product instanceof WC_Product && $product->is_visible();
     }));
 }
 

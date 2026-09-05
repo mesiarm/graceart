@@ -1,6 +1,9 @@
 <?php
 
 add_action('after_setup_theme', function () {
+    // Without this WordPress prints no <title> at all and browsers fall back to
+    // showing the URL.
+    add_theme_support('title-tag');
     add_theme_support('woocommerce');
     add_theme_support('wc-product-gallery-lightbox');
     add_theme_support('wc-product-gallery-slider');

@@ -859,11 +859,11 @@ select,
 .product-info .price ins bdi,
 .product-info .price del .amount,
 .product-info .price del bdi {
-    font-size: 19px;
+    font-size: 22px;
 }
 
 .graceart-loop-availability {
-    font-size: 15px;
+    font-size: 17px;
 }
 
 /* Category filter on the shop toolbar links to the category archives, so the

@@ -671,6 +671,65 @@ function graceartFreeShippingMinAmount(): ?float
     return $amounts ? min($amounts) : null;
 }
 
+/**
+ * Quantity of a given product (or variation) already sitting in the cart.
+ */
+function graceartQuantityInCart(int $product_id, int $variation_id = 0): int
+{
+    if (! function_exists('WC') || ! WC()->cart) {
+        return 0;
+    }
+
+    $total = 0;
+
+    foreach (WC()->cart->get_cart() as $item) {
+        $item_variation = (int) ($item['variation_id'] ?? 0);
+
+        if ($variation_id > 0) {
+            if ($item_variation === $variation_id) {
+                $total += (int) $item['quantity'];
+            }
+            continue;
+        }
+
+        if ((int) ($item['product_id'] ?? 0) === $product_id && $item_variation === 0) {
+            $total += (int) $item['quantity'];
+        }
+    }
+
+    return $total;
+}
+
+/**
+ * Whether another $qty of this product can still be added, taking into account
+ * what the cart already holds. Without this the listing offers "Kúpiť" for a
+ * one-off piece that is already in the cart, and WooCommerce rejects the add.
+ *
+ * @param WC_Product $product Simple product, or the variation itself.
+ */
+function graceartCanAddToCart(WC_Product $product, int $qty = 1): bool
+{
+    if (! $product->is_purchasable() || ! $product->is_in_stock()) {
+        return false;
+    }
+
+    if (! $product->managing_stock() || $product->backorders_allowed()) {
+        return true;
+    }
+
+    $stock = $product->get_stock_quantity();
+
+    if (null === $stock) {
+        return true;
+    }
+
+    $in_cart = $product->is_type('variation')
+        ? graceartQuantityInCart((int) $product->get_parent_id(), $product->get_id())
+        : graceartQuantityInCart($product->get_id());
+
+    return ((int) $stock - $in_cart) >= $qty;
+}
+
 function graceartCardPaymentEnabled(): bool
 {
     if (! function_exists('WC')) {

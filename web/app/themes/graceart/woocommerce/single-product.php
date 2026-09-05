@@ -32,7 +32,8 @@ while (have_posts()) :
             <div class="row">
                 <div class="col">
                     <div class="page-title">
-                        <h1 class="title"><?php esc_html_e('Grace Art', 'graceart'); ?></h1>
+                        <?php /* Branding band, not the page heading — the product name is the <h1>. */ ?>
+                        <p class="title"><?php esc_html_e('Grace Art', 'graceart'); ?></p>
                         <p class="page-title-subtitle"><?php esc_html_e('Ručne vyrobené kožené zápisníky a fotoalbumy od roku 2016', 'graceart'); ?></p>
                         <?php graceartWooBreadcrumb(); ?>
                     </div>
@@ -91,7 +92,7 @@ while (have_posts()) :
                 <div class="col-lg-5 col-12 learts-mb-40">
                     <div class="product-summery">
                         <?php /* Title first, so it lines up with the top of the gallery. */ ?>
-                        <h3 class="product-title"><?php the_title(); ?></h3>
+                        <h1 class="product-title"><?php the_title(); ?></h1>
 
                         <?php if ($product->get_review_count() > 0) : ?>
                             <div class="product-ratings">
