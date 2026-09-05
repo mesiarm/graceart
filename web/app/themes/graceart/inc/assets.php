@@ -17,55 +17,102 @@ function graceartAssetVersion(string $path): string
     return file_exists($full_path) ? (string) filemtime($full_path) : wp_get_theme()->get('Version');
 }
 
+function graceartStyle(string $handle, string $path, array $deps = []): void
+{
+    wp_enqueue_style($handle, fullTemplateUri($path), $deps, graceartAssetVersion($path));
+}
+
+function graceartScript(string $handle, string $path, array $deps = []): void
+{
+    wp_enqueue_script($handle, fullTemplateUri($path), $deps, graceartAssetVersion($path), true);
+}
+
+/**
+ * The gallery carousels, zoom and lightbox only exist on a single product.
+ */
+function graceartIsProductPage(): bool
+{
+    return function_exists('is_product') && is_product();
+}
+
+/**
+ * Shop, product categories and tags, and search results all render the
+ * isotope grid from woocommerce/archive-product.php.
+ */
+function graceartIsCatalogPage(): bool
+{
+    if (! function_exists('is_shop')) {
+        return false;
+    }
+
+    return is_shop() || is_product_taxonomy() || is_search();
+}
+
 add_action('wp_enqueue_scripts', function () {
-    wp_enqueue_style('bootstrap-style', fullTemplateUri('assets/css/vendor/bootstrap.min.css'), [], graceartAssetVersion('assets/css/vendor/bootstrap.min.css'));
-    wp_enqueue_style('fontawesome-style', fullTemplateUri('assets/css/vendor/fontawesome.min.css'), [], graceartAssetVersion('assets/css/vendor/fontawesome.min.css'));
-    wp_enqueue_style('themify-icons-style', fullTemplateUri('assets/css/vendor/themify-icons.css'), [], graceartAssetVersion('assets/css/vendor/themify-icons.css'));
-    wp_enqueue_style('custom-fonts-style', fullTemplateUri('assets/css/vendor/customFonts.css'), [], graceartAssetVersion('assets/css/vendor/customFonts.css'));
+    $is_front = is_front_page();
+    $is_product = graceartIsProductPage();
+    $is_catalog = graceartIsCatalogPage();
 
-    wp_enqueue_style('select2-style', fullTemplateUri('assets/css/plugins/select2.min.css'), [], graceartAssetVersion('assets/css/plugins/select2.min.css'));
-    wp_enqueue_style('perfect-scrollbar-style', fullTemplateUri('assets/css/plugins/perfect-scrollbar.css'), [], graceartAssetVersion('assets/css/plugins/perfect-scrollbar.css'));
-    wp_enqueue_style('swiper-style', fullTemplateUri('assets/css/plugins/swiper.min.css'), [], graceartAssetVersion('assets/css/plugins/swiper.min.css'));
-    wp_enqueue_style('nice-select-style', fullTemplateUri('assets/css/plugins/nice-select.css'), [], graceartAssetVersion('assets/css/plugins/nice-select.css'));
-    wp_enqueue_style('ion-range-slider-style', fullTemplateUri('assets/css/plugins/ion.rangeSlider.min.css'), [], graceartAssetVersion('assets/css/plugins/ion.rangeSlider.min.css'));
-    wp_enqueue_style('photoswipe-style', fullTemplateUri('assets/css/plugins/photoswipe.css'), [], graceartAssetVersion('assets/css/plugins/photoswipe.css'));
-    wp_enqueue_style('photoswipe-skin-style', fullTemplateUri('assets/css/plugins/photoswipe-default-skin.css'), [], graceartAssetVersion('assets/css/plugins/photoswipe-default-skin.css'));
-    wp_enqueue_style('magnific-popup-style', fullTemplateUri('assets/css/plugins/magnific-popup.css'), [], graceartAssetVersion('assets/css/plugins/magnific-popup.css'));
-    wp_enqueue_style('slick-style', fullTemplateUri('assets/css/plugins/slick.css'), [], graceartAssetVersion('assets/css/plugins/slick.css'));
+    // Everywhere: header, offcanvas menu, footer.
+    graceartStyle('bootstrap-style', 'assets/css/vendor/bootstrap.min.css');
+    graceartStyle('fontawesome-style', 'assets/css/vendor/fontawesome.min.css');
+    graceartStyle('themify-icons-style', 'assets/css/vendor/themify-icons.css');
+    graceartStyle('custom-fonts-style', 'assets/css/vendor/customFonts.css');
+    graceartStyle('select2-style', 'assets/css/plugins/select2.min.css');
+    graceartStyle('perfect-scrollbar-style', 'assets/css/plugins/perfect-scrollbar.css');
 
-    wp_enqueue_style('main-style', fullTemplateUri('assets/css/style.min.css'), [], graceartAssetVersion('assets/css/style.min.css'));
-    wp_enqueue_style('custom-style', fullTemplateUri('assets/css/custom_styles.css'), ['main-style'], graceartAssetVersion('assets/css/custom_styles.css'));
+    if ($is_front || $is_product) {
+        graceartStyle('slick-style', 'assets/css/plugins/slick.css');
+    }
 
-    wp_enqueue_script('modernizr-script', fullTemplateUri('assets/js/vendor/modernizr-3.6.0.min.js'), [], graceartAssetVersion('assets/js/vendor/modernizr-3.6.0.min.js'), true);
+    if ($is_front) {
+        graceartStyle('swiper-style', 'assets/css/plugins/swiper.min.css');
+    }
+
+    if ($is_product) {
+        graceartStyle('photoswipe-style', 'assets/css/plugins/photoswipe.css');
+        graceartStyle('photoswipe-skin-style', 'assets/css/plugins/photoswipe-default-skin.css');
+    }
+
+    if ($is_catalog) {
+        graceartStyle('nice-select-style', 'assets/css/plugins/nice-select.css');
+    }
+
+    graceartStyle('main-style', 'assets/css/style.min.css');
+    graceartStyle('custom-style', 'assets/css/custom_styles.css', ['main-style']);
+
+    graceartScript('modernizr-script', 'assets/js/vendor/modernizr-3.6.0.min.js');
 
     // WooCommerce already loads core jQuery, so the theme copy was a second one on every page.
     wp_enqueue_script('jquery');
 
-    wp_enqueue_script('bootstrap-script', fullTemplateUri('assets/js/vendor/bootstrap.bundle.min.js'), [], graceartAssetVersion('assets/js/vendor/bootstrap.bundle.min.js'), true);
+    graceartScript('bootstrap-script', 'assets/js/vendor/bootstrap.bundle.min.js');
+    graceartScript('select2-script', 'assets/js/plugins/select2.min.js', ['jquery']);
+    graceartScript('perfect-scrollbar-script', 'assets/js/plugins/perfect-scrollbar.min.js');
+    graceartScript('scrollup-script', 'assets/js/plugins/jquery.scrollUp.min.js', ['jquery']);
 
-    wp_enqueue_script('select2-script', fullTemplateUri('assets/js/plugins/select2.min.js'), ['jquery'], graceartAssetVersion('assets/js/plugins/select2.min.js'), true);
-    wp_enqueue_script('nice-select-script', fullTemplateUri('assets/js/plugins/jquery.nice-select.min.js'), ['jquery'], graceartAssetVersion('assets/js/plugins/jquery.nice-select.min.js'), true);
-    wp_enqueue_script('perfect-scrollbar-script', fullTemplateUri('assets/js/plugins/perfect-scrollbar.min.js'), [], graceartAssetVersion('assets/js/plugins/perfect-scrollbar.min.js'), true);
-    wp_enqueue_script('swiper-script', fullTemplateUri('assets/js/plugins/swiper.min.js'), [], graceartAssetVersion('assets/js/plugins/swiper.min.js'), true);
-    wp_enqueue_script('slick-script', fullTemplateUri('assets/js/plugins/slick.min.js'), ['jquery'], graceartAssetVersion('assets/js/plugins/slick.min.js'), true);
-    wp_enqueue_script('mo-script', fullTemplateUri('assets/js/plugins/mo.min.js'), [], graceartAssetVersion('assets/js/plugins/mo.min.js'), true);
-    wp_enqueue_script('ajaxchimp-script', fullTemplateUri('assets/js/plugins/jquery.ajaxchimp.min.js'), ['jquery'], graceartAssetVersion('assets/js/plugins/jquery.ajaxchimp.min.js'), true);
-    wp_enqueue_script('countdown-script', fullTemplateUri('assets/js/plugins/jquery.countdown.min.js'), ['jquery'], graceartAssetVersion('assets/js/plugins/jquery.countdown.min.js'), true);
-    wp_enqueue_script('imagesloaded-script', fullTemplateUri('assets/js/plugins/imagesloaded.pkgd.min.js'), [], graceartAssetVersion('assets/js/plugins/imagesloaded.pkgd.min.js'), true);
-    wp_enqueue_script('isotope-script', fullTemplateUri('assets/js/plugins/isotope.pkgd.min.js'), [], graceartAssetVersion('assets/js/plugins/isotope.pkgd.min.js'), true);
-    wp_enqueue_script('match-height-script', fullTemplateUri('assets/js/plugins/jquery.matchHeight-min.js'), ['jquery'], graceartAssetVersion('assets/js/plugins/jquery.matchHeight-min.js'), true);
-    wp_enqueue_script('ion-range-slider-script', fullTemplateUri('assets/js/plugins/ion.rangeSlider.min.js'), ['jquery'], graceartAssetVersion('assets/js/plugins/ion.rangeSlider.min.js'), true);
-    wp_enqueue_script('photoswipe-script', fullTemplateUri('assets/js/plugins/photoswipe.min.js'), [], graceartAssetVersion('assets/js/plugins/photoswipe.min.js'), true);
-    wp_enqueue_script('photoswipe-ui-script', fullTemplateUri('assets/js/plugins/photoswipe-ui-default.min.js'), [], graceartAssetVersion('assets/js/plugins/photoswipe-ui-default.min.js'), true);
-    wp_enqueue_script('zoom-script', fullTemplateUri('assets/js/plugins/jquery.zoom.min.js'), ['jquery'], graceartAssetVersion('assets/js/plugins/jquery.zoom.min.js'), true);
-    wp_enqueue_script('resize-sensor-script', fullTemplateUri('assets/js/plugins/ResizeSensor.js'), [], graceartAssetVersion('assets/js/plugins/ResizeSensor.js'), true);
-    wp_enqueue_script('sticky-sidebar-script', fullTemplateUri('assets/js/plugins/jquery.sticky-sidebar.min.js'), ['jquery'], graceartAssetVersion('assets/js/plugins/jquery.sticky-sidebar.min.js'), true);
-    wp_enqueue_script('product360-script', fullTemplateUri('assets/js/plugins/product360.js'), ['jquery'], graceartAssetVersion('assets/js/plugins/product360.js'), true);
-    wp_enqueue_script('magnific-popup-script', fullTemplateUri('assets/js/plugins/jquery.magnific-popup.min.js'), ['jquery'], graceartAssetVersion('assets/js/plugins/jquery.magnific-popup.min.js'), true);
-    wp_enqueue_script('scrollup-script', fullTemplateUri('assets/js/plugins/jquery.scrollUp.min.js'), ['jquery'], graceartAssetVersion('assets/js/plugins/jquery.scrollUp.min.js'), true);
-    wp_enqueue_script('scrollax-script', fullTemplateUri('assets/js/plugins/scrollax.min.js'), ['jquery'], graceartAssetVersion('assets/js/plugins/scrollax.min.js'), true);
+    if ($is_front) {
+        graceartScript('swiper-script', 'assets/js/plugins/swiper.min.js');
+    }
 
-    wp_enqueue_script('main-script', fullTemplateUri('assets/js/main.js'), ['jquery', 'wc-add-to-cart-variation'], graceartAssetVersion('assets/js/main.js'), true);
+    if ($is_front || $is_product) {
+        graceartScript('slick-script', 'assets/js/plugins/slick.min.js', ['jquery']);
+    }
+
+    if ($is_product) {
+        graceartScript('photoswipe-script', 'assets/js/plugins/photoswipe.min.js');
+        graceartScript('photoswipe-ui-script', 'assets/js/plugins/photoswipe-ui-default.min.js');
+        graceartScript('zoom-script', 'assets/js/plugins/jquery.zoom.min.js', ['jquery']);
+    }
+
+    if ($is_catalog) {
+        graceartScript('nice-select-script', 'assets/js/plugins/jquery.nice-select.min.js', ['jquery']);
+        graceartScript('imagesloaded-script', 'assets/js/plugins/imagesloaded.pkgd.min.js');
+        graceartScript('isotope-script', 'assets/js/plugins/isotope.pkgd.min.js');
+        graceartScript('match-height-script', 'assets/js/plugins/jquery.matchHeight-min.js', ['jquery']);
+    }
+
+    graceartScript('main-script', 'assets/js/main.js', ['jquery', 'wc-add-to-cart-variation']);
 });
 
 /**

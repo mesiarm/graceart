@@ -2,6 +2,58 @@
     "use strict";
 
     /*--
+        Missing plugin fallbacks
+        Plugins are enqueued per template, so a library is often legitimately
+        absent. This file is one flat sequence, so an unguarded call to a
+        missing plugin would throw and skip everything after it. Stub the
+        absent ones with no-ops instead.
+    -----------------------------------*/
+    $.each([
+        'perfectScrollbar', 'select2', 'niceSelect', 'ionRangeSlider', 'matchHeight',
+        'isotope', 'imagesLoaded', 'slick', 'magnificPopup', 'zoom', 'countdown',
+        'ajaxChimp', 'scrollUp', 'stickySidebar'
+    ], function (i, name) {
+        if (typeof $.fn[name] !== 'function') {
+            $.fn[name] = function () {
+                return this;
+            };
+        }
+    });
+
+    if (typeof $.fn.matchHeight._update !== 'function') {
+        $.fn.matchHeight._update = function () {};
+    }
+
+    if (typeof $.Scrollax !== 'function') {
+        $.Scrollax = function () {};
+    }
+
+    if (typeof window.Swiper !== 'function') {
+        window.Swiper = function () {
+            return {};
+        };
+    }
+
+    if (typeof window.mojs === 'undefined') {
+        window.mojs = {
+            Burst: function () {
+                return {
+                    tune: function () {
+                        return { replay: function () {} };
+                    }
+                };
+            }
+        };
+    }
+
+    if (typeof window.PhotoSwipe === 'undefined') {
+        window.PhotoSwipe = function () {
+            return { init: function () {} };
+        };
+        window.PhotoSwipeUI_Default = {};
+    }
+
+    /*--
         Commons Variables
     -----------------------------------*/
     var $window = $(window),
