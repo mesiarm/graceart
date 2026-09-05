@@ -8,7 +8,7 @@ $bestseller_ids = graceartHomepageBestsellerIds();
 <div class="home1-slider swiper-container">
     <div class="swiper-wrapper">
         <?php foreach ($hero_slides as $slide) : ?>
-            <div class="home1-slide-item swiper-slide" data-bg-image="<?php echo esc_url($slide['image']); ?>">
+            <div class="home1-slide-item swiper-slide"<?php echo graceartBgImageAttr($slide['image']); ?>>
                 <div class="home1-slide1-content">
                     <span class="bg"></span>
                     <span class="slide-border"></span>

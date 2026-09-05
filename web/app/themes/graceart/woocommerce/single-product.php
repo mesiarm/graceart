@@ -27,7 +27,7 @@ while (have_posts()) :
     }
     ?>
 
-    <div class="page-title-section section" data-bg-image="<?php echo esc_url(fullTemplateUri('assets/images/bg/shop-zapisniky.png')); ?>">
+    <div class="page-title-section section"<?php echo graceartBgImageAttr(fullTemplateUri('assets/images/bg/shop-zapisniky.png')); ?>>
         <div class="container">
             <div class="row">
                 <div class="col">

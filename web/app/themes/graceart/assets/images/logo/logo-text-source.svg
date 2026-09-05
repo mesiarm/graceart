@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="240" viewBox="0 0 900 240">
+  <defs>
+    <style>
+      @font-face {
+        font-family: "Modesty";
+        src: url("../../fonts/modesty/ModestyRegularByMCT.ttf") format("truetype");
+      }
+      text {
+        fill: #111111;
+        font-family: "Modesty", "Brush Script MT", cursive;
+        font-size: 164px;
+        font-weight: 400;
+      }
+    </style>
+  </defs>
+  <text x="450" y="152" text-anchor="middle">Grace Art</text>
+</svg>

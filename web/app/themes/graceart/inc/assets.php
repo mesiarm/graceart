@@ -140,3 +140,34 @@ add_action('wp_enqueue_scripts', function (): void {
         wp_deregister_script($handle);
     }
 }, 99);
+
+/**
+ * Backgrounds were applied from data-bg-image by main.js, which runs from the
+ * footer. The preload scanner never saw those URLs, so the LCP image only
+ * started downloading after jQuery and main.js had loaded and executed.
+ * Render the style inline instead.
+ */
+function graceartBgImageAttr(string $url): string
+{
+    if ($url === '') {
+        return '';
+    }
+
+    return sprintf(" style=\"background-image:url('%s')\"", esc_url($url));
+}
+
+/**
+ * Tell the browser about the first hero slide as early as possible.
+ */
+add_action('wp_head', function (): void {
+    if (! is_front_page() || ! function_exists('graceartHomepageHeroSlides')) {
+        return;
+    }
+
+    $slides = graceartHomepageHeroSlides((int) get_queried_object_id());
+    $first = $slides[0]['image'] ?? '';
+
+    if ($first) {
+        printf('<link rel="preload" as="image" href="%s" fetchpriority="high">' . "\n", esc_url($first));
+    }
+}, 2);
