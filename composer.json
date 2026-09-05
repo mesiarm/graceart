@@ -44,6 +44,7 @@
     "roots/wp-config": "1.0.0",
     "vlucas/phpdotenv": "^5.5",
     "wp-plugin/fluent-smtp": "^2.3",
+    "wp-plugin/redis-cache": "^2.8",
     "wp-plugin/woocommerce": "^10.7",
     "wp-plugin/woocommerce-pdf-invoices-packing-slips": "^5.15",
     "wp-plugin/yith-woocommerce-wishlist": "^4.15"

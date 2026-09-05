@@ -42,3 +42,6 @@ wp-cli.phar
 # WordPress translations (downloaded per environment by WP)
 web/app/languages/*
 !web/app/languages/.gitkeep
+
+# Object cache drop-in (per environment)
+web/app/object-cache.php
