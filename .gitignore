@@ -38,3 +38,7 @@ wp-cli.phar
 
 # DB dumps
 *.sql
+
+# WordPress translations (downloaded per environment by WP)
+web/app/languages/*
+!web/app/languages/.gitkeep
