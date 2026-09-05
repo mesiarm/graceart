@@ -211,12 +211,21 @@ add_filter('style_loader_tag', function (string $tag, string $handle, string $hr
  */
 function graceartCriticalCssPath(): string
 {
-    return fullTemplatePath('assets/css/critical.css');
+    $file = match (true) {
+        is_front_page() => 'assets/css/critical-front.css',
+        graceartIsProductPage() => 'assets/css/critical-product.css',
+        graceartIsCatalogPage() => 'assets/css/critical-catalog.css',
+        default => '',
+    };
+
+    return $file === '' ? '' : fullTemplatePath($file);
 }
 
 function graceartHasCriticalCss(): bool
 {
-    return is_readable(graceartCriticalCssPath());
+    $path = graceartCriticalCssPath();
+
+    return $path !== "" && is_readable($path);
 }
 
 /**
