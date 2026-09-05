@@ -171,3 +171,37 @@ add_action('wp_head', function (): void {
         printf('<link rel="preload" as="image" href="%s" fetchpriority="high">' . "\n", esc_url($first));
     }
 }, 2);
+
+/**
+ * Stylesheets that are not needed for the first paint. Bootstrap, the theme
+ * stylesheet and the slider CSS stay render-blocking because the header and
+ * the hero are above the fold.
+ *
+ * @return array<int, string>
+ */
+function graceartDeferredStyles(): array
+{
+    return [
+        'fontawesome-style',
+        'themify-icons-style',
+        'select2-style',
+        'perfect-scrollbar-style',
+        'nice-select-style',
+        'photoswipe-style',
+        'photoswipe-skin-style',
+    ];
+}
+
+add_filter('style_loader_tag', function (string $tag, string $handle, string $href, string $media): string {
+    if (is_admin() || ! in_array($handle, graceartDeferredStyles(), true)) {
+        return $tag;
+    }
+
+    return sprintf(
+        '<link rel="preload" as="style" id="%1$s-css" href="%2$s" media="%3$s" onload="this.onload=null;this.rel=\'stylesheet\'">' . "\n"
+            . '<noscript><link rel="stylesheet" href="%2$s" media="%3$s"></noscript>' . "\n",
+        esc_attr($handle),
+        esc_url($href),
+        esc_attr($media),
+    );
+}, 10, 4);
