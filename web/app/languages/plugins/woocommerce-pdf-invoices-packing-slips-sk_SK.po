@@ -1,0 +1,1496 @@
+# Translation of Plugins - PDF Invoices &amp; Packing Slips for WooCommerce - Stable (latest release) in Slovak
+# This file is distributed under the same license as the Plugins - PDF Invoices &amp; Packing Slips for WooCommerce - Stable (latest release) package.
+msgid ""
+msgstr ""
+"PO-Revision-Date: 2025-10-23 07:07:24+0000\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n >= 2 && n <= 4) ? 1 : 2);\n"
+"X-Generator: GlotPress/4.0.3\n"
+"Language: sk\n"
+"Project-Id-Version: Plugins - PDF Invoices &amp; Packing Slips for WooCommerce - Stable (latest release)\n"
+
+#. translators: document title
+#: includes/Main.php:1480
+msgid "PDF %s deleted."
+msgstr "PDF %s vymazané."
+
+#: views/advanced-tools.php:245
+msgid "Document date"
+msgstr "Dátum dokumentu"
+
+#: views/advanced-tools.php:281 views/advanced-tools.php:330
+msgid "Date type:"
+msgstr "Formát dátumu:"
+
+#: includes/Documents/OrderDocument.php:1028 languages/strings.php:8
+msgid "Payment Date:"
+msgstr "Dátum platby:"
+
+#: languages/strings.php:7
+msgid "Payment date"
+msgstr "Dátum platby"
+
+#. translators: PHP version
+#: woocommerce-pdf-invoices-packingslips.php:279
+msgid "PDF Invoices & Packing Slips for WooCommerce requires PHP %s or higher."
+msgstr "PDF Invoices & Packing Slips for WooCommerce vyžaduje PHP verziu %s alebo vyššiu."
+
+#. translators: 1. open anchor tag, 2. close anchor tag, 3. Woo version
+#: woocommerce-pdf-invoices-packingslips.php:232
+msgid "PDF Invoices & Packing Slips for WooCommerce requires %1$sWooCommerce%2$s version %3$s or higher to be installed & activated!"
+msgstr "PDF Invoices & Packing Slips for WooCommerce vyžaduje %1$sWooCommerce%2$s verziu %3$s alebo vyššiu nainštalovanú a aktivovanú!"
+
+#: includes/Documents/OrderDocument.php:1009 includes/Main.php:1942
+msgid "Due Date:"
+msgstr "Dátum splatnosti:"
+
+#: views/advanced-tools.php:325
+msgid "All"
+msgstr "Všetky"
+
+#: views/advanced-numbers.php:70 views/advanced-tools.php:297
+#: views/advanced-tools.php:346
+msgid "To:"
+msgstr "Komu:"
+
+#: views/advanced-numbers.php:66 views/advanced-numbers.php:73
+#: views/advanced-tools.php:294 views/advanced-tools.php:298
+#: views/advanced-tools.php:343 views/advanced-tools.php:347
+msgid "(as: yyyy-mm-dd)"
+msgstr "(ako: rrrr-mm-dd)"
+
+#: views/advanced-numbers.php:63 views/advanced-tools.php:293
+#: views/advanced-tools.php:342
+msgid "From:"
+msgstr "Od:"
+
+#: edi/Peppol.php:145 edi/Peppol.php:490 includes/Settings/SettingsEDI.php:242
+#: includes/Settings/SettingsEDI.php:1218 views/advanced-tools.php:273
+#: views/advanced-tools.php:321
+msgid "Select"
+msgstr "Vyberte"
+
+#: includes/Tables/NumberStoreListTable.php:166
+msgid "Order Status"
+msgstr "Stav objednávky"
+
+#: includes/Tables/NumberStoreListTable.php:165
+msgid "Order"
+msgstr "Objednávka"
+
+#: includes/Tables/NumberStoreListTable.php:162
+msgid "Type"
+msgstr "Typ"
+
+#: includes/Tables/NumberStoreListTable.php:161
+msgid "Number"
+msgstr "Číslo"
+
+#: includes/Tables/NumberStoreListTable.php:110
+msgid "refund:"
+msgstr "Refundácia"
+
+#: views/advanced-tools.php:352
+msgid "Delete documents"
+msgstr "Vymazať dokumenty"
+
+#: views/advanced-tools.php:313
+msgid "Delete existing documents"
+msgstr "Vymazať existujúce dokumenty"
+
+#: views/advanced-tools.php:303
+msgid "Renumber documents"
+msgstr "Prečíslovať dokumenty"
+
+#: views/advanced-tools.php:270 views/advanced-tools.php:318
+msgid "Document type:"
+msgstr "Typ dokumentu:"
+
+#: includes/Tables/NumberStoreListTable.php:163
+msgid "Calculated"
+msgstr "Vypočítané"
+
+#: includes/Settings/SettingsDebug.php:1621
+msgid "Numbers"
+msgstr "Čísla"
+
+#: includes/Documents/Invoice.php:340
+msgid "Display due date"
+msgstr "Zobraz dátum splatnosti"
+
+#: includes/Documents/Invoice.php:709 includes/Settings.php:195
+#: includes/Settings/SettingsCallbacks.php:812
+msgid "Advanced"
+msgstr "Pokročilé"
+
+#: includes/Assets.php:312
+msgid "Please select a document type"
+msgstr "Vyberte typ dokumentu"
+
+#: includes/Tables/NumberStoreListTable.php:115
+msgid "unknown"
+msgstr "neznáme"
+
+#: includes/Settings/SettingsEDI.php:1195
+msgid "Default"
+msgstr "Predvolené"
+
+#: includes/Settings/SettingsEDI.php:1055 wpo-ips-functions-edi.php:1341
+#: wpo-ips-functions-edi.php:1417
+msgid "City"
+msgstr "Mesto"
+
+#: includes/Settings/SettingsEDI.php:1054
+msgid "Postcode / ZIP"
+msgstr "PSČ"
+
+#: includes/Settings/SettingsEDI.php:1053
+msgid "State code"
+msgstr "Kód Štátu"
+
+#: includes/Settings/SettingsDebug.php:931
+msgid "My Account page"
+msgstr "Stránka Môj Účet"
+
+#: includes/Settings/SettingsDebug.php:930
+msgid "Login page"
+msgstr "Stránka Prihlásenie"
+
+#: includes/Settings/SettingsDebug.php:1205
+msgid "Logged in"
+msgstr "Prihlásený"
+
+#: includes/Settings/SettingsDebug.php:904
+#: includes/Settings/SettingsDebug.php:1209
+msgid "Full"
+msgstr "Plné"
+
+#: includes/Settings/SettingsDebug.php:903
+msgid "Logged in (recommended)"
+msgstr "Prihlásený (doporučené)"
+
+#: includes/Admin.php:1229
+msgid "Hide details"
+msgstr "Skryť detaily"
+
+#: includes/Admin.php:1228
+msgid "View more details"
+msgstr "Zobraziť detaily"
+
+#: includes/Admin.php:996
+msgid "Invoice created via:"
+msgstr "Faktúra vytvorená cez:"
+
+#: includes/Admin.php:990
+msgid "Invoice date:"
+msgstr "Dátum Faktúry:"
+
+#: includes/Admin.php:987
+msgid "Invoice number:"
+msgstr "Číslo Faktúry:"
+
+#: includes/Admin.php:993
+msgid "Invoice display date:"
+msgstr "Dátum zobrazenia Faktúry"
+
+#: includes/Settings/SettingsUpgrade.php:116
+msgid "Additional PDF templates"
+msgstr "Ďalšie PDF šablóny"
+
+#: views/extensions.php:55
+msgid "Get PDF Invoices & Packing Slips for WooCommerce Professional!"
+msgstr "Získajte PDF Invoices & Packing Slips for WooCommerce Professional!"
+
+#: views/extensions.php:45
+msgid "Supercharge PDF Invoices & Packing Slips for WooCommerce with the following features:"
+msgstr "Doplňte PDF Invoices & Packing Slips for WooCommerce o nasledujúce funkcie:"
+
+#: views/extensions.php:34
+msgid "Get PDF Invoices & Packing Slips for WooCommerce Bundle"
+msgstr "Získajte balík PDF Invoices & Packing Slips for WooCommerce"
+
+#: views/extensions.php:14
+msgid "Supercharge PDF Invoices & Packing Slips for WooCommerce with the all our premium extensions:"
+msgstr "Doplňte PDF Invoices & Packing Slips for WooCommerce o všetky naše prémiové rozšírenia:"
+
+#: includes/Admin.php:176
+msgid "New to PDF Invoices & Packing Slips for WooCommerce?"
+msgstr "Novinka v PDF Invoices & Packing Slips for WooCommerce?"
+
+#. Plugin Name of the plugin
+#: woocommerce-pdf-invoices-packingslips.php views/settings-page.php:29
+#: woocommerce-pdf-invoices-packingslips.php:756
+#: woocommerce-pdf-invoices-packingslips.php:830
+msgid "PDF Invoices & Packing Slips for WooCommerce"
+msgstr "PDF Invoices & Packing Slips for WooCommerce"
+
+#: views/setup-wizard/display-options.php:75
+msgid "Invoice number"
+msgstr "Číslo faktúry"
+
+#: views/setup-wizard/display-options.php:54
+msgid "Invoice date"
+msgstr "Dátum vystavenia"
+
+#: views/setup-wizard/display-options.php:44
+msgid "Phone number"
+msgstr "Telefón"
+
+#: views/setup-wizard/display-options.php:34
+msgid "Email address"
+msgstr "E-mail"
+
+#: views/setup-wizard/display-options.php:13
+msgid "Shipping address"
+msgstr "Dodacia adresa"
+
+#: includes/Documents/Invoice.php:492
+msgid "Enable invoice date column in the orders list"
+msgstr "Povoliť stĺpec s dátumom faktúry v zozname objednávok"
+
+#: includes/Assets.php:229
+msgid "Document settings"
+msgstr "Nastavenia dokumentu"
+
+#: includes/Documents/PackingSlip.php:185
+msgid "Upgrade to our Professional extension to attach packing slips to any email!"
+msgstr "Aktualizujte na naše pro rozšírenie a pripojte dodacie listy k akémukoľvek e-mailu!"
+
+#: includes/Admin.php:1249
+msgid "You do not have sufficient permissions to edit this document."
+msgstr "Nemáte dostatočné oprávnenie na úpravu tohto dokumentu."
+
+#: views/settings-page.php:134
+msgid "Currently showing last order"
+msgstr "Aktuálne sa zobrazuje posledná objednávka"
+
+#: views/settings-page.php:131
+msgid "ID, email or name"
+msgstr "ID, e-mail alebo meno"
+
+#. translators: error message
+#: includes/Settings.php:491
+msgid "Error trying to get orders: %s"
+msgstr "Chyba pri pokuse o získanie objednávok: %s"
+
+#: includes/Settings.php:484
+msgid "An error occurred when trying to process your request!"
+msgstr "Pri pokuse o spracovanie vašej žiadosti došlo k chybe!"
+
+#: includes/Settings.php:481
+msgid "No order(s) found!"
+msgstr "Nenašli sa žiadne objednávky!"
+
+#: includes/Settings.php:473 includes/Tables/NumberStoreListTable.php:164
+msgid "Date"
+msgstr "Dátum"
+
+#. translators: error message
+#: includes/Settings.php:399
+msgid "Error trying to generate document: %s"
+msgstr "Chyba pri pokuse o vytvorenie dokumentu: %s"
+
+#: includes/Settings.php:389
+msgid "No WooCommerce orders found! Please consider adding your first order to see this preview."
+msgstr "Nenašli sa žiadne objednávky WooCommerce! Zvážte pridanie prvej objednávky, aby ste videli tento náhľad."
+
+#: includes/Settings.php:274
+msgid "Object found is not an order!"
+msgstr "Nájdený objekt nie je objednávka!"
+
+#: includes/Settings.php:271 includes/Settings/SettingsEDI.php:709
+msgid "Order not found!"
+msgstr "Objednávka sa nenašla!"
+
+#: includes/Settings/SettingsDebug.php:1090
+msgid "Disables the document preview on the plugin settings pages."
+msgstr "Zakáže náhľad dokumentu na stránkach nastavení pluginu."
+
+#: includes/Settings/SettingsDebug.php:1084
+msgid "Disable document preview"
+msgstr "Zakázať náhľad dokumentu"
+
+#: views/settings-page.php:137
+msgid "Show last order"
+msgstr "Zobraziť poslednú objednávku"
+
+#: views/settings-page.php:135 views/settings-page.php:138
+msgid "Search for an order"
+msgstr "Vyhľadať objednávku"
+
+#: views/settings-page.php:132
+msgid "Clear search text"
+msgstr "Vyčistiť hľadaný text"
+
+#: includes/Settings/SettingsDebug.php:1312
+msgid "Required if you have .webp images in your documents"
+msgstr "Vyžaduje sa, ak máte v dokumentoch obrázky .webp"
+
+#: includes/Settings/SettingsDebug.php:1309
+msgid "Required when using .webp images"
+msgstr "Vyžaduje sa pri používaní obrázkov .webp"
+
+#. Author of the plugin
+#: woocommerce-pdf-invoices-packingslips.php
+msgid "WP Overnight"
+msgstr "WP Overnight"
+
+#. Plugin URI of the plugin
+#: woocommerce-pdf-invoices-packingslips.php
+msgid "https://wpovernight.com/downloads/woocommerce-pdf-invoices-packing-slips-bundle/"
+msgstr "https://wpovernight.com/downloads/woocommerce-pdf-invoices-packing-slips-bundle/"
+
+#. translators: ★★★★★ (5-star)
+#: views/settings-page.php:12
+msgid "If you like <strong>PDF Invoices & Packing Slips for WooCommerce</strong> please leave us a %s rating. A huge thank you in advance!"
+msgstr "Ak sa vám páči <strong>PDF Invoices & Packing Slips for WooCommerce</strong>, zanechajte nám prosím hodnotenie %s. Vopred vám patrí obrovská vďaka!"
+
+#: views/setup-wizard/shop-name.php:28
+msgid "Shop name"
+msgstr "Názov obchodu"
+
+#: views/advanced-status.php:145 views/advanced-status.php:152
+#: views/advanced-status.php:186 views/advanced-status.php:211
+#: views/advanced-status.php:232
+msgid "Yes"
+msgstr "Áno"
+
+#: includes/Settings/SettingsDebug.php:1371
+msgid "base64_decode disabled"
+msgstr "base64_decode disabled"
+
+#: includes/Settings/SettingsCallbacks.php:836
+msgid "The image resolution exceeds the recommended maximum of 600dpi. This will unnecessarily increase the size of your PDF files and could negatively affect performance."
+msgstr "Rozlíšenie obrázka presahuje odporúčané maximum 600 dpi. Tým sa zbytočne zväčší veľkosť súborov PDF a môže to mať negatívny vplyv na výkon."
+
+#: includes/Settings.php:641
+msgid "Custom"
+msgstr "Vlastné"
+
+#. translators: %s: document name
+#: includes/Documents/OrderDocument.php:1003
+msgid "%s Date:"
+msgstr "%s Dátum:"
+
+#. translators: %s: document name
+#: includes/Documents/OrderDocument.php:995
+msgid "%s Number:"
+msgstr "%s Číslo:"
+
+#: includes/Documents/PackingSlip.php:68
+msgid "Packing Slip Date:"
+msgstr "Dátum dodacieho listu:"
+
+#: includes/Documents/PackingSlip.php:56
+msgid "Packing Slip Number:"
+msgstr "Číšlo dodacieho listu:"
+
+#: includes/Main.php:1610
+msgid "order document data (number and/or date set manually)"
+msgstr "údaje o objednávke (číslo a/alebo dátum nastavený manuálne)"
+
+#: includes/Admin.php:1746
+msgid "Document is empty."
+msgstr "Dokument je prázdny."
+
+#: includes/Admin.php:1732
+msgid "Document does not exist."
+msgstr "Dokument neexistuje."
+
+#: includes/Admin.php:1426 includes/Admin.php:2208
+msgid "Cancel"
+msgstr "Zrušiť"
+
+#: edi/Peppol.php:171 includes/Admin.php:1425
+msgid "Save changes"
+msgstr "Uložiť zmeny"
+
+#. translators: 1. document title, 2. creation trigger
+#: includes/Main.php:1450
+msgid "PDF %1$s created via %2$s."
+msgstr "PDF %1$s vytvorený prostredníctvom %2$s."
+
+#: includes/Main.php:1614
+msgid "email attachment"
+msgstr "príloha e-mailu"
+
+#: includes/Settings/SettingsDebug.php:1516
+msgid "Not writable"
+msgstr "Nie je zapisovateľný"
+
+#: includes/Settings/SettingsDebug.php:1515
+msgid "Writable"
+msgstr "Zapisovateľný"
+
+#: views/advanced-status.php:128
+msgid "Present"
+msgstr "Prítomný"
+
+#: views/advanced-status.php:127
+msgid "Required"
+msgstr "Požadovaný"
+
+#: views/advanced-status.php:119
+msgid "System Configuration"
+msgstr "Konfigurácia systému"
+
+#: includes/Admin.php:1669
+msgid "Document deleted!"
+msgstr "Dokument bol odstránený!"
+
+#: includes/Main.php:1609
+msgid "my account"
+msgstr "môj účet"
+
+#: includes/Admin.php:1666
+msgid "An error occurred while regenerating the document!"
+msgstr "Pri obnovení dokumentu sa vyskytla chyba!"
+
+#: includes/Admin.php:1665
+msgid "Document regenerated!"
+msgstr "Dokument bol obnovený!"
+
+#: includes/Admin.php:1662
+msgid "An error occurred while saving the document data!"
+msgstr "Pri ukladaní údajov dokumentu sa vyskytla chyba!"
+
+#: includes/Admin.php:1661
+msgid "Document data saved!"
+msgstr "Údaje dokumentu boli uložené!"
+
+#: includes/Admin.php:1635
+msgid "No permissions!"
+msgstr "Žiadne povolenia!"
+
+#: includes/Settings/SettingsDebug.php:1318
+msgid "Recommended to compress PDF documents"
+msgstr "Odporúčame komprimovať dokumenty PDF"
+
+#: includes/Settings/SettingsDebug.php:1315
+msgid "To compress PDF documents"
+msgstr "Komprimovanie dokumentov PDF"
+
+#: includes/Settings/SettingsDebug.php:1306
+msgid "Required if you have images in your documents"
+msgstr "Vyžaduje sa, ak máte v dokumentoch obrázky"
+
+#: includes/Settings/SettingsDebug.php:1300
+msgid "Recommended, will use fallback functions"
+msgstr "Odporúčané, bude používať záložné funkcie"
+
+#: includes/Admin.php:1670
+msgid "An error occurred while deleting the document!"
+msgstr "Pri odstraňovaní dokumentu došlo k chybe!"
+
+#: includes/Admin.php:1629
+msgid "Incomplete request!"
+msgstr "Neúplná žiadosť!"
+
+#: includes/Admin.php:1623
+msgid "Bad action!"
+msgstr "Zlá akcia!"
+
+#: includes/Admin.php:1615
+msgid "Nonce expired!"
+msgstr "Platnosť nonce vypršala!"
+
+#: includes/Main.php:1607
+msgid "single order action"
+msgstr "akcia na jednu objednávku"
+
+#: includes/Main.php:1608
+msgid "bulk order action"
+msgstr "akcia hromadnej objednávky"
+
+#: includes/Settings/SettingsDebug.php:1539
+msgid "DOMPDF fonts folder (needs to be writable for custom/remote fonts)"
+msgstr "Priečinok DOMPDF písma (musí byť zapisovateľný pre vlastné/vzdialené písma)"
+
+#: includes/Settings/SettingsDebug.php:1533
+msgid "Temporary DOMPDF folder"
+msgstr "Dočasný priečinok DOMPDF"
+
+#: includes/Settings/SettingsDebug.php:1527
+msgid "Temporary attachments folder"
+msgstr "Dočasný priečinok s prílohami"
+
+#: includes/Settings/SettingsDebug.php:1521
+msgid "Central temporary plugin folder"
+msgstr "Centrálny dočasný priečinok pluginu"
+
+#: includes/Settings/SettingsDebug.php:1359
+msgid "allow_url_fopen disabled"
+msgstr "allow_url_fopen vypnuté"
+
+#: includes/Settings/SettingsDebug.php:1356
+msgid "Allow remote stylesheets and images"
+msgstr "Povolenie vzdialených súborov štýlov a obrázkov"
+
+#: includes/Settings/SettingsDebug.php:1336
+msgid "Check PHP disable_functions"
+msgstr "Skontrolovať PHP disable_functions"
+
+#: includes/Settings/SettingsDebug.php:1333
+msgid "Required to detect custom templates and to clear the temp folder periodically"
+msgstr "Potrebné na detekciu vlastných šablón a pravidelné vymazávanie dočasného priečinka"
+
+#: includes/Settings/SettingsDebug.php:1327
+msgid "Better with transparent PNG images"
+msgstr "Lepšie s priehľadnými obrázkami PNG"
+
+#: includes/Settings/SettingsDebug.php:1324
+#: includes/Settings/SettingsDebug.php:1330
+msgid "Recommended for better performances"
+msgstr "Odporúčame pre lepšie výkony"
+
+#: includes/Settings/SettingsDebug.php:1321
+msgid "For better performances"
+msgstr "Pre lepšie výkony"
+
+#: includes/Admin.php:562
+msgid "Choose an email to send&hellip;"
+msgstr "Vyberte e-mail, ktorý chcete odoslať&hellip;"
+
+#. translators: document title
+#: includes/Admin.php:1240
+msgid "Set %s number & date"
+msgstr "Nastavenie čísla a dátumu %s"
+
+#. translators: <a> tags
+#: woocommerce-pdf-invoices-packingslips.php:285
+msgid "We strongly recommend to %1$supdate your PHP version%2$s."
+msgstr "Dôrazne odporúčame %1$saktualizovať verziu PHP%2$s."
+
+#. translators: document title
+#: includes/Main.php:1824
+msgid "Order %s Saved"
+msgstr "Objednávka %s bola uložená"
+
+#: includes/Admin.php:532
+msgid "PDF document data"
+msgstr "Údaje pre PDF dokument"
+
+#: includes/Main.php:967
+msgid "Please check your directories write permissions or contact your hosting service provider."
+msgstr "Skontrolujte oprávnenia na zápis do adresárov, alebo kontaktujte poskytovateľa hostingových služieb."
+
+#: includes/Documents/Invoice.php:311 includes/Documents/PackingSlip.php:169
+msgid "Display customer notes"
+msgstr "Zobraziť poznámky od zákazníka"
+
+#: woocommerce-pdf-invoices-packingslips.php:450
+msgid "To protect them, you must click the button below."
+msgstr "Ak ich chcete chrániť, musíte kliknúť na tlačidlo nižšie."
+
+#: woocommerce-pdf-invoices-packingslips.php:451
+msgid "Generate random temporary folder name"
+msgstr "Vygenerovať náhodný názov dočasného priečinka"
+
+#. translators: zero number
+#: includes/Documents/Invoice.php:539
+msgid "Disable document when the order total is %s"
+msgstr "Zakázať dokument, keď je celková hodnota objednávky %s"
+
+#: includes/Settings/SettingsDebug.php:312
+msgid "Temporary folder moved to"
+msgstr "Dočasný priečinok presunutý do"
+
+#. translators: directory path
+#: woocommerce-pdf-invoices-packingslips.php:449
+msgid "The PDF files in %s are not currently protected due to your site running on <strong>NGINX</strong>."
+msgstr "Súbory PDF v %s nie sú v súčasnosti chránené z dôvodu, že vaša stránka beží na <strong>NGINX</strong>."
+
+#: includes/Documents/OrderDocument.php:1040
+msgid "Notes:"
+msgstr "Poznámky:"
+
+#: includes/Documents/PackingSlip.php:138
+msgid "Only when different from shipping address"
+msgstr "Len ak sa líši od dodacej adresy"
+
+#: includes/Documents/Invoice.php:281 views/setup-wizard/display-options.php:21
+msgid "Only when different from billing address"
+msgstr "Len ak sa líši od fakturačnej adresy"
+
+#: includes/Settings/SettingsDebug.php:1054
+msgid "You can also add <code>&output=html</code> to the URL to apply this on a per-order basis."
+msgstr "Do URL adresy môžete tiež pridať <code>&output=html</code>, aby ste to použili na základe jednotlivých objednávok."
+
+#: includes/Settings/SettingsGeneral.php:223
+msgid "Logo height"
+msgstr "Výška loga"
+
+#: includes/Settings/SettingsDocuments.php:65 views/advanced-numbers.php:13
+msgid "untitled"
+msgstr "bez názvu"
+
+#: includes/Settings/SettingsGeneral.php:231
+msgid "Enter the total height of the logo in mm, cm or in and use a dot for decimals.<br/>For example: 1.15in or 40mm"
+msgstr "Celkovú výšku loga zadajte v mm, cm alebo v in a pre desatinné miesta použite bodku.<br/>Napr.: 1,15in alebo 40mm"
+
+#: includes/Assets.php:91
+msgid "Are you sure you want to regenerate this document? This will make the document reflect the most current settings (such as footer text, document name, etc.) rather than using historical settings."
+msgstr "Ste si istí, že chcete tento dokument regenerovať? Dokument tak bude odrážať najaktuálnejšie nastavenia (napríklad text v pätičke, názov dokumentu atď.) a nebude používať historické nastavenia."
+
+#. translators: 1. document title
+#: includes/Documents/OrderDocument.php:552
+msgid "%s was regenerated"
+msgstr "%s bol obnovený"
+
+#. translators: 1. credit note title, 2. refund id
+#: includes/Documents/OrderDocument.php:547
+msgid "%1$s (refund #%2$s) was regenerated."
+msgstr "%1$s (refundácia #%2$s) bola obnovená."
+
+#: includes/Documents/Invoice.php:371
+msgid "More information"
+msgstr "Viac informácií"
+
+#: includes/Documents/Invoice.php:369
+#: includes/Settings/SettingsCallbacks.php:39
+msgid "Warning!"
+msgstr "Upozornenie!"
+
+#: includes/Documents/Invoice.php:365 views/setup-wizard/display-options.php:84
+msgid "Order Number"
+msgstr "Číslo objednávky"
+
+#: includes/Documents/Invoice.php:333
+#: includes/Documents/OrderDocumentMethods.php:1385
+#: views/setup-wizard/display-options.php:63
+msgid "Order Date"
+msgstr "Dátum objednávky"
+
+#: includes/Documents/Invoice.php:280 includes/Documents/Invoice.php:331
+#: includes/Documents/Invoice.php:363 includes/Documents/PackingSlip.php:137
+#: views/advanced-status.php:156 views/advanced-status.php:160
+#: views/advanced-status.php:186 views/advanced-status.php:211
+#: views/setup-wizard/display-options.php:20
+#: views/setup-wizard/display-options.php:61
+#: views/setup-wizard/display-options.php:82
+msgid "No"
+msgstr "Nie"
+
+#: includes/Documents/Invoice.php:370
+msgid "Using the Order Number as invoice number is not recommended as this may lead to gaps in the invoice number sequence (even when order numbers are sequential)."
+msgstr "Používanie čísla objednávky ako čísla faktúry sa neodporúča, pretože to môže viesť k medzerám v poradí čísel faktúr (aj keď sú čísla objednávok postupné)."
+
+#: views/setup-wizard/show-action-buttons.php:30
+msgid "Show action buttons"
+msgstr "Zobraziť tlačidlá akcií"
+
+#: includes/Documents/Invoice.php:267
+msgid "Select one or more statuses"
+msgstr "Vyberte jeden alebo viac stavov"
+
+#: includes/Documents/Invoice.php:258
+msgid "Disable for:"
+msgstr "Zakázať pre:"
+
+#: includes/SetupWizard.php:79 views/setup-wizard/show-action-buttons.php:3
+msgid "Action buttons"
+msgstr "Tlačidlá akcie"
+
+#: views/setup-wizard/show-action-buttons.php:5
+msgid "(You can always change this setting later via the Screen Options menu)"
+msgstr "(Toto nastavenie môžete kedykoľvek neskôr zmeniť prostredníctvom ponuky Možnosti obrazovky)"
+
+#: views/setup-wizard/show-action-buttons.php:4
+msgid "Would you like to display the action buttons in your WooCommerce order list? The action buttons allow you to manually create a PDF."
+msgstr "Chcete zobraziť akčné tlačidlá v zozname objednávok WooCommerce? Akčné tlačidlá vám umožňujú manuálne vytvoriť PDF."
+
+#: includes/Settings/SettingsGeneral.php:166
+msgid "Test mode"
+msgstr "Testovací mód"
+
+#: includes/Settings/SettingsGeneral.php:174
+msgid "With test mode enabled, any document generated will always use the latest settings, rather than using the settings as configured at the time the document was first created."
+msgstr "Pri zapnutom testovacom režime sa v každom vytvorenom dokumente vždy použijú najnovšie nastavenia, a nie nastavenia nakonfigurované v čase prvého vytvorenia dokumentu."
+
+#: includes/Admin.php:1777
+msgid "DEBUG output enabled"
+msgstr "DEBUG výstup povolený"
+
+#: includes/Settings/SettingsGeneral.php:175
+msgid "Note: Invoice numbers and dates are not affected by this setting and will still be generated."
+msgstr "Poznámka: Toto nastavenie nemá vplyv na čísla a dátumy faktúr a budú sa naďalej generovať."
+
+#: includes/Documents/Invoice.php:591
+msgid "When enabled, the document will always reflect the most current settings (such as footer text, document name, etc.) rather than using historical settings."
+msgstr "Ak je táto možnosť zapnutá, dokument bude vždy odrážať najaktuálnejšie nastavenia (napríklad text v pätičke, názov dokumentu atď.) namiesto použitia historických nastavení."
+
+#: includes/Documents/Invoice.php:583
+msgid "Always use most current settings"
+msgstr "Vždy používajte najaktuálnejšie nastavenia"
+
+#: includes/Documents/Invoice.php:592
+msgid "Caution: Enabling this will also mean that if you change your company name or address in the future, previously generated documents will also be affected."
+msgstr "Upozornenie: Ak túto funkciu povolíte, bude to tiež znamenať, že ak v budúcnosti zmeníte názov alebo adresu spoločnosti, ovplyvní to aj predtým vygenerované dokumenty."
+
+#: wpo-ips-functions.php:371
+msgid "Error creating PDF, please contact the site owner."
+msgstr "Chyba pri vytváraní PDF, obráťte sa na majiteľa stránky."
+
+#: includes/Assets.php:90
+msgid "Are you sure you want to delete this document? This cannot be undone."
+msgstr "Ste si istí, že chcete tento dokument vymazať? Toto sa nedá vrátiť späť."
+
+#: includes/Admin.php:177
+msgid "I am the wizard"
+msgstr "Ja som sprievodca"
+
+#: includes/Admin.php:177 views/advanced-tools.php:150
+#: views/advanced-tools.php:152
+msgid "Run the Setup Wizard"
+msgstr "Spustite sprievodcu nastavením"
+
+#: includes/Admin.php:176
+msgid "Jumpstart the plugin by following our wizard!"
+msgstr "Spustite plugin pomocou nášho sprievodcu!"
+
+#: includes/Admin.php:362 includes/Documents/Invoice.php:332
+#: includes/Main.php:1388 views/setup-wizard/display-options.php:62
+msgid "Invoice Date"
+msgstr "Dátum faktúry"
+
+#. translators: number of days
+#: includes/Settings/SettingsDebug.php:1037
+msgid "every %s days"
+msgstr "každých %s dní"
+
+#: includes/Settings/SettingsDebug.php:1030
+msgid "Enable automatic cleanup"
+msgstr "Povoliť automatické čistenie"
+
+#: languages/strings.php:11
+msgid "Send email"
+msgstr "Odoslať email"
+
+#: includes/Admin.php:511
+msgid "Send order email"
+msgstr "Odoslať objednávku e-mailom"
+
+#: views/setup-wizard/shop-name.php:3
+msgid "Enter your shop name"
+msgstr "Zadajte názov svojho obchodu"
+
+#: views/setup-wizard/paper-format.php:4
+msgid "Select the paper format for your invoice."
+msgstr "Vyberte papierový formát faktúry."
+
+#: views/setup-wizard/logo.php:4
+msgid "Set the header image that will display on your invoice."
+msgstr "Nastavte obrázok hlavičky, ktorý sa zobrazí na vašej faktúre."
+
+#: views/setup-wizard/good-to-go.php:6
+msgid "Happy selling!"
+msgstr "Úspešný predaj!"
+
+#: includes/SetupWizard.php:278
+msgid "Finish"
+msgstr "Dokončené"
+
+#: includes/SetupWizard.php:276
+msgid "Skip this step"
+msgstr "Preskočiť tento krok"
+
+#: includes/SetupWizard.php:275
+msgid "Next"
+msgstr "Ďalej"
+
+#: includes/SetupWizard.php:270
+msgid "Previous"
+msgstr "Späť"
+
+#: includes/SetupWizard.php:83
+msgid "Ready!"
+msgstr "Pripravené!"
+
+#: includes/SetupWizard.php:75 views/setup-wizard/paper-format.php:3
+msgid "Paper format"
+msgstr "Formát papiera"
+
+#: includes/SetupWizard.php:71 views/setup-wizard/display-options.php:3
+msgid "Display options"
+msgstr "Možnosti zobrazenia"
+
+#: includes/SetupWizard.php:67
+msgid "Attachments"
+msgstr "Prílohy"
+
+#: includes/SetupWizard.php:63 views/setup-wizard/logo.php:3
+msgid "Your logo"
+msgstr "Vaše logo"
+
+#: includes/Admin.php:583
+msgid "Save order & send email"
+msgstr "Uložiť objednávku a odoslať e-mail"
+
+#: views/setup-wizard/attach-to.php:3
+msgid "Attach to..."
+msgstr "Pripojiť k..."
+
+#: views/setup-wizard/shop-name.php:4
+msgid "Lets quickly setup your invoice. Please enter the name and address of your shop in the fields on the right."
+msgstr "Umožňuje rýchlo nastaviť faktúru. Do polí vpravo zadajte názov a adresu svojho obchodu."
+
+#: views/setup-wizard/good-to-go.php:4
+msgid "If you have any questions please have a look at our documentation:"
+msgstr "Ak máte akékoľvek otázky, pozrite si našu dokumentáciu:"
+
+#: views/setup-wizard/good-to-go.php:3
+msgid "You are good to go!"
+msgstr "Môžete začať!"
+
+#: views/setup-wizard/display-options.php:4
+msgid "Select some additional display options for your invoice."
+msgstr "Vyberte ďalšie možnosti zobrazenia faktúry."
+
+#: views/setup-wizard/attach-to.php:4
+msgid "Select to which emails you would like to attach your invoice."
+msgstr "Vyberte, ku ktorým e-mailom chcete pripojiť faktúru."
+
+#. translators: %s: email title
+#: includes/Admin.php:1567
+msgid "%s email notification manually sent."
+msgstr "%s e-mailové oznámenie odoslané manuálne."
+
+#. translators: <a> tags
+#: views/attachment-settings-hint.php:11
+msgid "It looks like you haven't setup any email attachments yet, check the settings under <b>%1$sDocuments > Invoice%2$s</b>"
+msgstr "Vyzerá to, že ste ešte nenastavili žiadne e-mailové prílohy, skontrolujte nastavenia v časti <b>%1$sDokumenty > Faktúra%2$s</b>."
+
+#: includes/Admin.php:135
+msgid "Actually, I have a complaint..."
+msgstr "Vlastne mám sťažnosť ..."
+
+#: includes/Admin.php:134
+msgid "Already did!"
+msgstr "Už sa stalo!"
+
+#: includes/Admin.php:133
+msgid "Yes you deserve it!"
+msgstr "Áno, zaslúžite si to!"
+
+#. translators: rounded count
+#: includes/Admin.php:126
+msgid "Wow, you have created more than %d invoices with our plugin!"
+msgstr "Wow, vytvorili ste viac ako %d faktúr s našim pluginom!"
+
+#: includes/Admin.php:131
+msgid "It would mean a lot to us if you would quickly give our plugin a 5-star rating. Help us spread the word and boost our motivation!"
+msgstr "Veľmi by pre nás znamenalo, keby ste náš plugin ohodnotili piatimi hviezdičkami. Pomôžte nám šíriť informácie a zvýšiť našu motiváciu!"
+
+#: includes/Settings/SettingsGeneral.php:196
+msgid "Enable font subsetting"
+msgstr "Povoliť podnastavenia písma"
+
+#: includes/Settings/SettingsGeneral.php:202
+msgid "Font subsetting can reduce file size by only including the characters that are used in the PDF, but limits the ability to edit PDF files later. Recommended if you're using an Asian font."
+msgstr "Podnastavenia písma môžu znížiť veľkosť súboru tým, že obsahujú len znaky, ktoré sa používajú v súbore PDF, ale obmedzujú možnosť neskorších úprav súborov PDF. Odporúča sa, ak používate ázijské písmo."
+
+#: includes/Settings/SettingsDebug.php:974
+msgid "Calculate document numbers (slow)"
+msgstr "Vypočítať čísla dokumentov (pomaly)"
+
+#. translators: 1. AUTO_INCREMENT, 2. one
+#: includes/Settings/SettingsDebug.php:982
+msgid "Document numbers (such as invoice numbers) are generated using %1$s by default. Use this setting if your database auto increments with more than %2$s."
+msgstr "Čísla dokladov (napríklad čísla faktúr) sa predvolene generujú pomocou %1$s. Toto nastavenie použite, ak vaša databáza automaticky inkrementuje viac ako %2$s."
+
+#: includes/Main.php:1294
+msgid "Nothing to delete!"
+msgstr "Nič, čo by sa dalo vymazať!"
+
+#: views/advanced-tools.php:49 views/advanced-tools.php:53
+msgid "Remove temporary files"
+msgstr "Odstránenie dočasných súborov"
+
+#. translators: %d is the number of files successfully deleted
+#: includes/Main.php:1328
+msgid "Successfully deleted %d file!"
+msgid_plural "Successfully deleted %d files!"
+msgstr[0] "Úspešne odstránený %d súbor!"
+msgstr[1] "Úspešne odstránené %d súbory!"
+msgstr[2] "Úspešne odstránených %d súborov!"
+
+#. translators: %1$d is the number of files that couldn't be deleted, %2$d is
+#. the number of successfully deleted files
+#: includes/Main.php:1315
+msgid "Unable to delete %1$d file! (deleted %2$d)"
+msgid_plural "Unable to delete %1$d files! (deleted %2$d)"
+msgstr[0] "Nie je možné odstrániť %1$d súbor! (odstránené %2$d)"
+msgstr[1] "Nie je možné odstrániť %1$d súbory! (odstránené %2$d)"
+msgstr[2] "Nie je možné odstrániť %1$d súborov! (odstránené %2$d)"
+
+#: includes/Admin.php:134 includes/Main.php:968
+#: includes/Settings/SettingsDebug.php:1472
+#: includes/Settings/SettingsGeneral.php:866
+#: views/attachment-settings-hint.php:12 views/extensions.php:135
+#: views/promo.php:34 woocommerce-pdf-invoices-packingslips.php:452
+#: woocommerce-pdf-invoices-packingslips.php:511
+#: woocommerce-pdf-invoices-packingslips.php:549
+#: woocommerce-pdf-invoices-packingslips.php:688
+msgid "Hide this message"
+msgstr "Skryť túto správu"
+
+#: views/extensions.php:71
+msgid "<b>Super versatile!</b> Can be used for any kind of reminder email (review reminders, repeat purchases)"
+msgstr "<b>Vynikajúca všestrannosť!</b> Možno použiť na akýkoľvek druh e-mailovej pripomienky (pripomienka recenzie, opakované nákupy)"
+
+#: views/extensions.php:70
+msgid "Fully <b>WPML Compatible</b> – emails will be automatically sent in the order language."
+msgstr "Plne <b>WPML kompatibilný</b> - e-maily sa automaticky odosielajú v jazyku objednávky."
+
+#: views/extensions.php:74
+msgid "Get WooCommerce Smart Reminder Emails"
+msgstr "Získajte inteligentné e-maily s pripomienkami WooCommerce"
+
+#: views/extensions.php:72
+msgid "Integrates seamlessly with the PDF Invoices & Packing Slips plugin"
+msgstr "Bezproblémová integrácia s pluginom PDF Invoices & Packing Slips"
+
+#: includes/Settings/SettingsDebug.php:321
+msgid "Fonts reinstalled!"
+msgstr "Fonty preinštalované!"
+
+#: views/advanced-tools.php:25
+msgid "Reinstall fonts"
+msgstr "Preinštalujte písma (fonty)"
+
+#: includes/Main.php:404
+msgid "You haven't selected any orders"
+msgstr "Nevybrali ste žiadne objednávky"
+
+#: includes/Documents/Invoice.php:390
+msgid "Number format"
+msgstr "Formát číslovania"
+
+#: includes/Documents/Invoice.php:356
+msgid "Display invoice number"
+msgstr "Zobraziť číslo faktúry"
+
+#: includes/Documents/Invoice.php:238 includes/Documents/PackingSlip.php:194
+msgid "Attach to:"
+msgstr "Pripojiť k:"
+
+#: includes/Documents/Invoice.php:227 includes/Documents/PackingSlip.php:119
+#: includes/Settings/SettingsGeneral.php:535
+msgid "Enable"
+msgstr "Povoliť"
+
+#: includes/Settings.php:184
+msgid "Documents"
+msgstr "Dokumenty"
+
+#: includes/Admin.php:2207 includes/Settings/SettingsCallbacks.php:913
+msgid "Save"
+msgstr "Uložiť"
+
+#: includes/Settings.php:130
+msgid "Documentation"
+msgstr "Dokumentácia"
+
+#: includes/Settings.php:131
+msgid "Support Forum"
+msgstr "Fórum podpory"
+
+#. translators: %s: tax information
+#: includes/Documents/OrderDocumentMethods.php:1002
+msgid "(includes %s)"
+msgstr "(zahŕňa %s)"
+
+#: includes/Documents/OrderDocument.php:1898
+msgid "Manual email"
+msgstr "Manuálny e-mail"
+
+#: includes/Documents/Invoice.php:445
+msgid "Reset invoice number yearly"
+msgstr "Každý rok resetovať číslo faktúry"
+
+#. translators: link
+#: includes/Documents/Invoice.php:650
+msgid "Configure it <a href=\"%s\">here</a>."
+msgstr "Nakonfigurujte ho <a href=\"%s\">tu</a>."
+
+#: includes/Documents/OrderDocument.php:1895
+#: includes/Documents/OrderDocument.php:1902
+msgid "Admin email"
+msgstr "E-mail administrátora"
+
+#: includes/Settings/SettingsGeneral.php:190
+msgid "Enable this if your currency symbol is not displaying properly"
+msgstr "Ak sa symbol meny nezobrazuje správne, povoľte túto funkciu."
+
+#: includes/Settings/SettingsGeneral.php:184
+msgid "Extended currency symbol support"
+msgstr "Rozšírená podpora symbolu meny"
+
+#: views/extensions.php:69
+msgid "Configure the exact requirements for sending an email (time after order, order status, payment method)"
+msgstr "Konfigurácia presných požiadaviek na odoslanie e-mailu (čas po objednávke, stav objednávky, spôsob platby)"
+
+#: views/extensions.php:68
+msgid "<b>Rich text editor</b> for the email text, including placeholders for data from the order (name, order total, etc)"
+msgstr "<b>Bohatý textový editor</b> pre text e-mailu vrátane zástupných znakov pre údaje z objednávky (meno, celková suma objednávky atď.)"
+
+#: views/extensions.php:67
+msgid "<b>Completely automatic</b> scheduled emails"
+msgstr "<b>Úplne automatické</b> naplánované e-maily"
+
+#: views/extensions.php:65
+msgid "WooCommerce Smart Reminder emails"
+msgstr "Inteligentné e-maily s pripomienkami WooCommerce"
+
+#: views/extensions.php:63
+msgid "Automatically send payment reminders to your customers"
+msgstr "Automatické zasielanie platobných upomienok zákazníkom"
+
+#: views/extensions.php:15
+msgid "Professional features:"
+msgstr "Profesionálne vlastnosti:"
+
+#: views/extensions.php:12
+msgid "Premium PDF Invoice bundle: Everything you need for a perfect invoicing system"
+msgstr "Prémiový balík faktúr PDF: Všetko, čo potrebujete pre dokonalý fakturačný systém"
+
+#: includes/Documents/Invoice.php:647
+msgid "Invoice numbers are created by a third-party extension."
+msgstr "Čísla faktúr sa vytvárajú pomocou rozšírenia tretej strany."
+
+#: includes/Documents/Invoice.php:384
+msgid "This is the number that will be used for the next document. By default, numbering starts from 1 and increases for every new document. Note that if you override this and set it lower than the current/highest number, this could create duplicate numbers!"
+msgstr "Toto je číslo, ktoré sa použije pre ďalší dokument. V predvolenom nastavení sa číslovanie začína od 1 a zvyšuje sa pre každý nový dokument. Upozorňujeme, že ak toto číslo prepíšete a nastavíte ho nižšie ako aktuálne/najvyššie číslo, mohlo by dôjsť k vytvoreniu duplicitných čísel!"
+
+#. translators: document type
+#: includes/Main.php:576
+msgid "Document of type '%s' for the selected order(s) could not be generated"
+msgstr "Dokument typu '%s' pre vybrané objednávky nebolo možné vygenerovať"
+
+#: includes/Settings/SettingsDebug.php:1130
+msgid "<b>Caution!</b> This setting may reveal errors (from other plugins) in other places on your site too, therefore this is not recommended to leave it enabled on live sites."
+msgstr "<b>Upozornenie!</b> Toto nastavenie môže odhaliť chyby (z iných pluginov) aj na iných miestach vašej stránky, preto sa neodporúča ponechať ho zapnuté na živých stránkach."
+
+#. translators: email link
+#: views/extensions.php:122
+msgid "For custom templates, contact us at %s."
+msgstr "Ak chcete šablónu na mieru, kontaktuje nás na %s."
+
+#: includes/Settings/SettingsGeneral.php:208
+msgid "Shop header/logo"
+msgstr "Hlavička / logo"
+
+#: includes/Settings/SettingsGeneral.php:214 views/setup-wizard/logo.php:12
+msgid "Select or upload your invoice header/logo"
+msgstr "Vyberte alebo nahrajte hlavičku / logo vo faktúre"
+
+#: includes/Settings/SettingsGeneral.php:215 views/setup-wizard/logo.php:13
+msgid "Set image"
+msgstr "Zvoliť obrázok"
+
+#: includes/Settings/SettingsGeneral.php:216 views/setup-wizard/logo.php:14
+msgid "Remove image"
+msgstr "Odstrániť obrázok"
+
+#: includes/Settings/SettingsGeneral.php:237 includes/SetupWizard.php:59
+msgid "Shop Name"
+msgstr "Názov obchodu"
+
+#: includes/Settings/SettingsGeneral.php:438
+msgid "Footer: terms & conditions, policies, etc."
+msgstr "Pätička: obchodné podmienky, ochrana osobných údajov, atď."
+
+#: includes/Documents/Invoice.php:324
+msgid "Display invoice date"
+msgstr "Zobraziť dátum faktúry"
+
+#: includes/Documents/Invoice.php:378
+msgid "Next invoice number (without prefix/suffix etc.)"
+msgstr "Ďalšie číslo faktúry (bez predpony/prípony)"
+
+#: includes/Documents/Invoice.php:398
+msgid "Prefix"
+msgstr "Predpona"
+
+#: includes/Documents/Invoice.php:407
+msgid "Suffix"
+msgstr "Prípona"
+
+#: includes/Documents/Invoice.php:416
+msgid "Padding"
+msgstr "Vnútorné odsadenie"
+
+#: includes/Settings/SettingsGeneral.php:457
+msgid "Extra template fields"
+msgstr "Extra políčka v šablóne"
+
+#: includes/Settings/SettingsGeneral.php:463
+msgid "Extra field 1"
+msgstr "Extra políčko 1"
+
+#: includes/Settings/SettingsGeneral.php:487
+msgid "Extra field 2"
+msgstr "Extra políčko 2"
+
+#: includes/Settings/SettingsGeneral.php:511
+msgid "Extra field 3"
+msgstr "Extra políčko 3"
+
+#: includes/Settings/SettingsCallbacks.php:828
+msgid "Image resolution"
+msgstr "Rozlíšenie obrázka"
+
+#: includes/Admin.php:361 includes/Admin.php:1975 includes/Assets.php:378
+#: includes/Documents/Invoice.php:364 includes/Main.php:1387
+#: views/setup-wizard/display-options.php:83
+msgid "Invoice Number"
+msgstr "Číslo faktúry"
+
+#: includes/Admin.php:522
+msgid "Create PDF"
+msgstr "Vytvoriť PDF"
+
+#: includes/Admin.php:1377
+msgid "h"
+msgstr "h"
+
+#: includes/Admin.php:1381
+msgid "m"
+msgstr "m"
+
+#: includes/Documents/Invoice.php:24 includes/Documents/Invoice.php:75
+#: includes/Frontend.php:81 includes/Settings/SettingsDebug.php:1001
+#: views/settings-page.php:179
+msgid "Invoice"
+msgstr "Faktúra"
+
+#: includes/Documents/PackingSlip.php:24 includes/Documents/PackingSlip.php:44
+msgid "Packing Slip"
+msgstr "Dodací list"
+
+#: includes/Documents/Invoice.php:87
+#: includes/Documents/OrderDocumentMethods.php:1399
+msgid "Invoice Number:"
+msgstr "Číslo faktúry:"
+
+#: includes/Documents/OrderDocument.php:1019
+msgid "Order Number:"
+msgstr "Číslo objednávky:"
+
+#: includes/Documents/OrderDocument.php:1022
+msgid "Order Date:"
+msgstr "Dátum objednávky:"
+
+#: includes/Documents/OrderDocument.php:1025
+msgid "Payment Method:"
+msgstr "Spôsob platby:"
+
+#: languages/strings.php:14 wpo-ips-functions.php:1022
+msgid "Product"
+msgstr "Produkt"
+
+#: languages/strings.php:15 wpo-ips-functions.php:1023
+msgid "Quantity"
+msgstr "Množstvo"
+
+#: languages/strings.php:16 wpo-ips-functions.php:1024
+msgid "Price"
+msgstr "Cena"
+
+#: languages/strings.php:12
+msgid "Description"
+msgstr "Popis"
+
+#: languages/strings.php:13
+msgid "SKU"
+msgstr "Kód"
+
+#: includes/Documents/OrderDocument.php:1034
+msgid "SKU:"
+msgstr "Kód:"
+
+#: includes/Documents/OrderDocument.php:1037
+msgid "Weight:"
+msgstr "Hmotnosť:"
+
+#: includes/Documents/OrderDocumentMethods.php:96
+#: includes/Documents/OrderDocumentMethods.php:206
+msgid "N/A"
+msgstr "N/A"
+
+#: languages/strings.php:9
+msgid "Payment method"
+msgstr "Spôsob platby"
+
+#: languages/strings.php:10
+msgid "Shipping method"
+msgstr "Doprava"
+
+#: includes/Documents/OrderDocumentMethods.php:1033
+msgid "Subtotal"
+msgstr "Medzisúčet"
+
+#: includes/Documents/OrderDocumentMethods.php:1058
+msgid "Shipping"
+msgstr "Doprava"
+
+#: includes/Documents/OrderDocumentMethods.php:1089
+msgid "Discount"
+msgstr "Zľava"
+
+#: languages/strings.php:5
+msgid "VAT"
+msgstr "DPH"
+
+#: includes/Documents/OrderDocumentMethods.php:1165
+msgid "Total ex. VAT"
+msgstr "Spolu bez DPH"
+
+#: includes/Documents/OrderDocumentMethods.php:1168 includes/Settings.php:474
+msgid "Total"
+msgstr "Spolu"
+
+#: includes/Documents/Invoice.php:300 includes/Documents/PackingSlip.php:158
+msgid "Display phone number"
+msgstr "Zobraziť telefónne číslo"
+
+#: includes/Documents/PackingSlip.php:130
+msgid "Display billing address"
+msgstr "Zobraziť fakturačnú adresu"
+
+#: includes/Settings/SettingsDebug.php:1113
+msgid "Enable debug output"
+msgstr "Povoliť výstup ladenia"
+
+#: includes/Settings/SettingsDebug.php:1053
+msgid "Send the template output as HTML to the browser instead of creating a PDF."
+msgstr "Pošle výstup šablóny v HTML do prehliadača miesto vytvorenia PDF."
+
+#: views/extensions.php:6
+msgid "Check out these premium extensions!"
+msgstr "Vyskúšajte tieto prémiové rozšírenia!"
+
+#: views/extensions.php:43
+msgid "Go Pro: Proforma invoices, credit notes (=refunds) & more!"
+msgstr "Pro verzia: proforma faktúry, dobropisy a mnoho ďalšieho!"
+
+#: views/extensions.php:17 views/extensions.php:47
+msgid "Email/print/download <b>PDF Credit Notes & Proforma invoices</b>"
+msgstr "E-mail / Tlač / Stiahnuť <b>PDF dobropisy a proforma faktúry</b>"
+
+#: views/extensions.php:19 views/extensions.php:49
+msgid "Attach <b>up to 3 static files</b> (for example a terms & conditions document) to the WooCommerce emails of your choice."
+msgstr "Prikladajte k vybraným WooCommerce e-mailom <b>až 3 statické súbory</b> (napr. dokument s obchodnými podmienkami)."
+
+#: views/extensions.php:20 views/extensions.php:50
+msgid "Use <b>separate numbering systems</b> and/or format for proforma invoices and credit notes or utilize the main invoice numbering system"
+msgstr "Používajte <b>samostatné číslovanie</b> a/alebo formát proforma faktúr a dobropisov alebo používajte hlavní číslovanie"
+
+#: languages/strings.php:6
+msgid "Tax rate"
+msgstr "Daňová sadzba"
+
+#: includes/Documents/OrderDocument.php:1013
+msgid "Billing Address:"
+msgstr "Fakturačná adresa:"
+
+#: includes/Documents/Invoice.php:111
+msgid "Ship To:"
+msgstr "Odoslať na:"
+
+#: views/extensions.php:21 views/extensions.php:51
+msgid "<b>Customize</b> the <b>shipping & billing address</b> format to include additional custom fields, font sizes etc. without the need to create a custom template."
+msgstr "<b>Upravte</b> si formát <b>dodacej a fakturačnej adresy</b>, aby obsahovali ďalšie vlastné polia, velikosti písma, atď. bez nutnosti vytvárať vlastnú šablónu."
+
+#: views/extensions.php:22 views/extensions.php:52
+msgid "Use the plugin in multilingual <b>WPML</b> setups"
+msgstr "Používajte plugin v multi jazyčnom nastavení <b>WPML</b>"
+
+#: views/extensions.php:83
+msgid "Automatically send new orders or packing slips to your printer, as soon as the customer orders!"
+msgstr "Posielajte automaticky nové objednávky alebo dodacie listy do svojej tlačiarne, akonáhle si zákazník vytvorí objednávku!"
+
+#: views/extensions.php:90
+msgid "WooCommerce Automatic Order Printing"
+msgstr "WooCommerce Automatic Order Printing"
+
+#: views/extensions.php:27 views/extensions.php:108
+msgid "Two extra stylish premade templates (Modern & Business)"
+msgstr "Dve ďalšie štýlové premade šablóny (Modern & Business)"
+
+#: includes/Documents/Invoice.php:273
+msgid "Display shipping address"
+msgstr "Zobraziť doručovaciu adresu"
+
+#: includes/Documents/Invoice.php:289 includes/Documents/PackingSlip.php:147
+msgid "Display email address"
+msgstr "Zobraziť e-mailovú adresu"
+
+#: includes/Settings/SettingsDebug.php:1047
+msgid "Output to HTML"
+msgstr "Výstup do HTML"
+
+#: views/extensions.php:7
+msgid "click items to read more"
+msgstr "pre viac informácií kliknite na položky"
+
+#: views/extensions.php:18 views/extensions.php:48
+msgid "Send out a separate <b>notification email</b> with (or without) PDF invoices/packing slips, for example to a drop-shipper or a supplier."
+msgstr "Posielajte samostatn <b>notifikačný e-mail</b> s (alebo bez) PDF faktúrami/dodacími listami, napr. pre drop-shippera alebo dodávateľa."
+
+#: views/extensions.php:89
+msgid "Check out the WooCommerce Automatic Order Printing extension from our partners at Simba Hosting"
+msgstr "Vyskúšajte rozšírenie WooCommerce Automatic Order Printing od našich partnerov zo Simba Hosting"
+
+#: views/extensions.php:24 views/extensions.php:104
+msgid "Advanced, customizable templates"
+msgstr "Pokročilé, prispôsobiteľné šablóny"
+
+#. translators: Premium Templates link
+#: views/extensions.php:113
+msgid "Check out the Premium PDF Invoice & Packing Slips templates at %s."
+msgstr "Vyskúšajte Premium PDF Invoice & Packing Slips šablóny na %s."
+
+#: includes/Documents/OrderDocument.php:1016
+msgid "Shipping Address:"
+msgstr "Adresa doručenia:"
+
+#: includes/Documents/OrderDocument.php:1031
+msgid "Shipping Method:"
+msgstr "Spôsob prepravy:"
+
+#: views/extensions.php:26 views/extensions.php:107
+msgid "Completely customize the invoice contents (prices, taxes, thumbnails) to your needs with a drag & drop customizer"
+msgstr "Úplne prispôsobte obsah faktúr (ceny, dane, náhľady) vašim potrebám s úpravami ťahaj & pusť"
+
+#: includes/Documents/Invoice.php:99
+msgid "Invoice Date:"
+msgstr "Dátum vystavenia:"
+
+#. Author URI of the plugin
+#: woocommerce-pdf-invoices-packingslips.php
+msgid "https://www.wpovernight.com"
+msgstr "https://www.wpovernight.com"
+
+#: includes/Documents/OrderDocument.php:1043
+msgid "Customer Notes:"
+msgstr "Poznámky zákazníka:"
+
+#: includes/Settings/SettingsDebug.php:1129
+msgid "Enable this option to output plugin errors if you're getting a blank page or other PDF generation issues."
+msgstr "Túto možnosť povoľte, ak chcete vypisovať chyby zásuvného modulu, ak sa vám zobrazuje prázdna stránka alebo máte iné problémy s generovaním PDF."
+
+#: includes/Main.php:508 includes/Settings.php:231 includes/Settings.php:415
+msgid "You do not have sufficient permissions to access this page."
+msgstr "Nemáte dostatočné oprávnenia na prístup k tejto stránke."
+
+#: includes/Settings.php:104 includes/Settings.php:105
+msgid "PDF Invoices"
+msgstr "PDF faktúry"
+
+#: includes/Assets.php:131 includes/Settings.php:117
+#: includes/Settings/SettingsDebug.php:1618
+#: includes/Settings/SettingsEDI.php:34
+msgid "Settings"
+msgstr "Nastavenia"
+
+#: includes/Documents/Invoice.php:675 includes/Documents/PackingSlip.php:233
+#: includes/Settings.php:180 includes/Settings/SettingsDebug.php:832
+msgid "General"
+msgstr "Všeobecné"
+
+#: includes/Settings/SettingsDebug.php:1619 views/advanced-status.php:52
+#: views/advanced-status.php:246
+msgid "Status"
+msgstr "Stav"
+
+#: includes/Settings/SettingsGeneral.php:68
+msgid "General settings"
+msgstr "Všeobecné nastavenia"
+
+#: includes/Settings/SettingsGeneral.php:74
+msgid "How do you want to view the PDF?"
+msgstr "Ako chcete zobraziť PDF?"
+
+#: includes/Settings/SettingsGeneral.php:81
+msgid "Download the PDF"
+msgstr "Stiahnuť PDF"
+
+#: includes/Settings/SettingsGeneral.php:82
+msgid "Open the PDF in a new browser tab/window"
+msgstr "Otvoriť PDF v novom okne"
+
+#. translators: 1. directory path
+#: includes/Documents/Invoice.php:249
+msgid "It looks like the temp folder (<code>%s</code>) is not writable, check the permissions for this folder! Without having write access to this folder, the plugin will not be able to email invoices."
+msgstr "Zdá sa, že dočasný priečinok (<code>%s</code>) nie je prístupný, skontrolujte prosím poverenia (CHMOD)! Bez povolení pre zápis do tohto priečinku, nebude možné odosielať faktúry e-mailom."
+
+#: includes/Documents/Invoice.php:481
+msgid "Enable invoice number column in the orders list"
+msgstr "Zobraziť stĺpec s číslom faktúry v objednávkach"
+
+#: includes/Settings/SettingsGeneral.php:89
+msgid "Choose a template"
+msgstr "Zvoľte šablónu"
+
+#: includes/Settings/SettingsGeneral.php:151
+msgid "Paper size"
+msgstr "Veľkosť papiera"
+
+#: includes/Settings/SettingsGeneral.php:158
+#: views/setup-wizard/paper-format.php:13
+msgid "A4"
+msgstr "A4"
+
+#: includes/Settings/SettingsGeneral.php:159
+#: views/setup-wizard/paper-format.php:14
+msgid "Letter"
+msgstr "Letter"
+
+#: includes/Documents/Invoice.php:466
+msgid "Never"
+msgstr "Nikdy"
+
+#: includes/Documents/Invoice.php:456
+msgid "Allow My Account invoice download"
+msgstr "Umožniť stiahnutie faktúry na stránke Môj účet"
+
+#: includes/Documents/Invoice.php:464
+msgid "Only for specific order statuses (define below)"
+msgstr "Len pre určité stavy objednávok ( definujte nižšie )"
+
+#: includes/Documents/Invoice.php:282 includes/Documents/Invoice.php:465
+#: includes/Documents/PackingSlip.php:139 includes/Settings/SettingsEDI.php:307
+#: views/setup-wizard/display-options.php:22
+msgid "Always"
+msgstr "Vždy"
+
+#: includes/Main.php:409
+msgid "Some of the export parameters are missing."
+msgstr "Chýbajú niektoré z exportných parametrov."
+
+#: includes/Documents/Invoice.php:142 includes/Documents/Invoice.php:403
+#: includes/Documents/Invoice.php:412 includes/Documents/Invoice.php:424
+#: includes/Documents/Invoice.php:438
+msgid "invoice"
+msgid_plural "invoices"
+msgstr[0] "faktúra"
+msgstr[1] "faktúry"
+msgstr[2] "faktúr"
+
+#: includes/Documents/Invoice.php:463
+msgid "Only when an invoice is already created/emailed"
+msgstr "Len ak už bola faktúra vytvorená / odoslaná"
+
+#: includes/Documents/PackingSlip.php:76
+msgid "packing-slip"
+msgid_plural "packing-slips"
+msgstr[0] "dodací list"
+msgstr[1] "dodacie listy"
+msgstr[2] "dodacích listov"
+
+#: includes/Documents/Invoice.php:532
+msgid "Disable for free orders"
+msgstr "Zakázať u produktov zadarmo"
