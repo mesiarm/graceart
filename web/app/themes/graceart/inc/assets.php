@@ -181,7 +181,7 @@ add_action('wp_head', function (): void {
  */
 function graceartDeferredStyles(): array
 {
-    return [
+    return array_merge([
         'fontawesome-style',
         'themify-icons-style',
         'select2-style',
@@ -189,7 +189,7 @@ function graceartDeferredStyles(): array
         'nice-select-style',
         'photoswipe-style',
         'photoswipe-skin-style',
-    ];
+    ], graceartCriticalDeferredStyles());
 }
 
 add_filter('style_loader_tag', function (string $tag, string $handle, string $href, string $media): string {
@@ -205,3 +205,42 @@ add_filter('style_loader_tag', function (string $tag, string $handle, string $hr
         esc_attr($media),
     );
 }, 10, 4);
+
+/**
+ * Path to the extracted above-the-fold CSS, if it has been generated.
+ */
+function graceartCriticalCssPath(): string
+{
+    return fullTemplatePath('assets/css/critical.css');
+}
+
+function graceartHasCriticalCss(): bool
+{
+    return is_readable(graceartCriticalCssPath());
+}
+
+/**
+ * With the above-the-fold rules inlined, the full stylesheets no longer need
+ * to block the first paint. Without the file these stay render-blocking, so
+ * the site is never left unstyled.
+ *
+ * @return array<int, string>
+ */
+function graceartCriticalDeferredStyles(): array
+{
+    return graceartHasCriticalCss()
+        ? ['bootstrap-style', 'main-style', 'custom-style']
+        : [];
+}
+
+add_action('wp_head', function (): void {
+    if (is_admin() || ! graceartHasCriticalCss()) {
+        return;
+    }
+
+    $css = file_get_contents(graceartCriticalCssPath());
+
+    if ($css !== false && $css !== '') {
+        printf('<style id="graceart-critical">%s</style>' . "\n", $css);
+    }
+}, 1);
