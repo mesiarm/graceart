@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "acb6e6f2e5e1878b0a174359bd6fb902",
+    "content-hash": "391cd4ae1aff6f206a14026461d808f6",
     "packages": [
         {
             "name": "composer/installers",
@@ -1054,6 +1054,37 @@
                 "source": "https://plugins.svn.wordpress.org/woocommerce"
             },
             "time": "2026-05-25T10:05:57+00:00"
+        },
+        {
+            "name": "wp-plugin/woocommerce-pdf-invoices-packing-slips",
+            "version": "5.16.1",
+            "source": {
+                "type": "svn",
+                "url": "https://plugins.svn.wordpress.org/woocommerce-pdf-invoices-packing-slips/",
+                "reference": "tags/5.16.1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://downloads.wordpress.org/plugin/woocommerce-pdf-invoices-packing-slips.5.16.1.zip"
+            },
+            "require": {
+                "composer/installers": "~1.0|~2.0"
+            },
+            "type": "wordpress-plugin",
+            "notification-url": "https://wp-packages.org/downloads",
+            "authors": [
+                {
+                    "name": "WP Overnight"
+                }
+            ],
+            "description": "Create, print & automatically email PDF or XML Invoices & PDF Packing Slips for WooCommerce orders.",
+            "homepage": "https://wpovernight.com/downloads/woocommerce-pdf-invoices-packing-slips-bundle/",
+            "support": {
+                "changelog": "https://wordpress.org/plugins/woocommerce-pdf-invoices-packing-slips/#developers",
+                "issues": "https://wordpress.org/support/plugin/woocommerce-pdf-invoices-packing-slips",
+                "source": "https://plugins.svn.wordpress.org/woocommerce-pdf-invoices-packing-slips"
+            },
+            "time": "2026-08-21T07:46:28+00:00"
         },
         {
             "name": "wp-plugin/yith-woocommerce-wishlist",
