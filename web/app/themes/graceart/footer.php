@@ -21,8 +21,8 @@
 
             <div class="col-lg-4 learts-mb-40">
                 <ul class="widget-list">
-                    <li> <i class="fab fa-facebook-f"></i> <a href="<?php echo esc_url(graceartFacebookUrl()); ?>">Facebook</a></li>
-                    <li> <i class="fab fa-instagram"></i> <a href="<?php echo esc_url(graceartInstagramUrl()); ?>">Instagram</a></li>
+                    <li> <i class="fab fa-facebook-f"></i> <a href="<?php echo esc_url(graceartFacebookUrl()); ?>" target="_blank" rel="noopener">Facebook</a></li>
+                    <li> <i class="fab fa-instagram"></i> <a href="<?php echo esc_url(graceartInstagramUrl()); ?>" target="_blank" rel="noopener">Instagram</a></li>
                 </ul>
             </div>
 

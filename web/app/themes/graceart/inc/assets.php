@@ -58,8 +58,6 @@ add_action('wp_enqueue_scripts', function () {
     graceartStyle('fontawesome-style', 'assets/css/vendor/fontawesome.min.css');
     graceartStyle('themify-icons-style', 'assets/css/vendor/themify-icons.css');
     graceartStyle('custom-fonts-style', 'assets/css/vendor/customFonts.css');
-    graceartStyle('select2-style', 'assets/css/plugins/select2.min.css');
-    graceartStyle('perfect-scrollbar-style', 'assets/css/plugins/perfect-scrollbar.css');
 
     if ($is_front || $is_product) {
         graceartStyle('slick-style', 'assets/css/plugins/slick.css');
@@ -81,14 +79,13 @@ add_action('wp_enqueue_scripts', function () {
     graceartStyle('main-style', 'assets/css/style.min.css');
     graceartStyle('custom-style', 'assets/css/custom_styles.css', ['main-style']);
 
-    graceartScript('modernizr-script', 'assets/js/vendor/modernizr-3.6.0.min.js');
-
     // WooCommerce already loads core jQuery, so the theme copy was a second one on every page.
     wp_enqueue_script('jquery');
 
-    graceartScript('bootstrap-script', 'assets/js/vendor/bootstrap.bundle.min.js');
-    graceartScript('select2-script', 'assets/js/plugins/select2.min.js', ['jquery']);
-    graceartScript('perfect-scrollbar-script', 'assets/js/plugins/perfect-scrollbar.min.js');
+    // Not loaded any more: bootstrap.bundle.js (nothing uses data-bs-* or its
+    // API; the grid CSS stays), select2 (its only select was the removed search
+    // category filter), perfect-scrollbar (the mobile menu scrolls natively),
+    // modernizr (no feature classes are consumed).
     graceartScript('scrollup-script', 'assets/js/plugins/jquery.scrollUp.min.js', ['jquery']);
 
     if ($is_front) {
@@ -111,8 +108,33 @@ add_action('wp_enqueue_scripts', function () {
         graceartScript('match-height-script', 'assets/js/plugins/jquery.matchHeight-min.js', ['jquery']);
     }
 
-    graceartScript('main-script', 'assets/js/main.js', ['jquery', 'wc-add-to-cart-variation']);
+    // The variation form (and its wp-util/underscore chain) only exists on a
+    // product page; main.js listens to it through a delegated handler.
+    graceartScript('main-script', 'assets/js/main.js', $is_product ? ['jquery', 'wc-add-to-cart-variation'] : ['jquery']);
 });
+
+/**
+ * Small site-wide loads with no job here: jQuery Migrate only logs deprecation
+ * notices, the emoji scripts replace characters every browser renders natively,
+ * and prettyPhoto is YITH's popup skin, only used by its script on the
+ * wishlist page.
+ */
+add_action('wp_default_scripts', function (WP_Scripts $scripts): void {
+    if (is_admin() || empty($scripts->registered['jquery'])) {
+        return;
+    }
+
+    $scripts->registered['jquery']->deps = array_diff($scripts->registered['jquery']->deps, ['jquery-migrate']);
+});
+
+remove_action('wp_head', 'print_emoji_detection_script', 7);
+remove_action('wp_print_styles', 'print_emoji_styles');
+
+add_action('wp_enqueue_scripts', function (): void {
+    if (! (function_exists('yith_wcwl_is_wishlist_page') && yith_wcwl_is_wishlist_page())) {
+        wp_dequeue_style('woocommerce_prettyPhoto_css');
+    }
+}, 99);
 
 /**
  * The YITH wishlist widget ships a React bundle (react, react-dom, lodash,
@@ -196,8 +218,6 @@ function graceartDeferredStyles(): array
     return array_merge([
         'fontawesome-style',
         'themify-icons-style',
-        'select2-style',
-        'perfect-scrollbar-style',
         'nice-select-style',
         'photoswipe-style',
         'photoswipe-skin-style',

@@ -5,8 +5,8 @@ add_action('after_setup_theme', function () {
     // showing the URL.
     add_theme_support('title-tag');
     add_theme_support('woocommerce');
-    add_theme_support('wc-product-gallery-lightbox');
-    add_theme_support('wc-product-gallery-slider');
+    // No wc-product-gallery-* supports: the theme renders its own gallery with
+    // slick + PhotoSwipe, so WooCommerce's flexslider/PhotoSwipe would load twice.
 });
 
 add_action('init', function () {

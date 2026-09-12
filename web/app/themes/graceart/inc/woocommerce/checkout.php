@@ -246,7 +246,14 @@ add_action('wp_enqueue_scripts', function (): void {
         wp_json_encode($locale_data),
     );
 
-    wp_add_inline_script('wp-i18n', $script, 'after');
+    // After every script: WooCommerce's own JSON translations are attached to
+    // the block scripts (later than wp-i18n) and would otherwise win for keys
+    // they also contain. The blocks render on DOMContentLoaded, so this still
+    // runs first.
+    add_action('wp_footer', function () use ($script): void {
+        printf('<script>%s</script>' . "
+", $script); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+    }, 100);
 
     $fields = [
         'email' => [

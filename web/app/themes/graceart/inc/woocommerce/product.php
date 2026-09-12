@@ -242,10 +242,6 @@ function graceartProductBadgeHtml(WC_Product $product): string
 {
     $badges = [];
 
-    if (! $product->is_in_stock()) {
-        $badges[] = '<span class="outofstock"><i class="far fa-frown"></i></span>';
-    }
-
     if ($product->is_featured()) {
         $badges[] = '<span class="hot">' . esc_html__('top', 'graceart') . '</span>';
     }

@@ -9,8 +9,72 @@
     --color-line: #e0e0e0;
     --color-surface: #f5f5f5;
     --color-dark: #333333;
-    --color-accent: #f8796c;
-    --color-success: #2e7d32;
+    /* Antique bronze gold: hover fills, badges, hero subtitle; the darker
+       shade is the same hue with enough contrast for small text (stock). */
+    --color-accent: #9c7c46;
+    --color-success: #7d6236;
+}
+
+/* Theme rules that hard-code the old coral accent, pulled onto the palette:
+   link hover, header badges, scroll-to-top, primary buttons, sale prices,
+   select2 highlight, checkbox tint — and YITH's green stock label. */
+a:hover,
+.text-primary,
+.product-info .price span.new,
+.product-info .price ins,
+.product-info .price ins .amount,
+.product-info .price ins bdi,
+.myaccount-content.address .title .edit-link:hover {
+    color: var(--color-accent);
+}
+
+.header-tools > div a span,
+#scrollUp,
+.bg-primary,
+.btn-primary,
+.btn-hover-primary:hover,
+.btn-outline-hover-primary:hover,
+.btn-outline-primary:hover,
+.select2-results__options .select2-results__option.select2-results__option--highlighted,
+.product-info .product-buttons .product-button:hover {
+    border-color: var(--color-accent);
+    background-color: var(--color-accent);
+}
+
+.btn-outline-primary {
+    color: var(--color-accent);
+    border-color: var(--color-accent);
+}
+
+/* Every .btn hovers the same way as the shop buttons: gold fill, white text
+   (the theme had dark, primary and outline variants each hovering differently). */
+.btn:hover,
+.btn:focus-visible,
+.btn-hover-dark:hover,
+.btn-outline-hover-dark:hover,
+.btn-dark:hover,
+.btn-outline-body:hover {
+    color: #fff;
+    border-color: var(--color-accent);
+    background-color: var(--color-accent);
+}
+
+.form-check input[type="checkbox"] {
+    accent-color: var(--color-accent);
+    border-color: var(--color-accent);
+}
+
+.wishlist_table .product-stock-status span.wishlist-in-stock {
+    color: var(--color-success);
+}
+
+/* The hero's teal subtitle and dashed ring follow the accent. */
+.home1-slide1-content .sub-title {
+    color: var(--color-accent);
+}
+
+.home1-slide1-content .slide-border {
+    border-color: var(--color-accent);
 }
 
 /* The theme's own greys pulled onto the palette: dimgray body text,
@@ -136,6 +200,11 @@ img {
     .wp-block-woocommerce-cart .wp-block-woocommerce-product-collection > .wp-block-heading {
         margin-bottom: 30px;
     }
+}
+
+/* The mobile menu scrolls natively (perfect-scrollbar is no longer loaded). */
+.offcanvas-mobile-menu .inner {
+    overflow-y: auto;
 }
 
 /* Present for search engines and screen readers, not drawn. */
@@ -276,8 +345,8 @@ img {
 .product-summery .product-buttons .single_add_to_cart_button:hover,
 .product-summery .product-buttons .single_add_to_cart_button:focus {
     color: #fff !important;
-    border-color: var(--color-dark) !important;
-    background-color: var(--color-dark) !important;
+    border-color: var(--color-accent) !important;
+    background-color: var(--color-accent) !important;
 }
 
 /* Category banners share the product card title typography. */
@@ -319,10 +388,10 @@ img {
     right: 0;
     bottom: auto; /* bootstrap's .offcanvas pins it to the bottom too */
     left: auto;
-    width: 320px;
+    width: 420px;
     max-width: calc(100vw - 32px);
     height: auto;
-    padding: 12px 48px 12px 16px;
+    padding: 16px 52px 16px 20px;
     visibility: hidden;
     transform: translateY(-8px);
     transition: transform 0.25s ease 0s, opacity 0.25s ease 0s, visibility 0s linear 0.25s;
@@ -371,14 +440,22 @@ img {
 }
 
 .offcanvas-search-form input[type="search"] {
-    font-size: 16px;
+    font-size: 20px;
     line-height: 1.5;
     width: 100%;
-    padding: 6px 0;
+    padding: 8px 0;
     border: 0;
-    border-bottom: 1px solid var(--color-dark);
+    border-bottom: 1px solid var(--color-text);
     border-radius: 0;
     background-color: #fff;
+}
+
+/* The underline is the field; no ring on top of it. */
+.offcanvas-search-form input[type="search"]:focus,
+.offcanvas-search-form input[type="search"]:focus-visible {
+    outline: none !important;
+    box-shadow: none;
+    border-bottom-color: var(--color-accent);
 }
 
 .offcanvas-search-form input[type="search"]::placeholder {
@@ -854,13 +931,13 @@ img {
     display: flex;
     align-items: center;
     gap: 16px;
-    padding: 12px 0;
+    padding: 16px 0;
     border-bottom: 1px solid var(--color-line);
 }
 
 .wishlist_table thead tr {
-    padding: 0 0 10px;
-    border-bottom: 2px solid var(--color-dark);
+    padding: 0 0 12px;
+    border-bottom: 1px solid var(--color-line);
 }
 
 /* Outranks ".woocommerce table.shop_table.wishlist_table tr td" (YITH) and
@@ -878,9 +955,8 @@ img {
 }
 
 .wishlist_table th {
-    font-size: 12px;
+    font-size: 16px;
     font-weight: 500;
-    letter-spacing: 1px;
     text-transform: uppercase;
 }
 
@@ -893,13 +969,13 @@ img {
 }
 
 .wishlist_table .product-thumbnail {
-    flex: 0 0 80px;
+    flex: 0 0 72px;
     order: 1;
 }
 
 .wishlist_table .product-thumbnail img {
     display: block;
-    width: 80px;
+    width: 72px;
     height: auto;
 }
 
@@ -909,6 +985,8 @@ img {
 }
 
 .wishlist_table .product-name a {
+    font-size: 17px;
+    font-weight: 500;
     color: var(--color-text);
 }
 
@@ -940,7 +1018,8 @@ img {
     margin-left: auto;
 }
 
-/* WooCommerce styles "a.remove" red with !important. */
+/* WooCommerce styles "a.remove" red with !important; here it is the cart's
+   trash icon (the "×" text is hidden, the icon drawn as a background). */
 .woocommerce .wishlist_table .product-remove a.remove {
     display: flex;
     align-items: center;
@@ -948,20 +1027,27 @@ img {
     width: 34px;
     height: 34px;
     margin: 0;
-    font-size: 18px;
-    font-weight: 400;
+    font-size: 0;
     line-height: 1;
     text-decoration: none;
     color: var(--color-text) !important;
-    border: 1px solid var(--color-line);
-    border-radius: 50%;
+    border: 0;
+    border-radius: 0;
     background: none !important;
 }
 
+.woocommerce .wishlist_table .product-remove a.remove::before {
+    width: 22px;
+    height: 22px;
+    content: "";
+    background-color: currentColor;
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM8 9h8v10H8V9zm7.5-5-1-1h-5l-1 1H5v2h14V4h-3.5z'/%3E%3C/svg%3E") center / contain no-repeat;
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM8 9h8v10H8V9zm7.5-5-1-1h-5l-1 1H5v2h14V4h-3.5z'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
 .woocommerce .wishlist_table .product-remove a.remove:hover {
-    color: #fff !important;
-    border-color: var(--color-dark);
-    background-color: var(--color-dark) !important;
+    color: var(--color-accent) !important;
+    background: none !important;
 }
 
 @media only screen and (max-width: 767px) {
@@ -1038,8 +1124,8 @@ img {
 
 .product-buttons .graceart-wishlist-button:hover {
     color: #fff;
-    border-color: var(--color-dark);
-    background-color: var(--color-dark);
+    border-color: var(--color-accent);
+    background-color: var(--color-accent);
 }
 
 /* Futura's webfont has no Slovak diacritics (Ž, Ú, Š, …); Jost is a Futura-style
@@ -1648,23 +1734,56 @@ body *:not(
     font-size: 16px;
 }
 
-.wc-block-components-checkout-place-order-button {
-    padding: 16px 32px !important;
-    font-size: 16px !important;
-    font-weight: 600 !important;
-    color: #ffffff !important;
-    border-color: var(--color-success) !important;
-    background-color: var(--color-success) !important;
+/* WooCommerce's block buttons (cart "Prejsť k objednávke", empty-cart
+   "Pokračovať v nákupe", checkout "Objednať s povinnosťou platby") in the
+   same pill as every other button on the site. */
+.wp-block-woocommerce-cart .wc-block-cart__submit-button,
+.wp-block-woocommerce-cart .wp-block-button__link,
+.wc-block-components-checkout-place-order-button,
+.wc-block-checkout__actions_row .wc-block-components-checkout-return-to-cart-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 26px;
+    font-family: "Jost", "Futura", "Segoe UI", "Noto Sans", "Helvetica Neue", Arial, sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 1;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--color-text) !important;
+    border: 1px solid var(--color-line) !important;
+    border-radius: 500px !important;
+    background-color: #fff !important;
+    box-shadow: none !important;
 }
 
+.wp-block-woocommerce-cart .wc-block-cart__submit-button:hover,
+.wp-block-woocommerce-cart .wc-block-cart__submit-button:focus,
+.wp-block-woocommerce-cart .wp-block-button__link:hover,
+.wp-block-woocommerce-cart .wp-block-button__link:focus,
 .wc-block-components-checkout-place-order-button:hover,
-.wc-block-components-checkout-place-order-button:focus {
-    color: #ffffff !important;
-    border-color: var(--color-dark) !important;
-    background-color: var(--color-dark) !important;
+.wc-block-components-checkout-place-order-button:focus,
+.wc-block-checkout__actions_row .wc-block-components-checkout-return-to-cart-button:hover {
+    color: #fff !important;
+    border-color: var(--color-accent) !important;
+    background-color: var(--color-accent) !important;
 }
 
 /* The wishlist title is filtered out; drop its empty wrapper too. */
 .wishlist-title-container {
     display: none;
+}
+
+/* Empty wishlist: no header row, a plain centred message. */
+.wishlist_table:has(.wishlist-empty) thead {
+    display: none;
+}
+
+.woocommerce table.shop_table.wishlist_table tr td.wishlist-empty {
+    width: 100%;
+    margin: 20px 0;
+    text-align: center;
 }

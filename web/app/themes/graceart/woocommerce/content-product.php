@@ -34,6 +34,9 @@ $graceart_buy_label = __('Do košíka', 'graceart');
 if ($product->is_type('variable')) {
     // A variable product is chosen on its own page, not from the listing.
     $graceart_buy_label = __('Vybrať variant', 'graceart');
+} elseif (! $product->is_in_stock()) {
+    // Sold out: the button says so and leads to the product page.
+    $graceart_buy_label = __('Vypredané', 'graceart');
 } elseif (! $graceart_can_add_more && $product->is_in_stock()) {
     // Everything available is already in the cart — send them there rather
     // than offering an add that cannot succeed.
