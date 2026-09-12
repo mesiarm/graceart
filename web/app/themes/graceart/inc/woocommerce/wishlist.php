@@ -20,3 +20,6 @@ add_filter('yith_wcwl_item_formatted_price', function (string $formatted_price, 
 
     return graceartProductLoopPriceHtml($product);
 }, 10, 3);
+
+// The page band already says "Zoznam prianí"; no second heading over the table.
+add_filter('yith_wcwl_wishlist_title', fn(): string => '');

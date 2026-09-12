@@ -117,6 +117,27 @@ body {
     padding: 2px 0;
 }
 
+/* Images carry width/height attributes for layout stability; without this
+   a narrowed image would keep its attribute height and stretch. */
+img {
+    height: auto;
+}
+
+/* "Mohlo by sa vám páčiť": room between the heading and the cards, on the
+   product page and in the cart's cross-sells. */
+.related > h2,
+.wp-block-woocommerce-cart .wp-block-woocommerce-product-collection > .wp-block-heading {
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+@media only screen and (max-width: 767px) {
+    .related > h2,
+    .wp-block-woocommerce-cart .wp-block-woocommerce-product-collection > .wp-block-heading {
+        margin-bottom: 30px;
+    }
+}
+
 /* Present for search engines and screen readers, not drawn. */
 .graceart-visually-hidden {
     position: absolute !important;
@@ -1641,4 +1662,9 @@ body *:not(
     color: #ffffff !important;
     border-color: var(--color-dark) !important;
     background-color: var(--color-dark) !important;
+}
+
+/* The wishlist title is filtered out; drop its empty wrapper too. */
+.wishlist-title-container {
+    display: none;
 }
