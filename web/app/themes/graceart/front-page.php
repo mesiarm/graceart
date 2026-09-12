@@ -64,7 +64,7 @@ $bestseller_ids = graceartHomepageBestsellerIds();
 
         <!-- Section Title Start -->
         <div class="section-title text-center">
-            <h2 class="title title-icon-both title-script"><?php esc_html_e('Naše najpredávanejšie produkty', 'graceart'); ?></h2>
+            <h2 class="title title-icon-both title-script"><?php esc_html_e('Najpredávanejšie produkty', 'graceart'); ?></h2>
         </div>
         <!-- Section Title End -->
 

@@ -32,8 +32,8 @@
 }
 
 .product-info .title {
-    font-family: "Futura", "Segoe UI", "Noto Sans", "Helvetica Neue", Arial, sans-serif;
-    font-size: 13px;
+    font-family: "Jost", "Futura", "Segoe UI", "Noto Sans", "Helvetica Neue", Arial, sans-serif;
+    font-size: 15px;
     font-weight: 400;
     letter-spacing: 1.5px;
     text-transform: uppercase;
@@ -47,21 +47,13 @@
     color: #f8796c;
 }
 
-.product-info .price {
-    font-family: "Futura", "Segoe UI", "Noto Sans", "Helvetica Neue", Arial, sans-serif;
-    font-size: 18px;
-    font-weight: 300;
-    letter-spacing: 0.5px;
-    color: #333333;
-}
-
 .graceart-loop-buy-button {
     display: inline-flex;
     align-items: center;
     gap: 8px;
     margin-top: 24px;
     padding: 10px 22px;
-    font-family: "Futura", "Segoe UI", "Noto Sans", "Helvetica Neue", Arial, sans-serif;
+    font-family: "Jost", "Futura", "Segoe UI", "Noto Sans", "Helvetica Neue", Arial, sans-serif;
     font-size: 12px;
     font-weight: 400;
     line-height: 1;
@@ -81,6 +73,29 @@
     color: #fff;
     border-color: #333333;
     background-color: #333333;
+}
+
+/* Category banners share the product card title typography. */
+.category-banner1 .content .title {
+    font-family: "Jost", "Futura", "Segoe UI", "Noto Sans", "Helvetica Neue", Arial, sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    align-items: center;
+}
+
+.category-banner1 .content .title a {
+    color: #333333;
+}
+
+.category-banner1 .content .title a:hover {
+    color: #f8796c;
+}
+
+.category-banner1 .content .title .number {
+    font-size: 13px;
+    letter-spacing: 0;
 }
 
 #shop-products.isotope-grid .grid-item {
@@ -146,7 +161,7 @@
     background-color: #ffffff;
 }
 
-.product-gallery-slider .product-zoom img:not(.zoomImg),
+.product-gallery-slider .product-zoom img,
 .product-gallery-slider .product-video-slide video {
     width: 100%;
     height: 100%;
@@ -495,6 +510,28 @@
     font-size: 13px;
 }
 
+/* Futura's webfont has no Slovak diacritics (Ž, Ú, Š, …); Jost is a Futura-style
+   geometric sans with full Latin Extended coverage. Variable weight 300–500. */
+@font-face {
+    font-family: "Jost";
+    font-weight: 300 500;
+    font-style: normal;
+
+    font-display: swap;
+    src: url("../fonts/jost/jost-latin-ext.woff2") format("woff2");
+    unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+@font-face {
+    font-family: "Jost";
+    font-weight: 300 500;
+    font-style: normal;
+
+    font-display: swap;
+    src: url("../fonts/jost/jost-latin.woff2") format("woff2");
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
 /* Replace decorative "Modesty" script font (missing Slovak diacritic glyphs) with Dancing Script */
 @font-face {
     font-family: "Modesty";
@@ -529,7 +566,6 @@ select,
 .section-title,
 .block-title,
 .widget-title,
-.product-info .title,
 .product-filter-widget-title,
 .cart-totals table tbody tr,
 .woocommerce,
@@ -540,10 +576,11 @@ select,
 .product-info .price,
 .product-info .price .amount,
 .product-info .price bdi {
-    font-family: "Futura", "Segoe UI", "Noto Sans", "Helvetica Neue", Arial, sans-serif;
-    font-size: 16px;
-    font-weight: 600;
+    font-family: "Jost", "Futura", "Segoe UI", "Noto Sans", "Helvetica Neue", Arial, sans-serif;
+    font-size: 18px;
+    font-weight: 300;
     line-height: 1;
+    letter-spacing: 0.5px;
     color: #333;
 }
 
@@ -837,37 +874,18 @@ select,
     }
 }
 
-/* Product card titles in black (homepage, shop, category archives) */
-.product-info .title,
-.product-info .title a {
-    font-weight: 400;
-    color: #000;
-}
-
-.product-info .title a:hover {
-    color: #000;
-}
-
 /* Section heading rendered in the decorative sub-title face & colour */
 .section-title .title.title-script {
     font-family: "Modesty";
     font-weight: 300;
-    color: #72A499;
+    color: #000000;
 }
 
-/* Larger price & availability on the product cards */
-.product-info .price,
-.product-info .price .amount,
-.product-info .price bdi,
-.product-info .price ins .amount,
-.product-info .price ins bdi,
-.product-info .price del .amount,
-.product-info .price del bdi {
-    font-size: 22px;
-}
-
-.graceart-loop-availability {
-    font-size: 17px;
+/* The leaf decorations are pale green webp images; brightness(0) turns every
+   opaque pixel black so they match the heading. */
+.section-title .title.title-script.title-icon-both::before,
+.section-title .title.title-script.title-icon-both::after {
+    filter: brightness(0);
 }
 
 /* Category filter on the shop toolbar links to the category archives, so the

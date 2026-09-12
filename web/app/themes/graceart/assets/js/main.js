@@ -10,7 +10,7 @@
     -----------------------------------*/
     $.each([
         'perfectScrollbar', 'select2', 'niceSelect', 'ionRangeSlider', 'matchHeight',
-        'isotope', 'imagesLoaded', 'slick', 'magnificPopup', 'zoom', 'countdown',
+        'isotope', 'imagesLoaded', 'slick', 'magnificPopup', 'countdown',
         'ajaxChimp', 'scrollUp', 'stickySidebar'
     ], function (i, name) {
         if (typeof $.fn[name] !== 'function') {
@@ -844,14 +844,6 @@
             new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, options).init();
         };
     $productPopupGalleryBtn.on('click', $openPhotoSwipe);
-
-    $('.product-zoom').each(function () {
-        var $this = $(this),
-            $image = $this.data('image');
-        $this.zoom({
-            url: $image
-        });
-    });
 
     /*--
         Sticky Sidebar

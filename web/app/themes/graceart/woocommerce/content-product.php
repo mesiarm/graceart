@@ -8,7 +8,6 @@ if (! $product instanceof WC_Product || ! $product->is_visible()) {
     return;
 }
 
-$hover_image = graceartProductHoverImageUrl($product);
 $product_url = graceartProductLoopPermalink($product);
 
 // Cart-aware: a one-off piece already sitting in the cart cannot be added
@@ -51,9 +50,6 @@ if ($product->is_type('variable')) {
             <a href="<?php echo esc_url($product_url); ?>" class="image">
                 <?php echo wp_kses_post(graceartProductBadgeHtml($product)); ?>
                 <img src="<?php echo esc_url(graceartProductImageUrl($product)); ?>" alt="<?php echo esc_attr($product->get_name()); ?>">
-                <?php if ($hover_image) : ?>
-                    <img class="image-hover" src="<?php echo esc_url($hover_image); ?>" alt="<?php echo esc_attr($product->get_name()); ?>">
-                <?php endif; ?>
             </a>
         </div>
 

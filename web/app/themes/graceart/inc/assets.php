@@ -28,7 +28,7 @@ function graceartScript(string $handle, string $path, array $deps = []): void
 }
 
 /**
- * The gallery carousels, zoom and lightbox only exist on a single product.
+ * The gallery carousels and lightbox only exist on a single product.
  */
 function graceartIsProductPage(): bool
 {
@@ -102,7 +102,6 @@ add_action('wp_enqueue_scripts', function () {
     if ($is_product) {
         graceartScript('photoswipe-script', 'assets/js/plugins/photoswipe.min.js');
         graceartScript('photoswipe-ui-script', 'assets/js/plugins/photoswipe-ui-default.min.js');
-        graceartScript('zoom-script', 'assets/js/plugins/jquery.zoom.min.js', ['jquery']);
     }
 
     if ($is_catalog) {

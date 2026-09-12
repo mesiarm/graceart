@@ -258,13 +258,6 @@ function graceartProductImageUrl(WC_Product $product, string $size = 'woocommerc
     return $image_id ? wp_get_attachment_image_url($image_id, $size) : wc_placeholder_img_src($size);
 }
 
-function graceartProductHoverImageUrl(WC_Product $product, string $size = 'woocommerce_thumbnail'): string
-{
-    $gallery_ids = $product->get_gallery_image_ids();
-
-    return $gallery_ids ? wp_get_attachment_image_url((int) $gallery_ids[0], $size) : '';
-}
-
 function graceartLeadTimeOptions(): array
 {
     return [
