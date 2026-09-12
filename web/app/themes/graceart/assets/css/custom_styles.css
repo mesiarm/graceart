@@ -17,11 +17,19 @@
     color: #666666;
 }
 
-.page-title .page-title-subtitle {
-    margin-top: -20px;
-    margin-bottom: 20px;
-    font-size: 16px;
-    color: #999999;
+/* The branding band on the product page shows the same logo.jpg as the header,
+   at its natural width. The JPG has a white background; multiply blending
+   drops it out over the band's photo while the black lettering stays black. */
+.page-title .page-title-logo {
+    margin-bottom: 30px;
+}
+
+.page-title .page-title-logo img {
+    display: block;
+    width: 463px;
+    max-width: 100%;
+    height: auto;
+    mix-blend-mode: multiply;
 }
 
 .product:hover .product-info .title,
@@ -47,11 +55,14 @@
     color: #f8796c;
 }
 
-.graceart-loop-buy-button {
+/* One add-to-cart button style: the listing's buy button and the product
+   detail's add-to-cart. The !important is for the detail button, where
+   WooCommerce's "button.button.alt" and the theme's .btn-dark outrank this. */
+.graceart-loop-buy-button,
+.product-summery .product-buttons .single_add_to_cart_button {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    margin-top: 24px;
     padding: 10px 22px;
     font-family: "Jost", "Futura", "Segoe UI", "Noto Sans", "Helvetica Neue", Arial, sans-serif;
     font-size: 12px;
@@ -59,20 +70,28 @@
     line-height: 1;
     letter-spacing: 1px;
     text-transform: uppercase;
-    color: #333333;
-    border: 1px solid #d0d0d0;
+    color: #333333 !important;
+    border: 1px solid #d0d0d0 !important;
     border-radius: 500px;
-    background-color: #fff;
+    background-color: #fff !important;
 }
 
-.graceart-loop-buy-button i {
+.graceart-loop-buy-button {
+    margin-top: 24px;
+}
+
+.graceart-loop-buy-button i,
+.product-summery .product-buttons .single_add_to_cart_button i {
+    margin: 0;
     font-size: 11px;
 }
 
-.graceart-loop-buy-button:hover {
-    color: #fff;
-    border-color: #333333;
-    background-color: #333333;
+.graceart-loop-buy-button:hover,
+.product-summery .product-buttons .single_add_to_cart_button:hover,
+.product-summery .product-buttons .single_add_to_cart_button:focus {
+    color: #fff !important;
+    border-color: #333333 !important;
+    background-color: #333333 !important;
 }
 
 /* Category banners share the product card title typography. */
@@ -115,6 +134,44 @@
 /* Description tabs sit under the gallery now, so they get column-sized type. */
 .product-gallery-tabs {
     margin-top: 40px;
+}
+
+/* On phones and tablets the two columns stack, which would put the
+   description (it sits under the gallery on desktop) ahead of the price and
+   the add-to-cart button. Flatten the columns and the summary into the row so
+   the description can be ordered after the add-to-cart form. */
+@media only screen and (max-width: 991px) {
+    .product-main-section > .container > .row > .col-lg-7,
+    .product-main-section > .container > .row > .col-lg-5,
+    .product-main-section .product-summery {
+        display: contents;
+    }
+
+    .product-main-section .product-images,
+    .product-main-section .product-gallery-tabs,
+    .product-main-section .product-summery > * {
+        flex: 0 0 100%;
+        width: 100%;
+        max-width: 100%;
+        padding-right: calc(var(--bs-gutter-x) * 0.5);
+        padding-left: calc(var(--bs-gutter-x) * 0.5);
+    }
+
+    /* Replaces the column's learts-mb-40. */
+    .product-main-section .product-images {
+        margin-bottom: 40px;
+    }
+
+    .product-main-section .product-gallery-tabs {
+        order: 1;
+        margin-top: 0;
+        margin-bottom: 40px;
+    }
+
+    .product-main-section .product-shipping-info {
+        order: 2;
+        margin-bottom: 40px;
+    }
 }
 
 .product-gallery-tabs .product-info-tab-list {
@@ -437,77 +494,30 @@
     color: #4a9b36;
 }
 
+/* Round wishlist button, the same height as the add-to-cart pill beside it. */
 .product-buttons .graceart-wishlist-button {
-    display: flex !important;
+    display: flex;
     flex: 0 0 auto;
     align-items: center;
     justify-content: center;
-
-    box-sizing: border-box;
-    width: 42px;
-    height: 42px;
+    width: 34px;
+    height: 34px;
     margin: 0 15px 10px;
-
-    border: 1px solid #ababab !important;
-    border-radius: 50% !important;
+    color: #333333;
+    border: 1px solid #d0d0d0;
+    border-radius: 50%;
     background-color: #fff;
 }
 
-.product-buttons .graceart-wishlist-button > div {
-    width: 100% !important;
-    height: 100% !important;
-}
-
-.product-buttons .graceart-wishlist-button a {
-    justify-content: center !important;
-    align-items: center !important;
-    width: 100% !important;
-    height: 100% !important;
-    gap: 0 !important;
-}
-
-.product-buttons .graceart-wishlist-button:hover {
-    border-color: #333333 !important;
-}
-
-.product-buttons .graceart-wishlist-button * {
-    font-size: 0;
-    line-height: 0;
-}
-
-.product-buttons .graceart-wishlist-button svg,
-.product-buttons .graceart-wishlist-button i,
-.product-buttons .graceart-wishlist-button [class*="icon"] {
-    font-size: 14px;
+.product-buttons .graceart-wishlist-button i {
+    font-size: 13px;
     line-height: 1;
 }
 
-.product-buttons .graceart-wishlist-button svg {
-    width: 16px;
-    height: 16px;
-}
-
-.product-summery .product-buttons .single_add_to_cart_button {
-    padding: 10px 24px;
-    font-size: 13px;
-    letter-spacing: 0.5px;
-
-    /* WooCommerce's own "button.button.alt" rule outranks this selector. */
-    color: #ffffff !important;
-    border-color: #4a9b36 !important;
-    background-color: #4a9b36 !important;
-}
-
-.product-summery .product-buttons .single_add_to_cart_button:hover,
-.product-summery .product-buttons .single_add_to_cart_button:focus {
-    color: #ffffff !important;
-    border-color: #333333 !important;
-    background-color: #333333 !important;
-}
-
-.product-summery .product-buttons .single_add_to_cart_button i {
-    margin-right: 8px;
-    font-size: 13px;
+.product-buttons .graceart-wishlist-button:hover {
+    color: #fff;
+    border-color: #333333;
+    background-color: #333333;
 }
 
 /* Futura's webfont has no Slovak diacritics (Ž, Ú, Š, …); Jost is a Futura-style
@@ -740,19 +750,6 @@ select,
     font-size: 12px;
 
     margin-left: 2px;
-}
-
-.single_add_to_cart_button.button.alt.btn {
-    border-radius: 500px;
-    background-color: #333333;
-    border-color: #333333;
-    color: #fff;
-}
-
-.single_add_to_cart_button.button.alt.btn:hover {
-    background-color: #f8796c;
-    border-color: #f8796c;
-    color: #fff;
 }
 
 .woocommerce-cart-form .product-quantity .quantity {

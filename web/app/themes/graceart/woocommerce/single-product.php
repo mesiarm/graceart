@@ -33,8 +33,9 @@ while (have_posts()) :
                 <div class="col">
                     <div class="page-title">
                         <?php /* Branding band, not the page heading — the product name is the <h1>. */ ?>
-                        <p class="title"><?php esc_html_e('Grace Art', 'graceart'); ?></p>
-                        <p class="page-title-subtitle"><?php esc_html_e('Ručne vyrobené kožené zápisníky a fotoalbumy od roku 2016', 'graceart'); ?></p>
+                        <p class="title page-title-logo">
+                            <img src="<?php echo fullTemplateUri('assets/images/logo/logo.jpg'); ?>" alt="Grace Art">
+                        </p>
                         <?php graceartWooBreadcrumb(); ?>
                     </div>
                 </div>

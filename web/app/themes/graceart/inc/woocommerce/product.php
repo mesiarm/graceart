@@ -62,7 +62,7 @@ add_action('template_redirect', function (): void {
     update_post_meta($post_id, '_graceart_view_count', $views + 1);
 });
 
-add_filter('woocommerce_product_single_add_to_cart_text', fn(): string => __('Pridať do košíka', 'graceart'));
+add_filter('woocommerce_product_single_add_to_cart_text', fn(): string => __('Do košíka', 'graceart'));
 
 add_filter('woocommerce_product_add_to_cart_text', function (string $text, WC_Product $product): string {
     if ($product->is_type('variable')) {
@@ -81,7 +81,7 @@ add_filter('woocommerce_product_add_to_cart_text', function (string $text, WC_Pr
         return __('Zobraziť produkt', 'graceart');
     }
 
-    return __('Pridať do košíka', 'graceart');
+    return __('Do košíka', 'graceart');
 }, 10, 2);
 
 add_filter('woocommerce_product_tabs', function (array $tabs): array {
@@ -123,14 +123,16 @@ function graceartWishlistProductUrl(WC_Product $product): string
     return graceartWishlistUrl();
 }
 
+/**
+ * A plain link, not the [yith_wcwl_add_to_wishlist] shortcode: that shortcode
+ * only prints an empty placeholder for YITH's React bundle to fill in, and the
+ * bundle is dequeued everywhere but the wishlist page (see inc/assets.php).
+ * YITH's form handler adds the product from ?add_to_wishlist=ID&_wpnonce=….
+ */
 function graceartWishlistButton(WC_Product $product): string
 {
-    if (function_exists('YITH_WCWL')) {
-        return '<span class="graceart-wishlist-button">' . do_shortcode('[yith_wcwl_add_to_wishlist]') . '</span>';
-    }
-
     return sprintf(
-        '<a href="%1$s" class="btn btn-icon btn-outline-body btn-hover-dark hintT-top" data-hint="%2$s" aria-label="%2$s"><i class="far fa-heart"></i></a>',
+        '<a href="%1$s" class="graceart-wishlist-button hintT-top" data-hint="%2$s" aria-label="%2$s"><i class="far fa-heart"></i></a>',
         esc_url(graceartWishlistProductUrl($product)),
         esc_attr__('Pridať do zoznamu prianí', 'graceart'),
     );
