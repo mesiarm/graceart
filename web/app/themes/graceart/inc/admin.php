@@ -30,6 +30,7 @@ add_action('init', function (): void {
         'type' => 'array',
         'single' => true,
         'default' => [],
+        'sanitize_callback' => fn($value): array => is_array($value) ? graceartNormalizeHeroSlides($value) : [],
         'show_in_rest' => [
             'schema' => [
                 'type' => 'array',
@@ -80,10 +81,90 @@ function graceartHomepageCategoryBanners(?int $post_id = null): array
     return $banners;
 }
 
+/**
+ * The slides are one serialized array in post meta. A site migration that
+ * search-replaces the domain without re-counting serialized string lengths
+ * corrupts it: get_post_meta() then returns the raw string, the front end
+ * falls back to the default slides and the editor shows nothing. Re-count the
+ * lengths, unserialize, and save the repaired value back.
+ */
+function graceartRepairHeroSlidesMeta(int $post_id): array
+{
+    $value = get_post_meta($post_id, '_graceart_home_hero_slides', true);
+
+    if (is_array($value)) {
+        return $value;
+    }
+
+    // WordPress hands back false for a value it could not unserialize; the
+    // corrupt string itself is still in the table.
+    global $wpdb;
+    $raw = $wpdb->get_var($wpdb->prepare(
+        "SELECT meta_value FROM {$wpdb->postmeta} WHERE post_id = %d AND meta_key = %s ORDER BY meta_id ASC LIMIT 1",
+        $post_id,
+        '_graceart_home_hero_slides'
+    ));
+
+    if (! is_string($raw) || ! str_starts_with($raw, 'a:')) {
+        return [];
+    }
+
+    $fixed = preg_replace_callback(
+        '/s:\d+:"(.*?)";/s',
+        fn(array $m): string => 's:' . strlen($m[1]) . ':"' . $m[1] . '";',
+        $raw
+    );
+    $slides = is_string($fixed) ? @unserialize($fixed, ['allowed_classes' => false]) : false;
+
+    if (! is_array($slides)) {
+        return [];
+    }
+
+    $slides = graceartNormalizeHeroSlides($slides);
+    update_post_meta($post_id, '_graceart_home_hero_slides', $slides);
+
+    return $slides;
+}
+
+/**
+ * Button links to this site are stored as paths, so the value survives a
+ * domain change; anything else is kept as typed.
+ */
+function graceartNormalizeHeroSlides(array $slides): array
+{
+    $home_host = (string) wp_parse_url(home_url(), PHP_URL_HOST);
+
+    return array_values(array_map(function ($slide) use ($home_host): array {
+        $slide = is_array($slide) ? $slide : [];
+        $url = trim((string) ($slide['button_url'] ?? ''));
+
+        if ($url !== '' && $home_host !== '' && wp_parse_url($url, PHP_URL_HOST) === $home_host) {
+            $path = (string) wp_parse_url($url, PHP_URL_PATH);
+            $query = (string) wp_parse_url($url, PHP_URL_QUERY);
+            $url = ($path !== '' ? $path : '/') . ($query !== '' ? '?' . $query : '');
+        }
+
+        return [
+            'image_id' => (int) ($slide['image_id'] ?? 0),
+            'title' => sanitize_text_field((string) ($slide['title'] ?? '')),
+            'button_text' => sanitize_text_field((string) ($slide['button_text'] ?? '')),
+            'button_url' => $url,
+        ];
+    }, $slides));
+}
+
+/**
+ * A stored path becomes a full URL on the current site.
+ */
+function graceartHeroButtonUrl(string $url): string
+{
+    return str_starts_with($url, '/') ? home_url($url) : $url;
+}
+
 function graceartHomepageHeroSlides(?int $post_id = null): array
 {
     $post_id = $post_id ?: (int) get_option('page_on_front');
-    $raw = $post_id ? get_post_meta($post_id, '_graceart_home_hero_slides', true) : [];
+    $raw = $post_id ? graceartRepairHeroSlidesMeta($post_id) : [];
 
     if (! is_array($raw) || ! $raw) {
         return graceartDefaultHomepageHeroSlides();
@@ -100,7 +181,7 @@ function graceartHomepageHeroSlides(?int $post_id = null): array
             'image' => $image_id ? (string) wp_get_attachment_image_url($image_id, 'full') : '',
             'title' => (string) ($slide['title'] ?? ''),
             'button_text' => (string) ($slide['button_text'] ?? ''),
-            'button_url' => (string) ($slide['button_url'] ?? ''),
+            'button_url' => graceartHeroButtonUrl((string) ($slide['button_url'] ?? '')),
         ];
     }, $raw)));
 
@@ -207,6 +288,16 @@ add_action('admin_menu', function () {
         }
     }
 }, 999);
+
+// The editor reads the slides through the REST API: repair a migrated value
+// before that request is answered.
+add_action('rest_api_init', function (): void {
+    $front = (int) get_option('page_on_front');
+
+    if ($front && function_exists('graceartRepairHeroSlidesMeta')) {
+        graceartRepairHeroSlidesMeta($front);
+    }
+});
 
 add_action('enqueue_block_editor_assets', function (): void {
     $screen = get_current_screen();

@@ -442,10 +442,8 @@
         if (!block) {
             block = createBlock(editorDocument);
 
-            const categoriesBlock = editorDocument.getElementById('graceart-homepage-categories-block');
-            const anchor = categoriesBlock || title;
-
-            anchor.insertAdjacentElement('afterend', block);
+            // Hero first, right under the title; the categories block moves below it.
+            title.insertAdjacentElement('afterend', block);
 
             lastSlidesJSON = JSON.stringify(getSlides());
             renderList();

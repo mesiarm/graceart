@@ -352,7 +352,9 @@
 
         if (!block) {
             block = createBlock(editorDocument);
-            title.insertAdjacentElement('afterend', block);
+            // Below the hero editor when it is already there, else under the title.
+            const heroBlock = editorDocument.getElementById('graceart-homepage-hero-block');
+            (heroBlock || title).insertAdjacentElement('afterend', block);
         }
 
         syncPicker(block);

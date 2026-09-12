@@ -83,12 +83,14 @@
 
         const editorDocument = getEditorDocument();
         const heroBlock = editorDocument.getElementById('graceart-homepage-hero-block');
+        const categoriesBlock = editorDocument.getElementById('graceart-homepage-categories-block');
 
         if (!heroBlock || editorDocument.getElementById('graceart-homepage-texts-block')) {
             return;
         }
 
-        heroBlock.insertAdjacentElement('afterend', createBlock(editorDocument));
+        // Last of the three: after the categories block, or the hero if that is missing.
+        (categoriesBlock || heroBlock).insertAdjacentElement('afterend', createBlock(editorDocument));
     }
 
     function boot() {
