@@ -112,17 +112,6 @@ while (have_posts()) :
                             <span class="graceart-availability-value"><?php echo esc_html(graceartAvailabilityText($graceart_price_product)); ?></span>
                         </p>
 
-                        <?php if (graceartCardPaymentEnabled()) : ?>
-                            <div class="product-payment-info">
-                                <span class="product-payment-info__icon">
-                                    <img src="<?php echo esc_url(fullTemplateUri('assets/images/payment/visa.svg')); ?>" width="780" height="500" alt="Visa">
-                                    <img src="<?php echo esc_url(fullTemplateUri('assets/images/payment/mastercard.svg')); ?>" width="780" height="500" alt="Mastercard">
-                                    <img src="<?php echo esc_url(fullTemplateUri('assets/images/payment/googlepay.svg')); ?>" width="512" height="204" alt="Google Pay">
-                                    <img src="<?php echo esc_url(fullTemplateUri('assets/images/payment/applepay.svg')); ?>" width="512" height="211" alt="Apple Pay">
-                                </span>
-                                <span class="product-payment-info__text"><?php esc_html_e('Možná okamžitá platba kartou.', 'graceart'); ?></span>
-                            </div>
-                        <?php endif; ?>
 
                         <?php woocommerce_template_single_add_to_cart(); ?>
 

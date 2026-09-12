@@ -129,14 +129,54 @@ function graceartWishlistProductUrl(WC_Product $product): string
  * bundle is dequeued everywhere but the wishlist page (see inc/assets.php).
  * YITH's form handler adds the product from ?add_to_wishlist=ID&_wpnonce=….
  */
+/**
+ * Whether the product is already in the visitor's (default) wishlist.
+ */
+function graceartIsInWishlist(WC_Product $product): bool
+{
+    return function_exists('yith_wcwl_wishlists')
+        && (bool) yith_wcwl_wishlists()->is_product_in_wishlist($product->get_id());
+}
+
+/**
+ * A heart that toggles: outline + add link, or filled + remove link when the
+ * product is already in the wishlist. Both are plain URLs YITH's form handler
+ * understands (its React bundle is not loaded here).
+ */
 function graceartWishlistButton(WC_Product $product): string
 {
+    if (graceartIsInWishlist($product)) {
+        return sprintf(
+            '<a href="%1$s" class="graceart-wishlist-button is-active hintT-top" data-hint="%2$s" aria-label="%2$s" aria-pressed="true"><i class="fas fa-heart" aria-hidden="true"></i></a>',
+            esc_url(wp_nonce_url(add_query_arg('remove_from_wishlist', $product->get_id(), $product->get_permalink()), 'remove_from_wishlist')),
+            esc_attr__('Odstrániť zo zoznamu prianí', 'graceart'),
+        );
+    }
+
     return sprintf(
-        '<a href="%1$s" class="graceart-wishlist-button hintT-top" data-hint="%2$s" aria-label="%2$s"><i class="far fa-heart" aria-hidden="true"></i></a>',
+        '<a href="%1$s" class="graceart-wishlist-button hintT-top" data-hint="%2$s" aria-label="%2$s" aria-pressed="false"><i class="far fa-heart" aria-hidden="true"></i></a>',
         esc_url(graceartWishlistProductUrl($product)),
         esc_attr__('Pridať do zoznamu prianí', 'graceart'),
     );
 }
+
+/**
+ * YITH removes the item on "init"; confirm it and drop the query string so a
+ * refresh does not repeat the request.
+ */
+add_action('template_redirect', function (): void {
+    if (! isset($_GET['remove_from_wishlist'], $_GET['_wpnonce']) || ! function_exists('wc_add_notice')) {
+        return;
+    }
+
+    if (! wp_verify_nonce(sanitize_text_field(wp_unslash($_GET['_wpnonce'])), 'remove_from_wishlist')) {
+        return;
+    }
+
+    wc_add_notice(__('Produkt bol odstránený zo zoznamu prianí.', 'graceart'), 'success');
+    wp_safe_redirect(remove_query_arg(['remove_from_wishlist', '_wpnonce']));
+    exit;
+});
 
 function graceartProductGalleryImages(WC_Product $product): array
 {

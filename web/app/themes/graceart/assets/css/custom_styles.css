@@ -9,10 +9,10 @@
     --color-line: #e0e0e0;
     --color-surface: #f5f5f5;
     --color-dark: #333333;
-    /* Antique bronze gold: hover fills, badges, hero subtitle; the darker
-       shade is the same hue with enough contrast for small text (stock). */
+    /* Antique bronze gold: hover fills, badges, headings, active states. */
     --color-accent: #9c7c46;
-    --color-success: #7d6236;
+    /* Green for "Skladom" and success notices (dark enough for small text). */
+    --color-success: #2e7d32;
 }
 
 /* Theme rules that hard-code the old coral accent, pulled onto the palette:
@@ -66,6 +66,67 @@ a:hover,
 
 .wishlist_table .product-stock-status span.wishlist-in-stock {
     color: var(--color-success);
+}
+
+/* Remaining theme colours off the palette: hero link hover (teal), category
+   and footer link hovers (dark), rating stars (yellow), placeholder and
+   WooCommerce input text greys, the close "×", the shop filter toggle. */
+.category-banner1 .inner .content .title a:hover,
+.widget-list li a:hover,
+.product-filter-toggle:hover,
+.woocommerce .star-rating span::before,
+.product-ratings .star-rating .rating-active::before {
+    color: var(--color-accent);
+}
+
+.widget-list li a:hover {
+    border-color: var(--color-accent);
+}
+
+.product-filter-toggle,
+.offcanvas-close,
+.wc-block-components-text-input input[type="text"],
+.wc-block-components-text-input input[type="email"],
+.wc-block-components-text-input input[type="tel"],
+.wc-block-components-textarea textarea,
+.wc-block-components-country-input select,
+.wc-block-components-state-input select {
+    color: var(--color-text);
+}
+
+textarea::placeholder,
+input::placeholder {
+    color: var(--color-text-secondary);
+    opacity: 1;
+}
+
+.category-banner1 .inner .content .title .number::before {
+    background-color: var(--color-line);
+}
+
+/* Hero "Nakupovať": plain text; the underline appears on hover, like the
+   menu items. */
+.home1-slide1-content .link {
+    margin-top: 28px;
+}
+
+.home1-slide1-content .link a {
+    font-size: 20px;
+    letter-spacing: 1.5px;
+    padding-bottom: 4px;
+    border-bottom-color: transparent;
+    transition: border-color 0.3s ease, color 0.3s ease;
+}
+
+@media only screen and (max-width: 767px) {
+    .home1-slide1-content .link a {
+        font-size: 16px;
+    }
+}
+
+.home1-slide1-content .link a:hover {
+    color: var(--color-text);
+    border-color: var(--color-text);
 }
 
 /* The hero's teal subtitle and dashed ring follow the accent. */
@@ -192,6 +253,7 @@ img {
 .related > h2,
 .wp-block-woocommerce-cart .wp-block-woocommerce-product-collection > .wp-block-heading {
     margin-bottom: 40px;
+    font-weight: 400;
     text-align: center;
 }
 
@@ -388,7 +450,7 @@ img {
     right: 0;
     bottom: auto; /* bootstrap's .offcanvas pins it to the bottom too */
     left: auto;
-    width: 420px;
+    width: 630px;
     max-width: calc(100vw - 32px);
     height: auto;
     padding: 16px 52px 16px 20px;
@@ -677,11 +739,6 @@ img {
 .product-summery .product-availability,
 .product-summery .product-availability strong,
 .product-summery .product-availability .graceart-availability-value,
-.product-payment-info__text {
-    font-family: "Jost", "Futura", "Segoe UI", "Noto Sans", "Helvetica Neue", Arial, sans-serif;
-    font-size: 16px;
-    line-height: 1.5;
-}
 
 /* The theme's body text is dimgray; the product detail reads black throughout. */
 .product-summery,
@@ -695,7 +752,7 @@ img {
 }
 
 .product-availability {
-    margin-bottom: 15px;
+    margin-bottom: 30px;
     color: var(--color-text);
 }
 
@@ -704,32 +761,9 @@ img {
     color: var(--color-text);
 }
 
-.product-payment-info {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 10px;
-    margin-top: 0;
-    margin-bottom: 30px;
-    font-size: 14px;
-    color: var(--color-text);
-}
 
-.product-payment-info__text {
-    font-weight: 500;
-}
 
-.product-payment-info__icon {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
 
-.product-payment-info__icon img {
-    display: block;
-    height: 22px;
-    width: auto;
-}
 
 /* The add-to-cart row: same gap below it (to the shipping block on desktop,
    the description on phones) as the 30px above it. Centre the items so the
@@ -907,9 +941,11 @@ img {
     line-height: inherit;
 }
 
-.wishlist_table td.product-price {
+.wishlist_table td.product-price,
+.wishlist_table td.product-stock-status {
     font-size: 16px;
-    font-weight: 400;
+    font-weight: 300;
+    line-height: 1.4;
 }
 
 /* No frame around the table; woocommerce.css draws one on table.shop_table. */
@@ -931,7 +967,7 @@ img {
     display: flex;
     align-items: center;
     gap: 16px;
-    padding: 16px 0;
+    padding: 20px 0;
     border-bottom: 1px solid var(--color-line);
 }
 
@@ -954,9 +990,12 @@ img {
     background: none;
 }
 
+/* Same as the cart's column headers (YITH bolds th, hence the specificity). */
+.woocommerce table.shop_table.wishlist_table thead th,
 .wishlist_table th {
     font-size: 16px;
     font-weight: 500;
+    line-height: 1.4;
     text-transform: uppercase;
 }
 
@@ -987,6 +1026,7 @@ img {
 .wishlist_table .product-name a {
     font-size: 17px;
     font-weight: 500;
+    line-height: 1.4;
     color: var(--color-text);
 }
 
@@ -1128,6 +1168,17 @@ img {
     background-color: var(--color-accent);
 }
 
+/* Already in the wishlist: filled gold heart; hovering hints at removal. */
+.product-buttons .graceart-wishlist-button.is-active {
+    color: var(--color-accent);
+    border-color: var(--color-accent);
+}
+
+.product-buttons .graceart-wishlist-button.is-active:hover {
+    color: #fff;
+    background-color: var(--color-accent);
+}
+
 /* Futura's webfont has no Slovak diacritics (Ž, Ú, Š, …); Jost is a Futura-style
    geometric sans with full Latin Extended coverage. Variable weight 300–500. */
 @font-face {
@@ -1250,6 +1301,71 @@ body *:not(
 
 .graceart-woo-notice--success {
     border-left: 4px solid var(--color-success);
+}
+
+/* WooCommerce paints its own coloured icon (green tick, blue "i", red "!")
+   as a ::before over ours. */
+.woocommerce-message::before,
+.woocommerce-info::before,
+.woocommerce-error::before,
+.graceart-woo-notice::before {
+    display: none !important;
+}
+
+.graceart-woo-notice--info,
+.woocommerce-info {
+    border-left: 4px solid var(--color-accent);
+}
+
+.graceart-woo-notice--info .graceart-woo-notice__icon,
+.woocommerce-info .graceart-woo-notice__icon {
+    color: var(--color-accent);
+}
+
+.graceart-woo-notice--error,
+.woocommerce-error {
+    border-left: 4px solid #b32d2e;
+}
+
+.graceart-woo-notice--error .graceart-woo-notice__icon,
+.woocommerce-error .graceart-woo-notice__icon {
+    color: #b32d2e;
+}
+
+/* Block notices in the cart and checkout (coupon applied, errors, info). */
+.wc-block-components-notice-banner {
+    color: var(--color-text);
+    border-width: 1px 1px 1px 4px;
+    border-color: var(--color-line);
+    border-radius: 0;
+    background-color: var(--color-surface);
+}
+
+.wc-block-components-notice-banner.is-success {
+    border-left-color: var(--color-success);
+}
+
+.wc-block-components-notice-banner.is-success > svg {
+    fill: var(--color-success);
+    background-color: transparent;
+}
+
+.wc-block-components-notice-banner.is-info {
+    border-left-color: var(--color-accent);
+}
+
+.wc-block-components-notice-banner.is-info > svg {
+    fill: var(--color-accent);
+    background-color: transparent;
+}
+
+.wc-block-components-notice-banner.is-error {
+    border-left-color: #b32d2e;
+}
+
+.wc-block-components-notice-banner.is-error > svg {
+    fill: #b32d2e;
+    background-color: transparent;
 }
 
 .graceart-woo-notice__icon {
@@ -1486,14 +1602,32 @@ body *:not(
 .section-title .title.title-script {
     font-family: "Modesty";
     font-weight: 300;
-    color: var(--color-text);
+    color: var(--color-accent);
 }
 
-/* The leaf decorations are pale green webp images; brightness(0) turns every
-   opaque pixel black so they match the heading. */
+/* The leaf decorations are pale green webp images (54×24); drawn as masks
+   they take the heading's colour. Sized relative to the font. */
 .section-title .title.title-script.title-icon-both::before,
 .section-title .title.title-script.title-icon-both::after {
-    filter: brightness(0);
+    display: inline-block;
+    width: 1.1em;
+    height: 0.5em;
+    margin: 0 0.25em;
+    padding: 0;
+    content: "";
+    vertical-align: middle;
+    background-color: currentColor;
+    filter: none;
+}
+
+.section-title .title.title-script.title-icon-both::before {
+    -webkit-mask: url("../images/title/title-decor-left.webp") center / contain no-repeat;
+    mask: url("../images/title/title-decor-left.webp") center / contain no-repeat;
+}
+
+.section-title .title.title-script.title-icon-both::after {
+    -webkit-mask: url("../images/title/title-decor-right.webp") center / contain no-repeat;
+    mask: url("../images/title/title-decor-right.webp") center / contain no-repeat;
 }
 
 /* Category filter on the shop toolbar links to the category archives, so the
@@ -1786,4 +1920,50 @@ body *:not(
     width: 100%;
     margin: 20px 0;
     text-align: center;
+}
+
+/* Shop colour filter: the selected colour gets a ring. */
+.widget-colors li a.is-active span {
+    box-shadow: 0 0 0 2px #fff, 0 0 0 3px var(--color-text);
+}
+
+/* Cart info lines only make sense with items in the cart; the block swaps
+   to the empty-cart markup without a reload. */
+body:has(.wp-block-woocommerce-empty-cart-block) .graceart-cart-info {
+    display: none;
+}
+
+/* Category carousel on touch screens: the theme reveals its arrows only on
+   hover and parks them outside the container, so phones never see them. */
+@media only screen and (max-width: 991px) {
+    .category-banner1-carousel .slick-arrow {
+        width: 40px;
+        height: 40px;
+        justify-content: center;
+        opacity: 1;
+        color: var(--color-text);
+        border: 1px solid var(--color-line);
+        border-radius: 50%;
+        background-color: rgba(255, 255, 255, 0.9);
+    }
+
+    .category-banner1-carousel .slick-arrow i {
+        font-size: 16px;
+    }
+
+    .category-banner1-carousel .slick-arrow.slick-prev {
+        left: 8px;
+    }
+
+    .category-banner1-carousel .slick-arrow.slick-next {
+        right: 8px;
+    }
+}
+
+/* Logged in on a phone: WordPress positions #wpadminbar absolutely, and the
+   theme's "body { position: relative }" makes the body its containing block,
+   which starts below WordPress's own 46px html margin — so the bar dropped
+   down over the site header. Body needs no positioning of its own. */
+body.admin-bar {
+    position: static;
 }

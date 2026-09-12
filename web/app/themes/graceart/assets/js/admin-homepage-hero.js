@@ -4,7 +4,7 @@
     }
 
     const emptySlide = function () {
-        return {image_id: 0, title: '', subtitle: '', button_text: '', button_url: ''};
+        return {image_id: 0, title: '', button_text: '', button_url: ''};
     };
 
     let currentDocument = null;
@@ -317,9 +317,6 @@
         fields.className = 'graceart-homepage-hero-slide-fields';
         fields.appendChild(createTextField(editorDocument, 'Nadpis', slide.title, function (value) {
             updateSlideField(index, 'title', value);
-        }));
-        fields.appendChild(createTextField(editorDocument, 'Podnadpis', slide.subtitle, function (value) {
-            updateSlideField(index, 'subtitle', value);
         }));
         fields.appendChild(createTextField(editorDocument, 'Text tlačidla', slide.button_text, function (value) {
             updateSlideField(index, 'button_text', value);

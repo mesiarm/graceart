@@ -38,7 +38,6 @@ add_action('init', function (): void {
                     'properties' => [
                         'image_id' => ['type' => 'integer'],
                         'title' => ['type' => 'string'],
-                        'subtitle' => ['type' => 'string'],
                         'button_text' => ['type' => 'string'],
                         'button_url' => ['type' => 'string'],
                     ],
@@ -100,7 +99,6 @@ function graceartHomepageHeroSlides(?int $post_id = null): array
         return [
             'image' => $image_id ? (string) wp_get_attachment_image_url($image_id, 'full') : '',
             'title' => (string) ($slide['title'] ?? ''),
-            'subtitle' => (string) ($slide['subtitle'] ?? ''),
             'button_text' => (string) ($slide['button_text'] ?? ''),
             'button_url' => (string) ($slide['button_url'] ?? ''),
         ];
@@ -115,22 +113,19 @@ function graceartDefaultHomepageHeroSlides(): array
         [
             'image' => fullTemplateUri('assets/images/slider/home1/slide-1.webp'),
             'title' => __('Ručne vyrobené zápisníky', 'graceart'),
-            'subtitle' => __('Každý kus je originál', 'graceart'),
-            'button_text' => __('Nakupovať', 'graceart'),
+            'button_text' => __('Prezrieť kolekciu', 'graceart'),
             'button_url' => graceartShopUrl(),
         ],
         [
             'image' => fullTemplateUri('assets/images/slider/home1/slide-2.webp'),
             'title' => __('Novinky v ponuke', 'graceart'),
-            'subtitle' => __('Zľava až 10 %', 'graceart'),
-            'button_text' => __('Nakupovať', 'graceart'),
+            'button_text' => __('Prezrieť kolekciu', 'graceart'),
             'button_url' => graceartShopUrl(),
         ],
         [
             'image' => fullTemplateUri('assets/images/slider/home1/slide-3.webp'),
             'title' => __('Darčeky s dušou', 'graceart'),
-            'subtitle' => __('Pre priateľov a rodinu', 'graceart'),
-            'button_text' => __('Nakupovať', 'graceart'),
+            'button_text' => __('Prezrieť kolekciu', 'graceart'),
             'button_url' => graceartShopUrl(),
         ],
     ];

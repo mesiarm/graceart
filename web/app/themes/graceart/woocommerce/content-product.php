@@ -31,17 +31,13 @@ $graceart_ajax_add = $graceart_can_add_directly
 $graceart_buy_url = $product_url;
 $graceart_buy_label = __('Do košíka', 'graceart');
 
+// No button when there is nothing to add: sold out, or a one-off piece whose
+// whole stock is already in the cart. The card still links to the product.
+$graceart_show_button = $product->is_type('variable') || $graceart_can_add_directly;
+
 if ($product->is_type('variable')) {
     // A variable product is chosen on its own page, not from the listing.
     $graceart_buy_label = __('Vybrať variant', 'graceart');
-} elseif (! $product->is_in_stock()) {
-    // Sold out: the button says so and leads to the product page.
-    $graceart_buy_label = __('Vypredané', 'graceart');
-} elseif (! $graceart_can_add_more && $product->is_in_stock()) {
-    // Everything available is already in the cart — send them there rather
-    // than offering an add that cannot succeed.
-    $graceart_buy_url = wc_get_cart_url();
-    $graceart_buy_label = __('V košíku', 'graceart');
 } elseif ($graceart_redirect_after_add && $graceart_can_add_directly) {
     $graceart_buy_url = $product->add_to_cart_url();
 }
@@ -61,6 +57,7 @@ if ($product->is_type('variable')) {
             <span class="price">
                 <?php echo wp_kses_post(graceartProductLoopPriceHtml($product)); ?>
             </span>
+            <?php if ($graceart_show_button) : ?>
             <a
                 href="<?php echo esc_url($graceart_buy_url); ?>"
                 data-quantity="1"
@@ -71,6 +68,7 @@ if ($product->is_type('variable')) {
                 <i class="fas fa-shopping-cart" aria-hidden="true"></i>
                 <?php echo esc_html($graceart_buy_label); ?>
             </a>
+            <?php endif; ?>
         </div>
     </div>
 </div>

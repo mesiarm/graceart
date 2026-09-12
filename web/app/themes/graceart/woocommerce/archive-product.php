@@ -53,12 +53,6 @@ get_header();
                             </div>
                         </li>
                         <li>
-                            <div class="product-column-toggle d-none d-xl-flex">
-                                <button class="toggle hintT-top" data-hint="<?php esc_attr_e('3 stĺpce', 'graceart'); ?>" data-column="3"><i class="ti-layout-grid2-alt"></i></button>
-                                <button class="toggle active hintT-top" data-hint="<?php esc_attr_e('4 stĺpce', 'graceart'); ?>" data-column="4"><i class="ti-layout-grid3-alt"></i></button>
-                            </div>
-                        </li>
-                        <li>
                             <a class="product-filter-toggle" href="#product-filter"><?php esc_html_e('Filtre', 'graceart'); ?></a>
                         </li>
                     </ul>
@@ -69,21 +63,24 @@ get_header();
 
     <div id="product-filter" class="product-filter section-fluid bg-light">
         <div class="container">
-            <div class="row row-cols-lg-3 row-cols-md-3 row-cols-sm-2 row-cols-1 learts-mb-n30">
-                <div class="col learts-mb-30">
-                    <ul class="widget-list product-filter-widget customScroll">
-                        <?php foreach (graceartCatalogOrderingOptions() as $orderby => $label) { ?>
-                            <li><a href="<?php echo esc_url(add_query_arg('orderby', $orderby)); ?>"><?php echo esc_html($label); ?></a></li>
-                        <?php } ?>
-                    </ul>
-                </div>
-
+            <?php /* Sorting lives in the toolbar dropdown; the panel is for filters only. */ ?>
+            <div class="row row-cols-md-2 row-cols-1 learts-mb-n30">
                 <div class="col learts-mb-30">
                     <h3 class="widget-title product-filter-widget-title"><?php esc_html_e('Farba', 'graceart'); ?></h3>
                     <ul class="widget-colors product-filter-widget customScroll">
+                        <?php /* WooCommerce's layered-nav parameter filters the product query
+                                  (the attribute archive links only work with "Enable archives"). */ ?>
+                        <?php $graceart_active_color = sanitize_title(wp_unslash($_GET['filter_farba'] ?? '')); // phpcs:ignore WordPress.Security.NonceVerification.Recommended ?>
                         <?php foreach (graceartCatalogTerms('pa_farba') as $term) { ?>
+                            <?php $graceart_is_active = $graceart_active_color === $term->slug; ?>
                             <li>
-                                <a href="<?php echo esc_url(get_term_link($term)); ?>" class="hintT-top" data-hint="<?php echo esc_attr($term->name); ?>">
+                                <a
+                                    href="<?php echo esc_url($graceart_is_active ? remove_query_arg('filter_farba') : add_query_arg('filter_farba', $term->slug)); ?>"
+                                    class="hintT-top<?php echo $graceart_is_active ? ' is-active' : ''; ?>"
+                                    data-hint="<?php echo esc_attr($term->name); ?>"
+                                    aria-label="<?php echo esc_attr($term->name); ?>"
+                                    <?php echo $graceart_is_active ? 'aria-current="true"' : ''; ?>
+                                >
                                     <span data-bg-color="<?php echo esc_attr(graceartColorHex($term)); ?>"><?php echo esc_html($term->name); ?></span>
                                 </a>
                             </li>

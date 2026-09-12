@@ -13,6 +13,12 @@
  * Drop [graceart_cart_info] into the cart page with a Shortcode block.
  */
 add_shortcode('graceart_cart_info', function (): string {
+    // Nothing to inform about when there is nothing in the cart (the CSS
+    // handles the same for a cart emptied without a reload).
+    if (function_exists('WC') && WC()->cart && WC()->cart->is_empty()) {
+        return '';
+    }
+
     $lines = [];
 
     $min = function_exists('graceartFreeShippingMinAmount') ? graceartFreeShippingMinAmount() : null;

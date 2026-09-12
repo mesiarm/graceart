@@ -17,9 +17,6 @@ $bestseller_ids = graceartHomepageBestsellerIds();
                     <?php if ($slide['title']) : ?>
                         <h2 class="title"><?php echo esc_html($slide['title']); ?></h2>
                     <?php endif; ?>
-                    <?php if ($slide['subtitle']) : ?>
-                        <h3 class="sub-title"><?php echo esc_html($slide['subtitle']); ?></h3>
-                    <?php endif; ?>
                     <?php if ($slide['button_text'] && $slide['button_url']) : ?>
                         <div class="link"><a href="<?php echo esc_url($slide['button_url']); ?>"><?php echo esc_html($slide['button_text']); ?></a></div>
                     <?php endif; ?>

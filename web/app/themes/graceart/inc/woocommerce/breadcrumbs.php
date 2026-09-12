@@ -43,13 +43,32 @@ function graceartLocalizeWooPageLabel(string $label): string
 }
 
 add_filter('woocommerce_get_breadcrumb', function (array $crumbs): array {
-    return array_values(array_map(function (array $crumb): array {
+    $crumbs = array_values(array_map(function (array $crumb): array {
         if (isset($crumb[0])) {
             $crumb[0] = graceartLocalizeWooPageLabel($crumb[0]);
         }
 
         return $crumb;
     }, $crumbs));
+
+    // WooCommerce only adds the shop page when the product permalink base
+    // contains its slug ("/produkt/" vs "produkty"), so on categories, tags,
+    // products and product search it goes in right after "Domov" by hand.
+    $shop_id = function_exists('wc_get_page_id') ? (int) wc_get_page_id('shop') : 0;
+    $on_shop_child = (function_exists('is_product_taxonomy') && is_product_taxonomy())
+        || (function_exists('is_product') && is_product())
+        || (is_search() && function_exists('is_post_type_archive') && get_query_var('post_type') === 'product');
+
+    if ($shop_id > 0 && $on_shop_child && (int) get_option('page_on_front') !== $shop_id) {
+        $shop_url = (string) get_permalink($shop_id);
+        $already = array_filter($crumbs, fn(array $crumb): bool => ($crumb[1] ?? '') === $shop_url);
+
+        if (! $already) {
+            array_splice($crumbs, 1, 0, [[get_the_title($shop_id), $shop_url]]);
+        }
+    }
+
+    return $crumbs;
 });
 
 /**
