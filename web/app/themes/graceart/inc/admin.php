@@ -248,7 +248,7 @@ function graceartHomepageBestsellerIds(int $limit = GRACEART_HOMEPAGE_BESTSELLER
     // Sorted by sales descending, so anything never sold sits at the tail.
     // Catalog-hidden products are dropped too — content-product.php refuses to
     // render them, so returning them would silently short the row.
-    return array_values(array_filter($ids, function ($id): bool {
+    $sold = array_values(array_filter($ids, function ($id): bool {
         if ((int) get_post_meta($id, 'total_sales', true) <= 0) {
             return false;
         }
@@ -257,6 +257,29 @@ function graceartHomepageBestsellerIds(int $limit = GRACEART_HOMEPAGE_BESTSELLER
 
         return $product instanceof WC_Product && $product->is_visible();
     }));
+
+    if (count($sold) >= $limit) {
+        return $sold;
+    }
+
+    // A new shop has no sales yet: fill the row with the newest products so
+    // the section is never empty.
+    $newest = wc_get_products([
+        'status' => 'publish',
+        'limit' => $limit,
+        'orderby' => 'date',
+        'order' => 'DESC',
+        'exclude' => $sold,
+        'return' => 'ids',
+    ]);
+
+    $newest = array_filter($newest, function ($id): bool {
+        $product = wc_get_product($id);
+
+        return $product instanceof WC_Product && $product->is_visible();
+    });
+
+    return array_slice(array_merge($sold, array_values($newest)), 0, $limit);
 }
 
 add_action('admin_menu', function () {
