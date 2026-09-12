@@ -270,7 +270,10 @@
     /*--
         Match Height
     -----------------------------------*/
-    $('.isotope-grid .product').matchHeight();
+    // Only the grid items: ".product" would also match the inner wrapper,
+    // and equalising a parent with its own child inflates both by the
+    // child's margin on every update.
+    $('.isotope-grid .grid-item').matchHeight();
 
     /*--
         ion Range Slider
@@ -659,6 +662,21 @@
             }
         });
     });
+
+    // Isotope positions the cards absolutely from their height at layout
+    // time. matchHeight changes those heights again on load and resize, and a
+    // web font arriving late can wrap a title onto a second line, so without
+    // a fresh layout a card would overflow into the gap below it.
+    $.fn.matchHeight._afterUpdate = function () {
+        if ($isotopeGrid.data('isotope')) {
+            $isotopeGrid.isotope('layout');
+        }
+    };
+    if (document.fonts && document.fonts.ready && $.fn.matchHeight._update) {
+        document.fonts.ready.then(function () {
+            $.fn.matchHeight._update();
+        });
+    }
     $isotopeFilter.on('click', 'button', function () {
         var $this = $(this),
             $filterValue = $this.attr('data-filter'),

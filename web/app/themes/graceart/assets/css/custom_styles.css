@@ -32,6 +32,22 @@
     mix-blend-mode: multiply;
 }
 
+/* The header already shows the logo on phones; the band keeps just the breadcrumb. */
+@media only screen and (max-width: 767px) {
+    .page-title .page-title-logo {
+        display: none;
+    }
+}
+
+/* Footer: the same logo.jpg as the header, its white box blended away over
+   the grey footer. */
+.widget-about .footer-logo {
+    width: 463px;
+    max-width: 100%;
+    height: auto;
+    mix-blend-mode: multiply;
+}
+
 .product:hover .product-info .title,
 .product:hover .product-info .price {
     visibility: visible !important;
@@ -77,7 +93,7 @@
 }
 
 .graceart-loop-buy-button {
-    margin-top: 24px;
+    margin-top: 30px;
 }
 
 .graceart-loop-buy-button i,
@@ -117,8 +133,31 @@
     letter-spacing: 0;
 }
 
+/* Cards stack in one column on phones; the theme's 28px between image and
+   title reads as a hole there. */
+@media only screen and (max-width: 767px) {
+    .product-info:not(:first-child) {
+        margin-top: 14px;
+    }
+}
+
+/* Product cards: the same 30px below the buy button as above it, matching
+   the product detail. The theme puts 50px on both card wrappers (they do not
+   collapse inside the flex row), and woocommerce.css zeroes
+   ".woocommerce div.product" on product pages, which hit the related grid. */
+.products {
+    margin-bottom: -30px;
+}
+
+.products .product,
+.woocommerce .products div.product,
 #shop-products.isotope-grid .grid-item {
-    margin-bottom: 50px;
+    margin-bottom: 30px;
+}
+
+.products .product .product,
+.woocommerce .products div.product div.product {
+    margin-bottom: 0;
 }
 
 .product-main-section.section-padding {
@@ -164,12 +203,18 @@
 
     .product-main-section .product-gallery-tabs {
         order: 1;
-        margin-top: 0;
+        margin-top: 30px;
         margin-bottom: 40px;
     }
 
-    .product-main-section .product-shipping-info {
+    /* The shipping block and everything after it (free shipping line, meta)
+       stay together below the description. */
+    .product-main-section .product-shipping-info,
+    .product-main-section .product-shipping-info ~ * {
         order: 2;
+    }
+
+    .product-main-section .product-summery > :last-child {
         margin-bottom: 40px;
     }
 }
@@ -197,6 +242,7 @@
 }
 
 .product-gallery-tabs .product-infor-tab-content {
+    font-family: "Jost", "Futura", "Segoe UI", "Noto Sans", "Helvetica Neue", Arial, sans-serif;
     font-size: 16px;
 }
 
@@ -262,9 +308,12 @@
 /* Single product summary: keep the column compact enough to sit beside the gallery */
 /* Title, price and availability share one 15px rhythm; only the card-payment
    line keeps a 30px gap below it. */
+/* Title and description in the same face as the product cards. */
 .product-summery .product-title {
     margin-bottom: 15px;
+    font-family: "Jost", "Futura", "Segoe UI", "Noto Sans", "Helvetica Neue", Arial, sans-serif;
     font-size: 32px;
+    font-weight: 400;
     line-height: 1.25;
 }
 
@@ -350,12 +399,22 @@
     width: auto;
 }
 
+/* The add-to-cart row: same gap below it (to the shipping block on desktop,
+   the description on phones) as the 30px above it. Centre the items so the
+   button does not stretch to the row's height. */
 .product-summery .product-buttons {
-    margin-bottom: 20px;
+    align-items: center;
+    margin-bottom: 0;
+}
+
+/* woocommerce.css puts 2em under the add-to-cart form; the shipping block
+   (desktop) and the description (mobile) carry their own top margin. */
+.woocommerce div.product .product-summery form.cart {
+    margin-bottom: 0;
 }
 
 .product-shipping-info {
-    margin-top: 18px;
+    margin-top: 30px;
     padding: 0;
     border: none;
     background-color: transparent;
@@ -502,7 +561,7 @@
     justify-content: center;
     width: 34px;
     height: 34px;
-    margin: 0 15px 10px;
+    margin: 0 15px;
     color: #333333;
     border: 1px solid #d0d0d0;
     border-radius: 50%;

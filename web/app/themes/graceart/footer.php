@@ -4,7 +4,7 @@
 
             <div class="col-lg-4 learts-mb-40">
                 <div class="widget-about">
-                    <img src="<?php echo fullTemplateUri('assets/images/logo/logo.svg'); ?>" alt="Grace Art Logo">
+                    <img src="<?php echo fullTemplateUri('assets/images/logo/logo.jpg'); ?>" alt="Grace Art Logo" class="footer-logo">
                 </div>
             </div>
 
