@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Grace Art">
+  <!-- Kožený zápisník s horami: the shop's signature product, simplified. -->
+  <rect width="64" height="64" rx="14" fill="#ffffff"/>
+  <rect x="13" y="8" width="38" height="48" rx="5" fill="#2f6aa8"/>
+  <rect x="13" y="8" width="7" height="48" rx="3" fill="#24568a"/>
+  <path d="M20 44 L27 33 L32 40 L38 28 L44 36 L48 31 L51 35 L51 51 A5 5 0 0 1 46 56 L20 56 Z" fill="#3f7fc0"/>
+  <path d="M20 44 L27 33 L32 40 L38 28 L44 36 L48 31 L51 35" fill="none" stroke="#ffffff" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/>
+  <path d="M16.5 14 V50" stroke="#ffffff" stroke-width="1.4" stroke-dasharray="2.2 2.6" stroke-linecap="round" opacity="0.85"/>
+</svg>
