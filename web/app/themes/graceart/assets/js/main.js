@@ -622,6 +622,9 @@
     // Category Banner Slider/Carousel
     $('.category-banner1-carousel').slick({
         infinite: true,
+        autoplay: true,
+        autoplaySpeed: 3000,
+        pauseOnHover: true,
         slidesToShow: 4,
         slidesToScroll: 1,
         prevArrow: '<button class="slick-prev"><i class="fas fa-long-arrow-alt-left"></i></button>',
