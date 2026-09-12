@@ -25,58 +25,62 @@
 }
 
 .product:hover .product-info .title,
-.product:hover .product-info .graceart-loop-top .price {
+.product:hover .product-info .price {
     visibility: visible !important;
     transform: translateY(0) !important;
     opacity: 1 !important;
 }
 
-.graceart-loop-top {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 8px 12px;
-    margin-bottom: 8px;
-}
-
-.graceart-loop-top .price {
-    margin: 0;
-}
-
-.graceart-loop-availability {
-    display: flex;
-    align-items: center;
-    gap: 4px;
+.product-info .title {
+    font-family: "Futura", "Segoe UI", "Noto Sans", "Helvetica Neue", Arial, sans-serif;
     font-size: 13px;
-    font-weight: 500;
+    font-weight: 400;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
 }
 
-.graceart-loop-availability.is-in-stock {
-    color: #2e7d32;
+.product-info .title a {
+    color: #333333;
 }
 
-.graceart-loop-availability.is-backorder {
-    color: #999999;
+.product-info .title a:hover {
+    color: #f8796c;
+}
+
+.product-info .price {
+    font-family: "Futura", "Segoe UI", "Noto Sans", "Helvetica Neue", Arial, sans-serif;
+    font-size: 18px;
+    font-weight: 300;
+    letter-spacing: 0.5px;
+    color: #333333;
 }
 
 .graceart-loop-buy-button {
     display: inline-flex;
     align-items: center;
-    margin-left: auto;
-    padding: 6px 16px;
+    gap: 8px;
+    margin-top: 24px;
+    padding: 10px 22px;
+    font-family: "Futura", "Segoe UI", "Noto Sans", "Helvetica Neue", Arial, sans-serif;
     font-size: 12px;
-    font-weight: 600;
+    font-weight: 400;
+    line-height: 1;
+    letter-spacing: 1px;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
-    color: #fff;
-    border: none;
+    color: #333333;
+    border: 1px solid #d0d0d0;
     border-radius: 500px;
-    background-color: #333333;
+    background-color: #fff;
+}
+
+.graceart-loop-buy-button i {
+    font-size: 11px;
 }
 
 .graceart-loop-buy-button:hover {
     color: #fff;
-    background-color: #f8796c;
+    border-color: #333333;
+    background-color: #333333;
 }
 
 #shop-products.isotope-grid .grid-item {
