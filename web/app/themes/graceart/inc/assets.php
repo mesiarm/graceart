@@ -156,6 +156,19 @@ function graceartBgImageAttr(string $url): string
 }
 
 /**
+ * Jost is on every line of text; fetch it before the CSS asks for it. Slovak
+ * needs the latin-ext subset as well as latin.
+ */
+add_action('wp_head', function (): void {
+    foreach (['jost-latin.woff2', 'jost-latin-ext.woff2'] as $file) {
+        printf(
+            '<link rel="preload" as="font" type="font/woff2" href="%s" crossorigin>' . "\n",
+            esc_url(fullTemplateUri('assets/fonts/jost/' . $file))
+        );
+    }
+}, 2);
+
+/**
  * Tell the browser about the first hero slide as early as possible.
  */
 add_action('wp_head', function (): void {

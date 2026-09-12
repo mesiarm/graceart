@@ -199,6 +199,8 @@ add_action('wp_enqueue_scripts', function (): void {
         'Company (optional)' => __('Spoločnosť (voliteľné)', 'graceart'),
         'Contact information' => __('Kontaktné údaje', 'graceart'),
         'Country/Region' => __('Krajina / región', 'graceart'),
+        /* translators: %s: field label — WooCommerce's own Slovak file renders this as "Vybrať Krajina / región" */
+        'Select %s' => __('Vyberte: %s', 'graceart'),
         'Country/Region (optional)' => __('Krajina / región (voliteľné)', 'graceart'),
         'Coupon code' => __('Kód kupónu', 'graceart'),
         'Edit' => __('Upraviť', 'graceart'),

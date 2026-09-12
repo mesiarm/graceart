@@ -49,7 +49,7 @@ if ($product->is_type('variable')) {
         <div class="product-thumb">
             <a href="<?php echo esc_url($product_url); ?>" class="image">
                 <?php echo wp_kses_post(graceartProductBadgeHtml($product)); ?>
-                <img src="<?php echo esc_url(graceartProductImageUrl($product)); ?>" alt="<?php echo esc_attr($product->get_name()); ?>">
+                <img src="<?php echo esc_url(graceartProductImageUrl($product)); ?>"<?php echo graceartProductImageSizeAttr($product); ?> alt="<?php echo esc_attr($product->get_name()); ?>" loading="lazy" decoding="async">
             </a>
         </div>
 
@@ -65,7 +65,7 @@ if ($product->is_type('variable')) {
                 data-product_sku="<?php echo esc_attr($product->get_sku()); ?>"
                 class="graceart-loop-buy-button add_to_cart_button <?php echo $graceart_ajax_add ? 'ajax_add_to_cart' : ''; ?>"
             >
-                <i class="fas fa-shopping-cart"></i>
+                <i class="fas fa-shopping-cart" aria-hidden="true"></i>
                 <?php echo esc_html($graceart_buy_label); ?>
             </a>
         </div>

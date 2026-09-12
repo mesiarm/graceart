@@ -22,7 +22,7 @@ add_shortcode('graceart_cart_info', function (): string {
             '<li class="graceart-cart-info__item"><i class="fas fa-truck"></i><span>%s</span></li>',
             wp_kses_post(sprintf(
                 /* translators: %s: formatted minimum order total */
-                __('Pri nákupe nad %s poštovné neplatíte!', 'graceart'),
+                __('Poštovné zdarma pri objednávkach od %s', 'graceart'),
                 '<strong>' . wp_strip_all_tags(wc_price($min)) . '</strong>'
             ))
         );
@@ -38,7 +38,7 @@ add_shortcode('graceart_cart_info', function (): string {
             'applepay.svg' => 'Apple Pay',
         ] as $file => $label) {
             $icons .= sprintf(
-                '<img src="%s" alt="%s">',
+                '<img src="%s" alt="%s" loading="lazy" decoding="async">',
                 esc_url(fullTemplateUri('assets/images/payment/' . $file)),
                 esc_attr($label)
             );
@@ -47,7 +47,7 @@ add_shortcode('graceart_cart_info', function (): string {
         $lines[] = sprintf(
             '<li class="graceart-cart-info__item"><span class="graceart-cart-info__icons">%s</span><span>%s</span></li>',
             $icons,
-            esc_html__('Možná platba kartou', 'graceart')
+            esc_html__('Možná okamžitá platba kartou.', 'graceart')
         );
     }
 

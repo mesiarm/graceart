@@ -15,6 +15,17 @@ add_action('init', function (): void {
         ]);
     }
 
+    register_post_meta('page', '_graceart_home_bestsellers_title', [
+        'type' => 'string',
+        'single' => true,
+        'default' => '',
+        'show_in_rest' => true,
+        'sanitize_callback' => 'sanitize_text_field',
+        'auth_callback' => function (): bool {
+            return current_user_can('edit_pages');
+        },
+    ]);
+
     register_post_meta('page', '_graceart_home_hero_slides', [
         'type' => 'array',
         'single' => true,
@@ -62,6 +73,7 @@ function graceartHomepageCategoryBanners(?int $post_id = null): array
             'label' => $term->name,
             'count' => $term->count,
             'image' => $image ?: (function_exists('wc_placeholder_img_src') ? wc_placeholder_img_src('woocommerce_thumbnail') : ''),
+            'image_size' => $image && function_exists('graceartImageSizeAttr') ? graceartImageSizeAttr($thumbnail_id, 'woocommerce_thumbnail') : '',
             'url' => is_wp_error($term_link) ? home_url('/') : $term_link,
         ];
     }
@@ -102,23 +114,23 @@ function graceartDefaultHomepageHeroSlides(): array
     return [
         [
             'image' => fullTemplateUri('assets/images/slider/home1/slide-1.webp'),
-            'title' => __('Handicraft Shop', 'graceart'),
-            'subtitle' => __('Just for you', 'graceart'),
-            'button_text' => __('shop now', 'graceart'),
+            'title' => __('Ručne vyrobené zápisníky', 'graceart'),
+            'subtitle' => __('Každý kus je originál', 'graceart'),
+            'button_text' => __('Nakupovať', 'graceart'),
             'button_url' => graceartShopUrl(),
         ],
         [
             'image' => fullTemplateUri('assets/images/slider/home1/slide-2.webp'),
-            'title' => __('Newly arrived', 'graceart'),
-            'subtitle' => __('Sale up to 10%', 'graceart'),
-            'button_text' => __('shop now', 'graceart'),
+            'title' => __('Novinky v ponuke', 'graceart'),
+            'subtitle' => __('Zľava až 10 %', 'graceart'),
+            'button_text' => __('Nakupovať', 'graceart'),
             'button_url' => graceartShopUrl(),
         ],
         [
             'image' => fullTemplateUri('assets/images/slider/home1/slide-3.webp'),
-            'title' => __('Affectious gifts', 'graceart'),
-            'subtitle' => __('For friends & family', 'graceart'),
-            'button_text' => __('shop now', 'graceart'),
+            'title' => __('Darčeky s dušou', 'graceart'),
+            'subtitle' => __('Pre priateľov a rodinu', 'graceart'),
+            'button_text' => __('Nakupovať', 'graceart'),
             'button_url' => graceartShopUrl(),
         ],
     ];
@@ -132,6 +144,16 @@ const GRACEART_HOMEPAGE_BESTSELLER_COUNT = 8;
  * Only products that have actually sold are returned, so early on the section
  * shows fewer than $limit rather than padding it out with unsold products.
  */
+/**
+ * Heading above the bestsellers, editable on the homepage in the editor.
+ */
+function graceartHomepageBestsellersTitle(?int $post_id = null): string
+{
+    $title = $post_id ? (string) get_post_meta($post_id, '_graceart_home_bestsellers_title', true) : '';
+
+    return trim($title) !== '' ? $title : __('Najpredávanejšie produkty', 'graceart');
+}
+
 function graceartHomepageBestsellerIds(int $limit = GRACEART_HOMEPAGE_BESTSELLER_COUNT): array
 {
     if (! function_exists('wc_get_products')) {
@@ -247,6 +269,21 @@ add_action('enqueue_block_editor_assets', function (): void {
 
     wp_localize_script('graceart-homepage-hero-editor', 'graceartHomepageHero', [
         'frontPageId' => (int) get_option('page_on_front'),
+    ]);
+
+    $texts_script_path = get_template_directory() . '/assets/js/admin-homepage-texts.js';
+
+    wp_enqueue_script(
+        'graceart-homepage-texts-editor',
+        get_template_directory_uri() . '/assets/js/admin-homepage-texts.js',
+        ['wp-data', 'graceart-homepage-hero-editor'],
+        file_exists($texts_script_path) ? (string) filemtime($texts_script_path) : null,
+        true,
+    );
+
+    wp_localize_script('graceart-homepage-texts-editor', 'graceartHomepageTexts', [
+        'frontPageId' => (int) get_option('page_on_front'),
+        'defaultBestsellersTitle' => __('Najpredávanejšie produkty', 'graceart'),
     ]);
 });
 

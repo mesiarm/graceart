@@ -85,7 +85,7 @@ function graceartHasBreadcrumbTrail(): bool
 function graceartPageHero(string $title, bool $show_breadcrumb = true): void
 {
     ?>
-    <div class="page-title-section section"<?php echo graceartBgImageAttr(fullTemplateUri('assets/images/bg/shop-zapisniky.png')); ?>>
+    <div class="page-title-section section"<?php echo graceartBgImageAttr(graceartBandBackgroundUrl()); ?>>
         <div class="container">
             <div class="row">
                 <div class="col">

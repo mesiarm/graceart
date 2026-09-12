@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "bf6bf71b636ebcd6695ae1863e00f425",
+    "content-hash": "3b146ae78fbde1b5f9bc70ea84dfc854",
     "packages": [
         {
             "name": "composer/installers",
@@ -1147,6 +1147,37 @@
                 "source": "https://plugins.svn.wordpress.org/woocommerce-pdf-invoices-packing-slips"
             },
             "time": "2026-08-21T07:46:28+00:00"
+        },
+        {
+            "name": "wp-plugin/wordpress-seo",
+            "version": "28.4",
+            "source": {
+                "type": "svn",
+                "url": "https://plugins.svn.wordpress.org/wordpress-seo/",
+                "reference": "tags/28.4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://downloads.wordpress.org/plugin/wordpress-seo.28.4.zip"
+            },
+            "require": {
+                "composer/installers": "~1.0|~2.0"
+            },
+            "type": "wordpress-plugin",
+            "notification-url": "https://wp-packages.org/downloads",
+            "authors": [
+                {
+                    "name": "Yoast"
+                }
+            ],
+            "description": "Real-time SEO guidance, schema, and AI built in. Help search engines and AI systems understand your content. All AI tools included, no hidden fees.",
+            "homepage": "https://yoa.st/1uj",
+            "support": {
+                "changelog": "https://wordpress.org/plugins/wordpress-seo/#developers",
+                "issues": "https://wordpress.org/support/plugin/wordpress-seo",
+                "source": "https://plugins.svn.wordpress.org/wordpress-seo"
+            },
+            "time": "2026-09-03T13:06:31+00:00"
         },
         {
             "name": "wp-plugin/yith-woocommerce-wishlist",

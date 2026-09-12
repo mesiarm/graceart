@@ -5,17 +5,21 @@ defined('ABSPATH') || exit;
 get_header();
 ?>
 
-<div class="page-title-section section"<?php echo graceartBgImageAttr(fullTemplateUri('assets/images/bg/shop-zapisniky.png')); ?>>
+<div class="page-title-section section"<?php echo graceartBgImageAttr(graceartBandBackgroundUrl()); ?>>
     <div class="container">
         <div class="row">
             <div class="col">
                 <div class="page-title">
-                    <h1 class="title">
-                        <?php echo is_shop() ? esc_html__('Grace Art', 'graceart') : woocommerce_page_title(false); ?>
-                    </h1>
                     <?php if (is_shop()) : ?>
+                        <?php /* Branding band, like the product page: the logo, not a text heading. */ ?>
+                        <h1 class="graceart-visually-hidden"><?php echo esc_html(graceartSeoPageHeading(__('Produkty – ručne vyrobené kožené zápisníky, fotoalbumy a brožúry', 'graceart'))); ?></h1>
+                        <p class="title page-title-logo">
+                            <img src="<?php echo fullTemplateUri('assets/images/logo/logo.jpg'); ?>" width="463" height="100" alt="Grace Art">
+                        </p>
+                    <?php else : ?>
+                        <h1 class="title"><?php echo woocommerce_page_title(false); ?></h1>
                     <?php endif; ?>
-                    <?php if (! is_shop() && graceartHasBreadcrumbTrail()) : ?>
+                    <?php if (graceartHasBreadcrumbTrail()) : ?>
                         <?php graceartWooBreadcrumb(); ?>
                     <?php endif; ?>
                 </div>

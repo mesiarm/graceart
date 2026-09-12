@@ -77,9 +77,14 @@
     /*--
         Header Sticky
     -----------------------------------*/
+    // Logged in, the fixed sticky header would slide under the WordPress
+    // admin bar. The bar is fixed on wider screens and scrolls away on
+    // phones, so measure where its bottom edge is rather than assume a height.
     $window.on('scroll', function () {
         if ($window.scrollTop() > 350) {
-            $('.sticky-header').addClass('is-sticky');
+            var $adminBar = document.getElementById('wpadminbar'),
+                $offset = $adminBar ? Math.max(0, $adminBar.getBoundingClientRect().bottom) : 0;
+            $('.sticky-header').addClass('is-sticky').css('top', $offset);
         } else {
             $('.sticky-header').removeClass('is-sticky');
         }
@@ -150,6 +155,18 @@
             var $this = $(this),
                 $target = $this.attr('href');
             $body.addClass('offcanvas-open');
+            // The search is a dropdown: hang it under whichever magnifier
+            // icon was clicked (there is one per header variant).
+            if ($target === '#offcanvas-search') {
+                var $iconRect = this.getBoundingClientRect();
+                $($target).css({
+                    top: Math.round($iconRect.bottom + 10),
+                    right: Math.max(16, Math.round($window.width() - $iconRect.right))
+                });
+                setTimeout(function () {
+                    $($target).find('input[type="search"]').trigger('focus');
+                }, 300);
+            }
             $($target).addClass('offcanvas-open');
             $offCanvasOverlay.fadeIn();
             if ($this.parent().hasClass('mobile-menu-toggle')) {
@@ -478,8 +495,8 @@
         slidesToShow: 4,
         slidesToScroll: 1,
         focusOnSelect: true,
-        prevArrow: '<button class="slick-prev"><i class="ti-angle-left"></i></button>',
-        nextArrow: '<button class="slick-next"><i class="ti-angle-right"></i></button>',
+        prevArrow: '<button type="button" class="slick-prev" aria-label="Predchádzajúce"><i class="ti-angle-left" aria-hidden="true"></i></button>',
+        nextArrow: '<button type="button" class="slick-next" aria-label="Ďalšie"><i class="ti-angle-right" aria-hidden="true"></i></button>',
         responsive: [{
                 breakpoint: 991,
                 settings: {
@@ -504,8 +521,8 @@
     // Product List Slider
     $('.product-list-slider').slick({
         rows: 3,
-        prevArrow: '<button class="slick-prev"><i class="ti-angle-left"></i></button>',
-        nextArrow: '<button class="slick-next"><i class="ti-angle-right"></i></button>'
+        prevArrow: '<button type="button" class="slick-prev" aria-label="Predchádzajúce"><i class="ti-angle-left" aria-hidden="true"></i></button>',
+        nextArrow: '<button type="button" class="slick-next" aria-label="Ďalšie"><i class="ti-angle-right" aria-hidden="true"></i></button>'
     });
 
     // Single Product Slider
@@ -515,8 +532,8 @@
         slidesToShow: 1,
         slidesToScroll: 1,
         asNavFor: '.product-thumb-slider, .product-thumb-slider-vertical',
-        prevArrow: '<button class="slick-prev"><i class="ti-angle-left"></i></button>',
-        nextArrow: '<button class="slick-next"><i class="ti-angle-right"></i></button>'
+        prevArrow: '<button type="button" class="slick-prev" aria-label="Predchádzajúce"><i class="ti-angle-left" aria-hidden="true"></i></button>',
+        nextArrow: '<button type="button" class="slick-next" aria-label="Ďalšie"><i class="ti-angle-right" aria-hidden="true"></i></button>'
     });
     $('.product-thumb-slider').slick({
         infinite: true,
@@ -524,8 +541,8 @@
         slidesToScroll: 1,
         focusOnSelect: true,
         asNavFor: '.product-gallery-slider',
-        prevArrow: '<button class="slick-prev"><i class="ti-angle-left"></i></button>',
-        nextArrow: '<button class="slick-next"><i class="ti-angle-right"></i></button>'
+        prevArrow: '<button type="button" class="slick-prev" aria-label="Predchádzajúce"><i class="ti-angle-left" aria-hidden="true"></i></button>',
+        nextArrow: '<button type="button" class="slick-next" aria-label="Ďalšie"><i class="ti-angle-right" aria-hidden="true"></i></button>'
     });
     $('.product-thumb-slider-vertical').slick({
         infinite: true,
@@ -535,8 +552,8 @@
         vertical: true,
         focusOnSelect: true,
         asNavFor: '.product-gallery-slider',
-        prevArrow: '<button class="slick-prev"><i class="ti-angle-up"></i></button>',
-        nextArrow: '<button class="slick-next"><i class="ti-angle-down"></i></button>'
+        prevArrow: '<button type="button" class="slick-prev" aria-label="Predchádzajúce"><i class="ti-angle-up" aria-hidden="true"></i></button>',
+        nextArrow: '<button type="button" class="slick-next" aria-label="Ďalšie"><i class="ti-angle-down" aria-hidden="true"></i></button>'
     });
 
     // Blog Carousel
@@ -545,8 +562,8 @@
         slidesToShow: 3,
         slidesToScroll: 1,
         focusOnSelect: true,
-        prevArrow: '<button class="slick-prev"><i class="ti-angle-left"></i></button>',
-        nextArrow: '<button class="slick-next"><i class="ti-angle-right"></i></button>',
+        prevArrow: '<button type="button" class="slick-prev" aria-label="Predchádzajúce"><i class="ti-angle-left" aria-hidden="true"></i></button>',
+        nextArrow: '<button type="button" class="slick-next" aria-label="Ďalšie"><i class="ti-angle-right" aria-hidden="true"></i></button>',
         responsive: [{
                 breakpoint: 991,
                 settings: {
@@ -568,8 +585,8 @@
         slidesToShow: 5,
         slidesToScroll: 1,
         focusOnSelect: true,
-        prevArrow: '<button class="slick-prev"><i class="ti-angle-left"></i></button>',
-        nextArrow: '<button class="slick-next"><i class="ti-angle-right"></i></button>',
+        prevArrow: '<button type="button" class="slick-prev" aria-label="Predchádzajúce"><i class="ti-angle-left" aria-hidden="true"></i></button>',
+        nextArrow: '<button type="button" class="slick-next" aria-label="Ďalšie"><i class="ti-angle-right" aria-hidden="true"></i></button>',
         responsive: [{
             breakpoint: 1199,
             settings: {
@@ -598,15 +615,15 @@
         infinite: true,
         slidesToShow: 1,
         slidesToScroll: 1,
-        prevArrow: '<button class="slick-prev"><i class="ti-angle-left"></i></button>',
-        nextArrow: '<button class="slick-next"><i class="ti-angle-right"></i></button>'
+        prevArrow: '<button type="button" class="slick-prev" aria-label="Predchádzajúce"><i class="ti-angle-left" aria-hidden="true"></i></button>',
+        nextArrow: '<button type="button" class="slick-next" aria-label="Ďalšie"><i class="ti-angle-right" aria-hidden="true"></i></button>'
     });
     $('.testimonial-carousel').slick({
         infinite: true,
         slidesToShow: 3,
         slidesToScroll: 1,
-        prevArrow: '<button class="slick-prev"><i class="ti-angle-left"></i></button>',
-        nextArrow: '<button class="slick-next"><i class="ti-angle-right"></i></button>',
+        prevArrow: '<button type="button" class="slick-prev" aria-label="Predchádzajúce"><i class="ti-angle-left" aria-hidden="true"></i></button>',
+        nextArrow: '<button type="button" class="slick-next" aria-label="Ďalšie"><i class="ti-angle-right" aria-hidden="true"></i></button>',
         responsive: [{
                 breakpoint: 991,
                 settings: {
@@ -630,8 +647,8 @@
         pauseOnHover: true,
         slidesToShow: 4,
         slidesToScroll: 1,
-        prevArrow: '<button class="slick-prev"><i class="fas fa-long-arrow-alt-left"></i></button>',
-        nextArrow: '<button class="slick-next"><i class="fas fa-long-arrow-alt-right"></i></button>',
+        prevArrow: '<button type="button" class="slick-prev" aria-label="Predchádzajúce"><i class="fas fa-long-arrow-alt-left" aria-hidden="true"></i></button>',
+        nextArrow: '<button type="button" class="slick-next" aria-label="Ďalšie"><i class="fas fa-long-arrow-alt-right" aria-hidden="true"></i></button>',
         responsive: [{
                 breakpoint: 991,
                 settings: {
@@ -655,11 +672,11 @@
     var $isotopeGrid = $('.isotope-grid');
     var $isotopeFilter = $('.isotope-filter');
     $isotopeGrid.imagesLoaded(function () {
+        // Rows, not masonry: with equal-height cards a masonry layout would
+        // drop the last card of a row under whichever column ended shortest.
         $isotopeGrid.isotope({
             itemSelector: '.grid-item',
-            masonry: {
-                columnWidth: '.grid-sizer'
-            }
+            layoutMode: 'fitRows'
         });
     });
 
@@ -715,8 +732,8 @@
         infinite: true,
         slidesToShow: 5,
         slidesToScroll: 1,
-        prevArrow: '<button class="slick-prev"><i class="ti-angle-left"></i></button>',
-        nextArrow: '<button class="slick-next"><i class="ti-angle-right"></i></button>',
+        prevArrow: '<button type="button" class="slick-prev" aria-label="Predchádzajúce"><i class="ti-angle-left" aria-hidden="true"></i></button>',
+        nextArrow: '<button type="button" class="slick-next" aria-label="Ďalšie"><i class="ti-angle-right" aria-hidden="true"></i></button>',
         responsive: [{
             breakpoint: 119,
             settings: {
@@ -743,8 +760,8 @@
         infinite: true,
         slidesToShow: 3,
         slidesToScroll: 1,
-        prevArrow: '<button class="slick-prev"><i class="ti-angle-left"></i></button>',
-        nextArrow: '<button class="slick-next"><i class="ti-angle-right"></i></button>',
+        prevArrow: '<button type="button" class="slick-prev" aria-label="Predchádzajúce"><i class="ti-angle-left" aria-hidden="true"></i></button>',
+        nextArrow: '<button type="button" class="slick-next" aria-label="Ďalšie"><i class="ti-angle-right" aria-hidden="true"></i></button>',
         responsive: [{
             breakpoint: 767,
             settings: {
@@ -780,18 +797,6 @@
     $('.collapse').on('hide.bs.collapse', function (e) {
         $(this).closest('.card').removeClass('active');
     });
-
-    /* Modal */
-    $('#quickViewModal').on('shown.bs.modal', function (e) {
-        $('.product-gallery-slider-quickview').slick({
-            dots: true,
-            infinite: true,
-            slidesToShow: 1,
-            slidesToScroll: 1,
-            prevArrow: '<button class="slick-prev"><i class="ti-angle-left"></i></button>',
-            nextArrow: '<button class="slick-next"><i class="ti-angle-right"></i></button>'
-        });
-    })
 
     /*--
         Product Quantity
@@ -840,8 +845,10 @@
         Scroll Up
     -----------------------------------*/
     $.scrollUp({
-        scrollText: '<i class="fas fa-long-arrow-alt-up"></i>',
+        scrollText: '<i class="fas fa-long-arrow-alt-up" aria-hidden="true"></i>',
+        scrollTitle: 'Na začiatok stránky'
     });
+    $('#scrollUp').attr({ role: 'button', 'aria-label': 'Na začiatok stránky' });
 
 
     /*--

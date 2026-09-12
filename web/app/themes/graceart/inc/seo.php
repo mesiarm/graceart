@@ -3,9 +3,15 @@
 /**
  * Meta description, canonical-friendly Open Graph and Twitter tags.
  *
- * There is no SEO plugin on this site, so without this the pages ship with no
- * description and nothing for social previews to read.
+ * Yoast SEO owns titles, descriptions and social tags when it is active
+ * (templates live under SEO → Search Appearance); everything below is the
+ * fallback for when it is not, so nothing is emitted twice.
  */
+
+function graceartSeoPluginActive(): bool
+{
+    return defined('WPSEO_VERSION');
+}
 
 /**
  * Trim text to a length search engines will actually display.
@@ -33,6 +39,86 @@ function graceartSeoTrim(string $text, int $length = 155): string
 }
 
 /**
+ * Site-level copy used where a page has no description of its own. The site
+ * tagline in Settings is empty, so these are the fallbacks.
+ */
+function graceartSeoSiteName(): string
+{
+    return __('Grace Art', 'graceart');
+}
+
+function graceartSeoHomeDescription(): string
+{
+    return __('Grace Art – ručne vyrobené kožené zápisníky, fotoalbumy a brožúry s autorskou ilustráciou. Každý kus je originál, šitý a maľovaný ručne na Slovensku.', 'graceart');
+}
+
+function graceartSeoShopDescription(): string
+{
+    return __('Ponuka ručne vyrobených kožených zápisníkov, fotoalbumov a brožúr od Grace Art. Originálne ilustrácie, kvalitná koža a ručné šitie – každý kus je jedinečný.', 'graceart');
+}
+
+/**
+ * Document titles: "Grace Art – …" on the front page, "Page | Grace Art"
+ * elsewhere. WordPress would otherwise use the site name "Graceart".
+ */
+add_filter('document_title_separator', fn(): string => '|');
+
+add_filter('document_title_parts', function (array $parts): array {
+    if (graceartSeoPluginActive()) {
+        return $parts;
+    }
+
+    $parts['site'] = graceartSeoSiteName();
+    unset($parts['tagline']);
+
+    if (is_front_page()) {
+        $parts['title'] = __('Grace Art – ručne vyrobené kožené zápisníky a fotoalbumy', 'graceart');
+        unset($parts['site']);
+    } elseif (function_exists('is_shop') && is_shop()) {
+        $parts['title'] = __('Produkty – kožené zápisníky, fotoalbumy a brožúry', 'graceart');
+    } elseif (function_exists('is_product_category') && is_product_category()) {
+        $term = get_queried_object();
+
+        if ($term instanceof WP_Term) {
+            $parts['title'] = sprintf(__('%s – ručne vyrobené', 'graceart'), $term->name);
+        }
+    }
+
+    return $parts;
+});
+
+/**
+ * Text for a hidden <h1>: the SEO title of the current page (Yoast's when it
+ * is active) without the trailing "| Grace Art", or the given fallback.
+ */
+function graceartSeoPageHeading(string $fallback): string
+{
+    $title = '';
+
+    if (graceartSeoPluginActive() && function_exists('YoastSEO')) {
+        $title = (string) YoastSEO()->meta->for_current_page()->title;
+    }
+
+    if ($title === '') {
+        $title = wp_get_document_title();
+    }
+
+    $title = html_entity_decode($title, ENT_QUOTES, 'UTF-8');
+    $site = graceartSeoSiteName();
+
+    foreach ([' | ', ' – ', ' - '] as $separator) {
+        $suffix = $separator . $site;
+
+        if (str_ends_with($title, $suffix)) {
+            $title = substr($title, 0, -strlen($suffix));
+            break;
+        }
+    }
+
+    return trim($title) !== '' ? trim($title) : $fallback;
+}
+
+/**
  * The best available description for whatever is currently being viewed.
  */
 function graceartSeoDescription(): string
@@ -40,7 +126,7 @@ function graceartSeoDescription(): string
     $description = '';
 
     if (is_front_page()) {
-        $description = (string) get_option('blogdescription');
+        $description = graceartSeoHomeDescription();
     } elseif (function_exists('is_product') && is_product()) {
         $product = wc_get_product(get_queried_object_id());
 
@@ -53,6 +139,7 @@ function graceartSeoDescription(): string
     } elseif (function_exists('is_shop') && is_shop()) {
         $shop = get_post(wc_get_page_id('shop'));
         $description = $shop instanceof WP_Post ? ($shop->post_excerpt ?: $shop->post_content) : '';
+        $description = $description ?: graceartSeoShopDescription();
     } elseif (is_singular()) {
         $post = get_queried_object();
 
@@ -62,7 +149,7 @@ function graceartSeoDescription(): string
     }
 
     if (trim(wp_strip_all_tags((string) $description)) === '') {
-        $description = (string) get_option('blogdescription');
+        $description = (string) get_option('blogdescription') ?: graceartSeoHomeDescription();
     }
 
     return graceartSeoTrim((string) apply_filters('graceart_seo_description', $description));
@@ -125,7 +212,7 @@ function graceartSeoUrl(): string
 }
 
 add_action('wp_head', function (): void {
-    if (is_404() || is_search()) {
+    if (is_404() || is_search() || graceartSeoPluginActive()) {
         return;
     }
 

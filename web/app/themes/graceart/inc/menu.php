@@ -92,7 +92,7 @@ function graceartFooterMenu(): void
         'theme_location' => 'footer-menu',
         'container' => false,
         'fallback_cb' => false,
-        'menu_class' => 'widget-menu justify-content-center',
+        'menu_class' => 'widget-list',
         'depth' => 1,
     ]);
 }

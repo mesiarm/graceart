@@ -47,6 +47,7 @@
     "wp-plugin/redis-cache": "^2.8",
     "wp-plugin/woocommerce": "^10.7",
     "wp-plugin/woocommerce-pdf-invoices-packing-slips": "^5.15",
+    "wp-plugin/wordpress-seo": "^28.4",
     "wp-plugin/yith-woocommerce-wishlist": "^4.15"
   },
   "require-dev": {

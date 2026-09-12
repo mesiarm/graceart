@@ -66,7 +66,7 @@ add_filter('woocommerce_product_single_add_to_cart_text', fn(): string => __('Do
 
 add_filter('woocommerce_product_add_to_cart_text', function (string $text, WC_Product $product): string {
     if ($product->is_type('variable')) {
-        return __('Vybrať možnosti', 'graceart');
+        return __('Vybrať variant', 'graceart');
     }
 
     if ($product->is_type('grouped')) {
@@ -132,7 +132,7 @@ function graceartWishlistProductUrl(WC_Product $product): string
 function graceartWishlistButton(WC_Product $product): string
 {
     return sprintf(
-        '<a href="%1$s" class="graceart-wishlist-button hintT-top" data-hint="%2$s" aria-label="%2$s"><i class="far fa-heart"></i></a>',
+        '<a href="%1$s" class="graceart-wishlist-button hintT-top" data-hint="%2$s" aria-label="%2$s"><i class="far fa-heart" aria-hidden="true"></i></a>',
         esc_url(graceartWishlistProductUrl($product)),
         esc_attr__('Pridať do zoznamu prianí', 'graceart'),
     );
@@ -150,8 +150,10 @@ function graceartProductGalleryImages(WC_Product $product): array
             'type' => 'image',
             'alt' => $product->get_name(),
             'thumb' => wc_placeholder_img_src('woocommerce_thumbnail'),
+            'thumb_size' => '',
             'full' => wc_placeholder_img_src('woocommerce_single'),
             'large' => wc_placeholder_img_src('woocommerce_single'),
+            'large_size' => '',
             'width' => 700,
             'height' => 1100,
         ]];
@@ -173,8 +175,10 @@ function graceartProductGalleryImages(WC_Product $product): array
             'type' => 'image',
             'alt' => get_post_meta($image_id, '_wp_attachment_image_alt', true) ?: $product->get_name(),
             'thumb' => wp_get_attachment_image_url($image_id, 'woocommerce_thumbnail'),
+            'thumb_size' => graceartImageSizeAttr($image_id, 'woocommerce_thumbnail'),
             'full' => $full[0] ?? wp_get_attachment_image_url($image_id, 'full'),
             'large' => wp_get_attachment_image_url($image_id, 'woocommerce_single'),
+            'large_size' => graceartImageSizeAttr($image_id, 'woocommerce_single'),
             'width' => $full[1] ?? 700,
             'height' => $full[2] ?? 1100,
         ];
@@ -258,6 +262,27 @@ function graceartProductImageUrl(WC_Product $product, string $size = 'woocommerc
     $image_id = $product->get_image_id();
 
     return $image_id ? wp_get_attachment_image_url($image_id, $size) : wc_placeholder_img_src($size);
+}
+
+/**
+ * ' width="…" height="…"' for an attachment at a size, so the browser can
+ * reserve the box before the file arrives (no layout shift). Empty when the
+ * size is unknown.
+ */
+function graceartImageSizeAttr(int $image_id, string $size): string
+{
+    $src = $image_id ? wp_get_attachment_image_src($image_id, $size) : false;
+
+    if (! $src || empty($src[1]) || empty($src[2])) {
+        return '';
+    }
+
+    return sprintf(' width="%d" height="%d"', (int) $src[1], (int) $src[2]);
+}
+
+function graceartProductImageSizeAttr(WC_Product $product, string $size = 'woocommerce_thumbnail'): string
+{
+    return graceartImageSizeAttr((int) $product->get_image_id(), $size);
 }
 
 function graceartLeadTimeOptions(): array

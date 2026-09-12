@@ -27,14 +27,14 @@ while (have_posts()) :
     }
     ?>
 
-    <div class="page-title-section section"<?php echo graceartBgImageAttr(fullTemplateUri('assets/images/bg/shop-zapisniky.png')); ?>>
+    <div class="page-title-section section"<?php echo graceartBgImageAttr(graceartBandBackgroundUrl()); ?>>
         <div class="container">
             <div class="row">
                 <div class="col">
                     <div class="page-title">
                         <?php /* Branding band, not the page heading — the product name is the <h1>. */ ?>
                         <p class="title page-title-logo">
-                            <img src="<?php echo fullTemplateUri('assets/images/logo/logo.jpg'); ?>" alt="Grace Art">
+                            <img src="<?php echo fullTemplateUri('assets/images/logo/logo.jpg'); ?>" width="463" height="100" alt="Grace Art">
                         </p>
                         <?php graceartWooBreadcrumb(); ?>
                     </div>
@@ -48,12 +48,12 @@ while (have_posts()) :
             <div class="row learts-mb-n40">
                 <div class="col-lg-7 col-12 learts-mb-40">
                     <div class="product-images">
-                        <button class="product-gallery-popup hintT-left" data-hint="<?php esc_attr_e('Kliknite pre zväčšenie', 'graceart'); ?>" data-images="<?php echo esc_attr(graceartProductGalleryPopupImages($gallery_images)); ?>">
-                            <i class="fas fa-expand"></i>
+                        <button type="button" class="product-gallery-popup hintT-left" data-hint="<?php esc_attr_e('Kliknite pre zväčšenie', 'graceart'); ?>" aria-label="<?php esc_attr_e('Zväčšiť fotografiu', 'graceart'); ?>" data-images="<?php echo esc_attr(graceartProductGalleryPopupImages($gallery_images)); ?>">
+                            <i class="fas fa-expand" aria-hidden="true"></i>
                         </button>
 
                         <div class="product-gallery-slider">
-                            <?php foreach ($gallery_images as $image) : ?>
+                            <?php foreach ($gallery_images as $graceart_slide_index => $image) : ?>
                                 <?php if ($image['type'] === 'video') : ?>
                                     <div class="product-video-slide">
                                         <video controls playsinline preload="metadata">
@@ -62,7 +62,8 @@ while (have_posts()) :
                                     </div>
                                 <?php else : ?>
                                     <div class="product-zoom" data-image="<?php echo esc_url($image['full']); ?>">
-                                        <img src="<?php echo esc_url($image['large']); ?>" alt="<?php echo esc_attr($image['alt']); ?>">
+                                        <?php /* The first slide is the page's largest image: eager, high priority; the rest load on demand. */ ?>
+                                        <img src="<?php echo esc_url($image['large']); ?>"<?php echo $image['large_size']; ?> alt="<?php echo esc_attr($image['alt']); ?>"<?php echo $graceart_slide_index === 0 ? ' fetchpriority="high"' : ' loading="lazy"'; ?> decoding="async">
                                     </div>
                                 <?php endif; ?>
                             <?php endforeach; ?>
@@ -75,7 +76,7 @@ while (have_posts()) :
                                         <?php if ($image['type'] === 'video') : ?>
                                             <span class="video-thumb-icon"><i class="fas fa-play"></i></span>
                                         <?php else : ?>
-                                            <img src="<?php echo esc_url($image['thumb']); ?>" alt="<?php echo esc_attr($image['alt']); ?>">
+                                            <img src="<?php echo esc_url($image['thumb']); ?>"<?php echo $image['thumb_size']; ?> alt="<?php echo esc_attr($image['alt']); ?>" loading="lazy" decoding="async">
                                         <?php endif; ?>
                                     </div>
                                 <?php endforeach; ?>
@@ -94,12 +95,6 @@ while (have_posts()) :
                     <div class="product-summery">
                         <?php /* Title first, so it lines up with the top of the gallery. */ ?>
                         <h1 class="product-title"><?php the_title(); ?></h1>
-
-                        <?php if ($product->get_review_count() > 0) : ?>
-                            <div class="product-ratings">
-                                <?php woocommerce_template_single_rating(); ?>
-                            </div>
-                        <?php endif; ?>
 
                         <?php
                         $graceart_selected_variation_data = graceartResolveSelectedVariationData($product);
@@ -120,10 +115,10 @@ while (have_posts()) :
                         <?php if (graceartCardPaymentEnabled()) : ?>
                             <div class="product-payment-info">
                                 <span class="product-payment-info__icon">
-                                    <img src="<?php echo esc_url(fullTemplateUri('assets/images/payment/visa.svg')); ?>" alt="Visa">
-                                    <img src="<?php echo esc_url(fullTemplateUri('assets/images/payment/mastercard.svg')); ?>" alt="Mastercard">
-                                    <img src="<?php echo esc_url(fullTemplateUri('assets/images/payment/googlepay.svg')); ?>" alt="Google Pay">
-                                    <img src="<?php echo esc_url(fullTemplateUri('assets/images/payment/applepay.svg')); ?>" alt="Apple Pay">
+                                    <img src="<?php echo esc_url(fullTemplateUri('assets/images/payment/visa.svg')); ?>" width="780" height="500" alt="Visa">
+                                    <img src="<?php echo esc_url(fullTemplateUri('assets/images/payment/mastercard.svg')); ?>" width="780" height="500" alt="Mastercard">
+                                    <img src="<?php echo esc_url(fullTemplateUri('assets/images/payment/googlepay.svg')); ?>" width="512" height="204" alt="Google Pay">
+                                    <img src="<?php echo esc_url(fullTemplateUri('assets/images/payment/applepay.svg')); ?>" width="512" height="211" alt="Apple Pay">
                                 </span>
                                 <span class="product-payment-info__text"><?php esc_html_e('Možná okamžitá platba kartou.', 'graceart'); ?></span>
                             </div>
@@ -183,6 +178,12 @@ while (have_posts()) :
                                     ?>
                                 </span>
                             </p>
+                        <?php endif; ?>
+
+                        <?php if ($product->get_review_count() > 0) : ?>
+                            <div class="product-ratings">
+                                <?php woocommerce_template_single_rating(); ?>
+                            </div>
                         <?php endif; ?>
 
                         <?php if ($product->get_sku() || wc_get_product_tag_list($product->get_id())) : ?>

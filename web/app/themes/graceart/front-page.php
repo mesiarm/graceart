@@ -4,6 +4,8 @@ get_header();
 $hero_slides = graceartHomepageHeroSlides((int) get_queried_object_id());
 $bestseller_ids = graceartHomepageBestsellerIds();
 ?>
+<h1 class="graceart-visually-hidden"><?php echo esc_html(graceartSeoPageHeading(__('Grace Art – ručne vyrobené kožené zápisníky a fotoalbumy', 'graceart'))); ?></h1>
+
 <!-- Slider main container Start -->
 <div class="home1-slider swiper-container">
     <div class="swiper-wrapper">
@@ -25,8 +27,8 @@ $bestseller_ids = graceartHomepageBestsellerIds();
             </div>
         <?php endforeach; ?>
     </div>
-    <div class="home1-slider-prev swiper-button-prev"><i class="ti-angle-left"></i></div>
-    <div class="home1-slider-next swiper-button-next"><i class="ti-angle-right"></i></div>
+    <div class="home1-slider-prev swiper-button-prev" role="button" tabindex="0" aria-label="<?php esc_attr_e('Predchádzajúci slide', 'graceart'); ?>"><i class="ti-angle-left" aria-hidden="true"></i></div>
+    <div class="home1-slider-next swiper-button-next" role="button" tabindex="0" aria-label="<?php esc_attr_e('Ďalší slide', 'graceart'); ?>"><i class="ti-angle-right" aria-hidden="true"></i></div>
 </div>
 <!-- Slider main container End -->
 
@@ -34,12 +36,13 @@ $bestseller_ids = graceartHomepageBestsellerIds();
 <div class="section section-fluid section-padding">
     <div class="container">
         <div class="category-banner1-carousel">
-            <?php foreach (graceartHomepageCategoryBanners((int) get_queried_object_id()) as $banner): ?>
+            <?php foreach (graceartHomepageCategoryBanners((int) get_queried_object_id()) as $graceart_banner_index => $banner): ?>
                 <div class="col">
                     <div class="category-banner1">
                         <div class="inner">
                             <a href="<?php echo esc_url($banner['url']); ?>" class="image">
-                                <img src="<?php echo esc_url($banner['image']); ?>" alt="<?php echo esc_attr($banner['label']); ?>">
+                                <?php /* The carousel shows four at once; the rest can wait. */ ?>
+                                <img src="<?php echo esc_url($banner['image']); ?>"<?php echo $banner['image_size'] ?? ''; ?> alt="<?php echo esc_attr($banner['label']); ?>"<?php echo $graceart_banner_index >= 4 ? ' loading="lazy"' : ''; ?> decoding="async">
                             </a>
                             <div class="content">
                                 <h3 class="title">
@@ -64,7 +67,7 @@ $bestseller_ids = graceartHomepageBestsellerIds();
 
         <!-- Section Title Start -->
         <div class="section-title text-center">
-            <h2 class="title title-icon-both title-script"><?php esc_html_e('Najpredávanejšie produkty', 'graceart'); ?></h2>
+            <h2 class="title title-icon-both title-script"><?php echo esc_html(graceartHomepageBestsellersTitle((int) get_queried_object_id())); ?></h2>
         </div>
         <!-- Section Title End -->
 

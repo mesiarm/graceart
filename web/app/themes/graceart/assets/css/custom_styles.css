@@ -1,6 +1,133 @@
+/* ------------------------------------------------------------------
+   Palette. Three greys (text, secondary text, lines), one neutral
+   background, one dark for buttons and hover fills, one accent, one
+   green for stock/success. Change a colour here, not in the rules.
+   ------------------------------------------------------------------ */
+:root {
+    --color-text: #333333;
+    --color-text-secondary: #777777;
+    --color-line: #e0e0e0;
+    --color-surface: #f5f5f5;
+    --color-dark: #333333;
+    --color-accent: #f8796c;
+    --color-success: #2e7d32;
+}
+
+/* The theme's own greys pulled onto the palette: dimgray body text,
+   #7e7e7e menu items, #999 footer links, breadcrumb and copyright,
+   #dedede/#ebebeb rules, #f8f8f8 footer, WooCommerce's #32373c buttons. */
+body {
+    color: var(--color-text);
+}
+
+.menu-text,
+.site-main-menu > ul > li > a,
+.page-title .breadcrumb .breadcrumb-item,
+.page-title .breadcrumb .breadcrumb-item a,
+.widget-list li a,
+.widget-social a,
+.copyright,
+.product-summery .product-price del,
+.wc-block-components-product-metadata,
+.wc-block-components-totals-shipping__via {
+    color: var(--color-text-secondary);
+}
+
+.site-menu-section,
+.footer2-copyright,
+.header-section,
+.sticky-header {
+    border-color: var(--color-line);
+}
+
+.footer2-section,
+.footer2-copyright {
+    background-color: var(--color-surface);
+}
+
+.wp-block-woocommerce-cart .wc-block-components-button:not(.is-link),
+.wp-block-woocommerce-checkout .wc-block-components-button:not(.is-link) {
+    color: #fff;
+    background-color: var(--color-dark);
+}
+
+.wp-block-woocommerce-cart .wc-block-components-button:not(.is-link):hover,
+.wp-block-woocommerce-checkout .wc-block-components-button:not(.is-link):hover {
+    background-color: var(--color-accent);
+}
+
 .home1-slide1-content .title,
 .home1-slide1-content .sub-title {
     text-align: center;
+}
+
+/* The theme removes every focus outline; keyboard users get one back
+   (only for keyboard focus, so mouse clicks stay clean). */
+:focus-visible {
+    outline: 2px solid var(--color-dark) !important;
+    outline-offset: 2px;
+}
+
+/* Skip link: hidden until it receives keyboard focus. */
+.graceart-skip-link:focus {
+    position: fixed !important;
+    z-index: 100000;
+    top: 8px;
+    left: 8px;
+    width: auto;
+    height: auto;
+    margin: 0;
+    padding: 10px 16px;
+    clip: auto;
+    color: #fff;
+    background: var(--color-dark);
+}
+
+/* Icon links in the header: comfortable tap targets. */
+.header-tools > div > a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 40px;
+    min-height: 40px;
+}
+
+/* Slider dots: the visible dot stays 10px, the button around it is 24px so
+   it can actually be tapped. Footer links get the same minimum height. */
+.slick-dots li {
+    margin: 0;
+}
+
+.slick-dots li button {
+    width: 24px;
+    height: 24px;
+    background-color: transparent;
+    background-image: radial-gradient(circle, var(--color-dark) 5px, transparent 5.5px);
+}
+
+/* The active dot is the theme's ring; keep it a ring at the same 24px. */
+.slick-dots li.slick-active button {
+    width: 24px;
+    height: 24px;
+    background-image: none;
+}
+
+.widget-list li a {
+    display: inline-block;
+    padding: 2px 0;
+}
+
+/* Present for search engines and screen readers, not drawn. */
+.graceart-visually-hidden {
+    position: absolute !important;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
 }
 
 .graceart-404-code {
@@ -8,13 +135,13 @@
     font-size: 120px;
     font-weight: 400;
     line-height: 1;
-    color: #333333;
+    color: var(--color-text);
 }
 
 .graceart-404-message {
     margin-bottom: 30px;
     font-size: 18px;
-    color: #666666;
+    color: var(--color-text-secondary);
 }
 
 /* The branding band on the product page shows the same logo.jpg as the header,
@@ -64,11 +191,11 @@
 }
 
 .product-info .title a {
-    color: #333333;
+    color: var(--color-text);
 }
 
 .product-info .title a:hover {
-    color: #f8796c;
+    color: var(--color-accent);
 }
 
 /* One add-to-cart button style: the listing's buy button and the product
@@ -86,14 +213,36 @@
     line-height: 1;
     letter-spacing: 1px;
     text-transform: uppercase;
-    color: #333333 !important;
-    border: 1px solid #d0d0d0 !important;
+    color: var(--color-text) !important;
+    border: 1px solid var(--color-line) !important;
     border-radius: 500px;
     background-color: #fff !important;
 }
 
+/* Cards in a row are equal height (flex row / matchHeight); make the card a
+   column and pin the button to the bottom so buttons line up even when a
+   title wraps onto a second line. */
+.products .product .product {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.products .product .product .product-info {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+}
+
 .graceart-loop-buy-button {
-    margin-top: 30px;
+    align-self: center;
+    margin-top: auto;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.products .product .product .product-info .price {
+    margin-bottom: 30px;
 }
 
 .graceart-loop-buy-button i,
@@ -106,8 +255,8 @@
 .product-summery .product-buttons .single_add_to_cart_button:hover,
 .product-summery .product-buttons .single_add_to_cart_button:focus {
     color: #fff !important;
-    border-color: #333333 !important;
-    background-color: #333333 !important;
+    border-color: var(--color-dark) !important;
+    background-color: var(--color-dark) !important;
 }
 
 /* Category banners share the product card title typography. */
@@ -121,14 +270,15 @@
 }
 
 .category-banner1 .content .title a {
-    color: #333333;
+    color: var(--color-text);
 }
 
 .category-banner1 .content .title a:hover {
-    color: #f8796c;
+    color: var(--color-accent);
 }
 
-.category-banner1 .content .title .number {
+.category-banner1 .inner .content .title .number {
+    font-family: "Jost", "Futura", "Segoe UI", "Noto Sans", "Helvetica Neue", Arial, sans-serif;
     font-size: 13px;
     letter-spacing: 0;
 }
@@ -139,6 +289,79 @@
     .product-info:not(:first-child) {
         margin-top: 14px;
     }
+}
+
+/* Search: a small dropdown under the magnifier icon (main.js positions it
+   from the clicked icon), instead of the theme's full-screen takeover. */
+.offcanvas.offcanvas-search {
+    top: 0;
+    right: 0;
+    bottom: auto; /* bootstrap's .offcanvas pins it to the bottom too */
+    left: auto;
+    width: 320px;
+    max-width: calc(100vw - 32px);
+    height: auto;
+    padding: 12px 48px 12px 16px;
+    visibility: hidden;
+    transform: translateY(-8px);
+    transition: transform 0.25s ease 0s, opacity 0.25s ease 0s, visibility 0s linear 0.25s;
+    opacity: 0;
+    border-radius: 4px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.offcanvas.offcanvas-search.offcanvas-open {
+    visibility: visible;
+    transform: translateY(0);
+    transition: transform 0.25s ease 0s, opacity 0.25s ease 0s, visibility 0s linear 0s;
+    opacity: 1;
+}
+
+/* The theme's white "wipe" that reveals the form after the panel slides in. */
+.offcanvas-search::before {
+    display: none;
+}
+
+.offcanvas-search .inner {
+    padding-right: 0;
+}
+
+.offcanvas.offcanvas-search .inner .offcanvas-close {
+    top: 50%;
+    right: -36px;
+    width: 24px;
+    height: 24px;
+    transform: translateY(-50%);
+}
+
+/* A plain "x": no spin of the two strokes on hover. */
+.offcanvas.offcanvas-search .inner .offcanvas-close::before,
+.offcanvas.offcanvas-search .inner .offcanvas-close::after {
+    width: 24px;
+    transition: none;
+}
+
+.offcanvas.offcanvas-search .inner .offcanvas-close:hover::before {
+    transform: rotate(45deg);
+}
+
+.offcanvas.offcanvas-search .inner .offcanvas-close:hover::after {
+    transform: rotate(-45deg);
+}
+
+.offcanvas-search-form input[type="search"] {
+    font-size: 16px;
+    line-height: 1.5;
+    width: 100%;
+    padding: 6px 0;
+    border: 0;
+    border-bottom: 1px solid var(--color-dark);
+    border-radius: 0;
+    background-color: #fff;
+}
+
+.offcanvas-search-form input[type="search"]::placeholder {
+    opacity: 0.5;
 }
 
 /* Product cards: the same 30px below the buy button as above it, matching
@@ -233,17 +456,23 @@
 .product-gallery-tabs .product-info-tab-list li a {
     font-size: 22px;
     opacity: 1;
-    color: #333333;
+    color: var(--color-text);
 }
 
 .product-gallery-tabs .product-info-tab-list li a.active {
     font-weight: 600;
-    border-bottom: 2px solid #333333;
+    border-bottom: 2px solid var(--color-dark);
 }
 
 .product-gallery-tabs .product-infor-tab-content {
     font-family: "Jost", "Futura", "Segoe UI", "Noto Sans", "Helvetica Neue", Arial, sans-serif;
     font-size: 16px;
+}
+
+@media only screen and (min-width: 768px) {
+    .product-gallery-tabs .product-infor-tab-content {
+        font-size: 20px;
+    }
 }
 
 /* One frame for every photo, sized to the tallest upload (1280x1191) so the
@@ -323,8 +552,10 @@
     }
 }
 
+/* Reviews sit under the shipping block. */
 .product-summery .product-ratings {
-    margin-bottom: 15px;
+    margin-top: 18px;
+    margin-bottom: 0;
     padding: 0;
 }
 
@@ -339,13 +570,17 @@
 .product-summery .product-price .price,
 .product-summery .product-price .amount,
 .product-summery .product-price bdi {
-    color: #333333;
+    color: var(--color-text);
 }
 
 /* Same 16px as a variant row, so both read as one list. */
+/* Availability and card-payment lines in the product cards' face. Jost ships
+   in weights 300–500, so the emphasised parts use 500. */
 .product-summery .product-availability,
 .product-summery .product-availability strong,
-.product-summery .product-availability .graceart-availability-value {
+.product-summery .product-availability .graceart-availability-value,
+.product-payment-info__text {
+    font-family: "Jost", "Futura", "Segoe UI", "Noto Sans", "Helvetica Neue", Arial, sans-serif;
     font-size: 16px;
     line-height: 1.5;
 }
@@ -358,17 +593,17 @@
 .product-gallery-tabs li,
 .product-gallery-tabs td,
 .product-gallery-tabs th {
-    color: #333333;
+    color: var(--color-text);
 }
 
 .product-availability {
     margin-bottom: 15px;
-    color: #333333;
+    color: var(--color-text);
 }
 
 .graceart-availability-value {
-    font-weight: 600;
-    color: #333333;
+    font-weight: 500;
+    color: var(--color-text);
 }
 
 .product-payment-info {
@@ -379,12 +614,11 @@
     margin-top: 0;
     margin-bottom: 30px;
     font-size: 14px;
-    color: #333333;
+    color: var(--color-text);
 }
 
 .product-payment-info__text {
-    font-size: 16px;
-    font-weight: 600;
+    font-weight: 500;
 }
 
 .product-payment-info__icon {
@@ -420,34 +654,45 @@
     background-color: transparent;
 }
 
+/* Shipping block and variant options in the product cards' face. Buttons do
+   not inherit the font, so the tabs get it explicitly. Jost ships in weights
+   300–500, so the emphasised parts use 500. */
+.product-shipping-info,
+.product-shipping-info__title,
+.product-shipping-info__tab,
+.product-free-shipping,
+.graceart-variation-option {
+    font-family: "Jost", "Futura", "Segoe UI", "Noto Sans", "Helvetica Neue", Arial, sans-serif;
+}
+
 .product-shipping-info__title {
     margin-bottom: 10px;
     font-size: 16px;
-    font-weight: 600;
+    font-weight: 500;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    color: #333333;
+    color: var(--color-text);
 }
 
 .product-shipping-info__tabs {
     display: flex;
     margin-bottom: 10px;
-    border-bottom: 1px solid #e7ded6;
+    border-bottom: 1px solid var(--color-line);
 }
 
 .product-shipping-info__tab {
     padding: 6px 14px;
     font-size: 16px;
     cursor: pointer;
-    color: #333333;
+    color: var(--color-text);
     border: none;
     border-bottom: 2px solid transparent;
     background: none;
 }
 
 .product-shipping-info__tab.active {
-    color: #333333;
-    border-bottom-color: #333333;
+    color: var(--color-text);
+    border-bottom-color: var(--color-dark);
 }
 
 .product-shipping-info__list {
@@ -468,11 +713,11 @@
     align-items: center;
     gap: 10px;
     font-size: 16px;
-    color: #333333;
+    color: var(--color-text);
 }
 
 .product-shipping-info__list i {
-    color: #333333;
+    color: var(--color-text);
 }
 
 .product-shipping-info__list strong {
@@ -519,7 +764,7 @@
 }
 
 .graceart-variation-option:has(.graceart-variation-radio:checked) .graceart-variation-option__meta {
-    font-weight: 700;
+    font-weight: 500;
 }
 
 .graceart-variation-radio {
@@ -539,18 +784,215 @@
 /* Same size and weight as the "Dostupnosť" line. */
 .graceart-variation-option__meta {
     font-size: 16px;
-    font-weight: 600;
-    color: #333333;
+    font-weight: 400;
+    color: var(--color-text);
 }
 
 .graceart-variation-option__stock {
     font-size: 16px;
-    font-weight: 600;
-    color: #333333;
+    font-weight: 500;
+    color: var(--color-text);
 }
 
 .graceart-variation-option__stock.is-in-stock {
-    color: #4a9b36;
+    color: var(--color-success);
+}
+
+/* Wishlist table (YITH). The theme's ".product-price" rule (block, 24px bold,
+   25px margin) leaks into the price cells and breaks the header row, and the
+   plugin's responsive JS is dequeued, so the rows are laid out with flex:
+   the remove "x" goes to the right and the cells wrap on phones. The
+   add-to-cart column is dropped: the product page handles that. */
+.wishlist_table th.product-price,
+.wishlist_table td.product-price {
+    margin: 0;
+    line-height: inherit;
+}
+
+.wishlist_table td.product-price {
+    font-size: 16px;
+    font-weight: 400;
+}
+
+/* No frame around the table; woocommerce.css draws one on table.shop_table. */
+.woocommerce table.shop_table.wishlist_table,
+.wishlist_table.shop_table {
+    width: 100%;
+    margin: 0;
+    border: none;
+    border-collapse: collapse;
+    border-radius: 0;
+}
+
+.wishlist_table thead,
+.wishlist_table tbody {
+    display: block;
+}
+
+.wishlist_table tr {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--color-line);
+}
+
+.wishlist_table thead tr {
+    padding: 0 0 10px;
+    border-bottom: 2px solid var(--color-dark);
+}
+
+/* Outranks ".woocommerce table.shop_table.wishlist_table tr td" (YITH) and
+   ".woocommerce table.shop_table td" (WooCommerce). */
+.woocommerce table.shop_table.wishlist_table tr th,
+.woocommerce table.shop_table.wishlist_table tr td,
+.wishlist_table th,
+.wishlist_table td {
+    display: block;
+    padding: 0;
+    text-align: left;
+    color: var(--color-text);
+    border: none;
+    background: none;
+}
+
+.wishlist_table th {
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.wishlist_table td {
+    font-size: 16px;
+}
+
+.woocommerce table.shop_table.wishlist_table tr .product-add-to-cart {
+    display: none;
+}
+
+.wishlist_table .product-thumbnail {
+    flex: 0 0 80px;
+    order: 1;
+}
+
+.wishlist_table .product-thumbnail img {
+    display: block;
+    width: 80px;
+    height: auto;
+}
+
+.wishlist_table .product-name {
+    flex: 1 1 200px;
+    order: 2;
+}
+
+.wishlist_table .product-name a {
+    color: var(--color-text);
+}
+
+.wishlist_table .product-name a:hover {
+    color: var(--color-accent);
+}
+
+.wishlist_table .product-price {
+    flex: 0 0 130px;
+    order: 3;
+}
+
+.wishlist_table .product-stock-status {
+    flex: 0 0 130px;
+    order: 4;
+}
+
+.wishlist_table .wishlist-in-stock {
+    color: var(--color-success);
+}
+
+.wishlist_table .wishlist-out-of-stock {
+    color: var(--color-text-secondary);
+}
+
+.wishlist_table .product-remove {
+    flex: 0 0 34px;
+    order: 5;
+    margin-left: auto;
+}
+
+/* WooCommerce styles "a.remove" red with !important. */
+.woocommerce .wishlist_table .product-remove a.remove {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    margin: 0;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 1;
+    text-decoration: none;
+    color: var(--color-text) !important;
+    border: 1px solid var(--color-line);
+    border-radius: 50%;
+    background: none !important;
+}
+
+.woocommerce .wishlist_table .product-remove a.remove:hover {
+    color: #fff !important;
+    border-color: var(--color-dark);
+    background-color: var(--color-dark) !important;
+}
+
+@media only screen and (max-width: 767px) {
+    .wishlist_table thead {
+        display: none;
+    }
+
+    .wishlist_table tr {
+        flex-wrap: wrap;
+        gap: 8px 12px;
+    }
+
+    .wishlist_table .product-thumbnail {
+        flex-basis: 64px;
+    }
+
+    .wishlist_table .product-thumbnail img {
+        width: 64px;
+    }
+
+    .wishlist_table .product-name {
+        flex: 1 1 0;
+        min-width: 0;
+    }
+
+    .wishlist_table .product-remove {
+        order: 3;
+        margin-left: auto;
+    }
+
+    /* A full-width flex item that forces the line break after the "x". */
+    .wishlist_table tbody tr::after {
+        content: "";
+        flex-basis: 100%;
+        order: 4;
+        height: 0;
+    }
+
+    /* Second line: price and stock, indented under the name. */
+    .wishlist_table .product-price,
+    .wishlist_table .product-stock-status {
+        flex: 0 0 auto;
+    }
+
+    .wishlist_table td.product-price {
+        order: 5;
+        margin-left: 76px;
+    }
+
+    .wishlist_table .product-stock-status {
+        order: 6;
+    }
 }
 
 /* Round wishlist button, the same height as the add-to-cart pill beside it. */
@@ -562,8 +1004,8 @@
     width: 34px;
     height: 34px;
     margin: 0 15px;
-    color: #333333;
-    border: 1px solid #d0d0d0;
+    color: var(--color-text);
+    border: 1px solid var(--color-line);
     border-radius: 50%;
     background-color: #fff;
 }
@@ -575,8 +1017,8 @@
 
 .product-buttons .graceart-wishlist-button:hover {
     color: #fff;
-    border-color: #333333;
-    background-color: #333333;
+    border-color: var(--color-dark);
+    background-color: var(--color-dark);
 }
 
 /* Futura's webfont has no Slovak diacritics (Ž, Ú, Š, …); Jost is a Futura-style
@@ -622,23 +1064,26 @@
     unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
-.site,
+/* One face for all text: Jost, the product cards' font. Excluded are the
+   icon fonts (Font Awesome, Themify, WooCommerce's star rating), the Modesty
+   script used for decorative titles, and the product detail price, which
+   keeps Inter. The :not() list gives the rule enough specificity to outrank
+   the theme's own per-component font-family declarations. */
 body,
-button,
-input,
-textarea,
-select,
-.btn,
-.site-main-menu,
-.menu-text,
-.page-title .title,
-.section-title,
-.block-title,
-.widget-title,
-.product-filter-widget-title,
-.cart-totals table tbody tr,
-.woocommerce,
-.woocommerce-page {
+body *:not(
+    i,
+    .fa, .fas, .far, .fab,
+    [class^="ti-"], [class*=" ti-"],
+    .star-rating, .star-rating *,
+    .title-script,
+    .home1-slide1-content .title,
+    .section-title .sub-title,
+    .product-summery .product-price, .product-summery .product-price *
+) {
+    font-family: "Jost", "Futura", "Segoe UI", "Noto Sans", "Helvetica Neue", Arial, sans-serif;
+}
+
+.product-summery .product-price {
     font-family: "Inter", "Segoe UI", "Noto Sans", "Helvetica Neue", Arial, sans-serif;
 }
 
@@ -650,7 +1095,7 @@ select,
     font-weight: 300;
     line-height: 1;
     letter-spacing: 0.5px;
-    color: #333;
+    color: var(--color-text);
 }
 
 .product-info .price {
@@ -662,18 +1107,18 @@ select,
 .product-info .price del,
 .product-info .price del .amount,
 .product-info .price del bdi {
-    color: #aaa;
+    color: var(--color-text-secondary);
 }
 
 .product-info .price ins {
     margin-left: 10px;
-    color: #f8796c;
+    color: var(--color-accent);
     text-decoration: none;
 }
 
 .product-info .price ins .amount,
 .product-info .price ins bdi {
-    color: #f8796c;
+    color: var(--color-accent);
 }
 
 .woocommerce-notices-wrapper {
@@ -691,20 +1136,20 @@ select,
     margin: 0 0 30px;
     padding: 18px 22px;
     list-style: none;
-    color: #333;
-    border: 1px solid #e7ded6;
-    background: #fbf7f3;
+    color: var(--color-text);
+    border: 1px solid var(--color-line);
+    background: var(--color-surface);
 }
 
 .graceart-woo-notice--success {
-    border-left: 4px solid #72a499;
+    border-left: 4px solid var(--color-success);
 }
 
 .graceart-woo-notice__icon {
     flex: 0 0 auto;
     font-size: 22px;
     line-height: 1;
-    color: #72a499;
+    color: var(--color-success);
 }
 
 .graceart-woo-notice__content {
@@ -724,7 +1169,7 @@ select,
     margin-left: auto;
     padding: 10px 22px;
     color: #fff;
-    background-color: #333;
+    background-color: var(--color-dark);
 }
 
 .graceart-woo-notice .button:hover,
@@ -732,7 +1177,7 @@ select,
 .woocommerce-info .button:hover,
 .woocommerce-error .button:hover {
     color: #fff;
-    background-color: #f8796c;
+    background-color: var(--color-accent);
 }
 
 @media only screen and (max-width: 767px) {
@@ -765,7 +1210,7 @@ select,
 .product-video-slide video {
     width: 100%;
     max-height: 550px;
-    background-color: #000;
+    background-color: var(--color-dark);
 }
 
 .product-thumb-slider .item.item-video {
@@ -775,7 +1220,7 @@ select,
     align-items: center;
     justify-content: center;
 
-    background-color: #333333;
+    background-color: var(--color-dark);
 }
 
 .product-thumb-slider .item.item-video::before {
@@ -934,7 +1379,7 @@ select,
 .section-title .title.title-script {
     font-family: "Modesty";
     font-weight: 300;
-    color: #000000;
+    color: var(--color-text);
 }
 
 /* The leaf decorations are pale green webp images; brightness(0) turns every
@@ -952,14 +1397,14 @@ select,
     margin: 0 20px 10px;
     padding: 0;
     text-transform: uppercase;
-    color: #ABABAB;
+    color: var(--color-text-secondary);
     border: none;
     background-color: transparent;
 }
 
 .shop-product-filter a:hover,
 .shop-product-filter a.active {
-    color: #333333;
+    color: var(--color-text);
 }
 
 @media only screen and (max-width: 1199px) {
@@ -980,7 +1425,7 @@ select,
 .graceart-about-content {
     font-size: 17px;
     line-height: 1.8;
-    color: #555;
+    color: var(--color-text-secondary);
 }
 
 .graceart-about-content > *:first-child {
@@ -999,7 +1444,7 @@ select,
 .graceart-about-content h3,
 .graceart-about-content h4 {
     margin-bottom: 18px;
-    color: #333;
+    color: var(--color-text);
 }
 
 .graceart-about-content h2 {
@@ -1047,13 +1492,13 @@ select,
     margin-bottom: 25px;
     padding: 12px 16px;
     font-size: 15px;
-    border-left: 3px solid #2e7d32;
-    background-color: #f4f8f4;
+    border-left: 3px solid var(--color-success);
+    background-color: var(--color-surface);
 }
 
 .graceart-contact-notice.is-error {
     border-left-color: #b32d2e;
-    background-color: #fdf4f4;
+    background-color: var(--color-surface);
 }
 
 /* Free shipping threshold notice on the product detail */
@@ -1065,8 +1510,8 @@ select,
     margin-bottom: 0;
     padding: 12px 16px;
     font-size: 15px;
-    color: #333333;
-    background-color: #f5f5f5;
+    color: var(--color-text);
+    background-color: var(--color-surface);
 }
 
 .product-free-shipping i {
@@ -1112,8 +1557,8 @@ select,
     margin-bottom: 10px;
     padding: 12px 16px;
     font-size: 15px;
-    color: #333333;
-    background-color: #f5f5f5;
+    color: var(--color-text);
+    background-color: var(--color-surface);
 }
 
 .graceart-cart-info__item:last-child {
@@ -1139,18 +1584,61 @@ select,
 }
 
 /* Block checkout: place-order button in the product-detail green, and larger */
+/* Cart block: WooCommerce sizes it at 13px; read it like the rest of the site.
+   Several of its rules take the "small" preset, so it is raised here too. */
+.wp-block-woocommerce-cart {
+    --wp--preset--font-size--small: 16px;
+}
+
+.wp-block-woocommerce-cart .wc-block-cart-items__header,
+.wp-block-woocommerce-cart .wc-block-cart__totals-title,
+.wp-block-woocommerce-cart .wc-block-components-product-price,
+.wp-block-woocommerce-cart .wc-block-components-product-metadata,
+.wp-block-woocommerce-cart .wc-block-components-totals-item,
+.wp-block-woocommerce-cart .wc-block-components-totals-item__label,
+.wp-block-woocommerce-cart .wc-block-components-totals-item__value,
+.wp-block-woocommerce-cart .wc-block-components-totals-coupon-link,
+.wp-block-woocommerce-cart .wc-block-components-totals-shipping__via,
+.wp-block-woocommerce-cart .wc-block-components-shipping-rates-control,
+.wp-block-woocommerce-cart .wc-block-components-radio-control__label,
+.wp-block-woocommerce-cart .wc-block-components-radio-control__description,
+.wp-block-woocommerce-cart .wc-block-components-radio-control__secondary-label,
+.wp-block-woocommerce-cart .wc-block-components-panel__button,
+.wp-block-woocommerce-cart .wc-block-components-text-input input,
+.wp-block-woocommerce-cart .wc-block-components-text-input label,
+.wp-block-woocommerce-cart .wc-block-components-notice-banner {
+    font-size: 16px;
+}
+
+.wp-block-woocommerce-cart table.wc-block-cart-items .wc-block-cart-items__row .wc-block-components-product-name {
+    font-size: 17px;
+}
+
+.wp-block-woocommerce-cart .wc-block-components-totals-footer-item .wc-block-components-totals-item__label,
+.wp-block-woocommerce-cart .wc-block-components-totals-footer-item .wc-block-components-totals-item__value {
+    font-size: 22px;
+}
+
+.wp-block-woocommerce-cart .wc-block-components-totals-shipping__via {
+    font-size: 14px;
+}
+
+.graceart-cart-info__item {
+    font-size: 16px;
+}
+
 .wc-block-components-checkout-place-order-button {
     padding: 16px 32px !important;
     font-size: 16px !important;
     font-weight: 600 !important;
     color: #ffffff !important;
-    border-color: #4a9b36 !important;
-    background-color: #4a9b36 !important;
+    border-color: var(--color-success) !important;
+    background-color: var(--color-success) !important;
 }
 
 .wc-block-components-checkout-place-order-button:hover,
 .wc-block-components-checkout-place-order-button:focus {
     color: #ffffff !important;
-    border-color: #333333 !important;
-    background-color: #333333 !important;
+    border-color: var(--color-dark) !important;
+    background-color: var(--color-dark) !important;
 }
