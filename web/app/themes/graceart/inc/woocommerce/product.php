@@ -363,9 +363,27 @@ add_action('woocommerce_product_options_stock_fields', function (): void {
     ?>
     <script>
     jQuery(function ($) {
+        // Stock is always tracked: the "Manage stock?" toggle is forced on and
+        // hidden, and the quantity cannot be left blank (0 is fine — sold out).
+        function requireStock($checkbox, $quantity) {
+            $checkbox.prop('checked', true).trigger('change').closest('.form-field, label').hide();
+            $quantity.attr({ required: 'required', min: '0' });
+        }
+
         if ($('#product-type').val() !== 'variable') {
             $('.form-field._backorders_field, .form-field._low_stock_amount_field').remove();
+            requireStock($('#_manage_stock'), $('#_stock'));
         }
+
+        // The Inventory panel may be collapsed when Publish/Update runs, and a
+        // hidden required field cannot show the browser's validation message.
+        $('#post').on('submit', function () {
+            var stock = $('#_stock')[0];
+
+            if (stock && $('#product-type').val() !== 'variable' && ! stock.checkValidity()) {
+                $('.inventory_options a, .inventory_tab a').first().trigger('click');
+            }
+        });
 
         // Same cleanup, per variation, whenever variation rows are (re)loaded.
         $('#woocommerce-product-data, #variable_product_options').on('woocommerce_variations_loaded woocommerce_variations_added', function () {
@@ -379,6 +397,7 @@ add_action('woocommerce_product_options_stock_fields', function (): void {
                 $variation.data('graceart-processed', true);
 
                 $variation.find('.form-row:has(select[name^="variable_backorders["]), .form-row:has(input[name^="variable_low_stock_amount["])').remove();
+                requireStock($variation.find('input[name^="variable_manage_stock["]'), $variation.find('input[name^="variable_stock["]'));
             });
         });
 
@@ -392,6 +411,10 @@ add_action('woocommerce_product_options_stock_fields', function (): void {
 // out from the derived backorders flag sees the fresh availability fields.
 add_action('woocommerce_admin_process_product_object', function (WC_Product $product): void {
     $post_id = $product->get_id();
+
+    if ($product->is_type('simple')) {
+        graceartRequireStockQuantity($product, $_POST['_stock'] ?? null);
+    }
 
     if (isset($_POST['_graceart_backorder_qty'])) {
         update_post_meta($post_id, '_graceart_backorder_qty', absint(wp_unslash($_POST['_graceart_backorder_qty'])));
@@ -440,6 +463,8 @@ add_action('woocommerce_product_after_variable_attributes', function (int $loop,
 add_action('woocommerce_admin_process_variation_object', function (WC_Product_Variation $variation, int $loop): void {
     $variation_id = $variation->get_id();
 
+    graceartRequireStockQuantity($variation, $_POST['variable_stock'][$loop] ?? null);
+
     if (isset($_POST['_graceart_backorder_qty'][$loop])) {
         update_post_meta($variation_id, '_graceart_backorder_qty', absint(wp_unslash($_POST['_graceart_backorder_qty'][$loop])));
     }
@@ -454,6 +479,27 @@ add_action('woocommerce_admin_process_variation_object', function (WC_Product_Va
         update_post_meta($variation_id, '_graceart_lead_time', $lead_time);
     }
 }, 10, 2);
+
+/**
+ * Every sellable product tracks its stock, so the availability row can always
+ * show a count. The admin screen forces the toggle on; this backs it up on
+ * save, and a blanked quantity is reported (WooCommerce stores it as 0, so
+ * nothing gets oversold meanwhile).
+ */
+function graceartRequireStockQuantity(WC_Product $product, $posted_quantity): void
+{
+    $product->set_manage_stock(true);
+
+    if ($posted_quantity !== null && trim((string) wp_unslash($posted_quantity)) !== '') {
+        return;
+    }
+
+    WC_Admin_Meta_Boxes::add_error(sprintf(
+        /* translators: %s: product or variation name */
+        __('Skladové množstvo je povinné (%s). Uložilo sa 0 ks.', 'graceart'),
+        $product->get_name(),
+    ));
+}
 
 // WooCommerce's own "X na sklade" line duplicates the theme's "Dostupnosť" row,
 // on simple products and in the availability_html of variations alike.
@@ -550,6 +596,20 @@ add_filter('woocommerce_quantity_input_max', function ($max, WC_Product $product
     return $max > 0 ? min((int) $max, $available) : $available;
 }, 10, 2);
 
+add_filter('woocommerce_store_api_product_quantity_maximum', function ($max, WC_Product $product, ?array $cart_item = null) {
+    $available = graceartAvailableQuantity($product);
+
+    if ($available === null) {
+        return $max;
+    }
+
+    $cart_item_key = $cart_item !== null ? graceartCartItemKey($cart_item) : null;
+
+    $available_for_line = max(0, $available - graceartQuantityInCartForProduct($product, $cart_item_key));
+
+    return $max > 0 ? min((int) $max, $available_for_line) : $available_for_line;
+}, 10, 3);
+
 /**
  * Same cap on the way into the cart — WooCommerce lets any quantity through
  * once backorders are on.
@@ -569,6 +629,32 @@ add_filter('woocommerce_add_to_cart_validation', function ($passed, $product_id,
 
     return false;
 }, 10, 4);
+
+add_filter('woocommerce_update_cart_validation', function ($passed, string $cart_item_key, array $cart_item, int $quantity): bool {
+    if (! $passed) {
+        return false;
+    }
+
+    $product = $cart_item['data'] ?? null;
+
+    if (! $product instanceof WC_Product || graceartCanSetCartQuantity($product, max(0, $quantity), $cart_item_key)) {
+        return true;
+    }
+
+    wc_add_notice(__('Toľko kusov už nie je k dispozícii.', 'graceart'), 'error');
+
+    return false;
+}, 10, 4);
+
+add_action('woocommerce_store_api_validate_cart_item', function (WC_Product $product, array $cart_item): void {
+    $available = graceartAvailableQuantity($product);
+
+    if ($available === null || graceartQuantityInCartForProduct($product) <= $available) {
+        return;
+    }
+
+    throw new Exception(__('Toľko kusov už nie je k dispozícii.', 'graceart'));
+}, 10, 2);
 
 function graceartAvailabilityText(WC_Product $product): string
 {
@@ -733,7 +819,7 @@ function graceartFreeShippingMinAmount(): ?float
  * A null variation id counts every line of the product, whichever variation —
  * that is the number that matters when stock is managed on the parent.
  */
-function graceartQuantityInCart(int $product_id, ?int $variation_id = 0): int
+function graceartQuantityInCart(int $product_id, ?int $variation_id = 0, ?string $exclude_cart_item_key = null): int
 {
     if (! function_exists('WC') || ! WC()->cart) {
         return 0;
@@ -741,7 +827,11 @@ function graceartQuantityInCart(int $product_id, ?int $variation_id = 0): int
 
     $total = 0;
 
-    foreach (WC()->cart->get_cart() as $item) {
+    foreach (WC()->cart->get_cart() as $cart_item_key => $item) {
+        if ($exclude_cart_item_key !== null && $cart_item_key === $exclude_cart_item_key) {
+            continue;
+        }
+
         $item_variation = (int) ($item['variation_id'] ?? 0);
 
         if ($variation_id > 0) {
@@ -763,6 +853,55 @@ function graceartQuantityInCart(int $product_id, ?int $variation_id = 0): int
     return $total;
 }
 
+function graceartCartItemKey(array $cart_item): ?string
+{
+    if (! function_exists('WC') || ! WC()->cart) {
+        return null;
+    }
+
+    foreach (WC()->cart->get_cart() as $cart_item_key => $item) {
+        if ($item === $cart_item) {
+            return (string) $cart_item_key;
+        }
+    }
+
+    return null;
+}
+
+function graceartQuantityInCartForProduct(WC_Product $product, ?string $exclude_cart_item_key = null): int
+{
+    if (! $product->is_type('variation')) {
+        return graceartQuantityInCart($product->get_id(), 0, $exclude_cart_item_key);
+    }
+
+    if ($product->managing_stock() === 'parent') {
+        return graceartQuantityInCart((int) $product->get_parent_id(), null, $exclude_cart_item_key);
+    }
+
+    return graceartQuantityInCart((int) $product->get_parent_id(), $product->get_id(), $exclude_cart_item_key);
+}
+
+function graceartCanSetCartQuantity(WC_Product $product, int $qty, ?string $cart_item_key = null): bool
+{
+    if ($qty <= 0) {
+        return true;
+    }
+
+    if (! $product->is_purchasable() || ! $product->is_in_stock()) {
+        return false;
+    }
+
+    $available = graceartAvailableQuantity($product);
+
+    if ($available === null) {
+        return true;
+    }
+
+    $other_in_cart = graceartQuantityInCartForProduct($product, $cart_item_key);
+
+    return ($available - $other_in_cart) >= $qty;
+}
+
 /**
  * Whether another $qty of this product can still be added, taking into account
  * what the cart already holds. Without this the listing offers "Kúpiť" for a
@@ -782,14 +921,7 @@ function graceartCanAddToCart(WC_Product $product, int $qty = 1): bool
         return true;
     }
 
-    if (! $product->is_type('variation')) {
-        $in_cart = graceartQuantityInCart($product->get_id());
-    } elseif ($product->managing_stock() === 'parent') {
-        // Shared stock: every variation in the cart draws on the same pile.
-        $in_cart = graceartQuantityInCart((int) $product->get_parent_id(), null);
-    } else {
-        $in_cart = graceartQuantityInCart((int) $product->get_parent_id(), $product->get_id());
-    }
+    $in_cart = graceartQuantityInCartForProduct($product);
 
     return ($available - $in_cart) >= $qty;
 }

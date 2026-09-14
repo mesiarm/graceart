@@ -21,7 +21,7 @@
         var items = scope.querySelectorAll('.wc-block-components-order-summary-item');
 
         items.forEach(function (item) {
-            var source = item.querySelector('.wc-block-components-order-summary-item__individual-prices .wc-block-components-product-price');
+            var source = item.querySelector('.wc-block-components-order-summary-item__individual-price');
             var target = item.querySelector('.wc-block-components-order-summary-item__total-price .wc-block-components-product-price');
 
             if (!source || !target) {

@@ -171,7 +171,7 @@ add_filter('gettext_woocommerce', function (string $translation, string $text): 
         'Shipping options will be updated during checkout.' => __('Možnosti dopravy sa aktualizujú počas pokladne.', 'graceart'),
         'Change address' => __('Zmeniť adresu', 'graceart'),
         'Enter a different address' => __('Zadať inú adresu', 'graceart'),
-        'Available on backorder' => __('Dostupné na objednávku', 'graceart'),
+        'Available on backorder' => __('Na objednávku', 'graceart'),
         'No products in the cart.' => __('V košíku nie sú žiadne produkty.', 'graceart'),
         'No available payment methods' => __('Nie sú dostupné žiadne platobné metódy', 'graceart'),
         'Sorry, it seems that there are no available payment methods. Please contact us if you require assistance or wish to make alternate arrangements.' => __('Ľutujeme, momentálne nie sú dostupné žiadne platobné metódy. Kontaktujte nás, prosím.', 'graceart'),
