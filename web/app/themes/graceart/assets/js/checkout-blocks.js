@@ -34,7 +34,7 @@
 
             var quantityLabel = cartItemQuantityLabel(args.cartItem && args.cartItem.quantity);
 
-            return '<span class="graceart-checkout-item-price"><span class="graceart-checkout-item-price__unit"><price/> / kus</span><span class="graceart-checkout-item-price__line">' + quantityLabel + '</span></span>';
+            return '<price/> / kus\n' + quantityLabel;
         },
         placeOrderButtonLabel: function (defaultLabel) {
             return strings.placeOrder || defaultLabel;
