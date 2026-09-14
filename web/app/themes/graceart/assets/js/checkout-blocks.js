@@ -16,28 +16,39 @@
 
     var strings = window.graceartCheckoutStrings || {};
 
-    function placeCheckoutSummaryUnitPrices(root) {
+    /**
+     * The order summary shows the quantity as a badge over the thumbnail.
+     * Here it reads as a line under the product name instead; the badge is
+     * hidden in CSS but still rendered, so its value is read from there.
+     */
+    function placeCheckoutSummaryQuantities(root) {
         var scope = root || document;
         var items = scope.querySelectorAll('.wc-block-components-order-summary-item');
 
         items.forEach(function (item) {
-            var source = item.querySelector('.wc-block-components-order-summary-item__individual-price');
-            var target = item.querySelector('.wc-block-components-order-summary-item__total-price .wc-block-components-product-price');
+            var badge = item.querySelector('.wc-block-components-order-summary-item__quantity [aria-hidden="true"]');
+            var name = item.querySelector('.wc-block-components-order-summary-item__description .wc-block-components-product-name');
 
-            if (!source || !target) {
+            if (!badge || !name) {
                 return;
             }
 
-            var price = source.textContent.trim();
-            var label = price + ' / kus';
+            var label = badge.textContent.trim() + ' ks';
+            var line = name.nextElementSibling;
 
-            if (target.textContent.trim() !== label) {
-                target.textContent = label;
+            if (!line || !line.classList.contains('graceart-order-summary-item__quantity')) {
+                line = document.createElement('div');
+                line.className = 'graceart-order-summary-item__quantity';
+                name.parentNode.insertBefore(line, name.nextSibling);
+            }
+
+            if (line.textContent !== label) {
+                line.textContent = label;
             }
         });
     }
 
-    function watchCheckoutSummaryUnitPrices() {
+    function watchCheckoutSummaryQuantities() {
         var checkout = document.querySelector('.wp-block-woocommerce-checkout');
 
         if (!checkout) {
@@ -54,7 +65,7 @@
             scheduled = true;
             window.requestAnimationFrame(function () {
                 scheduled = false;
-                placeCheckoutSummaryUnitPrices(checkout);
+                placeCheckoutSummaryQuantities(checkout);
             });
         }
 
@@ -73,15 +84,10 @@
     }
 
     blocksCheckout.registerCheckoutFilters('graceart', {
-        cartItemPrice: function (defaultValue, extensions, args) {
-            if (!args || args.context !== 'summary') {
-                return defaultValue;
-            }
-
-            return '<price/> / kus';
-        },
+        // Unit price in both the cart rows and the checkout order summary
+        // (where CSS shows it in place of the line total).
         subtotalPriceFormat: function (defaultValue, extensions, args) {
-            if (!args || args.context !== 'cart') {
+            if (!args || (args.context !== 'cart' && args.context !== 'summary')) {
                 return defaultValue;
             }
 
@@ -99,8 +105,8 @@
     });
 
     if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', watchCheckoutSummaryUnitPrices);
+        document.addEventListener('DOMContentLoaded', watchCheckoutSummaryQuantities);
     } else {
-        watchCheckoutSummaryUnitPrices();
+        watchCheckoutSummaryQuantities();
     }
 })();

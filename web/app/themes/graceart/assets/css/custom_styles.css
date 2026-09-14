@@ -1912,16 +1912,37 @@ body *:not(
     display: none;
 }
 
+/* Checkout order summary: no quantity badge over the thumbnail and no line
+   total; the unit price sits to the right of the name and the quantity
+   (added by checkout-blocks.js) reads as a line under it. */
+.wp-block-woocommerce-checkout .wc-block-components-order-summary-item__quantity,
 .wp-block-woocommerce-checkout .wc-block-components-order-summary-item__total-price {
-    text-align: right;
-}
-
-.wp-block-woocommerce-checkout .wc-block-components-order-summary-item__total-price .wc-block-components-product-price {
-    display: block;
-}
-
-.wp-block-woocommerce-checkout .wc-block-components-order-summary-item__individual-prices {
     display: none;
+}
+
+.wp-block-woocommerce-checkout .wc-block-components-order-summary .wc-block-components-order-summary-item__description {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    column-gap: 16px;
+    row-gap: 4px;
+    align-items: start;
+    flex-grow: 1;
+}
+
+.wp-block-woocommerce-checkout .wc-block-components-order-summary .wc-block-components-order-summary-item__description > * {
+    grid-column: 1;
+}
+
+.wp-block-woocommerce-checkout .wc-block-components-order-summary .wc-block-components-order-summary-item__description > .wc-block-cart-item__prices {
+    grid-column: 2;
+    grid-row: 1;
+    text-align: right;
+    white-space: nowrap;
+}
+
+.wp-block-woocommerce-checkout .graceart-order-summary-item__quantity {
+    font-size: var(--wp--preset--font-size--small, 14px);
+    line-height: 1.4;
 }
 
 /* The "Medzisúčet" row in the cart totals and the checkout order summary
