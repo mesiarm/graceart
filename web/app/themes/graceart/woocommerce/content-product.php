@@ -29,7 +29,7 @@ $graceart_ajax_add = $graceart_can_add_directly
     && $product->supports('ajax_add_to_cart');
 
 $graceart_buy_url = $product_url;
-$graceart_buy_label = __('Do košíka', 'graceart');
+$graceart_buy_label = __('Pridať do košíka', 'graceart');
 
 // No button when there is nothing to add: sold out, or a one-off piece whose
 // whole stock is already in the cart. The card still links to the product.

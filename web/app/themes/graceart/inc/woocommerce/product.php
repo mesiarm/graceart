@@ -62,7 +62,7 @@ add_action('template_redirect', function (): void {
     update_post_meta($post_id, '_graceart_view_count', $views + 1);
 });
 
-add_filter('woocommerce_product_single_add_to_cart_text', fn(): string => __('Do košíka', 'graceart'));
+add_filter('woocommerce_product_single_add_to_cart_text', fn(): string => __('Pridať do košíka', 'graceart'));
 
 add_filter('woocommerce_product_add_to_cart_text', function (string $text, WC_Product $product): string {
     if ($product->is_type('variable')) {
@@ -81,7 +81,7 @@ add_filter('woocommerce_product_add_to_cart_text', function (string $text, WC_Pr
         return __('Zobraziť produkt', 'graceart');
     }
 
-    return __('Do košíka', 'graceart');
+    return __('Pridať do košíka', 'graceart');
 }, 10, 2);
 
 add_filter('woocommerce_product_tabs', function (array $tabs): array {
@@ -161,11 +161,11 @@ function graceartWishlistButton(WC_Product $product): string
 }
 
 /**
- * YITH removes the item on "init"; confirm it and drop the query string so a
- * refresh does not repeat the request.
+ * YITH removes the item on "init"; drop the query string so a refresh does
+ * not repeat the request. No notice: the heart icon going hollow is enough.
  */
 add_action('template_redirect', function (): void {
-    if (! isset($_GET['remove_from_wishlist'], $_GET['_wpnonce']) || ! function_exists('wc_add_notice')) {
+    if (! isset($_GET['remove_from_wishlist'], $_GET['_wpnonce'])) {
         return;
     }
 
@@ -173,7 +173,6 @@ add_action('template_redirect', function (): void {
         return;
     }
 
-    wc_add_notice(__('Produkt bol odstránený zo zoznamu prianí.', 'graceart'), 'success');
     wp_safe_redirect(remove_query_arg(['remove_from_wishlist', '_wpnonce']));
     exit;
 });

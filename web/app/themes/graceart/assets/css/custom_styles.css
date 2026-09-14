@@ -1296,7 +1296,7 @@ body *:not(
     list-style: none;
     color: var(--color-text);
     border: 1px solid var(--color-line);
-    background: var(--color-surface);
+    background: #fff;
 }
 
 .graceart-woo-notice--success {
@@ -1383,24 +1383,43 @@ body *:not(
     justify-content: space-between;
 }
 
+/* The notice's "View cart" link is the same pill as the shop and cart buttons.
+   The !important is for WooCommerce's ".woocommerce a.button", which outranks
+   this and paints the grey default. */
 .graceart-woo-notice .button,
 .woocommerce-message .button,
 .woocommerce-info .button,
 .woocommerce-error .button {
     order: 2;
+    display: inline-flex;
+    align-items: center;
     flex: 0 0 auto;
     margin-left: auto;
     padding: 10px 22px;
-    color: #fff;
-    background-color: var(--color-dark);
+    font-family: "Jost", "Futura", "Segoe UI", "Noto Sans", "Helvetica Neue", Arial, sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 1;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--color-text) !important;
+    border: 1px solid var(--color-line) !important;
+    border-radius: 500px;
+    background-color: #fff !important;
 }
 
 .graceart-woo-notice .button:hover,
+.graceart-woo-notice .button:focus,
 .woocommerce-message .button:hover,
+.woocommerce-message .button:focus,
 .woocommerce-info .button:hover,
-.woocommerce-error .button:hover {
-    color: #fff;
-    background-color: var(--color-accent);
+.woocommerce-info .button:focus,
+.woocommerce-error .button:hover,
+.woocommerce-error .button:focus {
+    color: #fff !important;
+    border-color: var(--color-accent) !important;
+    background-color: var(--color-accent) !important;
 }
 
 @media only screen and (max-width: 767px) {
@@ -1601,8 +1620,29 @@ body *:not(
 /* Section heading rendered in the decorative sub-title face & colour */
 .section-title .title.title-script {
     font-family: "Modesty";
+    font-size: 72px;
     font-weight: 300;
     color: var(--color-accent);
+}
+
+/* Modesty renders small for its font-size, so the script heading is scaled
+   up above the theme's 56/44/30/24px steps for .section-title .title. */
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+    .section-title .title.title-script {
+        font-size: 60px;
+    }
+}
+
+@media only screen and (max-width: 767px) {
+    .section-title .title.title-script {
+        font-size: 46px;
+    }
+}
+
+@media only screen and (max-width: 575px) {
+    .section-title .title.title-script {
+        font-size: 38px;
+    }
 }
 
 /* The leaf decorations are pale green webp images (54×24); drawn as masks
@@ -1839,11 +1879,6 @@ body *:not(
 .wp-block-woocommerce-cart .wc-block-components-totals-item__label,
 .wp-block-woocommerce-cart .wc-block-components-totals-item__value,
 .wp-block-woocommerce-cart .wc-block-components-totals-coupon-link,
-.wp-block-woocommerce-cart .wc-block-components-totals-shipping__via,
-.wp-block-woocommerce-cart .wc-block-components-shipping-rates-control,
-.wp-block-woocommerce-cart .wc-block-components-radio-control__label,
-.wp-block-woocommerce-cart .wc-block-components-radio-control__description,
-.wp-block-woocommerce-cart .wc-block-components-radio-control__secondary-label,
 .wp-block-woocommerce-cart .wc-block-components-panel__button,
 .wp-block-woocommerce-cart .wc-block-components-text-input input,
 .wp-block-woocommerce-cart .wc-block-components-text-input label,
@@ -1855,13 +1890,15 @@ body *:not(
     font-size: 17px;
 }
 
+/* Cart line items carry the product's short description under its name;
+   the cart is not the place to read it. Variation details stay. */
+.wp-block-woocommerce-cart .wc-block-components-product-metadata__description {
+    display: none;
+}
+
 .wp-block-woocommerce-cart .wc-block-components-totals-footer-item .wc-block-components-totals-item__label,
 .wp-block-woocommerce-cart .wc-block-components-totals-footer-item .wc-block-components-totals-item__value {
     font-size: 22px;
-}
-
-.wp-block-woocommerce-cart .wc-block-components-totals-shipping__via {
-    font-size: 14px;
 }
 
 .graceart-cart-info__item {
@@ -1904,6 +1941,23 @@ body *:not(
     color: #fff !important;
     border-color: var(--color-accent) !important;
     background-color: var(--color-accent) !important;
+}
+
+/* Empty cart: no icon, a larger title and room between it and the
+   "Pokračovať v nákupe" button. */
+.wp-block-woocommerce-empty-cart-block .wc-block-cart__empty-cart__title.with-empty-cart-icon::before {
+    display: none;
+}
+
+.wp-block-woocommerce-empty-cart-block .wc-block-cart__empty-cart__title {
+    margin-bottom: 32px;
+    font-size: 28px;
+}
+
+.wp-block-woocommerce-empty-cart-block .wc-block-cart__empty-cart__title + .wp-block-buttons,
+.wp-block-woocommerce-empty-cart-block .wc-block-cart__empty-cart__title + .wp-block-button,
+.wp-block-woocommerce-empty-cart-block .wc-block-cart__empty-cart__title + p {
+    margin-top: 32px;
 }
 
 /* The wishlist title is filtered out; drop its empty wrapper too. */
@@ -1966,4 +2020,32 @@ body:has(.wp-block-woocommerce-empty-cart-block) .graceart-cart-info {
    down over the site header. Body needs no positioning of its own. */
 body.admin-bar {
     position: static;
+}
+
+/* Checkout/cart fields: WooCommerce adds a 1px box-shadow ring on focus on
+   top of the field's border, and the theme's focus outline came on top of
+   that — three lines. One darker border is enough. */
+.wc-block-components-text-input input:focus,
+.wc-block-components-text-input input:focus-visible,
+.wc-block-components-textarea textarea:focus,
+.wc-block-components-textarea textarea:focus-visible,
+.wc-block-components-country-input select:focus,
+.wc-block-components-country-input select:focus-visible,
+.wc-block-components-state-input select:focus,
+.wc-block-components-state-input select:focus-visible,
+.wc-block-components-combobox .components-combobox-control__input:focus,
+.wc-block-components-combobox .components-combobox-control__input:focus-visible,
+.wc-block-components-checkbox__input:focus-visible,
+.wc-block-components-radio-control__input:focus-visible,
+.wc-block-components-totals-coupon__input input:focus,
+.wc-block-components-totals-coupon__input input:focus-visible {
+    outline: none !important;
+    box-shadow: none !important;
+    border-color: var(--color-text) !important;
+}
+
+.wc-block-components-checkbox__input:focus-visible,
+.wc-block-components-radio-control__input:focus-visible {
+    outline: 2px solid var(--color-text) !important;
+    outline-offset: 2px;
 }

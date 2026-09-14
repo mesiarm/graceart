@@ -4610,6 +4610,9 @@ body.offcanvas-open .sticky-header {
   -webkit-justify-content: center;
       -ms-flex-pack: center;
           justify-content: center;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
 }
 
 /* Home One Slide One Content */
@@ -8128,6 +8131,9 @@ body.offcanvas-open .sticky-header {
 /* Page Title Section */
 .page-title-section {
   padding: 130px 0;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
 }
 @media only screen and (min-width: 992px) and (max-width: 1199px), only screen and (min-width: 768px) and (max-width: 991px) {
   .page-title-section {

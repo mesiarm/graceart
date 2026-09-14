@@ -23,3 +23,6 @@ add_filter('yith_wcwl_item_formatted_price', function (string $formatted_price, 
 
 // The page band already says "Zoznam prianí"; no second heading over the table.
 add_filter('yith_wcwl_wishlist_title', fn(): string => '');
+
+// No "added to wishlist" notice either; the heart icon turns solid instead.
+add_filter('yith_wcwl_product_added_to_wishlist_message', '__return_empty_string');

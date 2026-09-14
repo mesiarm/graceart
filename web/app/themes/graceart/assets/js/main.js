@@ -863,9 +863,15 @@
                     history: false,
                     focus: false,
                     closeOnScroll: false,
+                    shareEl: false,
                     showAnimationDuration: 0,
                     hideAnimationDuration: 0
                 };
+            // The root is rendered by woocommerce/single-product.php; without it
+            // PhotoSwipe throws before opening.
+            if (!pswpElement || !items || !items.length) {
+                return;
+            }
             new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, options).init();
         };
     $productPopupGalleryBtn.on('click', $openPhotoSwipe);

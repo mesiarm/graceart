@@ -22,6 +22,9 @@
         },
         proceedToCheckoutButtonLabel: function (defaultLabel) {
             return strings.proceedToCheckout || defaultLabel;
+        },
+        totalLabel: function (defaultLabel) {
+            return strings.totalLabel || defaultLabel;
         }
     });
 })();
