@@ -26,15 +26,52 @@
         return parsedQuantity + ' ks';
     }
 
+    function placeCheckoutSummaryQuantity() {
+        var items = document.querySelectorAll('.wp-block-woocommerce-checkout .wc-block-components-order-summary-item');
+
+        items.forEach(function (item) {
+            var quantity = item.querySelector('.wc-block-components-order-summary-item__quantity');
+            var name = item.querySelector('.wc-block-components-product-name');
+
+            if (!quantity || !name) {
+                return;
+            }
+
+            var label = cartItemQuantityLabel(quantity.textContent);
+            var existing = item.querySelector('.graceart-checkout-item-quantity');
+
+            if (!existing) {
+                existing = document.createElement('span');
+                existing.className = 'graceart-checkout-item-quantity';
+                name.insertAdjacentElement('afterend', existing);
+            }
+
+            existing.textContent = label;
+        });
+    }
+
+    function watchCheckoutSummaryQuantity() {
+        placeCheckoutSummaryQuantity();
+
+        if (!window.MutationObserver) {
+            return;
+        }
+
+        var observer = new MutationObserver(placeCheckoutSummaryQuantity);
+
+        observer.observe(document.body, {
+            childList: true,
+            subtree: true
+        });
+    }
+
     blocksCheckout.registerCheckoutFilters('graceart', {
         cartItemPrice: function (defaultValue, extensions, args) {
             if (!args || args.context !== 'summary') {
                 return defaultValue;
             }
 
-            var quantityLabel = cartItemQuantityLabel(args.cartItem && args.cartItem.quantity);
-
-            return '<price/> / kus\n' + quantityLabel;
+            return '<price/> / kus';
         },
         placeOrderButtonLabel: function (defaultLabel) {
             return strings.placeOrder || defaultLabel;
@@ -46,4 +83,10 @@
             return strings.totalLabel || defaultLabel;
         }
     });
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', watchCheckoutSummaryQuantity);
+    } else {
+        watchCheckoutSummaryQuantity();
+    }
 })();

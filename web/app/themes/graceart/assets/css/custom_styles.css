@@ -1890,6 +1890,20 @@ body *:not(
     font-size: 17px;
 }
 
+@media only screen and (min-width: 782px) {
+    .wp-block-woocommerce-checkout .wc-block-checkout__main {
+        flex-basis: 56.25% !important;
+        max-width: 56.25% !important;
+        width: 56.25% !important;
+    }
+
+    .wp-block-woocommerce-checkout .wc-block-checkout__sidebar {
+        flex-basis: 43.75% !important;
+        max-width: 43.75% !important;
+        width: 43.75% !important;
+    }
+}
+
 /* Cart line items and the checkout order summary carry the product's short
    description under its name; neither is the place to read it. Variation
    details stay. */
@@ -1902,14 +1916,18 @@ body *:not(
     display: none;
 }
 
-.wp-block-woocommerce-checkout .wc-block-components-order-summary-item__total-price,
-.wp-block-woocommerce-checkout .wc-block-components-order-summary-item__total-price .wc-block-components-product-price {
+.wp-block-woocommerce-checkout .wc-block-components-order-summary-item__total-price {
     text-align: right;
-    white-space: pre-line;
 }
 
 .wp-block-woocommerce-checkout .wc-block-components-order-summary-item__total-price .wc-block-components-product-price {
     display: block;
+}
+
+.wp-block-woocommerce-checkout .graceart-checkout-item-quantity {
+    display: block;
+    margin-top: 4px;
+    color: var(--color-text-secondary);
 }
 
 /* The "Medzisúčet" row in the cart totals and the checkout order summary

@@ -341,31 +341,11 @@ function graceartLeadTimePhrases(): array
     ];
 }
 
-function graceartAvailabilityModeOptions(): array
-{
-    return [
-        'stock' => __('Na sklade', 'graceart'),
-        'backorder' => __('Na objednávku', 'graceart'),
-    ];
-}
-
 add_action('woocommerce_product_options_stock_fields', function (): void {
-    global $post;
-
-    woocommerce_wp_radio([
-        'id' => '_graceart_availability_mode',
-        'label' => __('Dostupnosť', 'graceart'),
-        'description' => __('Určuje, či sa zákazníkovi zobrazí „Na sklade“ alebo „Na objednávku“.', 'graceart'),
-        'desc_tip' => true,
-        'value' => get_post_meta($post->ID, '_graceart_availability_mode', true) ?: 'stock',
-        'options' => graceartAvailabilityModeOptions(),
-        'wrapper_class' => 'hide_if_variable',
-    ]);
-
     woocommerce_wp_text_input([
         'id' => '_graceart_backorder_qty',
         'label' => __('Počet na objednávku', 'graceart'),
-        'description' => __('Počet kusov dostupných na objednávku.', 'graceart'),
+        'description' => __('Počet kusov dostupných na objednávku po vypredaní skladových kusov.', 'graceart'),
         'desc_tip' => true,
         'type' => 'number',
         'custom_attributes' => ['step' => '1', 'min' => '0'],
@@ -381,45 +361,9 @@ add_action('woocommerce_product_options_stock_fields', function (): void {
         'wrapper_class' => 'hide_if_variable',
     ]);
     ?>
-    <style>
-    .graceart-inline-stock-qty {
-        display: inline-block;
-        margin-left: 10px;
-    }
-    </style>
     <script>
     jQuery(function ($) {
-        function graceartToggleFields() {
-            var isBackorder = $('input[name="_graceart_availability_mode"]:checked').val() === 'backorder';
-            $('.form-field._graceart_backorder_qty_field, .form-field._graceart_lead_time_field').toggle(isBackorder);
-        }
-
         if ($('#product-type').val() !== 'variable') {
-            $(document.body).on('change', 'input[name="_graceart_availability_mode"]', graceartToggleFields);
-            graceartToggleFields();
-
-            // Move the native stock quantity input next to the "Na sklade" radio option.
-            var $stockInput = $('#_stock'),
-                $stockLabel = $('input[name="_graceart_availability_mode"][value="stock"]').closest('label'),
-                $manageStock = $('#_manage_stock');
-
-            if ($stockInput.length && $stockLabel.length) {
-                var $originalStockRow = $stockInput.closest('.form-field'),
-                    $wrap = $('<span class="graceart-inline-stock-qty"></span>');
-
-                $stockInput.css({width: '70px'}).appendTo($wrap);
-                $wrap.appendTo($stockLabel);
-                $originalStockRow.remove();
-
-                function graceartSyncStockVisibility() {
-                    $wrap.toggle($manageStock.is(':checked'));
-                }
-
-                $(document.body).on('change', '#_manage_stock', graceartSyncStockVisibility);
-                graceartSyncStockVisibility();
-            }
-
-            // Redundant with the "Dostupnosť" toggle above.
             $('.form-field._backorders_field, .form-field._low_stock_amount_field').remove();
         }
 
@@ -433,33 +377,6 @@ add_action('woocommerce_product_options_stock_fields', function (): void {
                 }
 
                 $variation.data('graceart-processed', true);
-
-                function graceartToggleVariationFields() {
-                    var isBackorder = $variation.find('input[name^="_graceart_availability_mode["]:checked').val() === 'backorder';
-                    $variation.find('.form-field[class*="_graceart_backorder_qty"], .form-field[class*="_graceart_lead_time"]').toggle(isBackorder);
-                }
-
-                $variation.on('change', 'input[name^="_graceart_availability_mode["]', graceartToggleVariationFields);
-                graceartToggleVariationFields();
-
-                var $vStockInput = $variation.find('input[name^="variable_stock["]'),
-                    $vStockLabel = $variation.find('input[name^="_graceart_availability_mode["][value="stock"]').closest('label'),
-                    $vManageStock = $variation.find('input[name^="variable_manage_stock["]');
-
-                if ($vStockInput.length && $vStockLabel.length) {
-                    var $vWrap = $('<span class="graceart-inline-stock-qty"></span>');
-
-                    $vStockInput.closest('.form-row').remove();
-                    $vStockInput.css({width: '70px'}).appendTo($vWrap);
-                    $vWrap.appendTo($vStockLabel);
-
-                    function graceartSyncVariationStockVisibility() {
-                        $vWrap.toggle($vManageStock.length ? $vManageStock.is(':checked') : true);
-                    }
-
-                    $variation.on('change', 'input[name^="variable_manage_stock["]', graceartSyncVariationStockVisibility);
-                    graceartSyncVariationStockVisibility();
-                }
 
                 $variation.find('.form-row:has(select[name^="variable_backorders["]), .form-row:has(input[name^="variable_low_stock_amount["])').remove();
             });
@@ -475,14 +392,6 @@ add_action('woocommerce_product_options_stock_fields', function (): void {
 // out from the derived backorders flag sees the fresh availability fields.
 add_action('woocommerce_admin_process_product_object', function (WC_Product $product): void {
     $post_id = $product->get_id();
-
-    if (isset($_POST['_graceart_availability_mode'])) {
-        $mode = sanitize_text_field(wp_unslash($_POST['_graceart_availability_mode']));
-
-        if (array_key_exists($mode, graceartAvailabilityModeOptions())) {
-            update_post_meta($post_id, '_graceart_availability_mode', $mode);
-        }
-    }
 
     if (isset($_POST['_graceart_backorder_qty'])) {
         update_post_meta($post_id, '_graceart_backorder_qty', absint(wp_unslash($_POST['_graceart_backorder_qty'])));
@@ -500,7 +409,6 @@ add_action('woocommerce_admin_process_product_object', function (WC_Product $pro
 });
 
 add_action('woocommerce_product_after_variable_attributes', function (int $loop, array $variation_data, WP_Post $variation): void {
-    $mode = get_post_meta($variation->ID, '_graceart_availability_mode', true) ?: 'stock';
     $backorder_qty = get_post_meta($variation->ID, '_graceart_backorder_qty', true);
     $lead_time = get_post_meta($variation->ID, '_graceart_lead_time', true) ?: '3_dni';
     ?>
@@ -508,14 +416,6 @@ add_action('woocommerce_product_after_variable_attributes', function (int $loop,
         <strong><?php esc_html_e('Dostupnosť', 'graceart'); ?></strong>
     </p>
     <?php
-    woocommerce_wp_radio([
-        'id' => "_graceart_availability_mode{$loop}",
-        'name' => "_graceart_availability_mode[{$loop}]",
-        'value' => $mode,
-        'options' => graceartAvailabilityModeOptions(),
-        'wrapper_class' => 'form-row form-row-full',
-    ]);
-
     woocommerce_wp_text_input([
         'id' => "_graceart_backorder_qty{$loop}",
         'name' => "_graceart_backorder_qty[{$loop}]",
@@ -540,14 +440,6 @@ add_action('woocommerce_product_after_variable_attributes', function (int $loop,
 add_action('woocommerce_admin_process_variation_object', function (WC_Product_Variation $variation, int $loop): void {
     $variation_id = $variation->get_id();
 
-    if (isset($_POST['_graceart_availability_mode'][$loop])) {
-        $mode = sanitize_text_field(wp_unslash($_POST['_graceart_availability_mode'][$loop]));
-
-        if (array_key_exists($mode, graceartAvailabilityModeOptions())) {
-            update_post_meta($variation_id, '_graceart_availability_mode', $mode);
-        }
-    }
-
     if (isset($_POST['_graceart_backorder_qty'][$loop])) {
         update_post_meta($variation_id, '_graceart_backorder_qty', absint(wp_unslash($_POST['_graceart_backorder_qty'][$loop])));
     }
@@ -570,21 +462,11 @@ add_filter('woocommerce_get_stock_html', function (string $html): string {
 });
 
 /**
- * Pieces that can be made to order, on top of the stock: the "Počet na
- * objednávku" field, which only counts in the "Na objednávku" mode.
+ * Pieces that can be made to order, on top of the stock.
  */
 function graceartBackorderQuantity(WC_Product $product): int
 {
-    if (graceartAvailabilityMode($product) !== 'backorder') {
-        return 0;
-    }
-
     return max(0, (int) get_post_meta($product->get_id(), '_graceart_backorder_qty', true));
-}
-
-function graceartAvailabilityMode(WC_Product $product): string
-{
-    return get_post_meta($product->get_id(), '_graceart_availability_mode', true) ?: 'stock';
 }
 
 /**
@@ -608,22 +490,18 @@ function graceartAvailableQuantity(WC_Product $product): ?int
 }
 
 /**
- * Shown as "Na objednávku": the stock is sold out (or not tracked at all)
- * and there are still pieces to be made to order.
+ * Shown as "Na objednávku": tracked stock is sold out and there are still
+ * pieces to be made to order.
  */
 function graceartIsOnBackorder(WC_Product $product): bool
 {
-    if (graceartAvailabilityMode($product) !== 'backorder') {
-        return false;
-    }
-
     $available = graceartAvailableQuantity($product);
 
     if ($available === null) {
-        return true;
+        return false;
     }
 
-    return $available > 0 && (int) $product->get_stock_quantity() <= 0;
+    return graceartBackorderQuantity($product) > 0 && $available > 0 && (int) $product->get_stock_quantity() <= 0;
 }
 
 /**
@@ -651,6 +529,12 @@ function graceartDeriveBackorders(string $backorders, WC_Product $product): stri
 
 add_filter('woocommerce_product_get_backorders', 'graceartDeriveBackorders', 10, 2);
 add_filter('woocommerce_product_variation_get_backorders', 'graceartDeriveBackorders', 10, 2);
+
+add_filter('woocommerce_product_is_in_stock', function (bool $in_stock, WC_Product $product): bool {
+    $available = graceartAvailableQuantity($product);
+
+    return $available === null ? $in_stock : $available > 0;
+}, 10, 2);
 
 /**
  * Made-to-order pieces are capped too: the quantity picker (Store API cart
