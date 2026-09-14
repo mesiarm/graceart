@@ -1912,10 +1912,6 @@ body *:not(
     display: none;
 }
 
-.wp-block-woocommerce-checkout .wc-block-components-order-summary-item__quantity {
-    display: none;
-}
-
 .wp-block-woocommerce-checkout .wc-block-components-order-summary-item__total-price {
     text-align: right;
 }
@@ -1924,10 +1920,8 @@ body *:not(
     display: block;
 }
 
-.wp-block-woocommerce-checkout .graceart-checkout-item-quantity {
-    display: block;
-    margin-top: 4px;
-    color: var(--color-text-secondary);
+.wp-block-woocommerce-checkout .wc-block-components-order-summary-item__individual-prices {
+    display: none;
 }
 
 /* The "Medzisúčet" row in the cart totals and the checkout order summary

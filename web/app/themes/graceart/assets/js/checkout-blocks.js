@@ -16,44 +16,28 @@
 
     var strings = window.graceartCheckoutStrings || {};
 
-    function cartItemQuantityLabel(quantity) {
-        var parsedQuantity = parseInt(quantity, 10);
-
-        if (!parsedQuantity || parsedQuantity < 1) {
-            parsedQuantity = 1;
-        }
-
-        return parsedQuantity + ' ks';
-    }
-
-    function placeCheckoutSummaryQuantity(root) {
+    function placeCheckoutSummaryUnitPrices(root) {
         var scope = root || document;
         var items = scope.querySelectorAll('.wc-block-components-order-summary-item');
 
         items.forEach(function (item) {
-            var quantity = item.querySelector('.wc-block-components-order-summary-item__quantity');
-            var name = item.querySelector('.wc-block-components-product-name');
+            var source = item.querySelector('.wc-block-components-order-summary-item__individual-prices .wc-block-components-product-price');
+            var target = item.querySelector('.wc-block-components-order-summary-item__total-price .wc-block-components-product-price');
 
-            if (!quantity || !name) {
+            if (!source || !target) {
                 return;
             }
 
-            var label = cartItemQuantityLabel(quantity.textContent);
-            var existing = item.querySelector('.graceart-checkout-item-quantity');
+            var price = source.textContent.trim();
+            var label = price + ' / kus';
 
-            if (!existing) {
-                existing = document.createElement('span');
-                existing.className = 'graceart-checkout-item-quantity';
-                name.insertAdjacentElement('afterend', existing);
-            }
-
-            if (existing.textContent !== label) {
-                existing.textContent = label;
+            if (target.textContent.trim() !== label) {
+                target.textContent = label;
             }
         });
     }
 
-    function watchCheckoutSummaryQuantity() {
+    function watchCheckoutSummaryUnitPrices() {
         var checkout = document.querySelector('.wp-block-woocommerce-checkout');
 
         if (!checkout) {
@@ -70,7 +54,7 @@
             scheduled = true;
             window.requestAnimationFrame(function () {
                 scheduled = false;
-                placeCheckoutSummaryQuantity(checkout);
+                placeCheckoutSummaryUnitPrices(checkout);
             });
         }
 
@@ -115,8 +99,8 @@
     });
 
     if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', watchCheckoutSummaryQuantity);
+        document.addEventListener('DOMContentLoaded', watchCheckoutSummaryUnitPrices);
     } else {
-        watchCheckoutSummaryQuantity();
+        watchCheckoutSummaryUnitPrices();
     }
 })();
