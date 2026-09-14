@@ -32,7 +32,9 @@
                 return defaultValue;
             }
 
-            return '<price/> · ' + cartItemQuantityLabel(args.cartItem && args.cartItem.quantity);
+            var quantityLabel = cartItemQuantityLabel(args.cartItem && args.cartItem.quantity);
+
+            return '<span class="graceart-checkout-item-price"><span class="graceart-checkout-item-price__unit"><price/> / kus</span><span class="graceart-checkout-item-price__line">' + quantityLabel + '</span></span>';
         },
         placeOrderButtonLabel: function (defaultLabel) {
             return strings.placeOrder || defaultLabel;

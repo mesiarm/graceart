@@ -1898,6 +1898,22 @@ body *:not(
     display: none;
 }
 
+.wp-block-woocommerce-checkout .wc-block-components-order-summary-item__quantity {
+    display: none;
+}
+
+.wp-block-woocommerce-checkout .graceart-checkout-item-price {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 2px;
+    text-align: right;
+}
+
+.wp-block-woocommerce-checkout .graceart-checkout-item-price__line {
+    color: var(--color-text-secondary);
+}
+
 /* The "Medzisúčet" row in the cart totals and the checkout order summary
    repeats the total whenever there is no discount; the total row is enough. */
 .wp-block-woocommerce-cart-order-summary-subtotal-block,
