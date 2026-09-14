@@ -987,7 +987,13 @@ function graceartCartExhaustedProductIds(): array
 add_filter('pre_option_woocommerce_hide_out_of_stock_items', fn(): string => 'yes');
 
 add_filter('woocommerce_product_is_visible', function (bool $visible, int $product_id): bool {
-    return $visible && ! in_array($product_id, graceartCartExhaustedProductIds(), true);
+    if (! $visible || in_array($product_id, graceartCartExhaustedProductIds(), true)) {
+        return false;
+    }
+
+    $product = wc_get_product($product_id);
+
+    return $product instanceof WC_Product && graceartHasAddableStock($product);
 }, 10, 2);
 
 /**
@@ -1029,11 +1035,7 @@ function graceartVariationIsOffered(int $variation_id): bool
         return false;
     }
 
-    if (get_post_meta($variation_id, '_graceart_availability_mode', true) === 'backorder') {
-        return true;
-    }
-
-    return $variation->is_in_stock();
+    return graceartCanAddToCart($variation);
 }
 
 function graceartOfferedVariations(array $variations): array
@@ -1043,7 +1045,7 @@ function graceartOfferedVariations(array $variations): array
         fn(array $variation): bool => graceartVariationIsOffered((int) $variation['variation_id']),
     ));
 
-    return $offered ?: $variations;
+    return $offered;
 }
 
 function graceartResolveSelectedVariationData(WC_Product $product): ?array

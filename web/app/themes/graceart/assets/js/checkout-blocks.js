@@ -16,7 +16,24 @@
 
     var strings = window.graceartCheckoutStrings || {};
 
+    function cartItemQuantityLabel(quantity) {
+        var parsedQuantity = parseInt(quantity, 10);
+
+        if (!parsedQuantity || parsedQuantity < 1) {
+            parsedQuantity = 1;
+        }
+
+        return parsedQuantity + ' ks';
+    }
+
     blocksCheckout.registerCheckoutFilters('graceart', {
+        cartItemPrice: function (defaultValue, extensions, args) {
+            if (!args || args.context !== 'summary') {
+                return defaultValue;
+            }
+
+            return '<price/> · ' + cartItemQuantityLabel(args.cartItem && args.cartItem.quantity);
+        },
         placeOrderButtonLabel: function (defaultLabel) {
             return strings.placeOrder || defaultLabel;
         },

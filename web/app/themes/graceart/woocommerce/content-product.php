@@ -13,6 +13,7 @@ $product_url = graceartProductLoopPermalink($product);
 // Cart-aware: a one-off piece already sitting in the cart cannot be added
 // again, and WooCommerce would answer the click with an error notice.
 $graceart_can_add_more = graceartCanAddToCart($product);
+$graceart_has_addable_stock = graceartHasAddableStock($product);
 
 $graceart_can_add_directly = $product->is_type('simple')
     && $product->is_purchasable()
@@ -33,7 +34,7 @@ $graceart_buy_label = __('Pridať do košíka', 'graceart');
 
 // No button when there is nothing to add: sold out, or a one-off piece whose
 // whole stock is already in the cart. The card still links to the product.
-$graceart_show_button = $product->is_type('variable') || $graceart_can_add_directly;
+$graceart_show_button = ($product->is_type('variable') && $graceart_has_addable_stock) || $graceart_can_add_directly;
 
 if ($product->is_type('variable')) {
     // A variable product is chosen on its own page, not from the listing.
