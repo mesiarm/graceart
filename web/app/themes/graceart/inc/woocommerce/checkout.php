@@ -1,6 +1,15 @@
 <?php
 
-add_filter('woocommerce_order_button_text', fn(): string => __('Objednať s povinnosťou platby', 'graceart'));
+add_filter('woocommerce_order_button_text', fn(): string => __('Objednať', 'graceart'));
+
+/**
+ * The order-received page (woocommerce/checkout/thankyou.php) renders the
+ * order itself; WooCommerce's details and address tables would print a
+ * second copy under it.
+ */
+add_action('init', function (): void {
+    remove_action('woocommerce_thankyou', 'woocommerce_order_details_table', 10);
+});
 
 add_filter('woocommerce_checkout_must_be_logged_in_message', fn(): string => __('Pre dokončenie objednávky sa musíte prihlásiť.', 'graceart'));
 
@@ -116,7 +125,7 @@ add_filter('gettext_woocommerce', function (string $translation, string $text): 
         'Shipping address' => __('Dodacia adresa', 'graceart'),
         'Additional information' => __('Doplňujúce údaje', 'graceart'),
         'Your order' => __('Vaša objednávka', 'graceart'),
-        'Place order' => __('Objednať s povinnosťou platby', 'graceart'),
+        'Place order' => __('Objednať', 'graceart'),
         'Pay for order' => __('Zaplatiť objednávku', 'graceart'),
         'Returning customer?' => __('Už ste u nás nakupovali?', 'graceart'),
         'Click here to login' => __('Kliknite sem a prihláste sa', 'graceart'),
@@ -217,8 +226,8 @@ add_action('wp_enqueue_scripts', function (): void {
         'Payment options' => __('Možnosti platby', 'graceart'),
         'Phone' => __('Telefón', 'graceart'),
         'Phone (optional)' => __('Telefón (voliteľné)', 'graceart'),
-        'Place Order' => __('Objednať s povinnosťou platby', 'graceart'),
-        'Place order' => __('Objednať s povinnosťou platby', 'graceart'),
+        'Place Order' => __('Objednať', 'graceart'),
+        'Place order' => __('Objednať', 'graceart'),
         'Postal code' => __('PSČ', 'graceart'),
         'Postal code (optional)' => __('PSČ (voliteľné)', 'graceart'),
         'Shipping address' => __('Dodacia adresa', 'graceart'),

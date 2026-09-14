@@ -4,8 +4,10 @@
  * Cart & checkout customisations.
  *
  * Cart and checkout are block-based, so the theme's woocommerce/cart/* and
- * woocommerce/checkout/* PHP templates never run. Anything visual here is done
- * with block CSS, and the place-order label through a checkout JS filter.
+ * woocommerce/checkout/form-*.php templates never run (the order-received
+ * page still comes from woocommerce/checkout/thankyou.php). Anything visual
+ * here is done with block CSS, and the place-order label through a checkout
+ * JS filter.
  */
 
 /**
@@ -156,7 +158,7 @@ add_action('wp_enqueue_scripts', function (): void {
     );
 
     wp_localize_script('graceart-checkout-blocks', 'graceartCheckoutStrings', [
-        'placeOrder' => __('Objednať s povinnosťou platby', 'graceart'),
+        'placeOrder' => __('Objednať', 'graceart'),
         'proceedToCheckout' => __('Prejsť k objednávke', 'graceart'),
         // Without shipping in it the cart's total is no estimate; checkout
         // keeps WooCommerce's own label.

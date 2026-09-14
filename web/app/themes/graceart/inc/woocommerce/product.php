@@ -471,7 +471,11 @@ add_action('woocommerce_product_options_stock_fields', function (): void {
     <?php
 });
 
-add_action('woocommerce_process_product_meta', function (int $post_id): void {
+// Saved before WooCommerce saves the product, so the stock status it works
+// out from the derived backorders flag sees the fresh availability fields.
+add_action('woocommerce_admin_process_product_object', function (WC_Product $product): void {
+    $post_id = $product->get_id();
+
     if (isset($_POST['_graceart_availability_mode'])) {
         $mode = sanitize_text_field(wp_unslash($_POST['_graceart_availability_mode']));
 
@@ -532,7 +536,10 @@ add_action('woocommerce_product_after_variable_attributes', function (int $loop,
     ]);
 }, 10, 3);
 
-add_action('woocommerce_save_product_variation', function (int $variation_id, int $loop): void {
+// Same for variations: before each variation's save.
+add_action('woocommerce_admin_process_variation_object', function (WC_Product_Variation $variation, int $loop): void {
+    $variation_id = $variation->get_id();
+
     if (isset($_POST['_graceart_availability_mode'][$loop])) {
         $mode = sanitize_text_field(wp_unslash($_POST['_graceart_availability_mode'][$loop]));
 
@@ -562,12 +569,128 @@ add_filter('woocommerce_get_stock_html', function (string $html): string {
     return is_admin() ? $html : '';
 });
 
+/**
+ * Pieces that can be made to order, on top of the stock: the "Počet na
+ * objednávku" field, which only counts in the "Na objednávku" mode.
+ */
+function graceartBackorderQuantity(WC_Product $product): int
+{
+    if (graceartAvailabilityMode($product) !== 'backorder') {
+        return 0;
+    }
+
+    return max(0, (int) get_post_meta($product->get_id(), '_graceart_backorder_qty', true));
+}
+
+function graceartAvailabilityMode(WC_Product $product): string
+{
+    return get_post_meta($product->get_id(), '_graceart_availability_mode', true) ?: 'stock';
+}
+
+/**
+ * Everything that can still be sold: stock plus the made-to-order pieces.
+ * Null when stock is not managed (unlimited). Stock goes negative as the
+ * made-to-order pieces are sold, so the sum shrinks with every order.
+ */
+function graceartAvailableQuantity(WC_Product $product): ?int
+{
+    if (! $product->managing_stock()) {
+        return null;
+    }
+
+    $stock = $product->get_stock_quantity();
+
+    if ($stock === null) {
+        return null;
+    }
+
+    return (int) $stock + graceartBackorderQuantity($product);
+}
+
+/**
+ * Shown as "Na objednávku": the stock is sold out (or not tracked at all)
+ * and there are still pieces to be made to order.
+ */
+function graceartIsOnBackorder(WC_Product $product): bool
+{
+    if (graceartAvailabilityMode($product) !== 'backorder') {
+        return false;
+    }
+
+    $available = graceartAvailableQuantity($product);
+
+    if ($available === null) {
+        return true;
+    }
+
+    return $available > 0 && (int) $product->get_stock_quantity() <= 0;
+}
+
+/**
+ * WooCommerce's own backorders flag is hidden from the product screen; the
+ * theme derives it from the availability fields instead. "notify" while
+ * made-to-order pieces remain, so the product stays purchasable at zero
+ * stock (status "onbackorder"), "no" once those are gone too — WooCommerce
+ * then marks the product out of stock on the next stock change or save, and
+ * the listings drop it.
+ */
+function graceartDeriveBackorders(string $backorders, WC_Product $product): string
+{
+    if (! $product->managing_stock()) {
+        return $backorders;
+    }
+
+    $available = graceartAvailableQuantity($product);
+
+    if ($available === null || graceartBackorderQuantity($product) <= 0) {
+        return 'no';
+    }
+
+    return $available > 0 ? 'notify' : 'no';
+}
+
+add_filter('woocommerce_product_get_backorders', 'graceartDeriveBackorders', 10, 2);
+add_filter('woocommerce_product_variation_get_backorders', 'graceartDeriveBackorders', 10, 2);
+
+/**
+ * Made-to-order pieces are capped too: the quantity picker (Store API cart
+ * and classic alike goes through this) stops at stock + made-to-order.
+ */
+add_filter('woocommerce_quantity_input_max', function ($max, WC_Product $product) {
+    $available = graceartAvailableQuantity($product);
+
+    if ($available === null || graceartBackorderQuantity($product) <= 0) {
+        return $max;
+    }
+
+    return $max > 0 ? min((int) $max, $available) : $available;
+}, 10, 2);
+
+/**
+ * Same cap on the way into the cart — WooCommerce lets any quantity through
+ * once backorders are on.
+ */
+add_filter('woocommerce_add_to_cart_validation', function ($passed, $product_id, $quantity, $variation_id = 0) {
+    if (! $passed) {
+        return false;
+    }
+
+    $product = wc_get_product((int) $variation_id ?: (int) $product_id);
+
+    if (! $product instanceof WC_Product || graceartCanAddToCart($product, max(1, (int) $quantity))) {
+        return true;
+    }
+
+    wc_add_notice(__('Toľko kusov už nie je k dispozícii.', 'graceart'), 'error');
+
+    return false;
+}, 10, 4);
+
 function graceartAvailabilityText(WC_Product $product): string
 {
     $meta_product_id = $product->get_id();
-    $mode = get_post_meta($meta_product_id, '_graceart_availability_mode', true) ?: 'stock';
 
-    if ($mode === 'backorder') {
+    if (graceartIsOnBackorder($product)) {
         $lead_time_phrases = graceartLeadTimePhrases();
         $lead_time = get_post_meta($meta_product_id, '_graceart_lead_time', true);
         $lead_time_phrase = $lead_time_phrases[$lead_time] ?? reset($lead_time_phrases);
@@ -575,9 +698,7 @@ function graceartAvailabilityText(WC_Product $product): string
         return sprintf(__('Na objednávku %s', 'graceart'), $lead_time_phrase);
     }
 
-    $status = $product->get_stock_status();
-
-    if ($status === 'outofstock') {
+    if (! $product->is_in_stock()) {
         return __('Nie je skladom', 'graceart');
     }
 
@@ -592,14 +713,11 @@ function graceartAvailabilityText(WC_Product $product): string
 
 function graceartAvailabilityShortLabel(WC_Product $product): array
 {
-    $meta_product_id = $product->get_id();
-    $mode = get_post_meta($meta_product_id, '_graceart_availability_mode', true) ?: 'stock';
-
-    if ($mode === 'backorder') {
+    if (graceartIsOnBackorder($product)) {
         return ['label' => __('Na objednávku', 'graceart'), 'in_stock' => false];
     }
 
-    if ($product->get_stock_status() === 'outofstock') {
+    if (! $product->is_in_stock()) {
         return ['label' => __('Nie je skladom', 'graceart'), 'in_stock' => false];
     }
 
@@ -728,8 +846,10 @@ function graceartFreeShippingMinAmount(): ?float
 
 /**
  * Quantity of a given product (or variation) already sitting in the cart.
+ * A null variation id counts every line of the product, whichever variation —
+ * that is the number that matters when stock is managed on the parent.
  */
-function graceartQuantityInCart(int $product_id, int $variation_id = 0): int
+function graceartQuantityInCart(int $product_id, ?int $variation_id = 0): int
 {
     if (! function_exists('WC') || ! WC()->cart) {
         return 0;
@@ -747,7 +867,11 @@ function graceartQuantityInCart(int $product_id, int $variation_id = 0): int
             continue;
         }
 
-        if ((int) ($item['product_id'] ?? 0) === $product_id && $item_variation === 0) {
+        if ((int) ($item['product_id'] ?? 0) !== $product_id) {
+            continue;
+        }
+
+        if ($variation_id === null || $item_variation === 0) {
             $total += (int) $item['quantity'];
         }
     }
@@ -768,22 +892,122 @@ function graceartCanAddToCart(WC_Product $product, int $qty = 1): bool
         return false;
     }
 
-    if (! $product->managing_stock() || $product->backorders_allowed()) {
+    $available = graceartAvailableQuantity($product);
+
+    if ($available === null) {
         return true;
     }
 
-    $stock = $product->get_stock_quantity();
-
-    if (null === $stock) {
-        return true;
+    if (! $product->is_type('variation')) {
+        $in_cart = graceartQuantityInCart($product->get_id());
+    } elseif ($product->managing_stock() === 'parent') {
+        // Shared stock: every variation in the cart draws on the same pile.
+        $in_cart = graceartQuantityInCart((int) $product->get_parent_id(), null);
+    } else {
+        $in_cart = graceartQuantityInCart((int) $product->get_parent_id(), $product->get_id());
     }
 
-    $in_cart = $product->is_type('variation')
-        ? graceartQuantityInCart((int) $product->get_parent_id(), $product->get_id())
-        : graceartQuantityInCart($product->get_id());
-
-    return ((int) $stock - $in_cart) >= $qty;
+    return ($available - $in_cart) >= $qty;
 }
+
+/**
+ * Whether the shopper can still add anything of this product: the product
+ * itself, or for a variable product at least one of its variations.
+ */
+function graceartHasAddableStock(WC_Product $product): bool
+{
+    if (! $product->is_type('variable')) {
+        return graceartCanAddToCart($product);
+    }
+
+    foreach ($product->get_children() as $variation_id) {
+        $variation = wc_get_product($variation_id);
+
+        if ($variation instanceof WC_Product && graceartCanAddToCart($variation)) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+/**
+ * Products the shopper's own cart has emptied: a one-off piece (or every
+ * variation of one) whose whole stock is already in the cart. For that shopper
+ * they are sold out, so listings drop them like any other sold-out product.
+ * Only products in the cart can qualify, so the check is cheap.
+ */
+function graceartCartExhaustedProductIds(): array
+{
+    if (is_admin() || ! function_exists('WC') || ! WC()->cart) {
+        return [];
+    }
+
+    $items = WC()->cart->get_cart();
+
+    if (! $items) {
+        return [];
+    }
+
+    static $cache = [];
+
+    $cache_key = md5(wp_json_encode(array_map(function (array $item): array {
+        return [(int) ($item['product_id'] ?? 0), (int) ($item['variation_id'] ?? 0), (int) ($item['quantity'] ?? 0)];
+    }, array_values($items))));
+
+    if (isset($cache[$cache_key])) {
+        return $cache[$cache_key];
+    }
+
+    $exhausted = [];
+
+    foreach ($items as $item) {
+        $product_id = (int) ($item['product_id'] ?? 0);
+
+        if ($product_id <= 0 || isset($exhausted[$product_id])) {
+            continue;
+        }
+
+        $product = wc_get_product($product_id);
+
+        if ($product instanceof WC_Product && ! graceartHasAddableStock($product)) {
+            $exhausted[$product_id] = true;
+        }
+    }
+
+    return $cache[$cache_key] = array_keys($exhausted);
+}
+
+/**
+ * Sold-out products are not listed anywhere — shop, categories, search,
+ * related products, homepage bestsellers. WooCommerce hides them for the
+ * catalog queries and is_visible() once this option is on; it is forced here
+ * rather than left to the settings screen.
+ */
+add_filter('pre_option_woocommerce_hide_out_of_stock_items', fn(): string => 'yes');
+
+add_filter('woocommerce_product_is_visible', function (bool $visible, int $product_id): bool {
+    return $visible && ! in_array($product_id, graceartCartExhaustedProductIds(), true);
+}, 10, 2);
+
+/**
+ * Drop cart-exhausted products from the listing query itself, so pages stay
+ * full rather than rendering a gap where content-product.php bails out.
+ */
+function graceartExcludeCartExhaustedFromQuery(WP_Query $query): void
+{
+    $exhausted = graceartCartExhaustedProductIds();
+
+    if (! $exhausted) {
+        return;
+    }
+
+    $not_in = $query->get('post__not_in');
+    $not_in = is_array($not_in) ? $not_in : [];
+    $query->set('post__not_in', array_values(array_unique(array_merge($not_in, $exhausted))));
+}
+
+add_action('woocommerce_product_query', 'graceartExcludeCartExhaustedFromQuery');
 
 function graceartCardPaymentEnabled(): bool
 {
@@ -816,7 +1040,7 @@ function graceartOfferedVariations(array $variations): array
 {
     $offered = array_values(array_filter(
         $variations,
-        fn(array $variation): bool => graceartVariationIsOffered((int) $variation['variation_id'])
+        fn(array $variation): bool => graceartVariationIsOffered((int) $variation['variation_id']),
     ));
 
     return $offered ?: $variations;

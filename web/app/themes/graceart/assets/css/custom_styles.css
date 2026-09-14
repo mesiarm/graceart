@@ -1890,10 +1890,46 @@ body *:not(
     font-size: 17px;
 }
 
-/* Cart line items carry the product's short description under its name;
-   the cart is not the place to read it. Variation details stay. */
-.wp-block-woocommerce-cart .wc-block-components-product-metadata__description {
+/* Cart line items and the checkout order summary carry the product's short
+   description under its name; neither is the place to read it. Variation
+   details stay. */
+.wp-block-woocommerce-cart .wc-block-components-product-metadata__description,
+.wp-block-woocommerce-checkout .wc-block-components-product-metadata__description {
     display: none;
+}
+
+/* The "Medzisúčet" row in the cart totals and the checkout order summary
+   repeats the total whenever there is no discount; the total row is enough. */
+.wp-block-woocommerce-cart-order-summary-subtotal-block,
+.wp-block-woocommerce-checkout-order-summary-subtotal-block {
+    display: none;
+}
+
+/* Thank-you page: the order overview (number, date, total, payment method)
+   reads as one line with each label followed by its value, instead of
+   WooCommerce's stacked small-caps label over a large value. Items keep the
+   dashed divider and wrap on narrow screens. */
+.woocommerce ul.order_details {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 0;
+    margin: 0 0 30px;
+    padding: 0;
+}
+
+.woocommerce ul.order_details li {
+    float: none;
+    margin: 0 20px 0 0;
+    padding: 0 20px 0 0;
+    font-size: 16px;
+    line-height: 1.5;
+    text-transform: none;
+}
+
+.woocommerce ul.order_details li strong {
+    display: inline;
+    font-size: inherit;
+    line-height: inherit;
 }
 
 .wp-block-woocommerce-cart .wc-block-components-totals-footer-item .wc-block-components-totals-item__label,
@@ -1906,12 +1942,13 @@ body *:not(
 }
 
 /* WooCommerce's block buttons (cart "Prejsť k objednávke", empty-cart
-   "Pokračovať v nákupe", checkout "Objednať s povinnosťou platby") in the
+   "Pokračovať v nákupe", checkout "Objednať") in the
    same pill as every other button on the site. */
 .wp-block-woocommerce-cart .wc-block-cart__submit-button,
 .wp-block-woocommerce-cart .wp-block-button__link,
 .wc-block-components-checkout-place-order-button,
-.wc-block-checkout__actions_row .wc-block-components-checkout-return-to-cart-button {
+.wc-block-checkout__actions_row .wc-block-components-checkout-return-to-cart-button,
+.wc-block-components-totals-coupon__button {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -1937,10 +1974,20 @@ body *:not(
 .wp-block-woocommerce-cart .wp-block-button__link:focus,
 .wc-block-components-checkout-place-order-button:hover,
 .wc-block-components-checkout-place-order-button:focus,
-.wc-block-checkout__actions_row .wc-block-components-checkout-return-to-cart-button:hover {
+.wc-block-checkout__actions_row .wc-block-components-checkout-return-to-cart-button:hover,
+.wc-block-components-totals-coupon__button:hover,
+.wc-block-components-totals-coupon__button:focus {
     color: #fff !important;
     border-color: var(--color-accent) !important;
     background-color: var(--color-accent) !important;
+}
+
+/* The coupon "Použiť" button sits beside a 50px field; keep WooCommerce's
+   height so the pill lines up with it. */
+.wc-block-components-totals-coupon__button {
+    height: 50px;
+    padding-top: 0;
+    padding-bottom: 0;
 }
 
 /* Empty cart: no icon, a larger title and room between it and the
@@ -2048,4 +2095,415 @@ body.admin-bar {
 .wc-block-components-radio-control__input:focus-visible {
     outline: 2px solid var(--color-text) !important;
     outline-offset: 2px;
+}
+
+/* ------------------------------------------------------------------
+   Order-received ("thank you") page, woocommerce/checkout/thankyou.php.
+   Same parts as the cart: uppercase column headers over a divided list
+   of items, the total at 22px, grey surface cells for the overview,
+   pill buttons.
+   ------------------------------------------------------------------ */
+.graceart-order__received {
+    margin: 0;
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+.graceart-order__received > strong {
+    font-weight: 500;
+}
+
+.graceart-order__received-note {
+    display: block;
+    margin-top: 2px;
+    font-weight: 300;
+    color: var(--color-text-secondary);
+}
+
+.graceart-order__received-note strong {
+    font-weight: 400;
+    color: var(--color-text);
+}
+
+/* Overview strip: number, date, total, payment method. WooCommerce floats
+   these and separates them with a dashed line; here they are surface cells. */
+.woocommerce .graceart-order__overview {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 0 0 40px;
+    padding: 0;
+    list-style: none;
+}
+
+.woocommerce .graceart-order__overview li {
+    flex: 1 1 160px;
+    float: none;
+    margin: 0;
+    padding: 14px 20px;
+    font-size: 16px;
+    line-height: 1.4;
+    text-transform: none;
+    color: var(--color-text);
+    border: none;
+    background-color: var(--color-surface);
+}
+
+.graceart-order__overview-label {
+    display: block;
+    margin-bottom: 4px;
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--color-text-secondary);
+}
+
+.woocommerce .graceart-order__overview li strong {
+    display: block;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 1.3;
+}
+
+/* Bank transfer details and whatever else gateways print. */
+.graceart-order__instructions {
+    margin: 0 0 40px;
+    padding: 20px 24px;
+    border: 1px solid var(--color-line);
+}
+
+.graceart-order__instructions > :last-child {
+    margin-bottom: 0;
+}
+
+.graceart-order__instructions h2,
+.graceart-order__instructions h3 {
+    margin: 0 0 12px;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+/* The bank-details list also carries WooCommerce's .order_details class. */
+.woocommerce .graceart-order__instructions ul {
+    display: block;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.graceart-order__instructions li {
+    font-size: 16px;
+    line-height: 1.7;
+}
+
+.graceart-order__title,
+.graceart-order__subtitle {
+    margin: 0 0 20px;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 1.3;
+}
+
+/* Column headers, like the cart's "PRODUKT / SPOLU". */
+.graceart-order__head {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 0 12px;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--color-line);
+}
+
+.graceart-order__items {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.graceart-order__item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 20px 0;
+    border-bottom: 1px solid var(--color-line);
+}
+
+.graceart-order__item-thumb {
+    flex: 0 0 72px;
+}
+
+.graceart-order__item-thumb img {
+    display: block;
+    width: 72px;
+    height: auto;
+}
+
+.graceart-order__item-info {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.graceart-order__item-name {
+    display: block;
+    font-size: 16px;
+    line-height: 1.4;
+}
+
+.graceart-order__item-name a {
+    color: var(--color-text);
+}
+
+.graceart-order__item-name a:hover {
+    color: var(--color-accent);
+}
+
+/* Variation details (wc_display_item_meta prints a ul.wc-item-meta). */
+.graceart-order__item-meta .wc-item-meta {
+    margin: 4px 0 0;
+    padding: 0;
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--color-text-secondary);
+}
+
+.graceart-order__item-meta .wc-item-meta li {
+    display: flex;
+    gap: 4px;
+    margin: 0;
+}
+
+.graceart-order__item-meta .wc-item-meta p,
+.graceart-order__item-meta .wc-item-meta strong {
+    display: inline;
+    margin: 0;
+    font-weight: 400;
+}
+
+.graceart-order__item-qty {
+    display: block;
+    margin-top: 4px;
+    font-size: 14px;
+    color: var(--color-text-secondary);
+}
+
+.graceart-order__item-total {
+    flex: 0 0 auto;
+    font-size: 16px;
+    text-align: right;
+}
+
+/* Totals under the items: shipping, discounts, and the total at 22px like
+   the cart's "Suma". */
+.graceart-order__totals {
+    margin: 0;
+}
+
+.graceart-order__total {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 14px 0;
+    font-size: 16px;
+    border-bottom: 1px solid var(--color-line);
+}
+
+.graceart-order__total dt {
+    font-weight: 400;
+}
+
+.graceart-order__total dd {
+    margin: 0;
+    text-align: right;
+}
+
+.graceart-order__total .shipped_via {
+    display: block;
+    font-size: 13px;
+    color: var(--color-text-secondary);
+}
+
+.graceart-order__total--order_total {
+    padding: 18px 0 0;
+    font-size: 22px;
+    font-weight: 500;
+    border-bottom: none;
+}
+
+/* Addresses beside the items. */
+.graceart-order__address {
+    margin-bottom: 30px;
+}
+
+.graceart-order__address:last-child {
+    margin-bottom: 0;
+}
+
+/* WooCommerce frames the address and draws phone and envelope icons
+   before those lines; plain text here, like the checkout. */
+.woocommerce-customer-details .graceart-order__address address,
+.graceart-order__address p {
+    margin: 0;
+    padding: 0;
+    font-size: 16px;
+    font-style: normal;
+    line-height: 1.7;
+    border: none;
+    border-radius: 0;
+}
+
+.woocommerce-customer-details .graceart-order__address .woocommerce-customer-details--phone,
+.woocommerce-customer-details .graceart-order__address .woocommerce-customer-details--email {
+    padding-left: 0;
+    color: var(--color-text-secondary);
+}
+
+.woocommerce-customer-details .graceart-order__address .woocommerce-customer-details--phone::before,
+.woocommerce-customer-details .graceart-order__address .woocommerce-customer-details--email::before {
+    display: none;
+}
+
+.graceart-order__note p {
+    font-weight: 300;
+}
+
+/* "Continue shopping" and the invoice link, in the site's pill. The
+   !important is for WooCommerce's ".woocommerce a.button" on the invoice. */
+.graceart-order__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin: 50px 0 0;
+}
+
+.graceart-order__button,
+.woocommerce a.graceart-order__button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 26px;
+    font-family: "Jost", "Futura", "Segoe UI", "Noto Sans", "Helvetica Neue", Arial, sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 1;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--color-text) !important;
+    border: 1px solid var(--color-line) !important;
+    border-radius: 500px;
+    background-color: #fff !important;
+}
+
+.graceart-order__button:hover,
+.graceart-order__button:focus,
+.woocommerce a.graceart-order__button:hover,
+.woocommerce a.graceart-order__button:focus {
+    color: #fff !important;
+    border-color: var(--color-accent) !important;
+    background-color: var(--color-accent) !important;
+}
+
+/* E-mail verification asked of a guest who returns to the page later. */
+.woocommerce form.woocommerce-verify-email {
+    max-width: 560px;
+}
+
+.woocommerce form.woocommerce-verify-email p {
+    margin: 0 0 20px;
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+.woocommerce form.woocommerce-verify-email .form-row {
+    padding: 0;
+}
+
+.woocommerce form.woocommerce-verify-email label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 13px;
+    letter-spacing: 1px;
+    line-height: 1.4;
+    text-transform: uppercase;
+}
+
+.woocommerce form.woocommerce-verify-email .input-text {
+    width: 100%;
+    padding: 12px 16px;
+    font-size: 16px;
+    line-height: 1.4;
+    color: var(--color-text);
+    border: 1px solid var(--color-line);
+    border-radius: 0;
+    background: #fff;
+}
+
+.woocommerce form.woocommerce-verify-email .input-text:focus {
+    outline: none;
+    border-color: var(--color-text);
+}
+
+/* Account forms (login, register, lost password, verify e-mail) and the
+   account pages otherwise get WooCommerce's grey 3px-radius button. */
+.woocommerce form.woocommerce-verify-email .button,
+.woocommerce form.woocommerce-form-login .button,
+.woocommerce form.woocommerce-form-register .button,
+.woocommerce form.woocommerce-ResetPassword .button,
+.woocommerce form.woocommerce-EditAccountForm .button,
+.woocommerce-MyAccount-content .button {
+    display: inline-flex;
+    align-items: center;
+    padding: 12px 26px;
+    font-family: "Jost", "Futura", "Segoe UI", "Noto Sans", "Helvetica Neue", Arial, sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 1;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--color-text);
+    border: 1px solid var(--color-line);
+    border-radius: 500px;
+    background-color: #fff;
+}
+
+.woocommerce form.woocommerce-verify-email .button:hover,
+.woocommerce form.woocommerce-verify-email .button:focus,
+.woocommerce form.woocommerce-form-login .button:hover,
+.woocommerce form.woocommerce-form-login .button:focus,
+.woocommerce form.woocommerce-form-register .button:hover,
+.woocommerce form.woocommerce-form-register .button:focus,
+.woocommerce form.woocommerce-ResetPassword .button:hover,
+.woocommerce form.woocommerce-ResetPassword .button:focus,
+.woocommerce form.woocommerce-EditAccountForm .button:hover,
+.woocommerce form.woocommerce-EditAccountForm .button:focus,
+.woocommerce-MyAccount-content .button:hover,
+.woocommerce-MyAccount-content .button:focus {
+    color: #fff;
+    border-color: var(--color-accent);
+    background-color: var(--color-accent);
+}
+
+@media only screen and (max-width: 767px) {
+    .woocommerce .graceart-order__overview li {
+        flex-basis: calc(50% - 5px);
+    }
+
+    .graceart-order__item {
+        gap: 12px;
+    }
+
+    .graceart-order__item-thumb {
+        flex-basis: 56px;
+    }
+
+    .graceart-order__item-thumb img {
+        width: 56px;
+    }
+
+    .graceart-order__actions {
+        margin-top: 40px;
+    }
 }
