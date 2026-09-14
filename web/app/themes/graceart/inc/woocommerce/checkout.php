@@ -200,6 +200,7 @@ add_action('wp_enqueue_scripts', function (): void {
         'Apartment, suite, etc.' => __('Byt, apartmán, jednotka a pod.', 'graceart'),
         'Apartment, suite, etc. (optional)' => __('Byt, apartmán, jednotka a pod. (voliteľné)', 'graceart'),
         'Apply' => __('Použiť', 'graceart'),
+        'Available on backorder' => __('Na objednávku', 'graceart'),
         'Cart' => __('Košík', 'graceart'),
         'Checkout' => __('Pokladňa', 'graceart'),
         'City' => __('Mesto', 'graceart'),

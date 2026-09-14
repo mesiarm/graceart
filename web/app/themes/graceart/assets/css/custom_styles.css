@@ -1912,11 +1912,25 @@ body *:not(
     display: none;
 }
 
+/* On narrow layouts WooCommerce repeats the order summary in full above the
+   place-order button, so the collapsible copy at the top of the sidebar is
+   the same summary twice. Same breakpoint as the repeat. */
+@container (max-width: 699px) {
+    .wp-block-woocommerce-checkout .wc-block-checkout__sidebar .wp-block-woocommerce-checkout-order-summary-block {
+        display: none;
+    }
+}
+
 /* Checkout order summary: no quantity badge over the thumbnail and no line
    total; the unit price sits to the right of the name and the quantity
    (added by checkout-blocks.js) reads as a line under it. */
 .wp-block-woocommerce-checkout .wc-block-components-order-summary-item__quantity,
 .wp-block-woocommerce-checkout .wc-block-components-order-summary-item__total-price {
+    display: none;
+}
+
+.wp-block-woocommerce-checkout .wc-block-components-order-summary .wc-block-components-product-metadata,
+.wp-block-woocommerce-checkout .wc-block-components-order-summary .wc-block-components-product-details {
     display: none;
 }
 
