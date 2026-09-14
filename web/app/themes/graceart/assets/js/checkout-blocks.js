@@ -26,8 +26,9 @@
         return parsedQuantity + ' ks';
     }
 
-    function placeCheckoutSummaryQuantity() {
-        var items = document.querySelectorAll('.wp-block-woocommerce-checkout .wc-block-components-order-summary-item');
+    function placeCheckoutSummaryQuantity(root) {
+        var scope = root || document;
+        var items = scope.querySelectorAll('.wc-block-components-order-summary-item');
 
         items.forEach(function (item) {
             var quantity = item.querySelector('.wc-block-components-order-summary-item__quantity');
@@ -46,20 +47,42 @@
                 name.insertAdjacentElement('afterend', existing);
             }
 
-            existing.textContent = label;
+            if (existing.textContent !== label) {
+                existing.textContent = label;
+            }
         });
     }
 
     function watchCheckoutSummaryQuantity() {
-        placeCheckoutSummaryQuantity();
+        var checkout = document.querySelector('.wp-block-woocommerce-checkout');
+
+        if (!checkout) {
+            return;
+        }
+
+        var scheduled = false;
+
+        function schedulePlacement() {
+            if (scheduled) {
+                return;
+            }
+
+            scheduled = true;
+            window.requestAnimationFrame(function () {
+                scheduled = false;
+                placeCheckoutSummaryQuantity(checkout);
+            });
+        }
+
+        schedulePlacement();
 
         if (!window.MutationObserver) {
             return;
         }
 
-        var observer = new MutationObserver(placeCheckoutSummaryQuantity);
+        var observer = new MutationObserver(schedulePlacement);
 
-        observer.observe(document.body, {
+        observer.observe(checkout, {
             childList: true,
             subtree: true
         });
@@ -68,6 +91,13 @@
     blocksCheckout.registerCheckoutFilters('graceart', {
         cartItemPrice: function (defaultValue, extensions, args) {
             if (!args || args.context !== 'summary') {
+                return defaultValue;
+            }
+
+            return '<price/> / kus';
+        },
+        subtotalPriceFormat: function (defaultValue, extensions, args) {
+            if (!args || args.context !== 'cart') {
                 return defaultValue;
             }
 
