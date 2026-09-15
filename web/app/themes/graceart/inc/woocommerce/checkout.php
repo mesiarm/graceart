@@ -227,6 +227,9 @@ add_action('wp_enqueue_scripts', function (): void {
         'Payment options' => __('Možnosti platby', 'graceart'),
         'Phone' => __('Telefón', 'graceart'),
         'Phone (optional)' => __('Telefón (voliteľné)', 'graceart'),
+        // Blocks lowercase the field label into %s ("telefón", "meno", "psč"),
+        // so the sentence must not need to agree with the label's gender.
+        'Please enter a valid %s' => __('Vyplňte správne pole „%s“', 'graceart'),
         'Place Order' => __('Objednať', 'graceart'),
         'Place order' => __('Objednať', 'graceart'),
         'Postal code' => __('PSČ', 'graceart'),

@@ -2378,7 +2378,8 @@ body.admin-bar {
     font-weight: 400;
 }
 
-.graceart-order__item-qty {
+.graceart-order__item-qty,
+.graceart-order__item-unit {
     display: block;
     margin-top: 4px;
     font-size: 14px;

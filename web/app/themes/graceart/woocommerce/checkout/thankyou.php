@@ -165,10 +165,12 @@ defined('ABSPATH') || exit;
                                     </div>
                                     <div class="graceart-order__item-info">
                                         <span class="graceart-order__item-name"><?php echo wp_kses_post($graceart_name); ?></span>
+                                        <?php /* Quantity and unit price as in the checkout summary: "5 ks" under the name, "55 € / kus" below. */ ?>
+                                        <span class="graceart-order__item-qty"><?php echo esc_html(sprintf(__('%d ks', 'graceart'), $graceart_item->get_quantity())); ?></span>
                                         <?php if ($graceart_meta) : ?>
                                             <div class="graceart-order__item-meta"><?php echo wp_kses_post($graceart_meta); ?></div>
                                         <?php endif; ?>
-                                        <span class="graceart-order__item-qty"><?php echo esc_html((string) $graceart_item->get_quantity()); ?> &times; <?php echo wp_kses_post($graceart_unit); ?></span>
+                                        <span class="graceart-order__item-unit"><?php echo wp_kses_post($graceart_unit); ?> / <?php esc_html_e('kus', 'graceart'); ?></span>
                                     </div>
                                     <div class="graceart-order__item-total">
                                         <?php echo wp_kses_post($order->get_formatted_line_subtotal($graceart_item)); ?>

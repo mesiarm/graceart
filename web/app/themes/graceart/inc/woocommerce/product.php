@@ -1292,6 +1292,41 @@ add_filter('woocommerce_email_order_meta_fields', function (array $fields, bool 
     return $fields;
 }, 10, 3);
 
+/**
+ * WooCommerce adds its own "Backordered: 2" item meta (Slovak "Objednané: 2")
+ * to a line whose quantity exceeds the stock, and prints it to the customer
+ * on the thank-you page, in the emails and on the invoice — where the
+ * order-wide "Dostupnosť" already says the order is made to order. Under a
+ * "_" key it is hidden from all of them; the admin order screen still gets
+ * it, as a readable line under the item.
+ */
+add_filter('woocommerce_backordered_item_meta_name', fn(): string => '_graceart_backordered');
+
+add_filter('woocommerce_hidden_order_itemmeta', function (array $hidden): array {
+    $hidden[] = '_graceart_backordered';
+    $hidden[] = '_graceart_lead_time';
+
+    return $hidden;
+});
+
+add_action('woocommerce_after_order_itemmeta', function (int $item_id, WC_Order_Item $item): void {
+    if (! $item instanceof WC_Order_Item_Product) {
+        return;
+    }
+
+    $backordered = (int) $item->get_meta('_graceart_backordered');
+
+    if ($backordered <= 0) {
+        return;
+    }
+
+    printf(
+        '<div class="wc-order-item-graceart-backordered"><strong>%s:</strong> %s</div>',
+        esc_html__('Na objednávku', 'graceart'),
+        esc_html(sprintf(__('%d ks', 'graceart'), $backordered)),
+    );
+}, 10, 2);
+
 add_action('woocommerce_admin_order_data_after_order_details', function (WC_Order $order): void {
     $availability = graceartOrderAvailabilityText($order);
 
