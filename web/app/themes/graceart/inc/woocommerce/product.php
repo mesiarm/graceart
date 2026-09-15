@@ -365,9 +365,11 @@ add_action('woocommerce_product_options_stock_fields', function (): void {
     jQuery(function ($) {
         // Stock is always tracked: the "Manage stock?" toggle is forced on and
         // hidden, and the quantity cannot be left blank (0 is fine — sold out).
+        // WooCommerce's "Množstvo" is named like the theme's own fields.
         function requireStock($checkbox, $quantity) {
             $checkbox.prop('checked', true).trigger('change').closest('.form-field, label').hide();
             $quantity.attr({ required: 'required', min: '0' });
+            $quantity.closest('.form-field, .form-row').find('label').first().text(<?php echo wp_json_encode(__('Počet na sklade', 'graceart')); ?>);
         }
 
         if ($('#product-type').val() !== 'variable') {
@@ -396,8 +398,14 @@ add_action('woocommerce_product_options_stock_fields', function (): void {
 
                 $variation.data('graceart-processed', true);
 
-                $variation.find('.form-row:has(select[name^="variable_backorders["]), .form-row:has(input[name^="variable_low_stock_amount["])').remove();
+                // Only the fields' own <p>s: the div wrapping the whole stock
+                // block is a .form-row too and holds the quantity.
+                $variation.find('p.form-row:has(select[name^="variable_backorders["]), p.form-row:has(input[name^="variable_low_stock_amount["])').remove();
                 requireStock($variation.find('input[name^="variable_manage_stock["]'), $variation.find('input[name^="variable_stock["]'));
+
+                // The stock quantity sits with the theme's availability fields
+                // instead of between the price and the shipping class.
+                $variation.find('.show_if_variation_manage_stock').insertAfter($variation.find('.graceart-variation-availability'));
             });
         });
 
@@ -435,7 +443,7 @@ add_action('woocommerce_product_after_variable_attributes', function (int $loop,
     $backorder_qty = get_post_meta($variation->ID, '_graceart_backorder_qty', true);
     $lead_time = get_post_meta($variation->ID, '_graceart_lead_time', true) ?: '3_dni';
     ?>
-    <p class="form-row form-row-full">
+    <p class="form-row form-row-full graceart-variation-availability">
         <strong><?php esc_html_e('Dostupnosť', 'graceart'); ?></strong>
     </p>
     <?php
@@ -452,7 +460,7 @@ add_action('woocommerce_product_after_variable_attributes', function (int $loop,
     woocommerce_wp_select([
         'id' => "_graceart_lead_time{$loop}",
         'name' => "_graceart_lead_time[{$loop}]",
-        'label' => __('Dodacia lehota', 'graceart'),
+        'label' => __('Dodacia lehota (na objednávku)', 'graceart'),
         'value' => $lead_time,
         'options' => graceartLeadTimeOptions(),
         'wrapper_class' => 'form-row form-row-last',
@@ -656,16 +664,18 @@ add_action('woocommerce_store_api_validate_cart_item', function (WC_Product $pro
     throw new Exception(__('Toľko kusov už nie je k dispozícii.', 'graceart'));
 }, 10, 2);
 
+/**
+ * The product's lead time as "do 2 týždňov" (the first option when none is set).
+ */
+function graceartLeadTimePhrase(WC_Product $product): string
+{
+    return graceartLeadTimePhrases()[graceartLeadTimeKey($product)];
+}
+
 function graceartAvailabilityText(WC_Product $product): string
 {
-    $meta_product_id = $product->get_id();
-
     if (graceartIsOnBackorder($product)) {
-        $lead_time_phrases = graceartLeadTimePhrases();
-        $lead_time = get_post_meta($meta_product_id, '_graceart_lead_time', true);
-        $lead_time_phrase = $lead_time_phrases[$lead_time] ?? reset($lead_time_phrases);
-
-        return sprintf(__('Na objednávku %s', 'graceart'), $lead_time_phrase);
+        return sprintf(__('Na objednávku %s', 'graceart'), graceartLeadTimePhrase($product));
     }
 
     if (! $product->is_in_stock()) {
@@ -679,6 +689,93 @@ function graceartAvailabilityText(WC_Product $product): string
     }
 
     return __('Skladom', 'graceart');
+}
+
+/**
+ * Availability of a number of pieces (a cart line, an order item) rather than
+ * of the product: a line is shipped whole, so once the stock covers only part
+ * of the quantity the whole line is made to order, and the line says so
+ * instead of the product's "Skladom 2 ks" under a line of 5.
+ */
+function graceartQuantityAvailabilityText(WC_Product $product, int $quantity): string
+{
+    if (! graceartQuantityIsOnBackorder($product, $quantity)) {
+        return graceartAvailabilityText($product);
+    }
+
+    return sprintf(__('Na objednávku %s', 'graceart'), graceartLeadTimePhrase($product));
+}
+
+/**
+ * Whether this many pieces are (partly) made to order: the product is on
+ * backorder, or its stock does not cover the quantity.
+ */
+function graceartQuantityIsOnBackorder(WC_Product $product, int $quantity): bool
+{
+    if (graceartIsOnBackorder($product)) {
+        return true;
+    }
+
+    $stock = $product->managing_stock() ? $product->get_stock_quantity() : null;
+
+    return $stock !== null && graceartBackorderQuantity($product) > 0 && $quantity > (int) $stock;
+}
+
+/**
+ * The lead time key of a product ("2_tyzdne"), the first option when unset.
+ */
+function graceartLeadTimeKey(WC_Product $product): string
+{
+    $lead_time = (string) get_post_meta($product->get_id(), '_graceart_lead_time', true);
+
+    return array_key_exists($lead_time, graceartLeadTimePhrases()) ? $lead_time : (string) array_key_first(graceartLeadTimePhrases());
+}
+
+/**
+ * An order ships as a whole, so its availability is the longest lead time
+ * among its lines, or "Skladom" when every line ships from stock. Read from
+ * the hidden lead-time meta the lines were given at checkout; null for
+ * orders placed before that meta existed.
+ */
+function graceartOrderLeadTime(WC_Order $order): ?string
+{
+    $ranks = array_flip(array_keys(graceartLeadTimePhrases()));
+    $longest = null;
+    $known = false;
+
+    foreach ($order->get_items() as $item) {
+        if (! $item instanceof WC_Order_Item_Product || ! $item->meta_exists('_graceart_lead_time')) {
+            continue;
+        }
+
+        $known = true;
+        $lead_time = (string) $item->get_meta('_graceart_lead_time');
+
+        if (isset($ranks[$lead_time]) && ($longest === null || $ranks[$lead_time] > $ranks[$longest])) {
+            $longest = $lead_time;
+        }
+    }
+
+    if (! $known) {
+        return null;
+    }
+
+    return $longest ?? 'skladom';
+}
+
+function graceartOrderAvailabilityText(WC_Order $order): string
+{
+    $lead_time = graceartOrderLeadTime($order);
+
+    if ($lead_time === null) {
+        return '';
+    }
+
+    if ($lead_time === 'skladom') {
+        return __('Skladom', 'graceart');
+    }
+
+    return sprintf(__('Na objednávku %s', 'graceart'), graceartLeadTimePhrases()[$lead_time]);
 }
 
 function graceartAvailabilityShortLabel(WC_Product $product): array
@@ -1116,15 +1213,95 @@ function graceartProductLoopPermalink(WC_Product $product): string
     return add_query_arg($variation_data['attributes'], $url);
 }
 
-function graceartProductLoopPriceHtml(WC_Product $product): string
+/**
+ * The product a listing card (or wishlist row) describes: the product itself,
+ * or for a variable product the variation the card links to, so the price
+ * and the availability come from the same piece.
+ */
+function graceartProductLoopDisplayProduct(WC_Product $product): WC_Product
 {
     $variation_data = graceartResolveSelectedVariationData($product);
 
     if (! $variation_data) {
-        return $product->get_price_html();
+        return $product;
     }
 
     $variation = wc_get_product($variation_data['variation_id']);
 
-    return $variation instanceof WC_Product ? $variation->get_price_html() : $product->get_price_html();
+    return $variation instanceof WC_Product ? $variation : $product;
 }
+
+function graceartProductLoopPriceHtml(WC_Product $product): string
+{
+    return graceartProductLoopDisplayProduct($product)->get_price_html();
+}
+
+/**
+ * The "Dostupnosť" line of the product page under every cart line as well:
+ * the cart and checkout blocks print item data under the product name, and
+ * so does the classic cart. The cart item's product is the variation when
+ * one was chosen, so the count is the variant's; the line's quantity decides
+ * whether part of it is made to order (the blocks' own "Na objednávku" badge
+ * is hidden in CSS, this line says it with the numbers).
+ */
+add_filter('woocommerce_get_item_data', function (array $item_data, array $cart_item): array {
+    $product = $cart_item['data'] ?? null;
+
+    if (! $product instanceof WC_Product) {
+        return $item_data;
+    }
+
+    $item_data[] = [
+        'key' => __('Dostupnosť', 'graceart'),
+        'value' => graceartQuantityAvailabilityText($product, (int) ($cart_item['quantity'] ?? 1)),
+        'className' => 'graceart-cart-item-availability',
+    ];
+
+    return $item_data;
+}, 10, 2);
+
+/**
+ * Each order line remembers whether it was made to order and with what lead
+ * time ("2_tyzdne", or "skladom") as hidden meta set at order time — before
+ * the stock is reduced, so it says what the site said at purchase. The order
+ * emails, the thank-you page, the admin order screen and the PDF invoice
+ * print one "Dostupnosť" for the whole order from it.
+ */
+add_action('woocommerce_checkout_create_order_line_item', function (WC_Order_Item_Product $item, string $cart_item_key, array $values): void {
+    $product = $values['data'] ?? null;
+
+    if (! $product instanceof WC_Product) {
+        return;
+    }
+
+    $on_backorder = graceartQuantityIsOnBackorder($product, (int) ($values['quantity'] ?? 1));
+
+    $item->add_meta_data('_graceart_lead_time', $on_backorder ? graceartLeadTimeKey($product) : 'skladom', true);
+}, 10, 3);
+
+add_filter('woocommerce_email_order_meta_fields', function (array $fields, bool $sent_to_admin, WC_Order $order): array {
+    $availability = graceartOrderAvailabilityText($order);
+
+    if ($availability !== '') {
+        $fields['graceart_availability'] = [
+            'label' => __('Dostupnosť', 'graceart'),
+            'value' => $availability,
+        ];
+    }
+
+    return $fields;
+}, 10, 3);
+
+add_action('woocommerce_admin_order_data_after_order_details', function (WC_Order $order): void {
+    $availability = graceartOrderAvailabilityText($order);
+
+    if ($availability === '') {
+        return;
+    }
+
+    printf(
+        '<p class="form-field form-field-wide graceart-order-availability"><strong>%s:</strong> %s</p>',
+        esc_html__('Dostupnosť', 'graceart'),
+        esc_html($availability),
+    );
+});

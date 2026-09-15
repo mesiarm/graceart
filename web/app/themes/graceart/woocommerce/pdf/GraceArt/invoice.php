@@ -98,6 +98,10 @@
 			<?php if ( graceart_wcpdf_variable_symbol( $this ) ) : ?>
 				<p><?php esc_html_e( 'Variabilný symbol:', 'graceart' ); ?> <?php echo esc_html( graceart_wcpdf_variable_symbol( $this ) ); ?></p>
 			<?php endif; ?>
+			<?php $graceart_availability = $this->order instanceof WC_Order ? graceartOrderAvailabilityText( $this->order ) : ''; ?>
+			<?php if ( $graceart_availability !== '' ) : ?>
+				<p><?php esc_html_e( 'Dostupnosť:', 'graceart' ); ?> <?php echo esc_html( $graceart_availability ); ?></p>
+			<?php endif; ?>
 
 			<div class="dates">
 				<?php if ( $this->get_date( $this->get_type() ) ) : ?>

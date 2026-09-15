@@ -1890,6 +1890,13 @@ body *:not(
     font-size: 17px;
 }
 
+/* Cart block: once a line item reaches everything that can be sold, the plus
+   button is only disabled by WooCommerce; hide it instead. visibility keeps
+   the selector's width so the number does not shift. */
+.wp-block-woocommerce-cart .wc-block-components-quantity-selector__button--plus:disabled {
+    visibility: hidden;
+}
+
 @media only screen and (min-width: 782px) {
     .wp-block-woocommerce-checkout .wc-block-checkout__main {
         flex-basis: 56.25% !important;
@@ -1912,6 +1919,31 @@ body *:not(
     display: none;
 }
 
+/* The "Dostupnosť" line under a cart line item and a checkout summary item
+   (item data added in inc/woocommerce/product.php): the same size as the
+   quantity line, the value emphasised as on the product page. It also says
+   how many pieces are made to order, so the blocks' grey "Na objednávku"
+   badge would only repeat it. */
+.wp-block-woocommerce-cart .wc-block-components-product-backorder-badge,
+.wp-block-woocommerce-checkout .wc-block-components-product-backorder-badge {
+    display: none;
+}
+
+.wp-block-woocommerce-cart .graceart-cart-item-availability,
+.wp-block-woocommerce-checkout .graceart-cart-item-availability {
+    display: block;
+    font-size: var(--wp--preset--font-size--small, 14px);
+    line-height: 1.4;
+    color: var(--color-text);
+}
+
+.wp-block-woocommerce-cart .graceart-cart-item-availability .wc-block-components-product-details__name,
+.wp-block-woocommerce-cart .graceart-cart-item-availability .wc-block-components-product-details__value,
+.wp-block-woocommerce-checkout .graceart-cart-item-availability .wc-block-components-product-details__name,
+.wp-block-woocommerce-checkout .graceart-cart-item-availability .wc-block-components-product-details__value {
+    font-weight: 500;
+}
+
 /* On narrow layouts WooCommerce repeats the order summary in full above the
    place-order button, so the collapsible copy at the top of the sidebar is
    the same summary twice. Same breakpoint as the repeat. */
@@ -1929,9 +1961,13 @@ body *:not(
     display: none;
 }
 
-.wp-block-woocommerce-checkout .wc-block-components-order-summary .wc-block-components-product-metadata,
 .wp-block-woocommerce-checkout .wc-block-components-order-summary .wc-block-components-product-details {
     display: none;
+}
+
+/* ...except the "Dostupnosť" line, which stays with the quantity line. */
+.wp-block-woocommerce-checkout .wc-block-components-order-summary .wc-block-components-product-details:has(.graceart-cart-item-availability) {
+    display: block;
 }
 
 .wp-block-woocommerce-checkout .wc-block-components-order-summary .wc-block-components-order-summary-item__description {

@@ -65,6 +65,13 @@ defined('ABSPATH') || exit;
                         <strong><?php echo wp_kses_post($order->get_payment_method_title()); ?></strong>
                     </li>
                 <?php endif; ?>
+                <?php $graceart_availability = graceartOrderAvailabilityText($order); ?>
+                <?php if ($graceart_availability !== '') : ?>
+                    <li class="graceart-order__overview-availability">
+                        <span class="graceart-order__overview-label"><?php esc_html_e('Dostupnosť', 'graceart'); ?></span>
+                        <strong><?php echo esc_html($graceart_availability); ?></strong>
+                    </li>
+                <?php endif; ?>
             </ul>
 
             <?php
@@ -130,13 +137,22 @@ defined('ABSPATH') || exit;
                                 $graceart_product = $graceart_item->get_product();
                                 $graceart_visible = $graceart_product && $graceart_product->is_visible();
                                 $graceart_permalink = apply_filters('woocommerce_order_item_permalink', $graceart_visible ? $graceart_product->get_permalink($graceart_item) : '', $graceart_item, $order);
+                                // A variation's item name is "Product - Size"; show the plain
+                                // product name and list the attributes underneath instead,
+                                // the same way the checkout summary does.
+                                $graceart_is_variation = $graceart_product && $graceart_product->is_type('variation');
+                                $graceart_item_name = $graceart_is_variation ? $graceart_product->get_title() : $graceart_item->get_name();
                                 $graceart_name = apply_filters(
                                     'woocommerce_order_item_name',
-                                    $graceart_permalink ? sprintf('<a href="%s">%s</a>', esc_url($graceart_permalink), esc_html($graceart_item->get_name())) : esc_html($graceart_item->get_name()),
+                                    $graceart_permalink ? sprintf('<a href="%s">%s</a>', esc_url($graceart_permalink), esc_html($graceart_item_name)) : esc_html($graceart_item_name),
                                     $graceart_item,
                                     $graceart_visible
                                 );
+                                // Attributes that are part of the item name are normally hidden
+                                // from the meta; the name no longer carries them, so show them all.
+                                add_filter('woocommerce_is_attribute_in_product_name', '__return_false');
                                 $graceart_meta = wc_display_item_meta($graceart_item, ['echo' => false]);
+                                remove_filter('woocommerce_is_attribute_in_product_name', '__return_false');
                                 $graceart_unit = wc_price($order->get_item_subtotal($graceart_item, get_option('woocommerce_tax_display_cart') === 'incl'), ['currency' => $order->get_currency()]);
                                 ?>
                                 <li class="<?php echo esc_attr(apply_filters('woocommerce_order_item_class', 'woocommerce-table__line-item order_item graceart-order__item', $graceart_item, $order)); ?>">
