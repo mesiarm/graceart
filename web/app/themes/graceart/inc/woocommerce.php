@@ -2,6 +2,7 @@
 
 $graceart_woocommerce_files = [
     'setup.php',
+    'permalinks.php',
     'company.php',
     'urls.php',
     'shipping.php',

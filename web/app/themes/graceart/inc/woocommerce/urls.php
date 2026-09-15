@@ -6,7 +6,7 @@ function graceartMyAccountUrl(): string
         return wc_get_page_permalink('myaccount');
     }
 
-    return home_url('/my-account/');
+    return home_url('/moj-ucet/');
 }
 
 function graceartShopUrl(): string
@@ -16,12 +16,12 @@ function graceartShopUrl(): string
 
 function graceartCartUrl(): string
 {
-    return function_exists('wc_get_cart_url') ? wc_get_cart_url() : home_url('/cart/');
+    return function_exists('wc_get_cart_url') ? wc_get_cart_url() : home_url('/kosik/');
 }
 
 function graceartCheckoutUrl(): string
 {
-    return function_exists('wc_get_checkout_url') ? wc_get_checkout_url() : home_url('/checkout/');
+    return function_exists('wc_get_checkout_url') ? wc_get_checkout_url() : home_url('/zhrnutie-objednavky/');
 }
 
 function graceartCartCount(): int
@@ -39,9 +39,9 @@ function graceartWishlistUrl(): string
         return yith_wcwl_get_wishlist_url();
     }
 
-    $wishlist_page = get_page_by_path('wishlist') ?: get_page_by_path('zoznam-priani');
+    $wishlist_page = get_page_by_path('zoznam-priani');
 
-    return $wishlist_page instanceof WP_Post ? get_permalink($wishlist_page) : home_url('/wishlist/');
+    return $wishlist_page instanceof WP_Post ? get_permalink($wishlist_page) : home_url('/zoznam-priani/');
 }
 
 function graceartWishlistCount(): int
