@@ -45,3 +45,16 @@ add_filter('yith_wcwl_wishlist_title', fn(): string => '');
 
 // No "added to wishlist" notice either; the heart icon turns solid instead.
 add_filter('yith_wcwl_product_added_to_wishlist_message', '__return_empty_string');
+
+// page-wishlist.php used to be picked by WordPress from the page's slug; now
+// that the page lives on /zoznam-priani/ it is matched by the YITH page ID, so
+// the slug can change freely.
+add_filter('page_template', function (string $template): string {
+    $wishlist_page_id = (int) get_option('yith_wcwl_wishlist_page_id');
+
+    if ($wishlist_page_id <= 0 || ! is_page($wishlist_page_id)) {
+        return $template;
+    }
+
+    return locate_template('page-wishlist.php') ?: $template;
+});
