@@ -2417,7 +2417,8 @@ body.admin-bar {
     text-align: right;
 }
 
-.graceart-order__total .shipped_via {
+.graceart-order__total .shipped_via,
+.graceart-order__total .graceart-packeta-point {
     display: block;
     font-size: 13px;
     color: var(--color-text-secondary);
@@ -2604,4 +2605,80 @@ body.admin-bar {
     .graceart-order__actions {
         margin-top: 40px;
     }
+}
+
+/* Checkout: Packeta pickup point picker (checkout-packeta.js) under the
+   shipping options. A boxed step of its own; the border turns to the error
+   colour once the place-order button asks for a point. */
+.wp-block-woocommerce-checkout .graceart-packeta {
+    margin-top: 16px;
+    padding: 16px 20px;
+    border: 1px solid var(--color-line);
+    background-color: var(--color-surface);
+}
+
+.wp-block-woocommerce-checkout .graceart-packeta--error {
+    border-color: #cc1818;
+}
+
+.wp-block-woocommerce-checkout .graceart-packeta__label {
+    margin-bottom: 6px;
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--color-text);
+}
+
+.wp-block-woocommerce-checkout .graceart-packeta__hint {
+    margin: 0 0 12px;
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--color-text-secondary);
+}
+
+.wp-block-woocommerce-checkout .graceart-packeta__point {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    margin-bottom: 12px;
+    font-size: 15px;
+    line-height: 1.5;
+}
+
+.wp-block-woocommerce-checkout .graceart-packeta__name {
+    font-weight: 500;
+    color: var(--color-text);
+}
+
+.wp-block-woocommerce-checkout .graceart-packeta__address {
+    color: var(--color-text-secondary);
+}
+
+.wp-block-woocommerce-checkout .graceart-packeta__button.wc-block-components-button {
+    width: auto;
+    min-height: 44px;
+    padding: 10px 22px;
+    font-size: 14px;
+}
+
+.wp-block-woocommerce-checkout .graceart-packeta__button.wc-block-components-button.outlined {
+    color: var(--color-text);
+    border-color: var(--color-dark);
+    background-color: #fff;
+}
+
+.wp-block-woocommerce-checkout .graceart-packeta__button.wc-block-components-button.outlined:hover {
+    color: #fff;
+    border-color: var(--color-accent);
+    background-color: var(--color-accent);
+}
+
+.wp-block-woocommerce-checkout .graceart-packeta__error,
+.wp-block-woocommerce-checkout .graceart-packeta .wc-block-components-validation-error {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #cc1818;
+}
+
+.wp-block-woocommerce-checkout .graceart-packeta .wc-block-components-validation-error p {
+    margin: 0;
 }

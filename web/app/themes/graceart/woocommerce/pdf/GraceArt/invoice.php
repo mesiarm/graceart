@@ -131,6 +131,11 @@
 				<p class="delivery-address"><?php $this->shipping_address(); ?></p>
 				<?php do_action( 'wpo_wcpdf_after_shipping_address', $this->get_type(), $this->order ); ?>
 			<?php endif; ?>
+			<?php $graceart_packeta_point = $this->order instanceof WC_Order ? graceartPacketaOrderPoint( $this->order ) : null; ?>
+			<?php if ( $graceart_packeta_point !== null ) : ?>
+				<p class="delivery-label"><?php esc_html_e( 'Výdajné miesto Packeta:', 'graceart' ); ?></p>
+				<p class="delivery-address"><?php echo wp_kses_post( implode( '<br>', array_map( 'esc_html', graceartPacketaPointLines( $graceart_packeta_point ) ) ) ); ?></p>
+			<?php endif; ?>
 		</td>
 	</tr>
 </table>

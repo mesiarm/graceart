@@ -1302,11 +1302,31 @@ add_filter('woocommerce_email_order_meta_fields', function (array $fields, bool 
  */
 add_filter('woocommerce_backordered_item_meta_name', fn(): string => '_graceart_backordered');
 
+/**
+ * The keys WooCommerce gave that meta on orders placed before the rename
+ * ("Objednané" in Slovak, "Backordered" in English).
+ */
+function graceartLegacyBackorderedMetaKeys(): array
+{
+    return array_unique(['Backordered', __('Backordered', 'woocommerce')]);
+}
+
+// Orders placed before the rename lose the line the same way.
+add_filter('woocommerce_order_item_get_formatted_meta_data', function (array $formatted_meta): array {
+    foreach ($formatted_meta as $meta_id => $meta) {
+        if (isset($meta->key) && in_array($meta->key, graceartLegacyBackorderedMetaKeys(), true)) {
+            unset($formatted_meta[$meta_id]);
+        }
+    }
+
+    return $formatted_meta;
+});
+
 add_filter('woocommerce_hidden_order_itemmeta', function (array $hidden): array {
     $hidden[] = '_graceart_backordered';
     $hidden[] = '_graceart_lead_time';
 
-    return $hidden;
+    return array_merge($hidden, graceartLegacyBackorderedMetaKeys());
 });
 
 add_action('woocommerce_after_order_itemmeta', function (int $item_id, WC_Order_Item $item): void {
@@ -1315,6 +1335,10 @@ add_action('woocommerce_after_order_itemmeta', function (int $item_id, WC_Order_
     }
 
     $backordered = (int) $item->get_meta('_graceart_backordered');
+
+    foreach (graceartLegacyBackorderedMetaKeys() as $legacy_key) {
+        $backordered = $backordered > 0 ? $backordered : (int) $item->get_meta($legacy_key);
+    }
 
     if ($backordered <= 0) {
         return;
