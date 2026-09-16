@@ -1937,11 +1937,16 @@ body *:not(
     color: var(--color-text);
 }
 
+/* Only the "Dostupnosť:" label is emphasised; the value reads like the
+   quantity line. */
 .wp-block-woocommerce-cart .graceart-cart-item-availability .wc-block-components-product-details__name,
-.wp-block-woocommerce-cart .graceart-cart-item-availability .wc-block-components-product-details__value,
-.wp-block-woocommerce-checkout .graceart-cart-item-availability .wc-block-components-product-details__name,
-.wp-block-woocommerce-checkout .graceart-cart-item-availability .wc-block-components-product-details__value {
+.wp-block-woocommerce-checkout .graceart-cart-item-availability .wc-block-components-product-details__name {
     font-weight: 500;
+}
+
+.wp-block-woocommerce-cart .graceart-cart-item-availability .wc-block-components-product-details__value,
+.wp-block-woocommerce-checkout .graceart-cart-item-availability .wc-block-components-product-details__value {
+    font-weight: 400;
 }
 
 /* On narrow layouts WooCommerce repeats the order summary in full above the

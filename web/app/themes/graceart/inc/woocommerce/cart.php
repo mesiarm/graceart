@@ -158,7 +158,7 @@ add_action('wp_enqueue_scripts', function (): void {
     );
 
     wp_localize_script('graceart-checkout-blocks', 'graceartCheckoutStrings', [
-        'placeOrder' => __('Objednať', 'graceart'),
+        'placeOrder' => __('Objednať s povinnosťou platby', 'graceart'),
         'proceedToCheckout' => __('Prejsť k objednávke', 'graceart'),
         // Without shipping in it the cart's total is no estimate; checkout
         // keeps WooCommerce's own label.

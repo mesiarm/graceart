@@ -1,6 +1,6 @@
 <?php
 
-add_filter('woocommerce_order_button_text', fn(): string => __('Objednať', 'graceart'));
+add_filter('woocommerce_order_button_text', fn(): string => __('Objednať s povinnosťou platby', 'graceart'));
 
 /**
  * The order-received page (woocommerce/checkout/thankyou.php) renders the
@@ -125,7 +125,7 @@ add_filter('gettext_woocommerce', function (string $translation, string $text): 
         'Shipping address' => __('Dodacia adresa', 'graceart'),
         'Additional information' => __('Doplňujúce údaje', 'graceart'),
         'Your order' => __('Vaša objednávka', 'graceart'),
-        'Place order' => __('Objednať', 'graceart'),
+        'Place order' => __('Objednať s povinnosťou platby', 'graceart'),
         'Pay for order' => __('Zaplatiť objednávku', 'graceart'),
         'Returning customer?' => __('Už ste u nás nakupovali?', 'graceart'),
         'Click here to login' => __('Kliknite sem a prihláste sa', 'graceart'),
@@ -230,8 +230,8 @@ add_action('wp_enqueue_scripts', function (): void {
         // Blocks lowercase the field label into %s ("telefón", "meno", "psč"),
         // so the sentence must not need to agree with the label's gender.
         'Please enter a valid %s' => __('Vyplňte správne pole „%s“', 'graceart'),
-        'Place Order' => __('Objednať', 'graceart'),
-        'Place order' => __('Objednať', 'graceart'),
+        'Place Order' => __('Objednať s povinnosťou platby', 'graceart'),
+        'Place order' => __('Objednať s povinnosťou platby', 'graceart'),
         'Postal code' => __('PSČ', 'graceart'),
         'Postal code (optional)' => __('PSČ (voliteľné)', 'graceart'),
         'Shipping address' => __('Dodacia adresa', 'graceart'),
