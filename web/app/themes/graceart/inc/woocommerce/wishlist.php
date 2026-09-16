@@ -7,7 +7,7 @@ add_filter('yith_wcwl_wishlist_view_stock_heading', fn(): string => __('Dostupno
 add_filter('yith_wcwl_wishlist_view_arrange_heading', fn(): string => __('Poradie', 'graceart'));
 add_filter('yith_wcwl_remove_product_wishlist_message_title', fn(): string => __('Odstrániť tento produkt', 'graceart'));
 
-// The "Dostupnosť" column says what the product page does ("Skladom 3 ks",
+// The "Dostupnosť" column says what the product page does ("Skladom",
 // "Na objednávku do 2 týždňov"), for the variant the row's price is for.
 add_filter('yith_wcwl_stock_status', function (string $html, $item): string {
     $product = is_object($item) && method_exists($item, 'get_product') ? $item->get_product() : null;

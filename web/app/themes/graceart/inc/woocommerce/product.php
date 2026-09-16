@@ -682,12 +682,7 @@ function graceartAvailabilityText(WC_Product $product): string
         return __('Nie je skladom', 'graceart');
     }
 
-    $quantity = $product->get_stock_quantity();
-
-    if ($product->managing_stock() && $quantity !== null) {
-        return sprintf(__('Skladom %d ks', 'graceart'), $quantity);
-    }
-
+    // No count: the number in stock is the shop's business, not the shopper's.
     return __('Skladom', 'graceart');
 }
 
@@ -695,7 +690,7 @@ function graceartAvailabilityText(WC_Product $product): string
  * Availability of a number of pieces (a cart line, an order item) rather than
  * of the product: a line is shipped whole, so once the stock covers only part
  * of the quantity the whole line is made to order, and the line says so
- * instead of the product's "Skladom 2 ks" under a line of 5.
+ * instead of the product's "Skladom" under a line the stock cannot fill.
  */
 function graceartQuantityAvailabilityText(WC_Product $product, int $quantity): string
 {

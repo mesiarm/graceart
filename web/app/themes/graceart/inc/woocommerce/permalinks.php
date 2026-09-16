@@ -26,21 +26,38 @@ const GRACEART_PRODUCT_PERMALINKS = [
     'tag_base' => 'stitok-produktu',
 ];
 
-// WooCommerce endpoint option => slug (see WC_Query::init_query_vars()).
+// WooCommerce endpoint => slug (keys are WC_Query's query var keys).
 const GRACEART_ENDPOINTS = [
-    'woocommerce_checkout_pay_endpoint' => 'platba',
-    'woocommerce_checkout_order_received_endpoint' => 'objednavka-prijata',
-    'woocommerce_myaccount_orders_endpoint' => 'objednavky',
-    'woocommerce_myaccount_view_order_endpoint' => 'objednavka',
-    'woocommerce_myaccount_downloads_endpoint' => 'na-stiahnutie',
-    'woocommerce_myaccount_edit_account_endpoint' => 'upravit-ucet',
-    'woocommerce_myaccount_edit_address_endpoint' => 'upravit-adresu',
-    'woocommerce_myaccount_payment_methods_endpoint' => 'platobne-metody',
-    'woocommerce_myaccount_lost_password_endpoint' => 'zabudnute-heslo',
-    'woocommerce_logout_endpoint' => 'odhlasit-sa',
-    'woocommerce_myaccount_add_payment_method_endpoint' => 'pridat-platobnu-metodu',
-    'woocommerce_myaccount_delete_payment_method_endpoint' => 'odstranit-platobnu-metodu',
-    'woocommerce_myaccount_set_default_payment_method_endpoint' => 'predvolena-platobna-metoda',
+    'order-pay' => 'platba',
+    'order-received' => 'objednavka-prijata',
+    'orders' => 'objednavky',
+    'view-order' => 'objednavka',
+    'downloads' => 'na-stiahnutie',
+    'edit-account' => 'upravit-ucet',
+    'edit-address' => 'upravit-adresu',
+    'payment-methods' => 'platobne-metody',
+    'lost-password' => 'zabudnute-heslo',
+    'customer-logout' => 'odhlasit-sa',
+    'add-payment-method' => 'pridat-platobnu-metodu',
+    'delete-payment-method' => 'odstranit-platobnu-metodu',
+    'set-default-payment-method' => 'predvolena-platobna-metoda',
+];
+
+// Endpoint => option WooCommerce stores it in (see WC_Query::init_query_vars()).
+const GRACEART_ENDPOINT_OPTIONS = [
+    'order-pay' => 'woocommerce_checkout_pay_endpoint',
+    'order-received' => 'woocommerce_checkout_order_received_endpoint',
+    'orders' => 'woocommerce_myaccount_orders_endpoint',
+    'view-order' => 'woocommerce_myaccount_view_order_endpoint',
+    'downloads' => 'woocommerce_myaccount_downloads_endpoint',
+    'edit-account' => 'woocommerce_myaccount_edit_account_endpoint',
+    'edit-address' => 'woocommerce_myaccount_edit_address_endpoint',
+    'payment-methods' => 'woocommerce_myaccount_payment_methods_endpoint',
+    'lost-password' => 'woocommerce_myaccount_lost_password_endpoint',
+    'customer-logout' => 'woocommerce_logout_endpoint',
+    'add-payment-method' => 'woocommerce_myaccount_add_payment_method_endpoint',
+    'delete-payment-method' => 'woocommerce_myaccount_delete_payment_method_endpoint',
+    'set-default-payment-method' => 'woocommerce_myaccount_set_default_payment_method_endpoint',
 ];
 
 // Blog taxonomy bases (WordPress options).
@@ -50,12 +67,23 @@ const GRACEART_TAXONOMY_BASES = [
 ];
 
 // Bump whenever anything above changes so the rewrite rules get rebuilt once.
-const GRACEART_PERMALINKS_VERSION = '1';
+const GRACEART_PERMALINKS_VERSION = '2';
 
-foreach (GRACEART_ENDPOINTS + GRACEART_TAXONOMY_BASES as $graceart_option => $graceart_slug) {
+// WC_Query reads the endpoint options in WooCommerce's constructor, before the
+// theme is loaded, so the option filters below only cover the admin screen and
+// the live query vars have to be swapped through WooCommerce's own filter.
+add_filter('woocommerce_get_query_vars', function (array $vars): array {
+    return array_merge($vars, GRACEART_ENDPOINTS);
+});
+
+foreach (GRACEART_ENDPOINT_OPTIONS as $graceart_endpoint => $graceart_option) {
+    add_filter('pre_option_' . $graceart_option, static fn() => GRACEART_ENDPOINTS[$graceart_endpoint]);
+}
+
+foreach (GRACEART_TAXONOMY_BASES as $graceart_option => $graceart_slug) {
     add_filter('pre_option_' . $graceart_option, static fn() => $graceart_slug);
 }
-unset($graceart_option, $graceart_slug);
+unset($graceart_endpoint, $graceart_option, $graceart_slug);
 
 add_filter('option_woocommerce_permalinks', function ($permalinks): array {
     return array_merge(is_array($permalinks) ? $permalinks : [], GRACEART_PRODUCT_PERMALINKS);
