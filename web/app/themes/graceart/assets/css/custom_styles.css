@@ -1937,10 +1937,14 @@ body *:not(
     color: inherit;
 }
 
-/* The whole line reads like the "1 ks" quantity line: no emphasis. */
+/* Same size and colour as the "1 ks" quantity line; only the "Dostupnosť:"
+   label is bold, the value is not. */
 .wp-block-woocommerce-cart .graceart-cart-item-availability .wc-block-components-product-details__name,
+.wp-block-woocommerce-checkout .graceart-cart-item-availability .wc-block-components-product-details__name {
+    font-weight: 500;
+}
+
 .wp-block-woocommerce-cart .graceart-cart-item-availability .wc-block-components-product-details__value,
-.wp-block-woocommerce-checkout .graceart-cart-item-availability .wc-block-components-product-details__name,
 .wp-block-woocommerce-checkout .graceart-cart-item-availability .wc-block-components-product-details__value {
     font-weight: inherit;
 }
