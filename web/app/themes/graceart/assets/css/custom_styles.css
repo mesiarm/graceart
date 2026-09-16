@@ -1937,11 +1937,12 @@ body *:not(
     color: inherit;
 }
 
-/* Same size and colour as the "1 ks" quantity line; only the "Dostupnosť:"
-   label is bold, the value is not. */
+/* Same size as the "1 ks" quantity line; the "Dostupnosť:" label is bold and
+   in the product name's colour, the value stays like the quantity line. */
 .wp-block-woocommerce-cart .graceart-cart-item-availability .wc-block-components-product-details__name,
 .wp-block-woocommerce-checkout .graceart-cart-item-availability .wc-block-components-product-details__name {
     font-weight: 500;
+    color: var(--color-text);
 }
 
 .wp-block-woocommerce-cart .graceart-cart-item-availability .wc-block-components-product-details__value,
