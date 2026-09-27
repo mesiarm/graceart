@@ -1,13 +1,13 @@
 /**
- * Homepage editor: heading above the bestsellers. Mounts a small block under
- * the hero editor and writes to the _graceart_home_bestsellers_title meta.
+ * Homepage editor: heading above the newest products. Mounts a small block
+ * under the hero editor and writes to the _graceart_home_newest_title meta.
  */
 (function (wp, config) {
     if (!wp || !config || !wp.data) {
         return;
     }
 
-    const META_KEY = '_graceart_home_bestsellers_title';
+    const META_KEY = '_graceart_home_newest_title';
 
     function getEditorDocument() {
         const iframe = document.querySelector('iframe[name="editor-canvas"]');
@@ -48,21 +48,21 @@
         block.className = 'graceart-homepage-hero-block';
 
         title.className = 'graceart-homepage-hero-title';
-        title.textContent = 'Nadpis sekcie Najpredávanejšie produkty';
+        title.textContent = 'Nadpis sekcie Najnovšie produkty';
 
         label.textContent = 'Nadpis';
-        label.setAttribute('for', 'graceart-homepage-bestsellers-title');
+        label.setAttribute('for', 'graceart-homepage-newest-title');
 
         input.type = 'text';
-        input.id = 'graceart-homepage-bestsellers-title';
-        input.placeholder = config.defaultBestsellersTitle || '';
+        input.id = 'graceart-homepage-newest-title';
+        input.placeholder = config.defaultNewestTitle || '';
         input.value = getValue();
         input.addEventListener('input', function () {
             setValue(input.value);
         });
 
         help.className = 'help';
-        help.textContent = 'Nechajte prázdne pre predvolený text „' + (config.defaultBestsellersTitle || '') + '“.';
+        help.textContent = 'Nechajte prázdne pre predvolený text „' + (config.defaultNewestTitle || '') + '“.';
 
         // Same field styling as the hero slide cards.
         fields.className = 'graceart-homepage-hero-slide-fields';

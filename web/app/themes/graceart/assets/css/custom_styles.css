@@ -2164,6 +2164,14 @@ body:has(.wp-block-woocommerce-empty-cart-block) .graceart-cart-info {
     }
 }
 
+/* Below 767px main.js unslicks the category carousel (see "unslick" breakpoint),
+   so the banners fall back to plain stacked divs and need their own spacing. */
+@media only screen and (max-width: 767px) {
+    .category-banner1-carousel .col:not(:last-child) {
+        margin-bottom: 30px;
+    }
+}
+
 /* Logged in on a phone: WordPress positions #wpadminbar absolutely, and the
    theme's "body { position: relative }" makes the body its containing block,
    which starts below WordPress's own 46px html margin — so the bar dropped

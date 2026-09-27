@@ -2,7 +2,7 @@
 get_header();
 
 $hero_slides = graceartHomepageHeroSlides((int) get_queried_object_id());
-$bestseller_ids = graceartHomepageBestsellerIds();
+$newest_product_ids = graceartHomepageNewestProductIds();
 ?>
 <h1 class="graceart-visually-hidden"><?php echo esc_html(graceartSeoPageHeading(__('Grace Art – ručne vyrobené kožené zápisníky a fotoalbumy', 'graceart'))); ?></h1>
 
@@ -57,29 +57,29 @@ $bestseller_ids = graceartHomepageBestsellerIds();
 </div>
 <!-- Category Banner Section End -->
 
-<?php if ($bestseller_ids) : ?>
+<?php if ($newest_product_ids) : ?>
 <!-- Product Section Start -->
 <div class="section section-fluid section-padding pt-0">
     <div class="container">
 
         <!-- Section Title Start -->
         <div class="section-title text-center">
-            <h2 class="title title-icon-both title-script"><?php echo esc_html(graceartHomepageBestsellersTitle((int) get_queried_object_id())); ?></h2>
+            <h2 class="title title-icon-both title-script"><?php echo esc_html(graceartHomepageNewestProductsTitle((int) get_queried_object_id())); ?></h2>
         </div>
         <!-- Section Title End -->
 
         <!-- Products Start -->
-        <div class="products graceart-bestsellers row row-cols-xl-4 row-cols-lg-4 row-cols-md-3 row-cols-sm-2 row-cols-1">
+        <div class="products graceart-newest-products row row-cols-xl-4 row-cols-lg-4 row-cols-md-3 row-cols-sm-2 row-cols-1">
             <?php
-            $bestsellers_query = new WP_Query([
+            $newest_products_query = new WP_Query([
                 'post_type' => 'product',
-                'post__in' => $bestseller_ids,
+                'post__in' => $newest_product_ids,
                 'orderby' => 'post__in',
-                'posts_per_page' => count($bestseller_ids),
+                'posts_per_page' => count($newest_product_ids),
             ]);
 
-            while ($bestsellers_query->have_posts()) :
-                $bestsellers_query->the_post();
+            while ($newest_products_query->have_posts()) :
+                $newest_products_query->the_post();
 
                 global $product;
                 $product = wc_get_product(get_the_ID());

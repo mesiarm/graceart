@@ -15,7 +15,7 @@ add_action('init', function (): void {
         ]);
     }
 
-    register_post_meta('page', '_graceart_home_bestsellers_title', [
+    register_post_meta('page', '_graceart_home_newest_title', [
         'type' => 'string',
         'single' => true,
         'default' => '',
@@ -212,25 +212,19 @@ function graceartDefaultHomepageHeroSlides(): array
     ];
 }
 
-const GRACEART_HOMEPAGE_BESTSELLER_COUNT = 8;
+const GRACEART_HOMEPAGE_NEWEST_COUNT = 8;
 
 /**
- * Best selling products for the homepage, generated automatically from total_sales.
- *
- * Only products that have actually sold are returned, so early on the section
- * shows fewer than $limit rather than padding it out with unsold products.
+ * Heading above the newest products, editable on the homepage in the editor.
  */
-/**
- * Heading above the bestsellers, editable on the homepage in the editor.
- */
-function graceartHomepageBestsellersTitle(?int $post_id = null): string
+function graceartHomepageNewestProductsTitle(?int $post_id = null): string
 {
-    $title = $post_id ? (string) get_post_meta($post_id, '_graceart_home_bestsellers_title', true) : '';
+    $title = $post_id ? (string) get_post_meta($post_id, '_graceart_home_newest_title', true) : '';
 
-    return trim($title) !== '' ? $title : __('Najpredávanejšie produkty', 'graceart');
+    return trim($title) !== '' ? $title : __('Najnovšie produkty', 'graceart');
 }
 
-function graceartHomepageBestsellerIds(int $limit = GRACEART_HOMEPAGE_BESTSELLER_COUNT): array
+function graceartHomepageNewestProductIds(int $limit = GRACEART_HOMEPAGE_NEWEST_COUNT): array
 {
     if (! function_exists('wc_get_products')) {
         return [];
@@ -239,47 +233,18 @@ function graceartHomepageBestsellerIds(int $limit = GRACEART_HOMEPAGE_BESTSELLER
     $ids = wc_get_products([
         'status' => 'publish',
         'limit' => $limit,
-        'meta_key' => 'total_sales',
-        // Date is the tiebreak so the order stays stable while sales counts are equal.
-        'orderby' => ['meta_value_num' => 'DESC', 'date' => 'DESC'],
+        'orderby' => 'date',
+        'order' => 'DESC',
         'return' => 'ids',
     ]);
 
-    // Sorted by sales descending, so anything never sold sits at the tail.
-    // Catalog-hidden products are dropped too — content-product.php refuses to
+    // Catalog-hidden products are dropped — content-product.php refuses to
     // render them, so returning them would silently short the row.
-    $sold = array_values(array_filter($ids, function ($id): bool {
-        if ((int) get_post_meta($id, 'total_sales', true) <= 0) {
-            return false;
-        }
-
+    return array_values(array_filter($ids, function ($id): bool {
         $product = wc_get_product($id);
 
         return $product instanceof WC_Product && $product->is_visible();
     }));
-
-    if (count($sold) >= $limit) {
-        return $sold;
-    }
-
-    // A new shop has no sales yet: fill the row with the newest products so
-    // the section is never empty.
-    $newest = wc_get_products([
-        'status' => 'publish',
-        'limit' => $limit,
-        'orderby' => 'date',
-        'order' => 'DESC',
-        'exclude' => $sold,
-        'return' => 'ids',
-    ]);
-
-    $newest = array_filter($newest, function ($id): bool {
-        $product = wc_get_product($id);
-
-        return $product instanceof WC_Product && $product->is_visible();
-    });
-
-    return array_slice(array_merge($sold, array_values($newest)), 0, $limit);
 }
 
 add_action('admin_menu', function () {
@@ -392,7 +357,7 @@ add_action('enqueue_block_editor_assets', function (): void {
 
     wp_localize_script('graceart-homepage-texts-editor', 'graceartHomepageTexts', [
         'frontPageId' => (int) get_option('page_on_front'),
-        'defaultBestsellersTitle' => __('Najpredávanejšie produkty', 'graceart'),
+        'defaultNewestTitle' => __('Najnovšie produkty', 'graceart'),
     ]);
 });
 

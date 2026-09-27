@@ -1088,7 +1088,7 @@ function graceartCartExhaustedProductIds(): array
 
 /**
  * Sold-out products are not listed anywhere — shop, categories, search,
- * related products, homepage bestsellers. WooCommerce hides them for the
+ * related products, homepage newest products. WooCommerce hides them for the
  * catalog queries and is_visible() once this option is on; it is forced here
  * rather than left to the settings screen.
  */
