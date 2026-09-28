@@ -282,6 +282,9 @@ add_action('wp_head', function (): void {
     $css = file_get_contents(graceartCriticalCssPath());
 
     if ($css !== false && $css !== '') {
+        // The file is generated from assets/css/, so its ../fonts/ URLs would
+        // resolve against the page URL once inlined; make them absolute.
+        $css = str_replace('url("../', 'url("' . get_theme_file_uri('assets/') , $css);
         printf('<style id="graceart-critical">%s</style>' . "\n", $css);
     }
 }, 1);
