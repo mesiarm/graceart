@@ -66,14 +66,14 @@ function graceartHomepageCategoryBanners(?int $post_id = null): array
         }
 
         $thumbnail_id = (int) get_term_meta($term->term_id, 'thumbnail_id', true);
-        $image = $thumbnail_id ? wp_get_attachment_image_url($thumbnail_id, 'woocommerce_thumbnail') : '';
+        $image = $thumbnail_id ? wp_get_attachment_image_url($thumbnail_id, 'woocommerce_single') : '';
         $term_link = get_term_link($term);
 
         $banners[] = [
             'label' => $term->name,
             'count' => $term->count,
-            'image' => $image ?: (function_exists('wc_placeholder_img_src') ? wc_placeholder_img_src('woocommerce_thumbnail') : ''),
-            'image_size' => $image && function_exists('graceartImageSizeAttr') ? graceartImageSizeAttr($thumbnail_id, 'woocommerce_thumbnail') : '',
+            'image' => $image ?: (function_exists('wc_placeholder_img_src') ? wc_placeholder_img_src('woocommerce_single') : ''),
+            'image_size' => $image && function_exists('graceartImageSizeAttr') ? graceartImageSizeAttr($thumbnail_id, 'woocommerce_single') : '',
             'url' => is_wp_error($term_link) ? home_url('/') : $term_link,
         ];
     }
