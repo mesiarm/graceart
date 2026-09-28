@@ -414,11 +414,27 @@ img {
 /* Category banners share the product card title typography. */
 .category-banner1 .content .title {
     font-family: "Jost", "Futura", "Segoe UI", "Noto Sans", "Helvetica Neue", Arial, sans-serif;
-    font-size: 13px;
+    font-size: 17px;
     font-weight: 400;
     letter-spacing: 1.5px;
     text-transform: uppercase;
     align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+/* No white inset frame over the category image. */
+.category-banner1 .inner .image::before {
+    display: none;
+}
+
+/* The count's leader line assumed a left/right split; centred, drop it. */
+.category-banner1 .inner .content .title .number::before {
+    display: none;
+}
+
+.category-banner1 .inner .content .title .number {
+    margin-left: 10px;
 }
 
 .category-banner1 .content .title a {
@@ -431,7 +447,7 @@ img {
 
 .category-banner1 .inner .content .title .number {
     font-family: "Jost", "Futura", "Segoe UI", "Noto Sans", "Helvetica Neue", Arial, sans-serif;
-    font-size: 13px;
+    font-size: 17px;
     letter-spacing: 0;
 }
 
