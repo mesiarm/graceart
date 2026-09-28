@@ -414,7 +414,7 @@ img {
 /* Category banners share the product card title typography. */
 .category-banner1 .inner .content .title {
     font-family: "Jost", "Futura", "Segoe UI", "Noto Sans", "Helvetica Neue", Arial, sans-serif;
-    font-size: 17px;
+    font-size: 22px;
     font-weight: 400;
     letter-spacing: 1.5px;
     text-transform: uppercase;
@@ -2177,6 +2177,12 @@ body:has(.wp-block-woocommerce-empty-cart-block) .graceart-cart-info {
 /* Below 767px main.js unslicks the category carousel (see "unslick" breakpoint),
    so the banners fall back to plain stacked divs and need their own spacing. */
 @media only screen and (max-width: 767px) {
+    /* .category-banner1 is floated, so the column must contain it or its
+       margin-bottom collapses to nothing. */
+    .category-banner1-carousel .col {
+        display: flow-root;
+    }
+
     .category-banner1-carousel .col:not(:last-child) {
         margin-bottom: 30px;
     }
