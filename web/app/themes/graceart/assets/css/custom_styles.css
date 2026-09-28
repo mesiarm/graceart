@@ -423,18 +423,18 @@ img {
     text-align: center;
 }
 
+/* More air between the cards and between image and label. */
+.category-banner1-carousel .slick-slide {
+    padding: 0 15px;
+}
+
+.category-banner1 .inner .image:not(:last-child) {
+    margin-bottom: 28px;
+}
+
 /* No white inset frame over the category image. */
 .category-banner1 .inner .image::before {
     display: none;
-}
-
-/* The count's leader line assumed a left/right split; centred, drop it. */
-.category-banner1 .inner .content .title .number::before {
-    display: none;
-}
-
-.category-banner1 .inner .content .title .number {
-    margin-left: 10px;
 }
 
 .category-banner1 .content .title a {
@@ -443,12 +443,6 @@ img {
 
 .category-banner1 .content .title a:hover {
     color: var(--color-accent);
-}
-
-.category-banner1 .inner .content .title .number {
-    font-family: "Jost", "Futura", "Segoe UI", "Noto Sans", "Helvetica Neue", Arial, sans-serif;
-    font-size: 17px;
-    letter-spacing: 0;
 }
 
 /* Cards stack in one column on phones; the theme's 28px between image and

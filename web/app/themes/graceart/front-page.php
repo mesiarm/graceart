@@ -43,9 +43,7 @@ $newest_product_ids = graceartHomepageNewestProductIds();
                             </a>
                             <div class="content">
                                 <h3 class="title">
-                                    <a href="<?php echo esc_url($banner['url']); ?>"><?php echo esc_html($banner['label']); ?></a>
-                                    <span class="number"><?php echo esc_html((string) $banner['count']); ?></span>
-                                </h3>
+                                    <a href="<?php echo esc_url($banner['url']); ?>"><?php echo esc_html($banner['label']); ?></a>                                </h3>
                             </div>
                         </div>
                     </div>
