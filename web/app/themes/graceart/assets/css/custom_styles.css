@@ -428,8 +428,18 @@ img {
     padding: 0 15px;
 }
 
+/* Label sits in a soft cream box overlapping the bottom edge of the image. */
 .category-banner1 .inner .image:not(:last-child) {
-    margin-bottom: 28px;
+    margin-bottom: -26px;
+}
+
+.category-banner1 .inner .content {
+    position: relative;
+    z-index: 3;
+    width: 80%;
+    margin: 0 auto 8px;
+    padding: 16px 12px;
+    background-color: #f6f0e4;
 }
 
 /* No white inset frame over the category image. */
