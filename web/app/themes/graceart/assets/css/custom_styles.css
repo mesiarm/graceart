@@ -412,7 +412,7 @@ img {
 }
 
 /* Category banners share the product card title typography. */
-.category-banner1 .content .title {
+.category-banner1 .inner .content .title {
     font-family: "Jost", "Futura", "Segoe UI", "Noto Sans", "Helvetica Neue", Arial, sans-serif;
     font-size: 17px;
     font-weight: 400;
