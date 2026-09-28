@@ -541,3 +541,10 @@ add_action('admin_action_graceart_toggle_product_visibility', function (): void 
     wp_safe_redirect(wp_get_referer() ?: admin_url('edit.php?post_type=product'));
     exit;
 });
+
+/* Media library upload limit: 6 MB. This only lifts WordPress's own cap; PHP
+   (upload_max_filesize, post_max_size) and nginx (client_max_body_size) must
+   allow at least as much, or larger files are still rejected there. */
+add_filter('upload_size_limit', static function (): int {
+    return 6 * MB_IN_BYTES;
+});

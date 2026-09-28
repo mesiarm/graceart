@@ -71,7 +71,6 @@ a:hover,
 /* Remaining theme colours off the palette: hero link hover (teal), category
    and footer link hovers (dark), rating stars (yellow), placeholder and
    WooCommerce input text greys, the close "×", the shop filter toggle. */
-.category-banner1 .inner .content .title a:hover,
 .widget-list li a:hover,
 .product-filter-toggle:hover,
 .woocommerce .star-rating span::before,
@@ -413,11 +412,12 @@ img {
 
 /* Category banners share the product card title typography. */
 .category-banner1 .inner .content .title {
-    font-family: "Jost", "Futura", "Segoe UI", "Noto Sans", "Helvetica Neue", Arial, sans-serif;
-    font-size: 22px;
-    font-weight: 400;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
+    font-family: "Modesty", "Segoe Script", cursive;
+    font-size: 40px;
+    font-weight: 300;
+    line-height: 1.1;
+    letter-spacing: 0;
+    text-transform: none;
     align-items: center;
     justify-content: center;
     text-align: center;
@@ -448,11 +448,24 @@ img {
 }
 
 .category-banner1 .content .title a {
+    color: var(--color-accent);
+}
+
+.category-banner1 .inner .content .title a {
+    transition: color 0.2s ease;
+}
+
+.category-banner1 .inner .content .title a:hover,
+.category-banner1:hover .inner .content .title a {
     color: var(--color-text);
 }
 
-.category-banner1 .content .title a:hover {
-    color: var(--color-accent);
+.category-banner1 .inner .content {
+    transition: background-color 0.2s ease;
+}
+
+.category-banner1:hover .inner .content {
+    background-color: #efe6d3;
 }
 
 /* Cards stack in one column on phones; the theme's 28px between image and
