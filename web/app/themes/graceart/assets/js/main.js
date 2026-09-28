@@ -640,15 +640,17 @@
     });
 
     // Category Banner Slider/Carousel
-    $('.category-banner1-carousel').slick({
+    var $categoryCarousel = $('.category-banner1-carousel');
+    var categoryCarouselMarkup = $categoryCarousel.html();
+    var categoryCarouselOptions = {
         infinite: true,
         autoplay: true,
         autoplaySpeed: 3000,
         pauseOnHover: true,
         slidesToShow: 4,
         slidesToScroll: 1,
-        prevArrow: '<button type="button" class="slick-prev" aria-label="PredchÃ¡dzajÃºce"><i class="fas fa-long-arrow-alt-left" aria-hidden="true"></i></button>',
-        nextArrow: '<button type="button" class="slick-next" aria-label="ÄŽalÅ¡ie"><i class="fas fa-long-arrow-alt-right" aria-hidden="true"></i></button>',
+        prevArrow: '<button type="button" class="slick-prev" aria-label="Predchádzajúce"><i class="fas fa-long-arrow-alt-left" aria-hidden="true"></i></button>',
+        nextArrow: '<button type="button" class="slick-next" aria-label="Ïalšie"><i class="fas fa-long-arrow-alt-right" aria-hidden="true"></i></button>',
         responsive: [{
                 breakpoint: 991,
                 settings: {
@@ -660,6 +662,18 @@
                 settings: "unslick"
             }
         ]
+    };
+    $categoryCarousel.slick(categoryCarouselOptions);
+
+    // Slick's own "unslick" breakpoint does not come back when the window grows
+    // again (e.g. leaving phone emulation, or rotating a tablet), so rebuild it.
+    $(window).on('resize', function () {
+        clearTimeout($categoryCarousel.data('rebuildTimer'));
+        $categoryCarousel.data('rebuildTimer', setTimeout(function () {
+            if (window.innerWidth > 767 && !$categoryCarousel.hasClass('slick-initialized')) {
+                $categoryCarousel.html(categoryCarouselMarkup).slick(categoryCarouselOptions);
+            }
+        }, 200));
     });
 
 
