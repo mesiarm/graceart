@@ -1257,7 +1257,7 @@ img {
 
 /* One face for all text: Jost, the product cards' font. Excluded are the
    icon fonts (Font Awesome, Themify, WooCommerce's star rating), the Modesty
-   script used for decorative titles and the category card labels, and the product detail price, which
+   script used for decorative titles, and the product detail price, which
    keeps Inter. The :not() list gives the rule enough specificity to outrank
    the theme's own per-component font-family declarations. */
 body,
@@ -1267,7 +1267,6 @@ body *:not(
     [class^="ti-"], [class*=" ti-"],
     .star-rating, .star-rating *,
     .title-script,
-    .category-banner1 .content .title, .category-banner1 .content .title *,
     .home1-slide1-content .title,
     .section-title .sub-title,
     .product-summery .product-price, .product-summery .product-price *
