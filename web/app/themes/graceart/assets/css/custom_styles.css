@@ -442,6 +442,13 @@ img {
     background-color: #f6f0e4;
 }
 
+/* Photos come in different proportions; crop them all to the same box so the
+   labels line up (cover, not stretch, keeps the pictures undistorted). */
+.category-banner1 .inner .image img {
+    aspect-ratio: 600 / 652;
+    object-fit: cover;
+}
+
 /* No white inset frame over the category image. */
 .category-banner1 .inner .image::before {
     display: none;
