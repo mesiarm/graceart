@@ -464,6 +464,11 @@ img {
     transition: background-color 0.2s ease;
 }
 
+/* No zoom on the category image when hovered. */
+.category-banner1:hover .inner .image img {
+    transform: none;
+}
+
 .category-banner1:hover .inner .content {
     background-color: #efe6d3;
 }
