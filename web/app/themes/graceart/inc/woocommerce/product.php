@@ -315,6 +315,26 @@ function graceartImageSizeAttr(int $image_id, string $size): string
     return sprintf(' width="%d" height="%d"', (int) $src[1], (int) $src[2]);
 }
 
+/**
+ * ' srcset="…" sizes="…"' for product cards, so high-density screens and phones
+ * pick a sharper file while everything else keeps the small thumbnail.
+ * Empty when the product has no image or only one size exists.
+ */
+function graceartProductImageSrcsetAttr(WC_Product $product): string
+{
+    $image_id = (int) $product->get_image_id();
+    $srcset = $image_id ? wp_get_attachment_image_srcset($image_id, 'woocommerce_single') : false;
+
+    if (! $srcset) {
+        return '';
+    }
+
+    // Card width follows the grid: 4/3/2/2/1 columns per breakpoint.
+    $sizes = '(min-width: 1200px) 300px, (min-width: 992px) 25vw, (min-width: 576px) 50vw, 100vw';
+
+    return sprintf(' srcset="%s" sizes="%s"', esc_attr($srcset), esc_attr($sizes));
+}
+
 function graceartProductImageSizeAttr(WC_Product $product, string $size = 'woocommerce_thumbnail'): string
 {
     return graceartImageSizeAttr((int) $product->get_image_id(), $size);

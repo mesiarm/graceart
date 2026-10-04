@@ -49,7 +49,7 @@ if ($product->is_type('variable')) {
         <div class="product-thumb">
             <a href="<?php echo esc_url($product_url); ?>" class="image">
                 <?php echo wp_kses_post(graceartProductBadgeHtml($product)); ?>
-                <img src="<?php echo esc_url(graceartProductImageUrl($product)); ?>"<?php echo graceartProductImageSizeAttr($product); ?> alt="<?php echo esc_attr($product->get_name()); ?>" loading="lazy" decoding="async">
+                <img src="<?php echo esc_url(graceartProductImageUrl($product)); ?>"<?php echo graceartProductImageSizeAttr($product); ?><?php echo graceartProductImageSrcsetAttr($product); ?> alt="<?php echo esc_attr($product->get_name()); ?>" loading="lazy" decoding="async">
             </a>
         </div>
 
