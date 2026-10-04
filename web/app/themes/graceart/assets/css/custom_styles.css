@@ -2138,6 +2138,12 @@ body *:not(
     font-size: var(--wp--preset--font-size--small, 14px);
     line-height: 1.4;
     color: inherit;
+    white-space: nowrap;
+}
+
+.wp-block-woocommerce-cart .graceart-cart-item-availability > *,
+.wp-block-woocommerce-checkout .graceart-cart-item-availability > * {
+    white-space: nowrap;
 }
 
 /* Same size as the "1 ks" quantity line; the "Dostupnosť:" label is bold and
@@ -2238,6 +2244,18 @@ body *:not(
     align-self: end;
     text-align: right;
     white-space: nowrap;
+}
+
+/* The quantity picker is the last thing in a cart line, its number bold. */
+.wp-block-woocommerce-cart table.wc-block-cart-items .wc-block-cart-item__quantity {
+    grid-column: 1 / -1;
+    grid-row: auto;
+    order: 99;
+}
+
+.wp-block-woocommerce-cart table.wc-block-cart-items .wc-block-components-quantity-selector__input {
+    font-size: 18px;
+    font-weight: 700;
 }
 
 /* Thumbnail flush with the box's left edge and larger. */
