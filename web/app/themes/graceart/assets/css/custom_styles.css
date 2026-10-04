@@ -485,7 +485,7 @@ img {
     width: 80%;
     margin: 0;
     padding: 14px 12px 18px;
-    background-color: #f6f0e4;
+    background: linear-gradient(135deg, #e4d2a6 0%, #cdb27a 35%, #e6d6ad 55%, #c4a468 100%);
 }
 
 /* Photos come in different proportions; crop them all to the same box so the
@@ -501,7 +501,7 @@ img {
 }
 
 .category-banner1 .content .title a {
-    color: #6e5426;
+    color: #4a3612;
 }
 
 .category-banner1 .inner .content .title a {
@@ -523,7 +523,7 @@ img {
 }
 
 .category-banner1:hover .inner .content {
-    background-color: #efe6d3;
+    background: linear-gradient(135deg, #dcc794 0%, #c3a56a 35%, #ddc99c 55%, #b99a5e 100%);
 }
 
 /* Cards stack in one column on phones; the theme's 28px between image and
