@@ -2202,6 +2202,44 @@ body *:not(
     white-space: nowrap;
 }
 
+/* Cart block: same item layout as the checkout summary — a larger thumbnail
+   flush left, the unit price beside the name's last line. The quantity picker,
+   remove link and line total stay. */
+.wp-block-woocommerce-cart table.wc-block-cart-items .wc-block-cart-item__image {
+    width: 110px;
+    padding-left: 0;
+}
+
+.wp-block-woocommerce-cart table.wc-block-cart-items .wc-block-cart-item__image img {
+    width: 110px;
+    max-width: none;
+}
+
+.wp-block-woocommerce-cart table.wc-block-cart-items .wc-block-cart-item__wrap {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    column-gap: 16px;
+    row-gap: 4px;
+    align-items: start;
+}
+
+.wp-block-woocommerce-cart table.wc-block-cart-items .wc-block-cart-item__wrap > * {
+    grid-column: 1 / -1;
+}
+
+.wp-block-woocommerce-cart table.wc-block-cart-items .wc-block-cart-item__wrap > .wc-block-components-product-name {
+    grid-column: 1;
+    grid-row: 1;
+}
+
+.wp-block-woocommerce-cart table.wc-block-cart-items .wc-block-cart-item__wrap > .wc-block-cart-item__prices {
+    grid-column: 2;
+    grid-row: 1;
+    align-self: end;
+    text-align: right;
+    white-space: nowrap;
+}
+
 /* Thumbnail flush with the box's left edge and larger. */
 .wp-block-woocommerce-checkout .wc-block-components-order-summary__content {
     padding-left: 0;
@@ -2220,6 +2258,31 @@ body *:not(
 .wp-block-woocommerce-checkout .wc-block-components-order-summary .wc-block-components-order-summary-item__image img {
     width: 100%;
     max-width: none;
+}
+
+.wp-block-woocommerce-checkout .wc-block-components-order-summary .wc-block-components-order-summary-item__description {
+    min-width: 0;
+}
+
+/* Phones: a smaller thumbnail so the name keeps its width. */
+@media only screen and (max-width: 600px) {
+    .wp-block-woocommerce-checkout .wc-block-components-order-summary .wc-block-components-order-summary-item {
+        gap: 12px;
+    }
+
+    .wp-block-woocommerce-checkout .wc-block-components-order-summary .wc-block-components-order-summary-item__image,
+    .wp-block-woocommerce-cart table.wc-block-cart-items .wc-block-cart-item__image {
+        width: 72px !important;
+        min-width: 0 !important;
+        flex: 0 0 72px !important;
+    }
+
+    .wp-block-woocommerce-checkout .wc-block-components-order-summary .wc-block-components-order-summary-item__image img,
+    .wp-block-woocommerce-cart table.wc-block-cart-items .wc-block-cart-item__image img {
+        width: 72px !important;
+        max-width: 72px !important;
+        height: auto;
+    }
 }
 
 .wp-block-woocommerce-checkout .graceart-order-summary-item__quantity {

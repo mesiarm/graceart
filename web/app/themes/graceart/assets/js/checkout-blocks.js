@@ -91,7 +91,7 @@
                 return defaultValue;
             }
 
-            return args.context === 'summary' ? '<price/> / ks' : '<price/> / kus';
+            return '<price/> / ks';
         },
         placeOrderButtonLabel: function (defaultLabel) {
             return strings.placeOrder || defaultLabel;
