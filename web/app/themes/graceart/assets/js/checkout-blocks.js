@@ -21,11 +21,44 @@
      * Here it reads as a line under the product name instead; the badge is
      * hidden in CSS but still rendered, so its value is read from there.
      */
+    /**
+     * The order summary prints the product name as plain text. The permalinks
+     * come from the cart store (same order as the summary rows); the name
+     * stays the blocks' own element and is only made to act as a link.
+     */
+    function cartPermalinks() {
+        try {
+            var cart = window.wp.data.select('wc/store/cart').getCartData();
+
+            return (cart.items || []).map(function (cartItem) {
+                return cartItem.permalink || '';
+            });
+        } catch (e) {
+            return [];
+        }
+    }
+
     function placeCheckoutSummaryQuantities(root) {
         var scope = root || document;
         var items = scope.querySelectorAll('.wc-block-components-order-summary-item');
+        var permalinks = cartPermalinks();
 
-        items.forEach(function (item) {
+        items.forEach(function (item, index) {
+            var nameElement = item.querySelector('.wc-block-components-order-summary-item__description .wc-block-components-product-name');
+            var permalink = permalinks[index % Math.max(permalinks.length, 1)];
+
+            if (nameElement && permalink && nameElement.tagName !== 'A' && !nameElement.closest('a') && nameElement.getAttribute('data-graceart-href') !== permalink) {
+                nameElement.setAttribute('data-graceart-href', permalink);
+                nameElement.setAttribute('role', 'link');
+                nameElement.setAttribute('tabindex', '0');
+            }
+
+            var imageElement = item.querySelector('.wc-block-components-order-summary-item__image');
+
+            if (imageElement && permalink && !imageElement.closest('a') && imageElement.getAttribute('data-graceart-href') !== permalink) {
+                imageElement.setAttribute('data-graceart-href', permalink);
+            }
+
             var badge = item.querySelector('.wc-block-components-order-summary-item__quantity [aria-hidden="true"]');
             var name = item.querySelector('.wc-block-components-order-summary-item__description .wc-block-components-product-name');
 
@@ -47,6 +80,19 @@
             }
         });
     }
+
+    function followSummaryName(event) {
+        var nameElement = event.target.closest && event.target.closest('[data-graceart-href]');
+
+        if (!nameElement || (event.type === 'keydown' && event.key !== 'Enter')) {
+            return;
+        }
+
+        window.location.href = nameElement.getAttribute('data-graceart-href');
+    }
+
+    document.addEventListener('click', followSummaryName);
+    document.addEventListener('keydown', followSummaryName);
 
     function watchCheckoutSummaryQuantities() {
         var checkout = document.querySelector('.wp-block-woocommerce-checkout');

@@ -163,7 +163,7 @@ add_action('wp_enqueue_scripts', function (): void {
     wp_enqueue_script(
         'graceart-checkout-blocks',
         fullTemplateUri('assets/js/checkout-blocks.js'),
-        ['wc-blocks-checkout'],
+        ['wc-blocks-checkout', 'wp-data'],
         graceartAssetVersion('assets/js/checkout-blocks.js'),
         true
     );

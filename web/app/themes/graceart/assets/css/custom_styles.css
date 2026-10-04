@@ -2148,8 +2148,23 @@ body *:not(
 
 /* Same size as the "1 ks" quantity line; the "Dostupnosť:" label is bold and
    in the product name's colour, the value stays like the quantity line. */
-.wp-block-woocommerce-cart .graceart-cart-item-availability .wc-block-components-product-details__name,
-.wp-block-woocommerce-checkout .graceart-cart-item-availability .wc-block-components-product-details__name {
+.wp-block-woocommerce-cart table.wc-block-cart-items .wc-block-components-product-details,
+.wp-block-woocommerce-cart table.wc-block-cart-items .wc-block-components-product-details li,
+.wp-block-woocommerce-cart table.wc-block-cart-items .wc-block-components-product-details__name,
+.wp-block-woocommerce-cart table.wc-block-cart-items .wc-block-components-product-details__value {
+    font-size: var(--wp--preset--font-size--small, 16px) !important;
+}
+
+.wp-block-woocommerce-cart .wc-block-components-product-details,
+.wp-block-woocommerce-checkout .wc-block-components-order-summary .wc-block-components-product-details,
+.wp-block-woocommerce-cart .wc-block-components-product-details li,
+.wp-block-woocommerce-checkout .wc-block-components-product-details li {
+    font-size: var(--wp--preset--font-size--small, 14px);
+    line-height: 1.4;
+}
+
+.wp-block-woocommerce-cart .wc-block-components-product-details__name,
+.wp-block-woocommerce-checkout .wc-block-components-product-details__name {
     font-weight: 500;
     color: var(--color-text);
 }
@@ -2176,13 +2191,13 @@ body *:not(
     display: none;
 }
 
+/* The item details stay: the "Veľkosť" of a variant and the "Dostupnosť" line,
+   under the quantity line. */
 .wp-block-woocommerce-checkout .wc-block-components-order-summary .wc-block-components-product-details {
-    display: none;
-}
-
-/* ...except the "Dostupnosť" line, which stays with the quantity line. */
-.wp-block-woocommerce-checkout .wc-block-components-order-summary .wc-block-components-product-details:has(.graceart-cart-item-availability) {
     display: block;
+    margin: 0;
+    padding: 0;
+    list-style: none;
 }
 
 .wp-block-woocommerce-checkout .wc-block-components-order-summary .wc-block-components-order-summary-item__description {
@@ -2238,11 +2253,12 @@ body *:not(
     grid-row: 1;
 }
 
+/* The unit price sits under the details ("Veľkosť"), above the quantity picker. */
 .wp-block-woocommerce-cart table.wc-block-cart-items .wc-block-cart-item__wrap > .wc-block-cart-item__prices {
-    grid-column: 2;
-    grid-row: 1;
-    align-self: end;
-    text-align: right;
+    grid-column: 1 / -1;
+    grid-row: auto;
+    order: 50;
+    text-align: left;
     white-space: nowrap;
 }
 
@@ -2317,12 +2333,15 @@ body *:not(
     }
 
     .wp-block-woocommerce-checkout .wc-block-components-order-summary .wc-block-components-order-summary-item__description > .wc-block-cart-item__prices,
-    .wp-block-woocommerce-cart table.wc-block-cart-items .wc-block-cart-item__wrap > .wc-block-cart-item__prices,
     .wp-block-woocommerce-cart table.wc-block-cart-items .wc-block-cart-item__wrap > .wc-block-components-product-name {
         grid-column: 1;
         grid-row: auto;
         text-align: left;
     }
+}
+
+.wp-block-woocommerce-checkout .wc-block-components-order-summary [data-graceart-href] {
+    cursor: pointer;
 }
 
 .wp-block-woocommerce-checkout .graceart-order-summary-item__quantity {
