@@ -485,10 +485,12 @@ img {
     width: 80%;
     margin: 0;
     padding: 14px 12px 18px;
-    /* One real plank (cropped from a wood photo), with a dark seam and a pale
-       bevel line along each edge. */
-    background: url("../images/wood-plank.jpg") center / cover no-repeat #5a3321;
-    box-shadow: inset 0 1px 0 rgba(30, 14, 8, 0.9), inset 0 2px 0 rgba(255, 210, 170, 0.18), inset 0 -1px 0 rgba(30, 14, 8, 0.9), inset 0 -2px 0 rgba(255, 210, 170, 0.18), 0 2px 6px rgba(40, 22, 0, 0.25);
+    /* Matte gold-bronze: a flat warm-gold base with a fine grain and no shine. */
+    background:
+        url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='h' x='0' y='0' width='100%25' height='100%25'><feTurbulence type='fractalNoise' baseFrequency='.65' numOctaves='2' seed='9' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1 0 0 0 0 .93 0 0 0 0 .74 0 0 0 .8 -.38'/></filter><rect width='100%25' height='100%25' filter='url(%23h)'/></svg>"),
+        url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='g' x='0' y='0' width='100%25' height='100%25'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' seed='4' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .22 0 0 0 0 .14 0 0 0 0 .05 0 0 0 .9 -.28'/></filter><rect width='100%25' height='100%25' filter='url(%23g)'/></svg>"),
+        linear-gradient(180deg, #b99759 0%, #ac8a50 100%);
+    box-shadow: inset 0 0 0 1px rgba(70, 48, 14, 0.35), 0 2px 6px rgba(40, 22, 0, 0.22);
     border-radius: 12px;
 }
 
@@ -505,8 +507,8 @@ img {
 }
 
 .category-banner1 .content .title a {
-    color: #fff3d1;
-    text-shadow: 0 1px 2px rgba(20, 8, 2, 0.7);
+    color: #2c1f0d;
+    text-shadow: 0 1px 0 rgba(255, 235, 190, 0.28);
 }
 
 .category-banner1 .inner .content .title a {
@@ -515,7 +517,7 @@ img {
 
 .category-banner1 .inner .content .title a:hover,
 .category-banner1:hover .inner .content .title a {
-    color: #fff;
+    color: #1a1208;
 }
 
 .category-banner1 .inner .content {
