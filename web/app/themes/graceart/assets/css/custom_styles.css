@@ -441,16 +441,25 @@ img {
     padding: 0 15px;
 }
 
-/* Label sits in a soft cream box overlapping the bottom edge of the image. */
+/* Label sits in a soft cream box straddling the bottom edge of the image:
+   half over the photo, half below it (the padding reserves the lower half). */
+.category-banner1 .inner {
+    position: relative;
+    padding-bottom: 36px;
+}
+
 .category-banner1 .inner .image:not(:last-child) {
-    margin-bottom: -46px;
+    margin-bottom: 0;
 }
 
 .category-banner1 .inner .content {
-    position: relative;
+    position: absolute;
     z-index: 3;
+    bottom: 36px;
+    left: 50%;
+    transform: translate(-50%, 50%);
     width: 80%;
-    margin: 0 auto 8px;
+    margin: 0;
     padding: 16px 12px;
     background-color: #f6f0e4;
 }
