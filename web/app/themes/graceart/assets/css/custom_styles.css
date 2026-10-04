@@ -9,7 +9,7 @@
     --color-line: #e0e0e0;
     --color-surface: #f5f5f5;
     --color-dark: #333333;
-    /* Antique bronze gold: hover fills, badges, headings, active states. */
+    /* Antique bronze gold: button fills, badges, headings, active states. */
     --color-accent: #9c7c46;
     /* Green for "Skladom" and success notices (dark enough for small text). */
     --color-success: #2e7d32;
@@ -364,10 +364,23 @@ img {
     line-height: 1;
     letter-spacing: 1px;
     text-transform: uppercase;
-    color: var(--color-text) !important;
-    border: 1px solid var(--color-line) !important;
+    color: #fff !important;
+    border: 1px solid var(--color-accent) !important;
     border-radius: 500px;
+    background-color: var(--color-accent) !important;
+}
+
+/* Front page: the buy buttons stay white (brown fill on hover). */
+.home .graceart-loop-buy-button {
+    color: var(--color-text) !important;
+    border-color: var(--color-line) !important;
     background-color: #fff !important;
+}
+
+.home .graceart-loop-buy-button:hover {
+    color: #fff !important;
+    border-color: var(--color-accent) !important;
+    background-color: var(--color-accent) !important;
 }
 
 /* Cards in a row are equal height (flex row / matchHeight); make the card a
@@ -405,9 +418,9 @@ img {
 .graceart-loop-buy-button:hover,
 .product-summery .product-buttons .single_add_to_cart_button:hover,
 .product-summery .product-buttons .single_add_to_cart_button:focus {
-    color: #fff !important;
-    border-color: var(--color-accent) !important;
-    background-color: var(--color-accent) !important;
+    color: var(--color-text) !important;
+    border-color: var(--color-line) !important;
+    background-color: #fff !important;
 }
 
 /* Category banners share the product card title typography. */
@@ -1539,10 +1552,10 @@ body *:not(
     letter-spacing: 1px;
     text-transform: uppercase;
     text-decoration: none;
-    color: var(--color-text) !important;
-    border: 1px solid var(--color-line) !important;
+    color: #fff !important;
+    border: 1px solid var(--color-accent) !important;
     border-radius: 500px;
-    background-color: #fff !important;
+    background-color: var(--color-accent) !important;
 }
 
 .graceart-woo-notice .button:hover,
@@ -1553,9 +1566,9 @@ body *:not(
 .woocommerce-info .button:focus,
 .woocommerce-error .button:hover,
 .woocommerce-error .button:focus {
-    color: #fff !important;
-    border-color: var(--color-accent) !important;
-    background-color: var(--color-accent) !important;
+    color: var(--color-text) !important;
+    border-color: var(--color-line) !important;
+    background-color: #fff !important;
 }
 
 @media only screen and (max-width: 767px) {
@@ -2201,11 +2214,20 @@ body *:not(
     letter-spacing: 1px;
     text-transform: uppercase;
     text-decoration: none;
-    color: var(--color-text) !important;
-    border: 1px solid var(--color-line) !important;
+    color: #fff !important;
+    border: 1px solid var(--color-accent) !important;
     border-radius: 500px !important;
-    background-color: #fff !important;
+    background-color: var(--color-accent) !important;
     box-shadow: none !important;
+}
+
+/* Second button of a pair (under "Prejsť k objednávke", beside "Objednať"):
+   light, so the primary action stands out. */
+.graceart-continue-shopping__link,
+.wc-block-checkout__actions_row .wc-block-components-checkout-return-to-cart-button {
+    color: var(--color-text) !important;
+    border-color: var(--color-line) !important;
+    background-color: #fff !important;
 }
 
 .wp-block-woocommerce-cart .wc-block-cart__submit-button:hover,
@@ -2219,6 +2241,15 @@ body *:not(
 .wc-block-checkout__actions_row .wc-block-components-checkout-return-to-cart-button:hover,
 .wc-block-components-totals-coupon__button:hover,
 .wc-block-components-totals-coupon__button:focus {
+    color: var(--color-text) !important;
+    border-color: var(--color-line) !important;
+    background-color: #fff !important;
+}
+
+.graceart-continue-shopping__link:hover,
+.graceart-continue-shopping__link:focus,
+.wc-block-checkout__actions_row .wc-block-components-checkout-return-to-cart-button:hover,
+.wc-block-checkout__actions_row .wc-block-components-checkout-return-to-cart-button:focus {
     color: #fff !important;
     border-color: var(--color-accent) !important;
     background-color: var(--color-accent) !important;
@@ -2659,9 +2690,17 @@ body.admin-bar {
     letter-spacing: 1px;
     text-transform: uppercase;
     text-decoration: none;
-    color: var(--color-text) !important;
-    border: 1px solid var(--color-line) !important;
+    color: #fff !important;
+    border: 1px solid var(--color-accent) !important;
     border-radius: 500px;
+    background-color: var(--color-accent) !important;
+}
+
+/* Beside another button: the light one. */
+.graceart-order__button + .graceart-order__button,
+.woocommerce a.graceart-order__button + .graceart-order__button {
+    color: var(--color-text) !important;
+    border-color: var(--color-line) !important;
     background-color: #fff !important;
 }
 
@@ -2669,6 +2708,13 @@ body.admin-bar {
 .graceart-order__button:focus,
 .woocommerce a.graceart-order__button:hover,
 .woocommerce a.graceart-order__button:focus {
+    color: var(--color-text) !important;
+    border-color: var(--color-line) !important;
+    background-color: #fff !important;
+}
+
+.graceart-order__button + .graceart-order__button:hover,
+.graceart-order__button + .graceart-order__button:focus {
     color: #fff !important;
     border-color: var(--color-accent) !important;
     background-color: var(--color-accent) !important;
@@ -2731,10 +2777,10 @@ body.admin-bar {
     line-height: 1;
     letter-spacing: 1px;
     text-transform: uppercase;
-    color: var(--color-text);
-    border: 1px solid var(--color-line);
+    color: #fff;
+    border: 1px solid var(--color-accent);
     border-radius: 500px;
-    background-color: #fff;
+    background-color: var(--color-accent);
 }
 
 .woocommerce form.woocommerce-verify-email .button:hover,
@@ -2749,9 +2795,9 @@ body.admin-bar {
 .woocommerce form.woocommerce-EditAccountForm .button:focus,
 .woocommerce-MyAccount-content .button:hover,
 .woocommerce-MyAccount-content .button:focus {
-    color: #fff;
-    border-color: var(--color-accent);
-    background-color: var(--color-accent);
+    color: var(--color-text);
+    border-color: var(--color-line);
+    background-color: #fff;
 }
 
 @media only screen and (max-width: 767px) {
