@@ -230,21 +230,36 @@ function graceartHomepageNewestProductIds(int $limit = GRACEART_HOMEPAGE_NEWEST_
         return [];
     }
 
-    $ids = wc_get_products([
-        'status' => 'publish',
-        'limit' => $limit,
-        'orderby' => 'date',
-        'order' => 'DESC',
-        'return' => 'ids',
-    ]);
+    // Catalog-hidden and out-of-stock-hidden products are dropped — content-product.php
+    // refuses to render them — so filter before applying the limit, otherwise the
+    // row comes up short whenever a hidden product is among the newest.
+    $visible = [];
+    $page = 1;
 
-    // Catalog-hidden products are dropped — content-product.php refuses to
-    // render them, so returning them would silently short the row.
-    return array_values(array_filter($ids, function ($id): bool {
-        $product = wc_get_product($id);
+    do {
+        $ids = wc_get_products([
+            'status' => 'publish',
+            'limit' => 20,
+            'page' => $page++,
+            'orderby' => 'date',
+            'order' => 'DESC',
+            'return' => 'ids',
+        ]);
 
-        return $product instanceof WC_Product && $product->is_visible();
-    }));
+        foreach ($ids as $id) {
+            $product = wc_get_product($id);
+
+            if ($product instanceof WC_Product && $product->is_visible()) {
+                $visible[] = $id;
+
+                if (count($visible) >= $limit) {
+                    break 2;
+                }
+            }
+        }
+    } while (count($ids) === 20);
+
+    return $visible;
 }
 
 add_action('admin_menu', function () {
