@@ -2282,6 +2282,28 @@ body *:not(
         width: 72px !important;
         max-width: 72px !important;
         height: auto;
+        margin: 0;
+    }
+
+    .wp-block-woocommerce-checkout .wc-block-components-order-summary .wc-block-components-order-summary-item__image,
+    .wp-block-woocommerce-cart table.wc-block-cart-items .wc-block-cart-item__image {
+        padding-right: 0 !important;
+        margin-right: 0 !important;
+    }
+
+    /* The price drops under the name instead of squeezing it; the name,
+       "1 ks" and "Dostupnosť" then use the whole text column. */
+    .wp-block-woocommerce-checkout .wc-block-components-order-summary .wc-block-components-order-summary-item__description,
+    .wp-block-woocommerce-cart table.wc-block-cart-items .wc-block-cart-item__wrap {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .wp-block-woocommerce-checkout .wc-block-components-order-summary .wc-block-components-order-summary-item__description > .wc-block-cart-item__prices,
+    .wp-block-woocommerce-cart table.wc-block-cart-items .wc-block-cart-item__wrap > .wc-block-cart-item__prices,
+    .wp-block-woocommerce-cart table.wc-block-cart-items .wc-block-cart-item__wrap > .wc-block-components-product-name {
+        grid-column: 1;
+        grid-row: auto;
+        text-align: left;
     }
 }
 
