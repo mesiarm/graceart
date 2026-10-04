@@ -18,14 +18,12 @@
     var element = window.wp && window.wp.element;
     var data = window.wp && window.wp.data;
 
-    if (
-        !config || !config.apiKey || !config.rateIds || !config.rateIds.length
-        || !blocksCheckout || !blocksCheckout.ExperimentalOrderShippingPackages
-        || typeof blocksCheckout.extensionCartUpdate !== 'function'
-        || !plugins || !element || !data
-    ) {
+    if (!config || !blocksCheckout || !blocksCheckout.ExperimentalOrderShippingPackages || !plugins || !element || !data) {
         return;
     }
+
+    var pickerEnabled = !!config.apiKey && !!config.rateIds && config.rateIds.length > 0
+        && typeof blocksCheckout.extensionCartUpdate === 'function';
 
     var el = element.createElement;
     var strings = config.strings || {};
@@ -231,11 +229,53 @@
     }
 
     /**
+     * The checkout block sends a changed country to the server only once the
+     * whole address validates (postcode, state), so until then the shipping
+     * options stay those of the old country. When the country the customer
+     * picked differs from the one the rates were calculated for, hand it to
+     * the server directly so the options follow at once.
+     */
+    function useCountrySync() {
+        var sync = data.useSelect(function (select) {
+            var store = select('wc/store/cart');
+            var customer = store.getCustomerData();
+            var packages = store.getShippingRates() || [];
+
+            return {
+                country: customer && customer.shippingAddress ? customer.shippingAddress.country : '',
+                rated: packages.length && packages[0].destination ? packages[0].destination.country : ''
+            };
+        }, []);
+        var sent = element.useRef('');
+
+        element.useEffect(function () {
+            if (
+                !sync.country || !sync.rated || sync.country === sync.rated
+                || sent.current === sync.country
+                || typeof blocksCheckout.extensionCartUpdate !== 'function'
+            ) {
+                return;
+            }
+
+            sent.current = sync.country;
+
+            Promise.resolve(blocksCheckout.extensionCartUpdate({
+                namespace: 'graceart-packeta',
+                data: { country: sync.country }
+            })).catch(function () {
+                sent.current = '';
+            });
+        }, [sync.country, sync.rated]);
+    }
+
+    /**
      * Shown with the shipping options whatever the carrier: the country list
      * holds only the Packeta countries, so someone from elsewhere is sent to
      * the contact form to ask.
      */
     function OtherCountryNotice() {
+        useCountrySync();
+
         if (!config.otherCountryUrl) {
             return null;
         }
@@ -254,7 +294,7 @@
             return el(
                 blocksCheckout.ExperimentalOrderShippingPackages,
                 null,
-                el(PacketaPickupPoint),
+                pickerEnabled ? el(PacketaPickupPoint) : null,
                 el(OtherCountryNotice)
             );
         }

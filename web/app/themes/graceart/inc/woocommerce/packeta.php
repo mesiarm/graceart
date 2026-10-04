@@ -109,8 +109,8 @@ function graceartPacketaRateIds(): array
 }
 
 /**
- * Countries the shop delivers to: those of the shipping zones that have a
- * Packeta method on. Empty (no restriction) while Packeta is not set up.
+ * Countries the shop delivers to: those of the shipping zones that have an
+ * enabled method. Empty (no restriction) when no zone is set up.
  *
  * @return array<int, string> Upper-case ISO codes.
  */
@@ -124,22 +124,22 @@ function graceartPacketaCountries(): array
 
     $countries = [];
 
-    if (! graceartPacketaRateIds() || ! function_exists('WC') || ! WC()->countries) {
+    if (! class_exists('WC_Shipping_Zones') || ! function_exists('WC') || ! WC()->countries) {
         return $countries;
     }
 
     $continents = WC()->countries->get_continents();
 
     foreach (WC_Shipping_Zones::get_zones() as $zone) {
-        $has_packeta = false;
+        $has_method = false;
 
         foreach ($zone['shipping_methods'] ?? [] as $method) {
-            if ($method instanceof WC_Shipping_Method && in_array($method->get_rate_id(), graceartPacketaRateIds(), true)) {
-                $has_packeta = true;
+            if ($method instanceof WC_Shipping_Method && $method->is_enabled()) {
+                $has_method = true;
             }
         }
 
-        if (! $has_packeta) {
+        if (! $has_method) {
             continue;
         }
 
@@ -300,6 +300,21 @@ add_action('woocommerce_blocks_loaded', function (): void {
                 return;
             }
 
+            // A change of country the checkout has not sent yet (see
+            // useCountrySync in checkout-packeta.js): shipping is recalculated
+            // by the Store API after this callback.
+            if (is_array($data) && isset($data['country']) && is_string($data['country'])) {
+                $country = strtoupper(sanitize_text_field($data['country']));
+
+                if (array_key_exists($country, WC()->countries->get_shipping_countries())) {
+                    WC()->customer->set_shipping_country($country);
+                    WC()->customer->set_shipping_state('');
+                    WC()->customer->set_shipping_postcode('');
+                }
+
+                return;
+            }
+
             $rate_id = is_array($data) && isset($data['rate_id']) && is_string($data['rate_id']) ? sanitize_text_field($data['rate_id']) : '';
             $point = is_array($data) ? graceartPacketaSanitizePoint($data['point'] ?? null) : null;
 
@@ -369,7 +384,7 @@ add_action('wp_enqueue_scripts', function (): void {
 
     $rate_ids = graceartPacketaRateIds();
 
-    if (! $rate_ids) {
+    if (! $rate_ids && ! graceartPacketaCountries()) {
         return;
     }
 
