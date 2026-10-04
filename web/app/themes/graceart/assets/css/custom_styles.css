@@ -427,7 +427,7 @@ img {
    name still fits on a single line. */
 @media only screen and (max-width: 767px) {
     .category-banner1 .inner .content .title {
-        font-size: min(34px, calc((100vw - 112px) / 8));
+        font-size: min(31px, calc((100vw - 112px) / 8));
     }
 
     .category-banner1 .inner .content .title a {
