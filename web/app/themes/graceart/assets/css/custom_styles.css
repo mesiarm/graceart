@@ -725,16 +725,12 @@ img {
     }
 }
 
-/* One frame for every photo, sized to the tallest upload (1280x1191) so the
-   images fill it as much as possible — like sashe, which scales each photo to a
-   fixed frame height. Shorter shots keep their proportions and get white bars. */
+/* One frame for every photo. The photo fills it completely (cover, centred), so
+   photos of other proportions are cropped instead of leaving white bars. */
 .product-gallery-slider .product-zoom,
 .product-gallery-slider .product-video-slide {
     display: flex !important;
-
-    /* Top-aligned, not centred: a wide photo letterboxed in the middle of the
-       frame would start below the thumbnails and the title. */
-    align-items: flex-start;
+    align-items: center;
     justify-content: center;
 
     width: 100%;
@@ -747,8 +743,8 @@ img {
 .product-gallery-slider .product-video-slide video {
     width: 100%;
     height: 100%;
-    object-fit: contain;
-    object-position: top center;
+    object-fit: cover;
+    object-position: center;
 }
 
 .product-thumb-slider-vertical .item,
