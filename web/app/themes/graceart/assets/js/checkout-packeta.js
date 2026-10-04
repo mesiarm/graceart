@@ -247,6 +247,17 @@
             };
         }, []);
         var sent = element.useRef('');
+        var pending = !!sync.country && !!sync.rated && sync.country !== sync.rated;
+
+        // The old country's options stay on screen until the server answers;
+        // dim them at once so they are not taken for the new ones.
+        element.useEffect(function () {
+            document.body.classList.toggle('graceart-shipping-pending', pending);
+
+            return function () {
+                document.body.classList.remove('graceart-shipping-pending');
+            };
+        }, [pending]);
 
         element.useEffect(function () {
             if (sync.country === sync.rated) {
@@ -295,12 +306,14 @@
     plugins.registerPlugin('graceart-packeta', {
         scope: 'woocommerce-checkout',
         render: function () {
-            return el(
-                blocksCheckout.ExperimentalOrderShippingPackages,
-                null,
-                pickerEnabled ? el(PacketaPickupPoint) : null,
-                el(OtherCountryNotice)
-            );
+            // The fill clones each child, so a null child would break it.
+            var children = [el(OtherCountryNotice, { key: 'other-country' })];
+
+            if (pickerEnabled) {
+                children.unshift(el(PacketaPickupPoint, { key: 'picker' }));
+            }
+
+            return el.apply(null, [blocksCheckout.ExperimentalOrderShippingPackages, null].concat(children));
         }
     });
 })();

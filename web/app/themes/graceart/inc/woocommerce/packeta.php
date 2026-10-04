@@ -285,10 +285,11 @@ function graceartPacketaOrderPoint(WC_Order $order): ?array
 */
 
 /**
+ * (Registered on init: the theme loads after woocommerce_blocks_loaded.)
  * The checkout script saves the chosen point through the Store API's
  * cart/extensions endpoint (extensionCartUpdate).
  */
-add_action('woocommerce_blocks_loaded', function (): void {
+add_action('init', function (): void {
     if (! function_exists('woocommerce_store_api_register_update_callback')) {
         return;
     }

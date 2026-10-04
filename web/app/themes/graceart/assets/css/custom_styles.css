@@ -2890,6 +2890,12 @@ body.admin-bar {
     border-color: #cc1818;
 }
 
+body.graceart-shipping-pending .wc-block-components-shipping-rates-control {
+    opacity: 0.4;
+    pointer-events: none;
+    transition: opacity 0.15s;
+}
+
 .wp-block-woocommerce-checkout .graceart-packeta-other-country {
     margin: 16px 0 0;
     font-size: 14px;
