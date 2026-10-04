@@ -2781,7 +2781,8 @@ body.admin-bar {
 
 .graceart-order__item-name {
     display: block;
-    font-size: 16px;
+    font-size: 17px;
+    font-weight: 500;
     line-height: 1.4;
 }
 
