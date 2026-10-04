@@ -413,7 +413,7 @@ img {
 /* Category banners share the product card title typography. */
 .category-banner1 .inner .content .title {
     font-family: "Modesty", "Segoe Script", cursive;
-    font-size: 34px;
+    font-size: clamp(22px, 2.5vw, 34px);
     font-weight: 300;
     line-height: 1.1;
     letter-spacing: 0;
@@ -421,6 +421,18 @@ img {
     align-items: center;
     justify-content: center;
     text-align: center;
+}
+
+/* One card per row on phones: size the label from the viewport so the longest
+   name still fits on a single line. */
+@media only screen and (max-width: 767px) {
+    .category-banner1 .inner .content .title {
+        font-size: min(34px, calc((100vw - 112px) / 8));
+    }
+
+    .category-banner1 .inner .content .title a {
+        white-space: nowrap;
+    }
 }
 
 /* More air between the cards and between image and label. */
