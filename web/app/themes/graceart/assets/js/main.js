@@ -527,11 +527,13 @@
 
     // Single Product Slider
     $('.product-gallery-slider').slick({
-        dots: true,
+        dots: false,
         infinite: true,
         slidesToShow: 1,
         slidesToScroll: 1,
         asNavFor: '.product-thumb-slider, .product-thumb-slider-vertical',
+        // Arrows sit under the thumbnails, not over the photo.
+        appendArrows: $('.product-gallery-nav'),
         prevArrow: '<button type="button" class="slick-prev" aria-label="PredchÃ¡dzajÃºce"><i class="ti-angle-left" aria-hidden="true"></i></button>',
         nextArrow: '<button type="button" class="slick-next" aria-label="ÄŽalÅ¡ie"><i class="ti-angle-right" aria-hidden="true"></i></button>'
     });
@@ -649,8 +651,8 @@
         pauseOnHover: true,
         slidesToShow: 4,
         slidesToScroll: 1,
-        prevArrow: '<button type="button" class="slick-prev" aria-label="Predchádzajúce"><i class="fas fa-long-arrow-alt-left" aria-hidden="true"></i></button>',
-        nextArrow: '<button type="button" class="slick-next" aria-label="Ïalšie"><i class="fas fa-long-arrow-alt-right" aria-hidden="true"></i></button>',
+        prevArrow: '<button type="button" class="slick-prev" aria-label="Predchï¿½dzajï¿½ce"><i class="fas fa-long-arrow-alt-left" aria-hidden="true"></i></button>',
+        nextArrow: '<button type="button" class="slick-next" aria-label="ï¿½alï¿½ie"><i class="fas fa-long-arrow-alt-right" aria-hidden="true"></i></button>',
         responsive: [{
                 breakpoint: 991,
                 settings: {

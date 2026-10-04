@@ -81,6 +81,7 @@ while (have_posts()) :
                                     </div>
                                 <?php endforeach; ?>
                             </div>
+                            <div class="product-gallery-nav"></div>
                         <?php endif; ?>
                     </div>
 
