@@ -9,7 +9,7 @@
     --color-line: #e0e0e0;
     --color-surface: #f5f5f5;
     --color-dark: #333333;
-    /* Antique bronze gold: hover fills, badges, headings, active states. */
+    /* Antique bronze gold: button fills, badges, headings, active states. */
     --color-accent: #9c7c46;
     /* Green for "Skladom" and success notices (dark enough for small text). */
     --color-success: #2e7d32;
@@ -32,6 +32,7 @@ a:hover,
 #scrollUp,
 .bg-primary,
 .btn-primary,
+.btn-dark,
 .btn-hover-primary:hover,
 .btn-outline-hover-primary:hover,
 .btn-outline-primary:hover,
@@ -172,7 +173,7 @@ body {
 .wp-block-woocommerce-cart .wc-block-components-button:not(.is-link),
 .wp-block-woocommerce-checkout .wc-block-components-button:not(.is-link) {
     color: #fff;
-    background-color: var(--color-dark);
+    background-color: var(--color-accent);
 }
 
 .wp-block-woocommerce-cart .wc-block-components-button:not(.is-link):hover,
@@ -364,10 +365,23 @@ img {
     line-height: 1;
     letter-spacing: 1px;
     text-transform: uppercase;
-    color: var(--color-text) !important;
-    border: 1px solid var(--color-line) !important;
+    color: #fff !important;
+    border: 1px solid var(--color-accent) !important;
     border-radius: 500px;
+    background-color: var(--color-accent) !important;
+}
+
+/* Front page: white buy buttons, brown fill on hover. */
+.home .graceart-loop-buy-button {
+    color: var(--color-text) !important;
+    border-color: var(--color-line) !important;
     background-color: #fff !important;
+}
+
+.home .graceart-loop-buy-button:hover {
+    color: #fff !important;
+    border-color: var(--color-accent) !important;
+    background-color: var(--color-accent) !important;
 }
 
 /* Cards in a row are equal height (flex row / matchHeight); make the card a
@@ -377,6 +391,15 @@ img {
     display: flex;
     flex-direction: column;
     height: 100%;
+}
+
+/* Product photos come in different proportions; crop them all to the same box
+   so titles, prices and buttons line up across the row. */
+.products .product .product .product-thumb .image img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 250 / 213;
+    object-fit: cover;
 }
 
 .products .product .product .product-info {
@@ -418,6 +441,7 @@ img {
     line-height: 1.1;
     letter-spacing: 0;
     text-transform: none;
+    font-variant: all-small-caps;
     align-items: center;
     justify-content: center;
     text-align: center;
@@ -702,16 +726,12 @@ img {
     }
 }
 
-/* One frame for every photo, sized to the tallest upload (1280x1191) so the
-   images fill it as much as possible — like sashe, which scales each photo to a
-   fixed frame height. Shorter shots keep their proportions and get white bars. */
+/* One frame for every photo. The photo fills it completely (cover, centred), so
+   photos of other proportions are cropped instead of leaving white bars. */
 .product-gallery-slider .product-zoom,
 .product-gallery-slider .product-video-slide {
     display: flex !important;
-
-    /* Top-aligned, not centred: a wide photo letterboxed in the middle of the
-       frame would start below the thumbnails and the title. */
-    align-items: flex-start;
+    align-items: center;
     justify-content: center;
 
     width: 100%;
@@ -724,8 +744,8 @@ img {
 .product-gallery-slider .product-video-slide video {
     width: 100%;
     height: 100%;
-    object-fit: contain;
-    object-position: top center;
+    object-fit: cover;
+    object-position: center;
 }
 
 .product-thumb-slider-vertical .item,
@@ -1299,9 +1319,9 @@ img {
 }
 
 .product-buttons .graceart-wishlist-button:hover {
-    color: #fff;
-    border-color: var(--color-accent);
-    background-color: var(--color-accent);
+    color: var(--color-text);
+    border-color: var(--color-line);
+    background-color: #fff;
 }
 
 /* Already in the wishlist: filled gold heart; hovering hints at removal. */
@@ -1311,8 +1331,8 @@ img {
 }
 
 .product-buttons .graceart-wishlist-button.is-active:hover {
-    color: #fff;
-    background-color: var(--color-accent);
+    color: var(--color-accent);
+    background-color: #fff;
 }
 
 /* Futura's webfont has no Slovak diacritics (Ž, Ú, Š, …); Jost is a Futura-style
@@ -1539,10 +1559,10 @@ body *:not(
     letter-spacing: 1px;
     text-transform: uppercase;
     text-decoration: none;
-    color: var(--color-text) !important;
-    border: 1px solid var(--color-line) !important;
+    color: #fff !important;
+    border: 1px solid var(--color-accent) !important;
     border-radius: 500px;
-    background-color: #fff !important;
+    background-color: var(--color-accent) !important;
 }
 
 .graceart-woo-notice .button:hover,
@@ -2026,6 +2046,49 @@ body *:not(
     font-size: 17px;
 }
 
+/* Checkout block (zhrnutie-objednavky): same 16px reading size as the cart. */
+.wp-block-woocommerce-checkout {
+    --wp--preset--font-size--small: 16px;
+    font-size: 16px;
+}
+
+.wp-block-woocommerce-checkout .wc-block-components-title,
+.wp-block-woocommerce-checkout .wc-block-components-checkout-step__description,
+.wp-block-woocommerce-checkout .wc-block-components-product-price,
+.wp-block-woocommerce-checkout .wc-block-components-product-metadata,
+.wp-block-woocommerce-checkout .wc-block-components-totals-item,
+.wp-block-woocommerce-checkout .wc-block-components-totals-item__label,
+.wp-block-woocommerce-checkout .wc-block-components-totals-item__value,
+.wp-block-woocommerce-checkout .wc-block-components-totals-coupon-link,
+.wp-block-woocommerce-checkout .wc-block-components-panel__button,
+.wp-block-woocommerce-checkout .wc-block-components-text-input input,
+.wp-block-woocommerce-checkout .wc-block-components-text-input label,
+.wp-block-woocommerce-checkout .wc-block-components-combobox .components-form-token-field__input,
+.wp-block-woocommerce-checkout .wc-blocks-components-select__select,
+.wp-block-woocommerce-checkout .wc-block-components-radio-control__label,
+.wp-block-woocommerce-checkout .wc-block-components-radio-control__description,
+.wp-block-woocommerce-checkout .wc-block-components-radio-control__secondary-label,
+.wp-block-woocommerce-checkout .wc-block-components-checkbox__label,
+.wp-block-woocommerce-checkout .wc-block-checkout__terms,
+.wp-block-woocommerce-checkout .wc-block-components-notice-banner,
+.wp-block-woocommerce-checkout .wc-block-components-order-summary-item__description {
+    font-size: 16px;
+}
+
+.wp-block-woocommerce-checkout .wc-block-components-totals-item__description,
+.wp-block-woocommerce-checkout .wc-block-components-radio-control__secondary-description,
+.wp-block-woocommerce-checkout .wc-block-components-validation-error,
+.wp-block-woocommerce-checkout .wc-block-components-textarea,
+.wp-block-woocommerce-checkout .wc-block-components-checkbox label,
+.wp-block-woocommerce-checkout .wc-block-components-chip .wc-block-components-chip__text,
+.wp-block-woocommerce-checkout .wc-block-components-checkout-step__heading-content {
+    font-size: 16px;
+}
+
+.wp-block-woocommerce-checkout .wc-block-components-order-summary-item__description .wc-block-components-product-name {
+    font-size: 17px;
+}
+
 /* Cart block: once a line item reaches everything that can be sold, the plus
    button is only disabled by WooCommerce; hide it instead. visibility keeps
    the selector's width so the number does not shift. */
@@ -2201,11 +2264,20 @@ body *:not(
     letter-spacing: 1px;
     text-transform: uppercase;
     text-decoration: none;
-    color: var(--color-text) !important;
-    border: 1px solid var(--color-line) !important;
+    color: #fff !important;
+    border: 1px solid var(--color-accent) !important;
     border-radius: 500px !important;
-    background-color: #fff !important;
+    background-color: var(--color-accent) !important;
     box-shadow: none !important;
+}
+
+/* Second button of a pair (under "Prejsť k objednávke", beside "Objednať"):
+   light, so the primary action stands out. */
+.graceart-continue-shopping__link,
+.wc-block-checkout__actions_row .wc-block-components-checkout-return-to-cart-button {
+    color: var(--color-text) !important;
+    border-color: var(--color-line) !important;
+    background-color: #fff !important;
 }
 
 .wp-block-woocommerce-cart .wc-block-cart__submit-button:hover,
@@ -2222,6 +2294,15 @@ body *:not(
     color: #fff !important;
     border-color: var(--color-accent) !important;
     background-color: var(--color-accent) !important;
+}
+
+.graceart-continue-shopping__link:hover,
+.graceart-continue-shopping__link:focus,
+.wc-block-checkout__actions_row .wc-block-components-checkout-return-to-cart-button:hover,
+.wc-block-checkout__actions_row .wc-block-components-checkout-return-to-cart-button:focus {
+    color: var(--color-text) !important;
+    border-color: var(--color-line) !important;
+    background-color: #fff !important;
 }
 
 .graceart-continue-shopping {
@@ -2659,9 +2740,17 @@ body.admin-bar {
     letter-spacing: 1px;
     text-transform: uppercase;
     text-decoration: none;
-    color: var(--color-text) !important;
-    border: 1px solid var(--color-line) !important;
+    color: #fff !important;
+    border: 1px solid var(--color-accent) !important;
     border-radius: 500px;
+    background-color: var(--color-accent) !important;
+}
+
+/* Beside another button: the light one. */
+.graceart-order__button + .graceart-order__button,
+.woocommerce a.graceart-order__button + .graceart-order__button {
+    color: var(--color-text) !important;
+    border-color: var(--color-line) !important;
     background-color: #fff !important;
 }
 
@@ -2672,6 +2761,13 @@ body.admin-bar {
     color: #fff !important;
     border-color: var(--color-accent) !important;
     background-color: var(--color-accent) !important;
+}
+
+.graceart-order__button + .graceart-order__button:hover,
+.graceart-order__button + .graceart-order__button:focus {
+    color: var(--color-text) !important;
+    border-color: var(--color-line) !important;
+    background-color: #fff !important;
 }
 
 /* E-mail verification asked of a guest who returns to the page later. */
@@ -2731,10 +2827,10 @@ body.admin-bar {
     line-height: 1;
     letter-spacing: 1px;
     text-transform: uppercase;
-    color: var(--color-text);
-    border: 1px solid var(--color-line);
+    color: #fff;
+    border: 1px solid var(--color-accent);
     border-radius: 500px;
-    background-color: #fff;
+    background-color: var(--color-accent);
 }
 
 .woocommerce form.woocommerce-verify-email .button:hover,
@@ -2790,6 +2886,17 @@ body.admin-bar {
     border-color: #cc1818;
 }
 
+.wp-block-woocommerce-checkout .graceart-packeta-other-country {
+    margin: 16px 0 0;
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--color-text-secondary);
+}
+
+.wp-block-woocommerce-checkout .graceart-packeta-other-country a {
+    text-decoration: underline;
+}
+
 .wp-block-woocommerce-checkout .graceart-packeta__label {
     margin-bottom: 6px;
     font-size: 16px;
@@ -2836,9 +2943,9 @@ body.admin-bar {
 }
 
 .wp-block-woocommerce-checkout .graceart-packeta__button.wc-block-components-button.outlined:hover {
-    color: #fff;
-    border-color: var(--color-accent);
-    background-color: var(--color-accent);
+    color: var(--color-text);
+    border-color: var(--color-dark);
+    background-color: #fff;
 }
 
 .wp-block-woocommerce-checkout .graceart-packeta__error,
