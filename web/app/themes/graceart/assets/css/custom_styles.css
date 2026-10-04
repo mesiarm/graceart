@@ -423,6 +423,19 @@ img {
     text-align: center;
 }
 
+/* One card per row on phones: scale the label with the viewport (the card
+   stops growing at 256px, hence the 31px cap) so the longest name stays on a
+   single line. */
+@media only screen and (max-width: 767px) {
+    .category-banner1 .inner .content .title {
+        font-size: clamp(22px, calc((100vw - 112px) / 8), 31px);
+    }
+
+    .category-banner1 .inner .content .title a {
+        white-space: nowrap;
+    }
+}
+
 /* More air between the cards and between image and label. */
 .category-banner1-carousel .slick-slide {
     padding: 0 15px;
@@ -430,7 +443,7 @@ img {
 
 /* Label sits in a soft cream box overlapping the bottom edge of the image. */
 .category-banner1 .inner .image:not(:last-child) {
-    margin-bottom: -26px;
+    margin-bottom: -46px;
 }
 
 .category-banner1 .inner .content {
