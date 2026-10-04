@@ -371,7 +371,7 @@ img {
     background-color: var(--color-accent) !important;
 }
 
-/* Front page: the buy buttons stay white (brown fill on hover). */
+/* Front page: white buy buttons, brown fill on hover. */
 .home .graceart-loop-buy-button {
     color: var(--color-text) !important;
     border-color: var(--color-line) !important;
@@ -379,9 +379,9 @@ img {
 }
 
 .home .graceart-loop-buy-button:hover {
-    color: var(--color-text) !important;
-    border-color: var(--color-line) !important;
-    background-color: #fff !important;
+    color: #fff !important;
+    border-color: var(--color-accent) !important;
+    background-color: var(--color-accent) !important;
 }
 
 /* Cards in a row are equal height (flex row / matchHeight); make the card a
@@ -441,6 +441,7 @@ img {
     line-height: 1.1;
     letter-spacing: 0;
     text-transform: none;
+    font-variant: all-small-caps;
     align-items: center;
     justify-content: center;
     text-align: center;
@@ -2045,6 +2046,49 @@ body *:not(
     font-size: 17px;
 }
 
+/* Checkout block (zhrnutie-objednavky): same 16px reading size as the cart. */
+.wp-block-woocommerce-checkout {
+    --wp--preset--font-size--small: 16px;
+    font-size: 16px;
+}
+
+.wp-block-woocommerce-checkout .wc-block-components-title,
+.wp-block-woocommerce-checkout .wc-block-components-checkout-step__description,
+.wp-block-woocommerce-checkout .wc-block-components-product-price,
+.wp-block-woocommerce-checkout .wc-block-components-product-metadata,
+.wp-block-woocommerce-checkout .wc-block-components-totals-item,
+.wp-block-woocommerce-checkout .wc-block-components-totals-item__label,
+.wp-block-woocommerce-checkout .wc-block-components-totals-item__value,
+.wp-block-woocommerce-checkout .wc-block-components-totals-coupon-link,
+.wp-block-woocommerce-checkout .wc-block-components-panel__button,
+.wp-block-woocommerce-checkout .wc-block-components-text-input input,
+.wp-block-woocommerce-checkout .wc-block-components-text-input label,
+.wp-block-woocommerce-checkout .wc-block-components-combobox .components-form-token-field__input,
+.wp-block-woocommerce-checkout .wc-blocks-components-select__select,
+.wp-block-woocommerce-checkout .wc-block-components-radio-control__label,
+.wp-block-woocommerce-checkout .wc-block-components-radio-control__description,
+.wp-block-woocommerce-checkout .wc-block-components-radio-control__secondary-label,
+.wp-block-woocommerce-checkout .wc-block-components-checkbox__label,
+.wp-block-woocommerce-checkout .wc-block-checkout__terms,
+.wp-block-woocommerce-checkout .wc-block-components-notice-banner,
+.wp-block-woocommerce-checkout .wc-block-components-order-summary-item__description {
+    font-size: 16px;
+}
+
+.wp-block-woocommerce-checkout .wc-block-components-totals-item__description,
+.wp-block-woocommerce-checkout .wc-block-components-radio-control__secondary-description,
+.wp-block-woocommerce-checkout .wc-block-components-validation-error,
+.wp-block-woocommerce-checkout .wc-block-components-textarea,
+.wp-block-woocommerce-checkout .wc-block-components-checkbox label,
+.wp-block-woocommerce-checkout .wc-block-components-chip .wc-block-components-chip__text,
+.wp-block-woocommerce-checkout .wc-block-components-checkout-step__heading-content {
+    font-size: 16px;
+}
+
+.wp-block-woocommerce-checkout .wc-block-components-order-summary-item__description .wc-block-components-product-name {
+    font-size: 17px;
+}
+
 /* Cart block: once a line item reaches everything that can be sold, the plus
    button is only disabled by WooCommerce; hide it instead. visibility keeps
    the selector's width so the number does not shift. */
@@ -2840,6 +2884,17 @@ body.admin-bar {
 
 .wp-block-woocommerce-checkout .graceart-packeta--error {
     border-color: #cc1818;
+}
+
+.wp-block-woocommerce-checkout .graceart-packeta-other-country {
+    margin: 16px 0 0;
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--color-text-secondary);
+}
+
+.wp-block-woocommerce-checkout .graceart-packeta-other-country a {
+    text-decoration: underline;
 }
 
 .wp-block-woocommerce-checkout .graceart-packeta__label {

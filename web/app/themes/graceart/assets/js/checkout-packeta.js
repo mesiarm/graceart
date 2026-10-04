@@ -230,13 +230,32 @@
         );
     }
 
+    /**
+     * Shown with the shipping options whatever the carrier: the country list
+     * holds only the Packeta countries, so someone from elsewhere is sent to
+     * the contact form to ask.
+     */
+    function OtherCountryNotice() {
+        if (!config.otherCountryUrl) {
+            return null;
+        }
+
+        return el(
+            'p',
+            { className: 'graceart-packeta-other-country' },
+            (strings.otherCountry || '') + ' ',
+            el('a', { href: config.otherCountryUrl }, strings.otherCountryLink || '')
+        );
+    }
+
     plugins.registerPlugin('graceart-packeta', {
         scope: 'woocommerce-checkout',
         render: function () {
             return el(
                 blocksCheckout.ExperimentalOrderShippingPackages,
                 null,
-                el(PacketaPickupPoint)
+                el(PacketaPickupPoint),
+                el(OtherCountryNotice)
             );
         }
     });

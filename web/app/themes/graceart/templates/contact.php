@@ -42,7 +42,11 @@ while (have_posts()) :
                                 </div>
                                 <div class="col-12 learts-mb-30">
                                     <textarea name="graceart_message" required
-                                        placeholder="<?php esc_attr_e('Vaša správa *', 'graceart'); ?>"></textarea>
+                                        placeholder="<?php esc_attr_e('Vaša správa *', 'graceart'); ?>"><?php
+                                        if (isset($_GET['doprava']) && sanitize_key(wp_unslash($_GET['doprava'])) === 'ina-krajina') {
+                                            echo esc_textarea(__('Dobrý deň, mám záujem o objednávku s doručením do krajiny: ', 'graceart'));
+                                        }
+                                    ?></textarea>
                                 </div>
 
                                 <?php /* Honeypot: hidden from people, tempting to bots. */ ?>

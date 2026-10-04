@@ -108,6 +108,88 @@ function graceartPacketaRateIds(): array
     return $ids;
 }
 
+/**
+ * Countries the shop delivers to: those of the shipping zones that have a
+ * Packeta method on. Empty (no restriction) while Packeta is not set up.
+ *
+ * @return array<int, string> Upper-case ISO codes.
+ */
+function graceartPacketaCountries(): array
+{
+    static $countries = null;
+
+    if ($countries !== null) {
+        return $countries;
+    }
+
+    $countries = [];
+
+    if (! graceartPacketaRateIds() || ! function_exists('WC') || ! WC()->countries) {
+        return $countries;
+    }
+
+    $continents = WC()->countries->get_continents();
+
+    foreach (WC_Shipping_Zones::get_zones() as $zone) {
+        $has_packeta = false;
+
+        foreach ($zone['shipping_methods'] ?? [] as $method) {
+            if ($method instanceof WC_Shipping_Method && in_array($method->get_rate_id(), graceartPacketaRateIds(), true)) {
+                $has_packeta = true;
+            }
+        }
+
+        if (! $has_packeta) {
+            continue;
+        }
+
+        foreach ($zone['zone_locations'] ?? [] as $location) {
+            if ($location->type === 'country') {
+                $countries[] = $location->code;
+            } elseif ($location->type === 'state') {
+                $countries[] = strtok($location->code, ':');
+            } elseif ($location->type === 'continent') {
+                $countries = array_merge($countries, $continents[$location->code]['countries'] ?? []);
+            }
+        }
+    }
+
+    $countries = array_values(array_unique($countries));
+
+    return $countries;
+}
+
+/**
+ * The country dropdowns of the storefront offer only Packeta countries; the
+ * admin keeps the full list for orders entered by hand.
+ */
+function graceartPacketaLimitCountries(array $countries): array
+{
+    $allowed = is_admin() ? [] : graceartPacketaCountries();
+
+    return $allowed ? array_intersect_key($countries, array_flip($allowed)) : $countries;
+}
+
+add_filter('woocommerce_countries_allowed_countries', 'graceartPacketaLimitCountries');
+add_filter('woocommerce_countries_shipping_countries', 'graceartPacketaLimitCountries');
+
+/**
+ * Contact page (template "Kontakt"), where a customer from another country
+ * asks whether the order can be delivered to them.
+ */
+function graceartPacketaContactUrl(): string
+{
+    $pages = get_pages([
+        'meta_key' => '_wp_page_template',
+        'meta_value' => 'templates/contact.php',
+        'number' => 1,
+    ]);
+
+    $url = $pages ? get_permalink($pages[0]) : home_url('/');
+
+    return add_query_arg('doprava', 'ina-krajina', $url) . '#kontakt-formular';
+}
+
 /*
 |--------------------------------------------------------------------------
 | Pickup point data
@@ -311,8 +393,11 @@ add_action('wp_enqueue_scripts', function (): void {
         'apiKey' => graceartPacketaApiKey(),
         'rateIds' => $rate_ids,
         'language' => substr(function_exists('determine_locale') ? determine_locale() : get_locale(), 0, 2),
+        'otherCountryUrl' => graceartPacketaContactUrl(),
         'point' => $saved ? ['rateId' => $saved['rate_id'], 'point' => $saved['point']] : null,
         'strings' => [
+            'otherCountry' => __('Nenašli ste svoju krajinu?', 'graceart'),
+            'otherCountryLink' => __('Opýtajte sa, či vám vieme poslať objednávku aj inam.', 'graceart'),
             'label' => __('Výdajné miesto Packeta', 'graceart'),
             'hint' => __('Zvoľte Z-BOX alebo výdajné miesto, kde si balík vyzdvihnete.', 'graceart'),
             'choose' => __('Vybrať výdajné miesto', 'graceart'),
