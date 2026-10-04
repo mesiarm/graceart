@@ -330,8 +330,8 @@ function graceartProductImageSrcsetAttr(WC_Product $product): string
     }
 
     // Card width follows the grid (4/3/2/2/1 columns per breakpoint), declared
-    // ~1.5x wider on purpose so the browser steps up one file size for sharpness.
-    $sizes = '(min-width: 1200px) 450px, (min-width: 992px) 38vw, (min-width: 576px) 75vw, 150vw';
+    // ~2x wider on purpose so the browser steps up one file size for sharpness.
+    $sizes = '(min-width: 1200px) 600px, (min-width: 992px) 50vw, (min-width: 576px) 100vw, 200vw';
 
     return sprintf(' srcset="%s" sizes="%s"', esc_attr($srcset), esc_attr($sizes));
 }
