@@ -81,6 +81,20 @@
         });
     }
 
+    /**
+     * Whole amounts read "12 €", not "12,00 €" (the classic pages already
+     * trim the zeros; the blocks format prices in React, so it is done here).
+     */
+    function trimWholeAmounts() {
+        document.querySelectorAll('.wc-block-formatted-money-amount, .wc-block-components-formatted-money-amount').forEach(function (amount) {
+            var text = amount.textContent;
+
+            if (/[,.]00(?!\d)/.test(text)) {
+                amount.textContent = text.replace(/([,.])00(?!\d)/, '');
+            }
+        });
+    }
+
     function followSummaryName(event) {
         var nameElement = event.target.closest && event.target.closest('[data-graceart-href]');
 
@@ -95,14 +109,10 @@
     document.addEventListener('keydown', followSummaryName);
 
     function watchCheckoutSummaryQuantities() {
-        var checkout = document.querySelector('.wp-block-woocommerce-checkout');
-
-        if (!checkout) {
-            return;
-        }
-
         var scheduled = false;
 
+        // The blocks may replace their container while hydrating, so the
+        // observer sits on the body and the container is looked up each time.
         function schedulePlacement() {
             if (scheduled) {
                 return;
@@ -111,7 +121,13 @@
             scheduled = true;
             window.requestAnimationFrame(function () {
                 scheduled = false;
-                placeCheckoutSummaryQuantities(checkout);
+                trimWholeAmounts();
+
+                var checkout = document.querySelector('.wp-block-woocommerce-checkout');
+
+                if (checkout) {
+                    placeCheckoutSummaryQuantities(checkout);
+                }
             });
         }
 
@@ -121,9 +137,7 @@
             return;
         }
 
-        var observer = new MutationObserver(schedulePlacement);
-
-        observer.observe(checkout, {
+        new MutationObserver(schedulePlacement).observe(document.body, {
             childList: true,
             subtree: true
         });

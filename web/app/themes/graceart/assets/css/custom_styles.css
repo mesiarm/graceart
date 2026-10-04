@@ -2231,9 +2231,13 @@ body *:not(
 /* Cart block: same item layout as the checkout summary — a larger thumbnail
    flush left, the unit price beside the name's last line. The quantity picker,
    remove link and line total stay. */
+.wp-block-woocommerce-cart table.wc-block-cart-items .wc-block-cart-items__header-image,
 .wp-block-woocommerce-cart table.wc-block-cart-items .wc-block-cart-item__image {
+    box-sizing: content-box;
     width: 110px;
+    min-width: 110px;
     padding-left: 0;
+    padding-right: 16px;
 }
 
 .wp-block-woocommerce-cart table.wc-block-cart-items .wc-block-cart-item__image img {
