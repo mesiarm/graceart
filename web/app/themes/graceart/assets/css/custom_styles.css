@@ -2148,6 +2148,11 @@ body *:not(
 
 /* Same size as the "1 ks" quantity line; the "Dostupnosť:" label is bold and
    in the product name's colour, the value stays like the quantity line. */
+.wp-block-woocommerce-cart table.wc-block-cart-items .wc-block-components-product-details li,
+.wp-block-woocommerce-checkout .wc-block-components-order-summary .wc-block-components-product-details li {
+    white-space: nowrap;
+}
+
 .wp-block-woocommerce-cart table.wc-block-cart-items .wc-block-components-product-details,
 .wp-block-woocommerce-cart table.wc-block-cart-items .wc-block-components-product-details li,
 .wp-block-woocommerce-cart table.wc-block-cart-items .wc-block-components-product-details__name,
@@ -2735,18 +2740,47 @@ body.admin-bar {
 }
 
 .graceart-order__item-thumb {
-    flex: 0 0 72px;
+    flex: 0 0 110px;
 }
 
 .graceart-order__item-thumb img {
     display: block;
-    width: 72px;
+    width: 110px;
     height: auto;
 }
 
+.graceart-order__item {
+    align-items: flex-start;
+}
+
+/* Name with the unit price at its right, the details full width under them —
+   the order summary's layout. */
 .graceart-order__item-info {
     flex: 1 1 auto;
     min-width: 0;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    column-gap: 16px;
+    row-gap: 4px;
+    align-items: start;
+}
+
+.graceart-order__item-info > * {
+    grid-column: 1 / -1;
+}
+
+.graceart-order__item-info > .graceart-order__item-name {
+    grid-column: 1;
+    grid-row: 1;
+}
+
+.graceart-order__item-info > .graceart-order__item-unit {
+    grid-column: 2;
+    grid-row: 1;
+    align-self: end;
+    margin-top: 0;
+    text-align: right;
+    white-space: nowrap;
 }
 
 .graceart-order__item-name {
@@ -2765,10 +2799,10 @@ body.admin-bar {
 
 /* Variation details (wc_display_item_meta prints a ul.wc-item-meta). */
 .graceart-order__item-meta .wc-item-meta {
-    margin: 4px 0 0;
+    margin: 0;
     padding: 0;
-    font-size: 14px;
-    line-height: 1.5;
+    font-size: 16px;
+    line-height: 1.4;
     color: var(--color-text-secondary);
 }
 
@@ -2778,18 +2812,37 @@ body.admin-bar {
     margin: 0;
 }
 
-.graceart-order__item-meta .wc-item-meta p,
-.graceart-order__item-meta .wc-item-meta strong {
+.graceart-order__item-meta .wc-item-meta p {
     display: inline;
     margin: 0;
     font-weight: 400;
 }
 
+.graceart-order__item-meta .wc-item-meta strong,
+.graceart-order__item-availability strong {
+    display: inline;
+    margin: 0;
+    font-weight: 500;
+    color: var(--color-text);
+}
+
+.graceart-order__item-availability,
+.graceart-order__item-meta .wc-item-meta li {
+    white-space: nowrap;
+}
+
+.graceart-order__item-availability {
+    display: block;
+    font-size: 16px;
+    line-height: 1.4;
+    color: var(--color-text-secondary);
+}
+
 .graceart-order__item-qty,
 .graceart-order__item-unit {
     display: block;
-    margin-top: 4px;
-    font-size: 14px;
+    margin-top: 0;
+    font-size: 16px;
     color: var(--color-text-secondary);
 }
 
@@ -3017,11 +3070,27 @@ body.admin-bar {
     }
 
     .graceart-order__item-thumb {
-        flex-basis: 56px;
+        flex-basis: 72px;
     }
 
     .graceart-order__item-thumb img {
-        width: 56px;
+        width: 72px;
+    }
+
+    /* Phones: the unit price follows the details instead of squeezing the name. */
+    .graceart-order__item-info {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .graceart-order__item-info > .graceart-order__item-name,
+    .graceart-order__item-info > .graceart-order__item-unit {
+        grid-column: 1;
+        grid-row: auto;
+        text-align: left;
+    }
+
+    .graceart-order__item-info > .graceart-order__item-unit {
+        order: 50;
     }
 
     .graceart-order__actions {

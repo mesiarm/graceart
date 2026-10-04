@@ -165,12 +165,24 @@ defined('ABSPATH') || exit;
                                     </div>
                                     <div class="graceart-order__item-info">
                                         <span class="graceart-order__item-name"><?php echo wp_kses_post($graceart_name); ?></span>
-                                        <?php /* Quantity and unit price as in the checkout summary: "5 ks" under the name, "55 € / kus" below. */ ?>
+                                        <?php /* Quantity and unit price as in the checkout summary: "5 ks" under the name, "55 € / ks" beside the name. */ ?>
                                         <span class="graceart-order__item-qty"><?php echo esc_html(sprintf(__('%d ks', 'graceart'), $graceart_item->get_quantity())); ?></span>
+                                        <?php
+                                        // The line's own availability, as in the cart: "Skladom"
+                                        // or the lead time it was ordered with.
+                                        $graceart_lead_key = (string) $graceart_item->get_meta('_graceart_lead_time');
+                                        $graceart_phrases = graceartLeadTimePhrases();
+                                        $graceart_item_availability = $graceart_lead_key === 'skladom'
+                                            ? __('Skladom', 'graceart')
+                                            : ($graceart_phrases[$graceart_lead_key] ?? '');
+                                        ?>
+                                        <?php if ($graceart_item_availability !== '') : ?>
+                                            <span class="graceart-order__item-availability"><strong><?php esc_html_e('Dostupnosť', 'graceart'); ?>:</strong> <?php echo esc_html($graceart_item_availability); ?></span>
+                                        <?php endif; ?>
                                         <?php if ($graceart_meta) : ?>
                                             <div class="graceart-order__item-meta"><?php echo wp_kses_post($graceart_meta); ?></div>
                                         <?php endif; ?>
-                                        <span class="graceart-order__item-unit"><?php echo wp_kses_post($graceart_unit); ?> / <?php esc_html_e('kus', 'graceart'); ?></span>
+                                        <span class="graceart-order__item-unit"><?php echo wp_kses_post($graceart_unit); ?> / <?php esc_html_e('ks', 'graceart'); ?></span>
                                     </div>
                                     <div class="graceart-order__item-total">
                                         <?php echo wp_kses_post($order->get_formatted_line_subtotal($graceart_item)); ?>
