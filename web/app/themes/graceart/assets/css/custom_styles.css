@@ -2175,6 +2175,7 @@ body *:not(
    same pill as every other button on the site. */
 .wp-block-woocommerce-cart .wc-block-cart__submit-button,
 .wp-block-woocommerce-cart .wp-block-button__link,
+.graceart-continue-shopping__link,
 .wc-block-components-checkout-place-order-button,
 .wc-block-checkout__actions_row .wc-block-components-checkout-return-to-cart-button,
 .wc-block-components-totals-coupon__button {
@@ -2201,6 +2202,8 @@ body *:not(
 .wp-block-woocommerce-cart .wc-block-cart__submit-button:focus,
 .wp-block-woocommerce-cart .wp-block-button__link:hover,
 .wp-block-woocommerce-cart .wp-block-button__link:focus,
+.graceart-continue-shopping__link:hover,
+.graceart-continue-shopping__link:focus,
 .wc-block-components-checkout-place-order-button:hover,
 .wc-block-components-checkout-place-order-button:focus,
 .wc-block-checkout__actions_row .wc-block-components-checkout-return-to-cart-button:hover,
@@ -2209,6 +2212,16 @@ body *:not(
     color: #fff !important;
     border-color: var(--color-accent) !important;
     background-color: var(--color-accent) !important;
+}
+
+.graceart-continue-shopping {
+    margin-top: 12px;
+}
+
+.graceart-continue-shopping__link {
+    display: flex;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 /* The coupon "Použiť" button sits beside a 50px field; keep WooCommerce's

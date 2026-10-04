@@ -133,6 +133,17 @@ add_filter('load_script_translations', function ($translations, $file, string $h
 }, 10, 4);
 
 /**
+ * "Pokračovať v nákupe" under the cart's checkout button.
+ */
+add_filter('render_block_woocommerce/proceed-to-checkout-block', function (string $content): string {
+    return $content . sprintf(
+        '<div class="graceart-continue-shopping"><a class="graceart-continue-shopping__link" href="%s">%s</a></div>',
+        esc_url(graceartShopUrl()),
+        esc_html__('Pokračovať v nákupe', 'graceart')
+    );
+});
+
+/**
  * Slovak labels for the cart/checkout block buttons.
  */
 add_action('wp_enqueue_scripts', function (): void {
