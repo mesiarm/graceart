@@ -2753,8 +2753,7 @@ body.admin-bar {
     align-items: flex-start;
 }
 
-/* Name with the unit price at its right, the details full width under them —
-   the order summary's layout. */
+/* Name, quantity and details stacked, the unit price last — as in the cart. */
 .graceart-order__item-info {
     flex: 1 1 auto;
     min-width: 0;
@@ -2775,11 +2774,8 @@ body.admin-bar {
 }
 
 .graceart-order__item-info > .graceart-order__item-unit {
-    grid-column: 2;
-    grid-row: 1;
-    align-self: end;
+    order: 50;
     margin-top: 0;
-    text-align: right;
     white-space: nowrap;
 }
 
