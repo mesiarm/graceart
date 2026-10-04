@@ -486,6 +486,7 @@ img {
     margin: 0;
     padding: 14px 12px 18px;
     background: linear-gradient(135deg, #e4d2a6 0%, #cdb27a 35%, #e6d6ad 55%, #c4a468 100%);
+    border-radius: 6px;
 }
 
 /* Photos come in different proportions; crop them all to the same box so the
