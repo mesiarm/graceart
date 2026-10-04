@@ -393,6 +393,15 @@ img {
     height: 100%;
 }
 
+/* Product photos come in different proportions; crop them all to the same box
+   so titles, prices and buttons line up across the row. */
+.products .product .product .product-thumb .image img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 250 / 213;
+    object-fit: cover;
+}
+
 .products .product .product .product-info {
     display: flex;
     flex: 1 1 auto;
