@@ -32,6 +32,7 @@ a:hover,
 #scrollUp,
 .bg-primary,
 .btn-primary,
+.btn-dark,
 .btn-hover-primary:hover,
 .btn-outline-hover-primary:hover,
 .btn-outline-primary:hover,
@@ -172,7 +173,7 @@ body {
 .wp-block-woocommerce-cart .wc-block-components-button:not(.is-link),
 .wp-block-woocommerce-checkout .wc-block-components-button:not(.is-link) {
     color: #fff;
-    background-color: var(--color-dark);
+    background-color: var(--color-accent);
 }
 
 .wp-block-woocommerce-cart .wc-block-components-button:not(.is-link):hover,
@@ -378,9 +379,9 @@ img {
 }
 
 .home .graceart-loop-buy-button:hover {
-    color: #fff !important;
-    border-color: var(--color-accent) !important;
-    background-color: var(--color-accent) !important;
+    color: var(--color-text) !important;
+    border-color: var(--color-line) !important;
+    background-color: #fff !important;
 }
 
 /* Cards in a row are equal height (flex row / matchHeight); make the card a
@@ -418,9 +419,9 @@ img {
 .graceart-loop-buy-button:hover,
 .product-summery .product-buttons .single_add_to_cart_button:hover,
 .product-summery .product-buttons .single_add_to_cart_button:focus {
-    color: var(--color-text) !important;
-    border-color: var(--color-line) !important;
-    background-color: #fff !important;
+    color: #fff !important;
+    border-color: var(--color-accent) !important;
+    background-color: var(--color-accent) !important;
 }
 
 /* Category banners share the product card title typography. */
@@ -1312,9 +1313,9 @@ img {
 }
 
 .product-buttons .graceart-wishlist-button:hover {
-    color: #fff;
-    border-color: var(--color-accent);
-    background-color: var(--color-accent);
+    color: var(--color-text);
+    border-color: var(--color-line);
+    background-color: #fff;
 }
 
 /* Already in the wishlist: filled gold heart; hovering hints at removal. */
@@ -1324,8 +1325,8 @@ img {
 }
 
 .product-buttons .graceart-wishlist-button.is-active:hover {
-    color: #fff;
-    background-color: var(--color-accent);
+    color: var(--color-accent);
+    background-color: #fff;
 }
 
 /* Futura's webfont has no Slovak diacritics (Ž, Ú, Š, …); Jost is a Futura-style
@@ -1566,9 +1567,9 @@ body *:not(
 .woocommerce-info .button:focus,
 .woocommerce-error .button:hover,
 .woocommerce-error .button:focus {
-    color: var(--color-text) !important;
-    border-color: var(--color-line) !important;
-    background-color: #fff !important;
+    color: #fff !important;
+    border-color: var(--color-accent) !important;
+    background-color: var(--color-accent) !important;
 }
 
 @media only screen and (max-width: 767px) {
@@ -2241,18 +2242,18 @@ body *:not(
 .wc-block-checkout__actions_row .wc-block-components-checkout-return-to-cart-button:hover,
 .wc-block-components-totals-coupon__button:hover,
 .wc-block-components-totals-coupon__button:focus {
-    color: var(--color-text) !important;
-    border-color: var(--color-line) !important;
-    background-color: #fff !important;
+    color: #fff !important;
+    border-color: var(--color-accent) !important;
+    background-color: var(--color-accent) !important;
 }
 
 .graceart-continue-shopping__link:hover,
 .graceart-continue-shopping__link:focus,
 .wc-block-checkout__actions_row .wc-block-components-checkout-return-to-cart-button:hover,
 .wc-block-checkout__actions_row .wc-block-components-checkout-return-to-cart-button:focus {
-    color: #fff !important;
-    border-color: var(--color-accent) !important;
-    background-color: var(--color-accent) !important;
+    color: var(--color-text) !important;
+    border-color: var(--color-line) !important;
+    background-color: #fff !important;
 }
 
 .graceart-continue-shopping {
@@ -2708,16 +2709,16 @@ body.admin-bar {
 .graceart-order__button:focus,
 .woocommerce a.graceart-order__button:hover,
 .woocommerce a.graceart-order__button:focus {
-    color: var(--color-text) !important;
-    border-color: var(--color-line) !important;
-    background-color: #fff !important;
+    color: #fff !important;
+    border-color: var(--color-accent) !important;
+    background-color: var(--color-accent) !important;
 }
 
 .graceart-order__button + .graceart-order__button:hover,
 .graceart-order__button + .graceart-order__button:focus {
-    color: #fff !important;
-    border-color: var(--color-accent) !important;
-    background-color: var(--color-accent) !important;
+    color: var(--color-text) !important;
+    border-color: var(--color-line) !important;
+    background-color: #fff !important;
 }
 
 /* E-mail verification asked of a guest who returns to the page later. */
@@ -2795,9 +2796,9 @@ body.admin-bar {
 .woocommerce form.woocommerce-EditAccountForm .button:focus,
 .woocommerce-MyAccount-content .button:hover,
 .woocommerce-MyAccount-content .button:focus {
-    color: var(--color-text);
-    border-color: var(--color-line);
-    background-color: #fff;
+    color: #fff;
+    border-color: var(--color-accent);
+    background-color: var(--color-accent);
 }
 
 @media only screen and (max-width: 767px) {
@@ -2882,9 +2883,9 @@ body.admin-bar {
 }
 
 .wp-block-woocommerce-checkout .graceart-packeta__button.wc-block-components-button.outlined:hover {
-    color: #fff;
-    border-color: var(--color-accent);
-    background-color: var(--color-accent);
+    color: var(--color-text);
+    border-color: var(--color-dark);
+    background-color: #fff;
 }
 
 .wp-block-woocommerce-checkout .graceart-packeta__error,
