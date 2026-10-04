@@ -2263,10 +2263,13 @@ body *:not(
 }
 
 /* The quantity picker is the last thing in a cart line, its number bold. */
+/* On phones WooCommerce pins it to row 2 of its own grid (is-mobile rules),
+   which puts it straight under the name; !important lets it follow the order. */
 .wp-block-woocommerce-cart table.wc-block-cart-items .wc-block-cart-item__quantity {
-    grid-column: 1 / -1;
-    grid-row: auto;
+    grid-column: 1 / -1 !important;
+    grid-row: auto !important;
     order: 99;
+    padding-right: 0 !important;
 }
 
 .wp-block-woocommerce-cart table.wc-block-cart-items .wc-block-components-quantity-selector__input {
@@ -2337,6 +2340,11 @@ body *:not(
         grid-column: 1;
         grid-row: auto;
         text-align: left;
+    }
+
+    /* After the details ("Dostupnosť", "Veľkosť"), as in the cart. */
+    .wp-block-woocommerce-checkout .wc-block-components-order-summary .wc-block-components-order-summary-item__description > .wc-block-cart-item__prices {
+        order: 50;
     }
 }
 
