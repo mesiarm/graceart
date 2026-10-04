@@ -249,6 +249,10 @@
         var sent = element.useRef('');
 
         element.useEffect(function () {
+            if (sync.country === sync.rated) {
+                sent.current = '';
+            }
+
             if (
                 !sync.country || !sync.rated || sync.country === sync.rated
                 || sent.current === sync.country
