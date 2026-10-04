@@ -2192,11 +2192,34 @@ body *:not(
     grid-column: 1;
 }
 
+/* The unit price shares the row of the name's last line, at the right. The
+   name spans the first row alone; the price sits on that row, bottom-aligned. */
 .wp-block-woocommerce-checkout .wc-block-components-order-summary .wc-block-components-order-summary-item__description > .wc-block-cart-item__prices {
     grid-column: 2;
     grid-row: 1;
+    align-self: end;
     text-align: right;
     white-space: nowrap;
+}
+
+/* Thumbnail flush with the box's left edge and larger. */
+.wp-block-woocommerce-checkout .wc-block-components-order-summary__content {
+    padding-left: 0;
+}
+
+.wp-block-woocommerce-checkout .wc-block-components-order-summary .wc-block-components-order-summary-item {
+    padding-left: 0;
+    gap: 20px;
+}
+
+.wp-block-woocommerce-checkout .wc-block-components-order-summary .wc-block-components-order-summary-item__image {
+    width: 110px;
+    flex: 0 0 110px;
+}
+
+.wp-block-woocommerce-checkout .wc-block-components-order-summary .wc-block-components-order-summary-item__image img {
+    width: 100%;
+    max-width: none;
 }
 
 .wp-block-woocommerce-checkout .graceart-order-summary-item__quantity {

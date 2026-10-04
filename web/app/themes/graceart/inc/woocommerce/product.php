@@ -351,7 +351,7 @@ function graceartLeadTimeOptions(): array
 }
 
 /**
- * Lead times in the genitive form used after "do" ("Na objednávku do 1 týždňa").
+ * Lead times in the genitive form used after "do" ("do 1 týždňa").
  */
 function graceartLeadTimePhrases(): array
 {
@@ -696,7 +696,7 @@ function graceartLeadTimePhrase(WC_Product $product): string
 function graceartAvailabilityText(WC_Product $product): string
 {
     if (graceartIsOnBackorder($product)) {
-        return sprintf(__('Na objednávku %s', 'graceart'), graceartLeadTimePhrase($product));
+        return graceartLeadTimePhrase($product);
     }
 
     if (! $product->is_in_stock()) {
@@ -719,7 +719,7 @@ function graceartQuantityAvailabilityText(WC_Product $product, int $quantity): s
         return graceartAvailabilityText($product);
     }
 
-    return sprintf(__('Na objednávku %s', 'graceart'), graceartLeadTimePhrase($product));
+    return graceartLeadTimePhrase($product);
 }
 
 /**
@@ -791,13 +791,13 @@ function graceartOrderAvailabilityText(WC_Order $order): string
         return __('Skladom', 'graceart');
     }
 
-    return sprintf(__('Na objednávku %s', 'graceart'), graceartLeadTimePhrases()[$lead_time]);
+    return graceartLeadTimePhrases()[$lead_time];
 }
 
 function graceartAvailabilityShortLabel(WC_Product $product): array
 {
     if (graceartIsOnBackorder($product)) {
-        return ['label' => __('Na objednávku', 'graceart'), 'in_stock' => false];
+        return ['label' => graceartLeadTimePhrase($product), 'in_stock' => false];
     }
 
     if (! $product->is_in_stock()) {
