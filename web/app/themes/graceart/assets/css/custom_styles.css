@@ -2286,6 +2286,21 @@ body *:not(
     font-weight: 700;
 }
 
+/* Medium and narrow carts: WooCommerce turns each row into a grid whose first
+   column is 80px, so a larger thumbnail ran over the name. The column takes the
+   thumbnail's width instead (the other columns keep WooCommerce's sizes). */
+.wp-block-woocommerce-cart table.wc-block-cart-items .wc-block-cart-items__row {
+    grid-template-columns: 110px 132px minmax(0, 1fr) auto !important;
+}
+
+@container (max-width: 699px) {
+    .wp-block-woocommerce-cart table.wc-block-cart-items .wc-block-cart-item__image {
+        width: auto !important;
+        min-width: 0 !important;
+        padding-right: 0 !important;
+    }
+}
+
 /* Thumbnail flush with the box's left edge and larger. */
 .wp-block-woocommerce-checkout .wc-block-components-order-summary__content {
     padding-left: 0;
@@ -2321,6 +2336,10 @@ body *:not(
         width: 72px !important;
         min-width: 0 !important;
         flex: 0 0 72px !important;
+    }
+
+    .wp-block-woocommerce-cart table.wc-block-cart-items .wc-block-cart-items__row {
+        grid-template-columns: 72px 132px minmax(0, 1fr) auto !important;
     }
 
     .wp-block-woocommerce-checkout .wc-block-components-order-summary .wc-block-components-order-summary-item__image img,

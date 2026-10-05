@@ -40,7 +40,7 @@
             widgetLoading = new Promise(function (resolve, reject) {
                 var script = document.createElement('script');
 
-                script.src = WIDGET_URL;
+                script.src = config.fakeWidgetUrl || WIDGET_URL;
                 script.async = true;
                 script.onload = function () {
                     if (window.Packeta && window.Packeta.Widget) {

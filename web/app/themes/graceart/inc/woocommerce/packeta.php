@@ -64,9 +64,28 @@ add_filter('woocommerce_shipping_instance_form_fields_flat_rate', function (arra
     return $fields;
 });
 
+/**
+ * Development stand-in for the Packeta widget (assets/js/packeta-fake-widget.js),
+ * so the checkout can be tried without an API key. On by default only in the
+ * "local" environment; GRACEART_PACKETA_FAKE_WIDGET=true/false in .env
+ * overrides it (e.g. true on the Hetzner test server).
+ */
+function graceartPacketaFakeWidgetEnabled(): bool
+{
+    $flag = function_exists('env') ? env('GRACEART_PACKETA_FAKE_WIDGET') : null;
+
+    if ($flag !== null) {
+        return filter_var($flag, FILTER_VALIDATE_BOOLEAN);
+    }
+
+    return wp_get_environment_type() === 'local';
+}
+
 function graceartPacketaApiKey(): string
 {
-    return trim((string) get_option(GRACEART_PACKETA_API_KEY_OPTION, ''));
+    $key = trim((string) get_option(GRACEART_PACKETA_API_KEY_OPTION, ''));
+
+    return $key === '' && graceartPacketaFakeWidgetEnabled() ? 'fake-widget' : $key;
 }
 
 /**
@@ -167,7 +186,10 @@ function graceartPacketaLimitCountries(array $countries): array
 {
     $allowed = is_admin() ? [] : graceartPacketaCountries();
 
-    return $allowed ? array_intersect_key($countries, array_flip($allowed)) : $countries;
+    $countries = $allowed ? array_intersect_key($countries, array_flip($allowed)) : $countries;
+
+    // Slovakia, the home market, goes first.
+    return isset($countries['SK']) ? ['SK' => $countries['SK']] + $countries : $countries;
 }
 
 add_filter('woocommerce_countries_allowed_countries', 'graceartPacketaLimitCountries');
@@ -407,6 +429,9 @@ add_action('wp_enqueue_scripts', function (): void {
 
     wp_localize_script('graceart-checkout-packeta', 'graceartPacketa', [
         'apiKey' => graceartPacketaApiKey(),
+        'fakeWidgetUrl' => graceartPacketaFakeWidgetEnabled() && file_exists(fullTemplatePath('assets/js/packeta-fake-widget.js'))
+            ? fullTemplateUri('assets/js/packeta-fake-widget.js')
+            : '',
         'rateIds' => $rate_ids,
         'language' => substr(function_exists('determine_locale') ? determine_locale() : get_locale(), 0, 2),
         'otherCountryUrl' => graceartPacketaContactUrl(),
