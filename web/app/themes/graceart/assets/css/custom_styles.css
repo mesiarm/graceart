@@ -447,11 +447,23 @@ img {
     }
 }
 
-/* Narrow desktop viewports (small laptops, Windows display scaling): the
-   cards shrink with the container, so the label shrinks with the viewport. */
-@media only screen and (min-width: 768px) and (max-width: 1199px) {
+/* Tablet and desktop: every label stays on one line. The label scales with the
+   card (the container tops out at 1200px, four cards per row) and the box
+   grows to fit its text, so even the longest name fits on old, scaled-up
+   Windows screens. */
+@media only screen and (min-width: 768px) {
+    .category-banner1-carousel .category-banner1 .inner .content {
+        width: max-content;
+        min-width: 80%;
+        max-width: calc(100% + 24px);
+    }
+
     .category-banner1 .inner .content .title {
-        font-size: clamp(20px, 2.3vw, 30px);
+        font-size: calc((min(100vw, 1200px) - 30px) / 47);
+    }
+
+    .category-banner1 .inner .content .title a {
+        white-space: nowrap;
     }
 }
 
