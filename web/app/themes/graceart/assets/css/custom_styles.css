@@ -371,19 +371,6 @@ img {
     background-color: var(--color-accent) !important;
 }
 
-/* Front page: white buy buttons, brown fill on hover. */
-.home .graceart-loop-buy-button {
-    color: var(--color-text) !important;
-    border-color: var(--color-line) !important;
-    background-color: #fff !important;
-}
-
-.home .graceart-loop-buy-button:hover {
-    color: #fff !important;
-    border-color: var(--color-accent) !important;
-    background-color: var(--color-accent) !important;
-}
-
 /* Cards in a row are equal height (flex row / matchHeight); make the card a
    column and pin the button to the bottom so buttons line up even when a
    title wraps onto a second line. */
