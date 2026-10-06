@@ -447,6 +447,14 @@ img {
     }
 }
 
+/* Narrow desktop viewports (small laptops, Windows display scaling): the
+   cards shrink with the container, so the label shrinks with the viewport. */
+@media only screen and (min-width: 768px) and (max-width: 1199px) {
+    .category-banner1 .inner .content .title {
+        font-size: clamp(20px, 2.3vw, 30px);
+    }
+}
+
 /* More air between the cards and between image and label. */
 .category-banner1-carousel .slick-slide {
     padding: 0 15px;
@@ -1775,6 +1783,12 @@ body *:not(
 /* Modesty renders small for its font-size, so the script heading is scaled
    up above the theme's 56/44/30/24px steps for .section-title .title. */
 @media only screen and (min-width: 768px) and (max-width: 991px) {
+    .section-title .title.title-script {
+        font-size: 60px;
+    }
+}
+
+@media only screen and (min-width: 992px) and (max-width: 1199px) {
     .section-title .title.title-script {
         font-size: 60px;
     }

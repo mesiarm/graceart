@@ -128,16 +128,6 @@
 /*----------------------------------------*/
 /*  Font Modesty
 /*----------------------------------------*/
-@font-face {
-	font-family: "Modesty";
-	font-weight: normal;
-	font-style: normal;
-
-	font-display: swap;
-	src: url("../../fonts/modesty/ModestyRegularByMCT.eot");
-	src: url("../../fonts/modesty/ModestyRegularByMCT.eot?#iefix") format("embedded-opentype"),
-	url("../../fonts/modesty/ModestyRegularByMCT.woff2") format("woff2"),
-	url("../../fonts/modesty/ModestyRegularByMCT.woff") format("woff"),
-	url("../../fonts/modesty/ModestyRegularByMCT.ttf") format("truetype"),
-	url("../../fonts/modesty/ModestyRegularByMCT.svg#ModestyRegularByMCT") format("svg");
-}
+/* The original Modesty face is intentionally not declared: it lacks Slovak
+   diacritics, and browsers differ in which face wins for the same family, so
+   the Dancing Script faces in custom_styles.css (family "Modesty") are the only ones. */
