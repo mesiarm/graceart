@@ -39,7 +39,7 @@ $newest_product_ids = graceartHomepageNewestProductIds();
                         <div class="inner">
                             <a href="<?php echo esc_url($banner['url']); ?>" class="image">
                                 <?php /* The carousel shows four at once; the rest can wait. */ ?>
-                                <img src="<?php echo esc_url($banner['image']); ?>"<?php echo $banner['image_size'] ?? ''; ?> alt="<?php echo esc_attr($banner['label']); ?>"<?php echo $graceart_banner_index >= 4 ? ' loading="lazy"' : ''; ?> decoding="async">
+                                <img src="<?php echo esc_url($banner['image']); ?>"<?php echo $banner['image_size'] ?? ''; ?><?php echo $banner['image_srcset'] ?? ''; ?> alt="<?php echo esc_attr($banner['label']); ?>"<?php echo $graceart_banner_index >= 4 ? ' loading="lazy"' : ''; ?> decoding="async">
                             </a>
                             <div class="content">
                                 <h3 class="title">

@@ -74,11 +74,30 @@ function graceartHomepageCategoryBanners(?int $post_id = null): array
             'count' => $term->count,
             'image' => $image ?: (function_exists('wc_placeholder_img_src') ? wc_placeholder_img_src('woocommerce_single') : ''),
             'image_size' => $image && function_exists('graceartImageSizeAttr') ? graceartImageSizeAttr($thumbnail_id, 'woocommerce_single') : '',
+            'image_srcset' => $image ? graceartCategoryBannerSrcsetAttr($thumbnail_id) : '',
             'url' => is_wp_error($term_link) ? home_url('/') : $term_link,
         ];
     }
 
     return $banners;
+}
+
+/**
+ * ' srcset="…" sizes="…"' for the homepage category cards. Desktop and tablet
+ * cards are narrow, but on a phone the card spans the whole screen, so phones
+ * pick a larger file. Empty when only one size exists.
+ */
+function graceartCategoryBannerSrcsetAttr(int $image_id): string
+{
+    $srcset = wp_get_attachment_image_srcset($image_id, 'woocommerce_single');
+
+    if (! $srcset) {
+        return '';
+    }
+
+    $sizes = '(min-width: 992px) 270px, (min-width: 768px) 45vw, 100vw';
+
+    return sprintf(' srcset="%s" sizes="%s"', esc_attr($srcset), esc_attr($sizes));
 }
 
 /**
