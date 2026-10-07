@@ -2,4 +2,8 @@
 
 defined('ABSPATH') || exit;
 
-wc_print_notice(esc_html__('Nenašli sa žiadne produkty zodpovedajúce vášmu výberu.', 'graceart'), 'notice');
+$message = is_product_category()
+    ? __('V tejto kategórii sa zatiaľ nič nenašlo.', 'graceart')
+    : __('Nenašli sa žiadne produkty zodpovedajúce vášmu výberu.', 'graceart');
+
+wc_print_notice(esc_html($message), 'notice');
