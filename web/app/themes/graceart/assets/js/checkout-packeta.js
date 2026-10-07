@@ -199,11 +199,29 @@
         var latest = element.useRef(null);
         var lastOpen = element.useRef(0);
 
-        latest.current = function () {
-            if (!point && !busy) {
+        var wanted = element.useRef('');
+
+        // The rate is selected a moment after the click, and the point is
+        // stored for the rate that is selected when it is picked: so for a
+        // rate that is not selected yet, wait until it is.
+        latest.current = function (clickedRate) {
+            if (point || busy) {
+                return;
+            }
+
+            if (clickedRate === rateId) {
                 choose();
+            } else {
+                wanted.current = clickedRate;
             }
         };
+
+        element.useEffect(function () {
+            if (wanted.current && wanted.current === rateId && isPacketa && !point && !busy) {
+                wanted.current = '';
+                choose();
+            }
+        }, [rateId]);
 
         element.useEffect(function () {
             function onClick(event) {
@@ -223,7 +241,7 @@
                 }
 
                 lastOpen.current = now;
-                latest.current();
+                latest.current(input.value);
             }
 
             document.addEventListener('click', onClick);

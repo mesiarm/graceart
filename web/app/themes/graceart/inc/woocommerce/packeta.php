@@ -72,7 +72,7 @@ add_filter('woocommerce_shipping_instance_form_fields_flat_rate', function (arra
  */
 function graceartPacketaFakeWidgetEnabled(): bool
 {
-    $flag = function_exists('env') ? env('GRACEART_PACKETA_FAKE_WIDGET') : null;
+    $flag = function_exists('Env\env') ? \Env\env('GRACEART_PACKETA_FAKE_WIDGET') : null;
 
     if ($flag !== null) {
         return filter_var($flag, FILTER_VALIDATE_BOOLEAN);
