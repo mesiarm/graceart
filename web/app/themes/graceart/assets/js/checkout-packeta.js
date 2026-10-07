@@ -191,6 +191,40 @@
             });
         }
 
+        // Clicking the Packeta rate opens the widget while no point is set.
+        // A click listener rather than a rate change, because the rate may
+        // already be selected (it is the first option) and then nothing
+        // changes. Clicking a label also fires a click on its input; only
+        // that one is handled.
+        var latest = element.useRef(null);
+
+        latest.current = function () {
+            if (!point && !busy) {
+                choose();
+            }
+        };
+
+        element.useEffect(function () {
+            function onClick(event) {
+                var input = event.target;
+
+                if (
+                    input && input.type === 'radio' && input.name
+                    && input.name.indexOf('radio-control-') === 0
+                    && config.rateIds.indexOf(input.value) !== -1
+                    && input.closest('.wc-block-components-shipping-rates-control')
+                ) {
+                    latest.current();
+                }
+            }
+
+            document.addEventListener('click', onClick);
+
+            return function () {
+                document.removeEventListener('click', onClick);
+            };
+        }, []);
+
         if (!isPacketa) {
             return null;
         }
