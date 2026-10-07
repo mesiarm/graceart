@@ -194,9 +194,10 @@
         // Clicking the Packeta rate opens the widget while no point is set.
         // A click listener rather than a rate change, because the rate may
         // already be selected (it is the first option) and then nothing
-        // changes. Clicking a label also fires a click on its input; only
-        // that one is handled.
+        // changes. A label click also fires one on its input, so the option
+        // row is resolved and repeats within a moment are ignored.
         var latest = element.useRef(null);
+        var lastOpen = element.useRef(0);
 
         latest.current = function () {
             if (!point && !busy) {
@@ -206,16 +207,23 @@
 
         element.useEffect(function () {
             function onClick(event) {
-                var input = event.target;
+                var option = event.target && event.target.closest
+                    ? event.target.closest('.wc-block-components-radio-control__option')
+                    : null;
+                var input = option ? option.querySelector('input[type="radio"]') : null;
 
-                if (
-                    input && input.type === 'radio' && input.name
-                    && input.name.indexOf('radio-control-') === 0
-                    && config.rateIds.indexOf(input.value) !== -1
-                    && input.closest('.wc-block-components-shipping-rates-control')
-                ) {
-                    latest.current();
+                if (!input || config.rateIds.indexOf(input.value) === -1) {
+                    return;
                 }
+
+                var now = Date.now();
+
+                if (now - lastOpen.current < 600) {
+                    return;
+                }
+
+                lastOpen.current = now;
+                latest.current();
             }
 
             document.addEventListener('click', onClick);
@@ -232,7 +240,7 @@
         return el(
             'div',
             {
-                className: 'graceart-packeta' + (point ? ' graceart-packeta--selected' : '') + (cart.errorShown ? ' graceart-packeta--error' : ''),
+                className: 'graceart-packeta' + (point ? ' graceart-packeta--selected' : ' graceart-packeta--empty') + (cart.errorShown ? ' graceart-packeta--error' : ''),
                 ref: container
             },
             el('div', { className: 'graceart-packeta__label' }, strings.label || ''),
