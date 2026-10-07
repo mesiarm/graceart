@@ -3152,10 +3152,14 @@ body.graceart-shipping-pending .wc-block-components-shipping-rates-control {
 }
 
 .wp-block-woocommerce-checkout .graceart-packeta-other-country {
-    margin: 16px 0 0;
+    margin: 8px 0 16px;
     font-size: 14px;
     line-height: 1.5;
     color: var(--color-text-secondary);
+}
+
+.wp-block-woocommerce-checkout .graceart-packeta-other-country-host {
+    width: 100%;
 }
 
 .wp-block-woocommerce-checkout .graceart-packeta-other-country a {

@@ -284,23 +284,89 @@
     }
 
     /**
-     * Shown with the shipping options whatever the carrier: the country list
-     * holds only the Packeta countries, so someone from elsewhere is sent to
-     * the contact form to ask.
+     * The address form is not ours to render, so the notice gets a host node
+     * placed right after the shipping country field and is portalled into it.
+     * The form re-renders freely, hence the observer keeps the host in place.
+     * Null until the field exists; the caller then falls back to inline.
+     */
+    function useCountryFieldHost() {
+        var state = element.useState(null);
+        var host = state[0];
+        var setHost = state[1];
+
+        element.useEffect(function () {
+            var node = null;
+
+            function sync() {
+                var field = document.querySelector('#shipping .wc-block-components-address-form__country');
+
+                if (!field) {
+                    if (node && node.parentNode) {
+                        node.parentNode.removeChild(node);
+                    }
+
+                    if (host) {
+                        setHost(null);
+                    }
+
+                    return;
+                }
+
+                if (!node) {
+                    node = document.createElement('div');
+                    node.className = 'graceart-packeta-other-country-host';
+                }
+
+                if (field.nextSibling !== node) {
+                    field.parentNode.insertBefore(node, field.nextSibling);
+                }
+
+                if (host !== node) {
+                    setHost(node);
+                }
+            }
+
+            sync();
+
+            var root = document.querySelector('.wp-block-woocommerce-checkout') || document.body;
+            var observer = new MutationObserver(sync);
+
+            observer.observe(root, { childList: true, subtree: true });
+
+            return function () {
+                observer.disconnect();
+
+                if (node && node.parentNode) {
+                    node.parentNode.removeChild(node);
+                }
+            };
+        }, []);
+
+        return host;
+    }
+
+    /**
+     * Shown next to the country field: the country list holds only the
+     * Packeta countries, so someone from elsewhere is sent to the contact
+     * form to ask.
      */
     function OtherCountryNotice() {
         useCountrySync();
+
+        var host = useCountryFieldHost();
 
         if (!config.otherCountryUrl) {
             return null;
         }
 
-        return el(
+        var notice = el(
             'p',
             { className: 'graceart-packeta-other-country' },
             (strings.otherCountry || '') + ' ',
             el('a', { href: config.otherCountryUrl }, strings.otherCountryLink || '')
         );
+
+        return host ? element.createPortal(notice, host) : notice;
     }
 
     plugins.registerPlugin('graceart-packeta', {
