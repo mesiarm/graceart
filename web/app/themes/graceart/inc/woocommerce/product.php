@@ -103,6 +103,10 @@ add_filter('woocommerce_product_description_heading', fn(): string => __('Popis'
 
 add_filter('woocommerce_product_related_products_heading', fn(): string => __('Mohlo by sa vám páčiť', 'graceart'));
 
+// Related products come strictly from the product's own category, never from shared tags.
+add_filter('woocommerce_product_related_posts_relate_by_category', '__return_true');
+add_filter('woocommerce_product_related_posts_relate_by_tag', '__return_false');
+
 add_filter('woocommerce_reviews_title', function (string $title, int $count, WC_Product $product): string {
     if ($count > 0) {
         return sprintf(__('Recenzie (%d) pre %s', 'graceart'), $count, '<span>' . esc_html($product->get_name()) . '</span>');
