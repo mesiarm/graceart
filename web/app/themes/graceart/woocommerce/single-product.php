@@ -43,7 +43,7 @@ while (have_posts()) :
         </div>
     </div>
 
-    <div id="product-<?php the_ID(); ?>" <?php wc_product_class('section section-padding product-main-section border-bottom', $product); ?>>
+    <div id="product-<?php the_ID(); ?>" <?php wc_product_class('section section-fluid section-padding product-main-section border-bottom', $product); ?>>
         <div class="container">
             <div class="row learts-mb-n40">
                 <div class="col-lg-7 col-12 learts-mb-40">
@@ -206,7 +206,7 @@ while (have_posts()) :
         </div>
     </div>
 
-    <div class="section section-padding">
+    <div class="section section-fluid section-padding">
         <div class="container">
             <?php woocommerce_output_related_products(); ?>
         </div>
