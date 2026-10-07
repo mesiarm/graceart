@@ -261,11 +261,14 @@ function graceartProductLoopCategoryFilters(): array
         return [];
     }
 
+    // The "Nezaradené" (uncategorized) bucket is not offered as a filter.
+    $terms = array_filter($terms, fn (WP_Term $term): bool => $term->slug !== 'uncategorized');
+
     $filters = array_map(function (WP_Term $term): array {
         $link = get_term_link($term);
 
         return [
-            'label' => $term->slug === 'uncategorized' ? __('Nezaradené', 'graceart') : $term->name,
+            'label' => $term->name,
             'filter' => '.cat-' . $term->term_id,
             'term_id' => $term->term_id,
             'url' => is_wp_error($link) ? '' : $link,
