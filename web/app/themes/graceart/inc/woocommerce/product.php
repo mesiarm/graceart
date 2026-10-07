@@ -258,7 +258,7 @@ function graceartProductLoopCategoryFilters(): array
 
     $terms = get_terms([
         'taxonomy' => 'product_cat',
-        'hide_empty' => false,
+        'hide_empty' => true,
     ]);
 
     if (is_wp_error($terms)) {
