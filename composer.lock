@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "de5b0707615d7f71d38141144af52548",
+    "content-hash": "0cd3a709480327fce97b5ea52fed5436",
     "packages": [
         {
             "name": "composer/installers",
@@ -1023,6 +1023,37 @@
                 }
             ],
             "time": "2025-12-27T19:49:13+00:00"
+        },
+        {
+            "name": "wp-plugin/complianz-gdpr",
+            "version": "7.5.5",
+            "source": {
+                "type": "svn",
+                "url": "https://plugins.svn.wordpress.org/complianz-gdpr/",
+                "reference": "tags/7.5.5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://downloads.wordpress.org/plugin/complianz-gdpr.7.5.5.zip"
+            },
+            "require": {
+                "composer/installers": "~1.0|~2.0"
+            },
+            "type": "wordpress-plugin",
+            "notification-url": "https://wp-packages.org/downloads",
+            "authors": [
+                {
+                    "name": "Complianz"
+                }
+            ],
+            "description": "Publish your cookie banner or notice in minutes. Automatically scan cookies, and create policies to align with GDPR, CCPA, and Google Consent Mode.",
+            "homepage": "https://www.wordpress.org/plugins/complianz-gdpr",
+            "support": {
+                "changelog": "https://wordpress.org/plugins/complianz-gdpr/#developers",
+                "issues": "https://wordpress.org/support/plugin/complianz-gdpr",
+                "source": "https://plugins.svn.wordpress.org/complianz-gdpr"
+            },
+            "time": "2026-09-08T13:06:54+00:00"
         },
         {
             "name": "wp-plugin/fluent-smtp",
