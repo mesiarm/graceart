@@ -3,7 +3,7 @@
  * Template name: Vrátenie tovaru
  *
  * Information on the consumer's right of withdrawal (zákon č. 108/2024 Z. z.),
- * the model withdrawal form and an online withdrawal form. Seller details come
+ * and the model withdrawal form. Seller details come
  * from WooCommerce → Settings → General; anything typed into the page itself
  * in the block editor is shown above the standard text.
  */
@@ -32,7 +32,7 @@ while (have_posts()) :
 
                     <h2><?php esc_html_e('Právo odstúpiť od zmluvy', 'graceart'); ?></h2>
                     <p><?php esc_html_e('Ako spotrebiteľ máte právo odstúpiť od zmluvy uzavretej na diaľku do 14 dní bez udania dôvodu. Lehota začína plynúť dňom prevzatia tovaru. Ak je objednávka doručená vo viacerých zásielkach, plynie odo dňa prevzatia poslednej z nich.', 'graceart'); ?></p>
-                    <p><?php esc_html_e('Aby ste právo na odstúpenie dodržali, stačí odoslať oznámenie o odstúpení pred uplynutím lehoty. Môžete použiť formulár nižšie, vzorový formulár na stiahnutie, alebo akékoľvek jednoznačné vyhlásenie zaslané e-mailom či poštou.', 'graceart'); ?></p>
+                    <p><?php esc_html_e('Aby ste právo na odstúpenie dodržali, stačí odoslať oznámenie o odstúpení pred uplynutím lehoty. Môžete použiť vzorový formulár nižšie alebo akékoľvek jednoznačné vyhlásenie zaslané e-mailom či poštou.', 'graceart'); ?></p>
 
                     <h3><?php esc_html_e('Predávajúci', 'graceart'); ?></h3>
                     <p>
@@ -50,7 +50,7 @@ while (have_posts()) :
 
                     <h3><?php esc_html_e('Ako vrátiť tovar', 'graceart'); ?></h3>
                     <ol>
-                        <li><?php esc_html_e('Oznámte nám odstúpenie od zmluvy (formulár nižšie, e-mail alebo list).', 'graceart'); ?></li>
+                        <li><?php esc_html_e('Oznámte nám odstúpenie od zmluvy e-mailom alebo listom (môžete použiť vzorový formulár nižšie).', 'graceart'); ?></li>
                         <li><?php esc_html_e('Tovar nám pošlite späť alebo odovzdajte najneskôr do 14 dní od odstúpenia, na adresu predávajúceho uvedenú vyššie. Pribaľte číslo objednávky.', 'graceart'); ?></li>
                         <li><?php esc_html_e('Tovar zabaľte tak, aby sa pri preprave nepoškodil. Odporúčame zásielku poistiť.', 'graceart'); ?></li>
                     </ol>
@@ -84,61 +84,6 @@ while (have_posts()) :
                         <p><?php esc_html_e('Adresa spotrebiteľa:', 'graceart'); ?> …………………………</p>
                         <p><?php esc_html_e('Podpis spotrebiteľa (iba ak sa formulár podáva v listinnej podobe):', 'graceart'); ?> …………………………</p>
                         <p><?php esc_html_e('Dátum:', 'graceart'); ?> …………………………</p>
-                    </div>
-
-                    <h2 id="odstupenie-formular"><?php esc_html_e('Odstúpiť od zmluvy online', 'graceart'); ?></h2>
-                    <div class="contact-form">
-                        <?php echo wp_kses_post(graceartReturnsNotice()); ?>
-
-                        <form action="<?php echo esc_url(admin_url('admin-post.php')); ?>" method="post">
-                            <input type="hidden" name="action" value="<?php echo esc_attr(GRACEART_RETURNS_ACTION); ?>">
-                            <input type="hidden" name="redirect_to" value="<?php echo esc_url(get_permalink()); ?>">
-                            <?php wp_nonce_field(GRACEART_RETURNS_ACTION, GRACEART_RETURNS_NONCE); ?>
-                            <?php echo graceartContactTimingField(); // phpcs:ignore WordPress.Security.EscapeOutput ?>
-
-                            <div class="row learts-mb-n30">
-                                <div class="col-md-6 col-12 learts-mb-30">
-                                    <input type="text" name="graceart_name" required
-                                        placeholder="<?php esc_attr_e('Meno a priezvisko *', 'graceart'); ?>">
-                                </div>
-                                <div class="col-md-6 col-12 learts-mb-30">
-                                    <input type="email" name="graceart_email" required
-                                        placeholder="<?php esc_attr_e('Váš e-mail *', 'graceart'); ?>">
-                                </div>
-                                <div class="col-md-6 col-12 learts-mb-30">
-                                    <input type="text" name="graceart_order" required
-                                        placeholder="<?php esc_attr_e('Číslo objednávky *', 'graceart'); ?>">
-                                </div>
-                                <div class="col-md-6 col-12 learts-mb-30">
-                                    <input type="date" name="graceart_received" max="<?php echo esc_attr(wp_date('Y-m-d')); ?>"
-                                        aria-label="<?php esc_attr_e('Dátum prevzatia tovaru', 'graceart'); ?>"
-                                        title="<?php esc_attr_e('Dátum prevzatia tovaru', 'graceart'); ?>">
-                                </div>
-                                <div class="col-12 learts-mb-30">
-                                    <textarea name="graceart_items" required
-                                        placeholder="<?php esc_attr_e('Tovar, od ktorého odstupujete *', 'graceart'); ?>"></textarea>
-                                </div>
-                                <div class="col-12 learts-mb-30">
-                                    <textarea name="graceart_reason"
-                                        placeholder="<?php esc_attr_e('Dôvod (nepovinné)', 'graceart'); ?>"></textarea>
-                                </div>
-                                <div class="col-12 learts-mb-30">
-                                    <input type="text" name="graceart_iban" autocomplete="off"
-                                        placeholder="<?php esc_attr_e('IBAN na vrátenie platby (nepovinné, ak sa líši od spôsobu platby)', 'graceart'); ?>">
-                                </div>
-
-                                <?php /* Honeypot: hidden from people, tempting to bots. */ ?>
-                                <div class="graceart-contact-hp" aria-hidden="true">
-                                    <input type="text" name="graceart_website" tabindex="-1" autocomplete="off">
-                                </div>
-
-                                <div class="col-12 text-center learts-mb-30">
-                                    <button type="submit" class="btn btn-dark btn-outline-hover-dark">
-                                        <?php esc_html_e('Odstúpiť od zmluvy', 'graceart'); ?>
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
                     </div>
 
                     <p class="graceart-returns__complaints">
