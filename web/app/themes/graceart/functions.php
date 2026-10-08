@@ -9,3 +9,4 @@ include 'inc/languages.php';
 include 'inc/images.php';
 include 'inc/menu.php';
 include 'inc/woocommerce.php';
+include 'inc/cookie-banner.php';
