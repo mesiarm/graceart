@@ -1955,6 +1955,40 @@ body *:not(
     background-color: var(--color-surface);
 }
 
+/* Vrátenie tovaru page */
+.graceart-returns h2 {
+    margin: 40px 0 15px;
+}
+
+.graceart-returns h3 {
+    margin: 30px 0 10px;
+}
+
+.graceart-returns ol,
+.graceart-returns ul {
+    padding-left: 20px;
+    margin-bottom: 15px;
+}
+
+.graceart-returns ol {
+    list-style: decimal;
+}
+
+.graceart-returns ul {
+    list-style: disc;
+}
+
+.graceart-returns__model {
+    padding: 20px;
+    background-color: var(--color-surface);
+}
+
+.graceart-returns__complaints,
+.graceart-returns-note {
+    margin-top: 30px;
+    font-size: 14px;
+}
+
 /* Free shipping threshold notice on the product detail */
 .product-free-shipping {
     display: flex;
