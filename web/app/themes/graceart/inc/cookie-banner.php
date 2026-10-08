@@ -10,6 +10,8 @@ add_filter('gettext', function (string $translated, string $text, string $domain
     }
 
     $slovak = [
+        'Always active' => 'Vždy aktívne',
+        'Close dialog' => 'Zavrieť okno',
         'Manage options' => 'Spravovať možnosti',
         'Manage services' => 'Spravovať služby',
     ];
