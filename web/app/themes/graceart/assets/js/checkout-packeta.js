@@ -259,7 +259,14 @@
             'div',
             {
                 className: 'graceart-packeta' + (point ? ' graceart-packeta--selected' : ' graceart-packeta--empty') + (cart.errorShown ? ' graceart-packeta--error' : ''),
-                ref: container
+                ref: container,
+                // Until a point is picked the whole box is the target; the
+                // button handles its own clicks.
+                onClick: point ? undefined : function (event) {
+                    if (!busy && !(event.target.closest && event.target.closest('button'))) {
+                        choose();
+                    }
+                }
             },
             el('div', { className: 'graceart-packeta__label' }, strings.label || ''),
             point

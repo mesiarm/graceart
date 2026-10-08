@@ -3185,6 +3185,16 @@ body.admin-bar {
     100% { box-shadow: 0 0 0 12px rgba(0, 0, 0, 0); }
 }
 
+.wp-block-woocommerce-checkout .graceart-packeta--empty {
+    cursor: pointer;
+    transition: background-color 0.15s, border-color 0.15s;
+}
+
+.wp-block-woocommerce-checkout .graceart-packeta--empty:hover {
+    background-color: #fff;
+    border-color: var(--color-dark);
+}
+
 .wp-block-woocommerce-checkout .graceart-packeta--error {
     border-color: #cc1818;
 }
