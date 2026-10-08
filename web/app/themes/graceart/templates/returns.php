@@ -86,6 +86,12 @@ while (have_posts()) :
                         <p><?php esc_html_e('Dátum:', 'graceart'); ?> …………………………</p>
                     </div>
 
+                    <p class="text-center">
+                        <a href="<?php echo esc_url(fullTemplateUri('assets/docs/formular-na-odstupenie-od-zmluvy.pdf')); ?>" class="btn btn-dark btn-outline-hover-dark" download>
+                            <?php esc_html_e('Stiahnuť formulár (PDF)', 'graceart'); ?>
+                        </a>
+                    </p>
+
                     <p class="graceart-returns__complaints">
                         <?php esc_html_e('Reklamácie vadného tovaru (záručná doba 24 mesiacov) sú samostatný postup upravený v reklamačnom poriadku, ktorý je súčasťou obchodných podmienok.', 'graceart'); ?>
                     </p>
