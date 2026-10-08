@@ -30,6 +30,7 @@ while (have_posts()) :
                             <input type="hidden" name="action" value="<?php echo esc_attr(GRACEART_CONTACT_ACTION); ?>">
                             <input type="hidden" name="redirect_to" value="<?php echo esc_url(get_permalink()); ?>">
                             <?php wp_nonce_field(GRACEART_CONTACT_ACTION, GRACEART_CONTACT_NONCE); ?>
+                            <?php echo graceartContactTimingField(); // phpcs:ignore WordPress.Security.EscapeOutput ?>
 
                             <div class="row learts-mb-n30">
                                 <div class="col-md-6 col-12 learts-mb-30">
