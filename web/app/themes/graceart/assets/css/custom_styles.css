@@ -3237,3 +3237,69 @@ body.graceart-shipping-pending .wc-block-components-shipping-rates-control {
 .wp-block-woocommerce-checkout .graceart-packeta .wc-block-components-validation-error p {
     margin: 0;
 }
+
+/* ------------------------------------------------------------------
+   Cookie banner (Complianz): same palette, font and square buttons as
+   the shop. Complianz drives its colours through --cmplz_* variables,
+   so they are set here instead of fighting its selectors.
+   ------------------------------------------------------------------ */
+body .cmplz-cookiebanner,
+body #cmplz-manage-consent {
+    --cmplz_banner_background_color: #fff;
+    --cmplz_banner_border_color: var(--color-line);
+    --cmplz_banner_border_width: 3px 1px 1px 1px;
+    --cmplz_banner_border_radius: 0;
+    --cmplz_title_font_size: 18px;
+    --cmplz_text_color: var(--color-text-secondary);
+    --cmplz_text_font_size: 14px;
+    --cmplz_link_font_size: 13px;
+    --cmplz_category_body_font_size: 14px;
+    --cmplz_category_header_title_font_size: 14px;
+    --cmplz_category_header_active_font_size: 13px;
+    --cmplz_category_header_always_active_color: var(--color-success);
+    --cmplz_hyperlink_color: var(--color-accent);
+    --cmplz_button_font_size: 14px;
+    --cmplz_button_border_radius: 0;
+    --cmplz_button_accept_background_color: var(--color-accent);
+    --cmplz_button_accept_border_color: var(--color-accent);
+    --cmplz_button_accept_text_color: #fff;
+    --cmplz_button_deny_background_color: #fff;
+    --cmplz_button_deny_border_color: var(--color-dark);
+    --cmplz_button_deny_text_color: var(--color-text);
+    --cmplz_button_settings_background_color: #fff;
+    --cmplz_button_settings_border_color: var(--color-dark);
+    --cmplz_button_settings_text_color: var(--color-text);
+    --cmplz_slider_active_color: var(--color-accent);
+    font-family: "Jost", "Futura", "Segoe UI", "Noto Sans", "Helvetica Neue", Arial, sans-serif;
+}
+
+body .cmplz-cookiebanner {
+    border-top-color: var(--color-accent);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+}
+
+body .cmplz-cookiebanner .cmplz-title,
+body .cmplz-cookiebanner .cmplz-category-title,
+body .cmplz-cookiebanner .cmplz-close {
+    color: var(--color-text);
+}
+
+body .cmplz-cookiebanner .cmplz-btn {
+    font-family: inherit;
+    font-weight: 500;
+    transition: color 0.2s, background-color 0.2s, border-color 0.2s;
+}
+
+body .cmplz-cookiebanner .cmplz-buttons .cmplz-btn:hover,
+body .cmplz-cookiebanner .cmplz-buttons .cmplz-btn:focus-visible {
+    color: #fff;
+    border-color: var(--color-dark);
+    background-color: var(--color-dark);
+}
+
+body #cmplz-manage-consent .cmplz-manage-consent {
+    font-family: inherit;
+    color: #fff;
+    border-color: var(--color-accent);
+    background-color: var(--color-accent);
+}
