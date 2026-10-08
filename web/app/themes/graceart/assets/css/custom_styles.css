@@ -3303,3 +3303,10 @@ body #cmplz-manage-consent .cmplz-manage-consent {
     border-color: var(--color-accent);
     background-color: var(--color-accent);
 }
+
+/* The cookie policy is the "Cookies" section of the privacy page, so Complianz's
+   second link to the same page is hidden. Show it again once a separate cookie
+   policy page exists. */
+body .cmplz-cookiebanner .cmplz-documents .cmplz-link.cookie-statement {
+    display: none;
+}
