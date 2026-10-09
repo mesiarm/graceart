@@ -3348,20 +3348,16 @@ body #cmplz-manage-consent .cmplz-manage-consent {
     background-color: var(--color-accent);
 }
 
-/* Cookie banner sits bottom left so it never covers the scroll-to-top arrow
-   (bottom right); on a phone the banner spans the width, so the arrow goes
-   under it. */
-body .cmplz-cookiebanner.cmplz-bottom-right {
-    right: auto;
-    left: var(--cmplz_banner_margin, 10px);
+/* Cookie banner sits bottom left on desktop so it never covers the scroll-to-top
+   arrow (bottom right). On a phone Complianz makes it full width at the bottom,
+   so the arrow goes under it. */
+@media (min-width: 769px) {
+    body .cmplz-cookiebanner.cmplz-bottom-right {
+        right: auto;
+        left: var(--cmplz_banner_margin, 10px);
+    }
 }
 
 #scrollUp {
     z-index: 99998;
-}
-
-@media (max-width: 600px) {
-    body .cmplz-cookiebanner.cmplz-bottom-right {
-        right: var(--cmplz_banner_margin, 10px);
-    }
 }
