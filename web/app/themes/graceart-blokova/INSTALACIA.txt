@@ -23,6 +23,15 @@ Inštalácia (pre developera)
 3. V administrácii: Vzhľad → Témy → "Grace Art (bloková)" → Aktivovať.
    Odporúčame najprv na staging prostredí (aktuálny stav).
 
+Aktualizácia na novšiu verziu
+-----------------------------
+Priečinok web/app/themes/graceart-blokova celý nahradiť novým (rovnaký
+názov priečinka, téma ostane aktívna). Potom vyčistiť cache
+(Redis: wp cache flush, prípadne cache prehliadača / Ctrl+F5).
+Pozor: ak boli šablóny upravované v editore (Vzhľad → Editor), WordPress
+používa uloženú verziu z databázy – v editore treba pri šablóne zvoliť
+"Obnoviť na pôvodnú" (Reset), aby sa prejavili zmeny zo súborov.
+
 Po aktivácii
 ------------
 - Úvodnú stránku tvorí šablóna front-page.html (nezáleží na tom, ktorá
@@ -55,7 +64,11 @@ theme.json           farby, písma, veľkosti, tlačidlá, vlastné CSS
 functions.php        kategória vzorov "Grace Art", galéria produktu
 parts/               header.html, footer.html
 templates/           front-page.html, taxonomy-product_cat.html
-patterns/            hero, stats, kategorie, novinky, o-mne, hodnotenia,
+patterns/            hero, stats, kategorie, o-mne, hodnotenia,
                      kategoria-hlavicka
+                     (sekcia "Novinky v ponuke" so zoznamom produktov je
+                     priamo v templates/front-page.html – shortcode
+                     [products] vo vzore WordPress nespracuje)
+screenshot.png       náhľad témy vo Vzhľad → Témy
 assets/fonts/        písma (.woff) + licencie OFL
 assets/images/       fotky z mockupov
