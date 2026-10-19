@@ -1,0 +1,61 @@
+GRACE ART (BLOKOVÁ) – NÁVOD NA INŠTALÁCIU
+==========================================
+
+Čo to je
+--------
+Odvodená (child) bloková téma pre WordPress + WooCommerce, postavená na
+oficiálnej téme Twenty Twenty-Five. Vzhľad podľa schválených mockupov:
+farby a písma v theme.json, hlavička a pätička v parts/, úvodná stránka
+a stránka kategórie v templates/, jednotlivé sekcie ako vzory v patterns/.
+
+Písma (Jost, Cormorant Garamond, Great Vibes) sú uložené priamo v téme
+(assets/fonts), nenačítavajú sa z Google Fonts – kvôli GDPR. Licencia OFL.
+
+Inštalácia (pre developera)
+---------------------------
+1. Rodičovská téma: na serveri musí byť nainštalovaná téma
+   "twentytwentyfive". V Bedrocku napr.:
+     composer require wpackagist-theme/twentytwentyfive
+   (alebo skopírovať priečinok témy do web/app/themes/).
+2. Priečinok "graceart-blokova" skopírovať do web/app/themes/.
+   Pôvodná téma "graceart" ostáva nedotknutá – dá sa na ňu kedykoľvek
+   prepnúť späť (Vzhľad → Témy).
+3. V administrácii: Vzhľad → Témy → "Grace Art (bloková)" → Aktivovať.
+   Odporúčame najprv na staging prostredí (aktuálny stav).
+
+Po aktivácii
+------------
+- Úvodnú stránku tvorí šablóna front-page.html (nezáleží na tom, ktorá
+  stránka je nastavená ako úvodná).
+- Texty, fotky a čísla sa dajú meniť klikaním: Vzhľad → Editor → Šablóny
+  → Úvodná stránka (alebo Vzory → Grace Art).
+- Dodatočné CSS zo starej témy sa na túto tému nevzťahuje (WordPress ho
+  ukladá ku každej téme zvlášť), netreba ho mazať.
+- Odkazy v menu a v pätičke smerujú na: /produkty/, /o-mne/, /kontakt/,
+  /vratenie-tovaru/, /obchodne-podmienky/, /doprava-a-platba/,
+  /ochrana-osobnych-udajov/ a na kategórie
+  /kategoria-produktu/kozene-diare-2027/, /kozene-zapisniky/, /knihy/,
+  /autorske-zapisniky/. Stránky "Doprava a platba" a "Ochrana osobných
+  údajov" treba ešte vytvoriť (slug presne takto).
+
+Čo ešte doplniť
+---------------
+- V pätičke: [E-MAIL], [TELEFÓN], [MENO PREDAJCU, IČO, ADRESA].
+- Hlavička kategórie používa jednu spoločnú fotku pre všetky kategórie
+  (assets/images/kat-zapisniky.jpg).
+- Štatistiky zo SAShE (1 200+, 99 %+, takmer 400 hodnotení) sú statický
+  text – pri zmene ich upraviť v editore.
+- Zoznam prianí (YITH Wishlist) nie je v hlavičke – ak ho chcete, doplniť
+  odkaz na /zoznam-priani/.
+
+Štruktúra
+---------
+style.css            hlavička témy (Template: twentytwentyfive)
+theme.json           farby, písma, veľkosti, tlačidlá, vlastné CSS
+functions.php        kategória vzorov "Grace Art", galéria produktu
+parts/               header.html, footer.html
+templates/           front-page.html, taxonomy-product_cat.html
+patterns/            hero, stats, kategorie, novinky, o-mne, hodnotenia,
+                     kategoria-hlavicka
+assets/fonts/        písma (.woff) + licencie OFL
+assets/images/       fotky z mockupov
