@@ -55,6 +55,37 @@
         }
     }
 
+    /**
+     * One shipping choice at a time: while the chosen rate is being saved the
+     * options cannot be clicked, so quick clicks cannot cross each other (a
+     * slower answer arriving last would put the choice back on an earlier
+     * option).
+     */
+    function lockShippingWhileSaving() {
+        if (!window.wp || !window.wp.data) {
+            return;
+        }
+
+        var style = document.createElement('style');
+
+        style.textContent = '.graceart-shipping-saving .wc-block-components-shipping-rates-control{pointer-events:none;opacity:.7}';
+        document.head.appendChild(style);
+
+        var saving = false;
+
+        window.wp.data.subscribe(function () {
+            var store = window.wp.data.select('wc/store/cart');
+            var now = !!(store && typeof store.isShippingRateBeingSelected === 'function' && store.isShippingRateBeingSelected());
+
+            if (now !== saving) {
+                saving = now;
+                document.body.classList.toggle('graceart-shipping-saving', now);
+            }
+        });
+    }
+
+    lockShippingWhileSaving();
+
     blocksCheckout.registerCheckoutFilters('graceart', {
         placeOrderButtonLabel: function (defaultLabel) {
             return strings.placeOrder || defaultLabel;
