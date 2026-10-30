@@ -1,0 +1,69 @@
+/* Dark mode: the light design is inverted as a whole (the theme hard-codes
+   its colours in hundreds of places), then photos and the hero are inverted
+   back so they keep their real colours. hue-rotate keeps the gold gold. */
+.graceart-theme-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 40px;
+    min-height: 40px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: #333333;
+    cursor: pointer;
+}
+
+.graceart-theme-toggle i {
+    font-size: 20px;
+    line-height: 32px;
+}
+
+.graceart-theme-toggle:hover {
+    color: #9c7c46;
+}
+
+.graceart-theme-toggle .icon-to-light,
+html[data-theme="dark"] .graceart-theme-toggle .icon-to-dark {
+    display: none;
+}
+
+html[data-theme="dark"] .graceart-theme-toggle .icon-to-light {
+    display: inline-block;
+}
+
+html[data-theme="dark"] {
+    color-scheme: dark;
+    background: #ededed;
+    filter: invert(1) hue-rotate(180deg);
+}
+
+/* Softer than pure black: the page background is #ededed before inverting. */
+html[data-theme="dark"] body,
+html[data-theme="dark"] .bg-white {
+    background-color: #ededed !important;
+}
+
+html[data-theme="dark"] img,
+html[data-theme="dark"] video,
+html[data-theme="dark"] iframe,
+html[data-theme="dark"] canvas,
+html[data-theme="dark"] .home1-slide-item,
+html[data-theme="dark"] .page-title-section,
+html[data-theme="dark"] [style*="background-image"] {
+    filter: invert(1) hue-rotate(180deg);
+}
+
+/* The logo is black lettering on white: inverted with the page it reads as
+   white on dark, so it is the one image left out of the re-inversion. */
+html[data-theme="dark"] .header-logo img,
+html[data-theme="dark"] .footer-logo {
+    filter: none;
+}
+
+/* Inside the already restored hero/band and photos nothing is inverted twice. */
+html[data-theme="dark"] .home1-slide-item img,
+html[data-theme="dark"] .page-title-section img,
+html[data-theme="dark"] [style*="background-image"] img {
+    filter: none;
+}

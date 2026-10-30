@@ -30,6 +30,7 @@
             <!-- Header Tools Start -->
             <div class="col">
                 <div class="header-tools justify-content-end">
+                    <?php graceartThemeToggle(); ?>
                     <div class="header-search">
                         <a href="#offcanvas-search" class="offcanvas-toggle" aria-label="<?php esc_attr_e('Hľadať', 'graceart'); ?>"><i class="fas fa-search" aria-hidden="true"></i></a>
                     </div>
@@ -81,6 +82,7 @@
             <!-- Header Tools Start -->
             <div class="col-auto">
                 <div class="header-tools justify-content-end">
+                    <?php graceartThemeToggle(); ?>
                     <div class="header-search d-none d-sm-block">
                         <a href="#offcanvas-search" class="offcanvas-toggle" aria-label="<?php esc_attr_e('Hľadať', 'graceart'); ?>"><i class="fas fa-search" aria-hidden="true"></i></a>
                     </div>
@@ -126,6 +128,7 @@
             <!-- Header Tools Start -->
             <div class="col-auto">
                 <div class="header-tools justify-content-end">
+                    <?php graceartThemeToggle(); ?>
                     <div class="header-search d-none d-sm-block">
                         <a href="#offcanvas-search" class="offcanvas-toggle" aria-label="<?php esc_attr_e('Hľadať', 'graceart'); ?>"><i class="fas fa-search" aria-hidden="true"></i></a>
                     </div>
@@ -171,6 +174,7 @@
             <!-- Header Tools Start -->
             <div class="col-auto">
                 <div class="header-tools justify-content-end">
+                    <?php graceartThemeToggle(); ?>
                     <div class="header-search d-none d-sm-block">
                         <a href="#offcanvas-search" class="offcanvas-toggle" aria-label="<?php esc_attr_e('Hľadať', 'graceart'); ?>"><i class="fas fa-search" aria-hidden="true"></i></a>
                     </div>
