@@ -73,7 +73,7 @@ add_shortcode('graceart_doprava_zdarma', function (): string {
         return '';
     }
 
-    $text = sprintf('nad %s', wp_strip_all_tags(wc_price(min($amounts))));
+    $text = sprintf('nad %s', html_entity_decode(wp_strip_all_tags(wc_price(min($amounts))), ENT_QUOTES, 'UTF-8'));
 
     return count($amounts) > 1 ? $text . ' ' . __('(podľa krajiny)', 'graceart') : $text;
 });
