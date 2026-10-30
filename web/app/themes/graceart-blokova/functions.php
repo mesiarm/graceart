@@ -743,3 +743,8 @@ function graceart_yith_len_kde_treba() {
 	}
 }
 add_action( 'wp_enqueue_scripts', 'graceart_yith_len_kde_treba', 100 );
+
+/**
+ * Packeta – výber výdajného miesta pri pokladni (Z-BOX / výdajné miesto).
+ */
+require_once get_theme_file_path( 'inc/packeta.php' );
