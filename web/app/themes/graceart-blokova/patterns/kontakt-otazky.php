@@ -16,7 +16,7 @@ $graceart_faq = array(
 	),
 	array(
 		'Kam posielate a koľko stojí doprava?',
-		'Zásielky posielam na Slovensko a do Českej republiky. Pri objednávke ' . do_shortcode( '[graceart_doprava_zdarma]' ) . ' je doprava zadarmo. Ceny a spôsoby doručenia nájdete na stránke <a href="/doprava-a-platba/">Doprava a platba</a>. Ak potrebujete doručiť inam, napíšte mi.',
+		'Zásielky posielam do týchto krajín: ' . do_shortcode( '[graceart_krajiny_dodania]' ) . '. Pri objednávke ' . do_shortcode( '[graceart_doprava_zdarma]' ) . ' je doprava zadarmo. Ceny a spôsoby doručenia nájdete na stránke <a href="/doprava-a-platba/">Doprava a platba</a>. Ak potrebujete doručiť inam, napíšte mi.',
 	),
 	array(
 		'Môžem tovar vrátiť?',

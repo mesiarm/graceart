@@ -11,9 +11,20 @@ const GRACEART_ICO_OPTION = 'graceart_company_ico';
 const GRACEART_DIC_OPTION = 'graceart_company_dic';
 const GRACEART_VAT_OPTION = 'graceart_company_vat_id';
 const GRACEART_CONTACT_EMAIL_OPTION = 'graceart_contact_email';
+const GRACEART_NAME_OPTION = 'graceart_company_name';
+const GRACEART_REGISTER_OPTION = 'graceart_company_register';
+const GRACEART_FACEBOOK_OPTION = 'graceart_social_facebook';
+const GRACEART_INSTAGRAM_OPTION = 'graceart_social_instagram';
 
 add_filter('woocommerce_general_settings', function (array $settings): array {
     $fields = [
+        [
+            'title' => __('Meno predávajúceho', 'graceart'),
+            'desc' => __('Meno presne podľa živnostenského registra (značka Grace Art sa píše zvlášť). Zobrazuje sa na stránke Kontakt a v texte Vrátenie tovaru.', 'graceart'),
+            'id' => GRACEART_NAME_OPTION,
+            'type' => 'text',
+            'desc_tip' => true,
+        ],
         [
             'title' => __('IČO', 'graceart'),
             'desc' => __('Identifikačné číslo organizácie. Zobrazuje sa na faktúre.', 'graceart'),
@@ -33,6 +44,27 @@ add_filter('woocommerce_general_settings', function (array $settings): array {
             'desc' => __('Vyplňte iba ak ste platcom DPH. Ak zostane prázdne, na faktúre sa uvedie "Dodávateľ nie je platcom DPH."', 'graceart'),
             'id' => GRACEART_VAT_OPTION,
             'type' => 'text',
+            'desc_tip' => true,
+        ],
+        [
+            'title' => __('Živnostenský register', 'graceart'),
+            'desc' => __('Úrad a číslo zápisu, napr. „Okresný úrad Žilina, č. 123-45678". Číslo nájdete na www.zrsr.sk podľa IČO. Zobrazuje sa na stránke Kontakt.', 'graceart'),
+            'id' => GRACEART_REGISTER_OPTION,
+            'type' => 'text',
+            'desc_tip' => true,
+        ],
+        [
+            'title' => __('Facebook', 'graceart'),
+            'desc' => __('Adresa stránky na Facebooku (celý odkaz). Zobrazuje sa v pätičke a na stránke Kontakt; prázdne = ikona sa nezobrazí.', 'graceart'),
+            'id' => GRACEART_FACEBOOK_OPTION,
+            'type' => 'url',
+            'desc_tip' => true,
+        ],
+        [
+            'title' => __('Instagram', 'graceart'),
+            'desc' => __('Adresa profilu na Instagrame (celý odkaz). Zobrazuje sa v pätičke a na stránke Kontakt; prázdne = ikona sa nezobrazí.', 'graceart'),
+            'id' => GRACEART_INSTAGRAM_OPTION,
+            'type' => 'url',
             'desc_tip' => true,
         ],
         [
@@ -64,6 +96,18 @@ add_filter('woocommerce_general_settings', function (array $settings): array {
 
     return $settings;
 });
+
+function graceartCompanyName(): string
+{
+    $name = trim((string) get_option(GRACEART_NAME_OPTION, ''));
+
+    return $name !== '' ? $name : (string) get_bloginfo('name');
+}
+
+function graceartCompanyRegister(): string
+{
+    return trim((string) get_option(GRACEART_REGISTER_OPTION, ''));
+}
 
 function graceartCompanyIco(): string
 {

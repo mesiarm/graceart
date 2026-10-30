@@ -351,21 +351,31 @@ add_action( 'wp_enqueue_scripts', 'graceart_shop_script' );
 
 /**
  * [graceart_socialne_siete] – okrúhle ikonky Facebook a Instagram s popisom pod nimi
- * (pätička a stránka Kontakt). Odkazy sa menia len tu.
+ * (pätička a stránka Kontakt). Odkazy sa menia vo WooCommerce → Nastavenia →
+ * Všeobecné (Facebook, Instagram); sieť bez odkazu sa nezobrazí.
  */
 function graceart_socialne_siete_shortcode() {
 	$networks = array(
 		array(
 			'Facebook',
-			'https://www.facebook.com/GraceArtZapisniky/',
+			trim( (string) get_option( 'graceart_social_facebook', '' ) ),
 			'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15.5 4H14a3.5 3.5 0 0 0-3.5 3.5V20M7.5 11h7"></path></svg>',
 		),
 		array(
 			'Instagram',
-			'https://www.instagram.com/graceart.zapisniky/',
+			trim( (string) get_option( 'graceart_social_instagram', '' ) ),
 			'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.2" cy="6.8" r="0.9" fill="currentColor" stroke="none"></circle></svg>',
 		),
 	);
+	$networks = array_filter(
+		$networks,
+		static function ( $network ) {
+			return '' !== $network[1];
+		}
+	);
+	if ( ! $networks ) {
+		return '';
+	}
 	$html = '<div class="graceart-social">';
 	foreach ( $networks as $network ) {
 		$html .= sprintf(
@@ -454,10 +464,12 @@ add_shortcode( 'graceart_platby', 'graceart_platby_shortcode' );
 
 /**
  * Údaje o predajcovi na jednom mieste (Kontakt, Vrátenie tovaru).
- * Meno predajcu presne podľa živnostenského registra (značka Grace Art sa píše zvlášť).
- * Adresa sa berie z WooCommerce → Nastavenia → Všeobecné, IČO z nastavenia graceart_company_ico.
+ * Meno, IČO a adresa sa berú z WooCommerce → Nastavenia → Všeobecné
+ * (plugin graceart-shop), takže sa nepíšu do kódu ani do textov.
  */
-const GRACEART_PREDAJCA = 'Veronika Žabková';
+function graceart_predajca_meno() {
+	return function_exists( 'graceartCompanyName' ) ? graceartCompanyName() : get_bloginfo( 'name' );
+}
 
 function graceart_predajca_adresa() {
 	$street   = trim( (string) get_option( 'woocommerce_store_address', '' ) );
@@ -470,14 +482,18 @@ function graceart_predajca_adresa() {
  * [graceart_predajca] – meno predajcu (v textoch šablón).
  */
 function graceart_predajca_shortcode() {
-	return esc_html( GRACEART_PREDAJCA );
+	return esc_html( graceart_predajca_meno() );
 }
 add_shortcode( 'graceart_predajca', 'graceart_predajca_shortcode' );
 
 /**
- * Hranica dopravy zadarmo (prvá zóna so "Poštovné zdarma" od sumy), inak null.
+ * Hranica dopravy zadarmo pre krajinu zákazníka (zóna dopravy, do ktorej patrí),
+ * inak null. Bez pluginu graceart-shop sa berie prvá zóna s hranicou.
  */
 function graceart_free_shipping_min() {
+	if ( function_exists( 'graceartFreeShippingMinForCountry' ) ) {
+		return graceartFreeShippingMinForCountry();
+	}
 	if ( ! class_exists( 'WC_Shipping_Zones' ) ) {
 		return null;
 	}
@@ -674,14 +690,6 @@ function graceart_search_products_only() {
 	exit;
 }
 add_action( 'template_redirect', 'graceart_search_products_only' );
-
-/**
- * Dobierka sa nepoužíva (rozhodnuté 23. 10. 2026) – odstránená zo spôsobov platby aj z nastavení WooCommerce.
- */
-function graceart_bez_dobierky( $gateways ) {
-	return array_values( array_diff( $gateways, array( 'WC_Gateway_COD' ) ) );
-}
-add_filter( 'woocommerce_payment_gateways', 'graceart_bez_dobierky', 20 );
 
 /**
  * Omrvinky Yoast na produkte: Domov / Produkty / Kategória / Produkt. Yoast kategóriu

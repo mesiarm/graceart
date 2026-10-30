@@ -18,7 +18,7 @@ const GRACEART_SHOP_DIR = __DIR__ . '/';
 
 define('GRACEART_SHOP_URL', trailingslashit(WPMU_PLUGIN_URL) . 'graceart-shop/');
 
-foreach (['company', 'shipping', 'availability', 'emails', 'cart', 'checkout', 'notices', 'pdf'] as $graceart_shop_module) {
+foreach (['company', 'shortcodes', 'menus', 'shipping', 'availability', 'catalog', 'wishlist', 'emails', 'cart', 'checkout', 'notices', 'pdf'] as $graceart_shop_module) {
     require_once GRACEART_SHOP_DIR . 'inc/' . $graceart_shop_module . '.php';
 }
 

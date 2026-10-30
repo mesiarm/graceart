@@ -77,3 +77,80 @@ add_shortcode('graceart_doprava_zdarma', function (): string {
 
     return count($amounts) > 1 ? $text . ' ' . __('(podľa krajiny)', 'graceart') : $text;
 });
+
+/**
+ * Free shipping threshold for the zone a country belongs to, or null when that
+ * zone has none. With no country given, the customer's shipping country (the
+ * store's base country for a visitor who has not entered one) is used.
+ */
+function graceartFreeShippingMinForCountry(?string $country = null): ?float
+{
+    if (! class_exists('WC_Shipping_Zones') || ! function_exists('WC')) {
+        return null;
+    }
+
+    if ($country === null || $country === '') {
+        $country = WC()->customer ? (string) WC()->customer->get_shipping_country() : '';
+    }
+
+    if ($country === '') {
+        $country = (string) WC()->countries->get_base_country();
+    }
+
+    $zone = WC_Shipping_Zones::get_zone_matching_package([
+        'destination' => ['country' => $country, 'state' => '', 'postcode' => '', 'city' => '', 'address' => ''],
+    ]);
+
+    foreach ($zone->get_shipping_methods(true) as $method) {
+        if ($method->id !== 'free_shipping' || ! in_array($method->get_option('requires'), ['min_amount', 'either', 'both'], true)) {
+            continue;
+        }
+
+        $amount = (float) $method->get_option('min_amount');
+
+        if ($amount > 0) {
+            return $amount;
+        }
+    }
+
+    return null;
+}
+
+/**
+ * Names of the countries the shop delivers to: the countries of all shipping
+ * zones (a continent in a zone counts as all of its countries).
+ */
+function graceartDeliveryCountryNames(): array
+{
+    if (! class_exists('WC_Shipping_Zones') || ! function_exists('WC')) {
+        return [];
+    }
+
+    $codes = [];
+    $continents = WC()->countries->get_continents();
+
+    foreach (WC_Shipping_Zones::get_zones() as $zone_data) {
+        $zone = new WC_Shipping_Zone($zone_data['zone_id']);
+
+        foreach ($zone->get_zone_locations() as $location) {
+            if ($location->type === 'country') {
+                $codes[] = $location->code;
+            } elseif ($location->type === 'continent' && isset($continents[$location->code]['countries'])) {
+                $codes = array_merge($codes, $continents[$location->code]['countries']);
+            }
+        }
+    }
+
+    $countries = WC()->countries->get_countries();
+
+    return array_values(array_filter(array_map(
+        static fn (string $code): string => $countries[$code] ?? '',
+        array_unique($codes)
+    )));
+}
+
+add_shortcode('graceart_krajiny_dodania', function (): string {
+    $names = graceartDeliveryCountryNames();
+
+    return $names ? esc_html(implode(', ', $names)) : '';
+});

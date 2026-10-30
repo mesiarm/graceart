@@ -6,7 +6,7 @@
  * Inserter: no
  * Description: Právo odstúpiť od zmluvy (zákon č. 108/2024 Z. z.), postup v 3 krokoch, vrátenie platby, výnimky a vzorový formulár s PDF. Rozloženie ako stránka Doprava a platba.
  */
-$graceart_seller  = array_merge( array( GRACEART_PREDAJCA . ' (Grace Art)' ), graceart_predajca_adresa() );
+$graceart_seller  = array_merge( array( graceart_predajca_meno() . ' (Grace Art)' ), graceart_predajca_adresa() );
 $graceart_ico     = trim( (string) get_option( 'graceart_company_ico', '' ) );
 $graceart_email   = graceart_kontakt_email();
 $graceart_address = implode( ', ', array_filter( array_merge( $graceart_seller, array( '' !== $graceart_ico ? 'IČO: ' . $graceart_ico : '', $graceart_email ) ) ) );
