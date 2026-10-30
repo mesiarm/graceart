@@ -15,8 +15,8 @@
 <!-- /wp:column -->
 
 <!-- wp:column {"verticalAlignment":"center"} -->
-<div class="wp-block-column is-vertically-aligned-center"><!-- wp:paragraph {"className":"graceart-script","textColor":"brown","fontSize":"x-large"} -->
-<p class="graceart-script has-brown-color has-text-color has-x-large-font-size">o mne</p>
+<div class="wp-block-column is-vertically-aligned-center"><!-- wp:paragraph {"className":"graceart-eyebrow"} -->
+<p class="graceart-eyebrow">O mne</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:heading -->

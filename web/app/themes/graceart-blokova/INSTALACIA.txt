@@ -49,6 +49,14 @@ Po aktivácii
 
 Čo ešte doplniť
 ---------------
+- Stránka produktu: krátky popis (vpravo pod cenou) = pole "Krátky popis
+  produktu" pod hlavným editorom. Dlhý popis = sekcia "O produkte".
+- Tabuľka "Parametre" sa plní z Údaje o produkte → Vlastnosti (Rozmer,
+  Počet strán, Papier, Obal, Väzba, Farba…), zaškrtnúť "Viditeľné na
+  stránke produktu". Bez vlastností sa tabuľka nezobrazí.
+- Ceny dopravy v tabuľke na stránke produktu (Packeta 4,20 €, Pošta
+  4,90 €, Kuriér 6,00 €) sú pevný text – skontrolovať a prípadne upraviť
+  v editore: Vzhľad → Editor → Šablóny → Jeden produkt.
 - V pätičke: [E-MAIL], [TELEFÓN], [MENO PREDAJCU, IČO, ADRESA].
 - Hlavička kategórie používa jednu spoločnú fotku pre všetky kategórie
   (assets/images/kat-zapisniky.jpg).
@@ -63,9 +71,12 @@ style.css            hlavička témy (Template: twentytwentyfive)
 theme.json           farby, písma, veľkosti, tlačidlá, vlastné CSS
 functions.php        kategória vzorov "Grace Art", galéria produktu
 parts/               header.html, footer.html
-templates/           front-page.html, taxonomy-product_cat.html
+templates/           front-page.html, archive-product.html (stránka
+                     Produkty), taxonomy-product_cat.html,
+                     single-product.html (stránka produktu)
+assets/js/           quantity.js (tlačidlá − a + pri množstve)
 patterns/            hero, stats, kategorie, o-mne, hodnotenia,
-                     kategoria-hlavicka
+                     kategoria-hlavicka, produkty-hlavicka
                      (sekcia "Novinky v ponuke" so zoznamom produktov je
                      priamo v templates/front-page.html – shortcode
                      [products] vo vzore WordPress nespracuje)

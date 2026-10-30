@@ -10,15 +10,18 @@
 
 <!-- wp:navigation {"overlayMenu":"mobile","layout":{"type":"flex","justifyContent":"center"},"style":{"spacing":{"blockGap":"40px"}}} -->
 <!-- wp:navigation-link {"label":"Produkty","url":"/produkty/","kind":"custom","isTopLevelLink":true} /-->
-<!-- wp:navigation-link {"label":"Diáre 2027","url":"/kategoria-produktu/kozene-diare-2027/","kind":"custom","isTopLevelLink":true} /-->
 <!-- wp:navigation-link {"label":"O mne","url":"/o-mne/","kind":"custom","isTopLevelLink":true} /-->
 <!-- wp:navigation-link {"label":"Kontakt","url":"/kontakt/","kind":"custom","isTopLevelLink":true} /-->
 <!-- /wp:navigation -->
 
 <!-- wp:group {"style":{"spacing":{"blockGap":"16px"}},"layout":{"type":"flex","flexWrap":"nowrap"}} -->
-<div class="wp-block-group"><!-- wp:search {"label":"Hľadať","showLabel":false,"placeholder":"Hľadať…","buttonText":"Hľadať","buttonPosition":"button-only","buttonUseIcon":true,"isSearchFieldHidden":true} /-->
+<div class="wp-block-group"><!-- wp:search {"label":"Hľadať","showLabel":false,"placeholder":"Hľadať…","buttonText":"Hľadať","buttonPosition":"button-only","buttonUseIcon":true,"isSearchFieldHidden":true,"query":{"post_type":"product"}} /-->
 
 <!-- wp:woocommerce/customer-account {"displayStyle":"icon_only","iconStyle":"line","iconClass":"wc-block-customer-account__account-icon"} /-->
+
+<!-- wp:html -->
+<a class="graceart-header-wishlist" href="/zoznam-priani/" aria-label="Zoznam prianí" title="Zoznam prianí"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"></path></svg></a>
+<!-- /wp:html -->
 
 <!-- wp:woocommerce/mini-cart /--></div>
 <!-- /wp:group --></div>

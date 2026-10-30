@@ -45,3 +45,6 @@ web/app/languages/*
 
 # Object cache drop-in (per environment)
 web/app/object-cache.php
+
+# Installed by Composer (wp-theme/twentytwentyfive)
+web/app/themes/twentytwentyfive

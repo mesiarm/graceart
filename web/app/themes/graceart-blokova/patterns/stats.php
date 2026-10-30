@@ -10,7 +10,7 @@
 <div class="wp-block-group alignfull graceart-stats" style="padding-top:36px;padding-right:32px;padding-bottom:36px;padding-left:32px"><!-- wp:columns -->
 <div class="wp-block-columns"><!-- wp:column -->
 <div class="wp-block-column"><!-- wp:paragraph {"className":"graceart-stat-number"} -->
-<p class="graceart-stat-number">1 200+</p>
+<p class="graceart-stat-number">1&nbsp;200&nbsp;<span class="graceart-stat-plus">+</span></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph {"className":"graceart-stat-label"} -->
@@ -20,7 +20,7 @@
 
 <!-- wp:column -->
 <div class="wp-block-column"><!-- wp:paragraph {"className":"graceart-stat-number"} -->
-<p class="graceart-stat-number">99 %+</p>
+<p class="graceart-stat-number">99&nbsp;%&nbsp;<span class="graceart-stat-plus">+</span></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph {"className":"graceart-stat-label"} -->
