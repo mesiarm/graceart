@@ -44,7 +44,7 @@
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph {"className":"graceart-stat-label"} -->
-<p class="graceart-stat-label">doprava pri nákupe nad 100 €</p>
+<p class="graceart-stat-label">doprava pri nákupe <?php echo esc_html( do_shortcode( '[graceart_doprava_zdarma]' ) ); ?></p>
 <!-- /wp:paragraph --></div>
 <!-- /wp:column --></div>
 <!-- /wp:columns --></div>

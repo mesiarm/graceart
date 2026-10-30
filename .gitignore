@@ -3,6 +3,8 @@ web/app/plugins/*
 !web/app/plugins/.gitkeep
 # Ignore Composer-installed mu-plugin directories; single-file mu-plugins are tracked intentionally
 web/app/mu-plugins/*/
+# Project mu-plugin kept in Git (shop logic independent of the theme)
+!web/app/mu-plugins/graceart-shop/
 web/app/upgrade
 web/app/uploads/*
 !web/app/uploads/.gitkeep
@@ -33,6 +35,9 @@ phpunit.xml
 wp-cli.local.yml
 
 .idea
+
+# Claude Code
+.claude/
 # WP-CLI
 wp-cli.phar
 
