@@ -176,3 +176,18 @@ add_filter('woocommerce_order_shipping_to_display', function ($shipping, $order)
 
     return $shipping;
 }, 5, 2);
+
+/**
+ * Notifications for the shop owner (new, cancelled and failed orders) go to the
+ * contact e-mail on the live site only. On staging and local copies they keep
+ * the address set in WooCommerce, so test orders never reach the owner.
+ */
+foreach (['new_order', 'cancelled_order', 'failed_order'] as $graceart_owner_email) {
+    add_filter('woocommerce_email_recipient_' . $graceart_owner_email, function ($recipient) {
+        $contact = graceartContactEmail();
+
+        return wp_get_environment_type() === 'production' && $contact !== '' ? $contact : $recipient;
+    }, 20);
+}
+
+unset($graceart_owner_email);
