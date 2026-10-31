@@ -267,7 +267,8 @@ function graceartMailpitDetail(string $id): void
         printf('<h2>%s</h2>', esc_html__('Náhľad', 'graceart'));
         printf(
             '<iframe sandbox="" srcdoc="%s" style="width:100%%;height:60vh;min-height:420px;border:1px solid #c3c4c7;background:#fff;"></iframe>',
-            esc_attr(graceartMailpitPreviewHtml($html)),
+            // esc_attr() leaves existing entities alone; inside srcdoc they would be decoded once too often (e.g. &quot; ending a style attribute).
+            htmlspecialchars(graceartMailpitPreviewHtml($html), ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'),
         );
     }
 

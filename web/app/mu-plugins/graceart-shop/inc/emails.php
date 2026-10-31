@@ -150,3 +150,29 @@ add_filter('woocommerce_email_attachments', function ($attachments, $email_id) {
 
     return $attachments;
 }, 10, 2);
+
+/**
+ * Sender and contact address of the shop's e-mails come from the company
+ * details (Kontaktný e-mail), not from a separate WooCommerce field; the same
+ * address fills {store_email} in the e-mail texts.
+ */
+add_filter('woocommerce_email_from_address', function ($address) {
+    $contact = graceartContactEmail();
+
+    return $contact !== '' ? $contact : $address;
+}, 20);
+
+add_filter('woocommerce_email_from_name', fn ($name) => (string) get_bloginfo('name'), 20);
+
+/**
+ * Free shipping reads "Zadarmo". With a zero price WooCommerce prints the name
+ * of the shipping method again in the totals (next to the same name used as
+ * the label), which in the e-mails looked like a repeated line.
+ */
+add_filter('woocommerce_order_shipping_to_display', function ($shipping, $order) {
+    if ($order instanceof WC_Order && (float) $order->get_shipping_total() === 0.0 && $order->get_shipping_methods()) {
+        return esc_html__('Zadarmo', 'graceart');
+    }
+
+    return $shipping;
+}, 5, 2);
