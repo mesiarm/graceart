@@ -191,3 +191,30 @@ foreach (['new_order', 'cancelled_order', 'failed_order'] as $graceart_owner_ema
 }
 
 unset($graceart_owner_email);
+
+/**
+ * Look of the e-mails: the shop logo in the header (unless an image is set in
+ * WooCommerce → Settings → E-mails) and a thin strip in the brand colour at the
+ * top. The colour is the theme's "brown", so the e-mails follow the theme.
+ */
+add_filter('option_woocommerce_email_header_image', function ($image) {
+    return $image !== '' && $image !== false ? $image : GRACEART_SHOP_URL . 'assets/images/logo.jpg';
+});
+
+function graceartEmailBrandColor(): string
+{
+    foreach ((array) wp_get_global_settings(['color', 'palette', 'theme']) as $color) {
+        if (($color['slug'] ?? '') === 'brown' && ! empty($color['color'])) {
+            return (string) $color['color'];
+        }
+    }
+
+    return (string) get_option('woocommerce_email_base_color', '#8a5a3b');
+}
+
+add_filter('woocommerce_email_styles', function ($css) {
+    return $css . sprintf(
+        '#inner_wrapper{border-top:6px solid %s;}#template_header_image img{width:200px;max-width:100%%;height:auto;}',
+        esc_attr(graceartEmailBrandColor())
+    );
+});
