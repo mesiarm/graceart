@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7abc4b8b471e222957e782561ba8a526",
+    "content-hash": "bd7956c30a313db22d9695ff8ff291a0",
     "packages": [
         {
             "name": "composer/installers",
@@ -480,7 +480,7 @@
         },
         {
             "name": "roots/wordpress",
-            "version": "7.1.2",
+            "version": "7.1.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/roots/wordpress.git",
@@ -511,7 +511,7 @@
             ],
             "support": {
                 "issues": "https://github.com/roots/wordpress/issues",
-                "source": "https://github.com/roots/wordpress/tree/7.1.2"
+                "source": "https://github.com/roots/wordpress/tree/7.1.4"
             },
             "funding": [
                 {
@@ -590,23 +590,23 @@
         },
         {
             "name": "roots/wordpress-no-content",
-            "version": "7.1.2",
+            "version": "7.1.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/WordPress/WordPress.git",
-                "reference": "7.1.2"
+                "reference": "7.1.4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/release/wordpress-7.1.2-no-content.zip",
-                "reference": "7.1.2",
-                "shasum": "52c0250854a52621dc024651b63d1e088287ee16"
+                "url": "https://downloads.w.org/release/wordpress-7.1.4-no-content.zip",
+                "reference": "7.1.4",
+                "shasum": "1dd4bfa7b13dec725c0062a3fb62ba0536cb8699"
             },
             "require": {
                 "php": ">= 7.4"
             },
             "provide": {
-                "wordpress/core-implementation": "7.1.2"
+                "wordpress/core-implementation": "7.1.4"
             },
             "suggest": {
                 "ext-curl": "Performs remote request operations.",
@@ -657,7 +657,7 @@
                     "type": "other"
                 }
             ],
-            "time": "2026-09-22T13:36:10+00:00"
+            "time": "2026-10-28T17:15:58+00:00"
         },
         {
             "name": "roots/wp-config",
@@ -1085,6 +1085,36 @@
                 "source": "https://plugins.svn.wordpress.org/fluent-smtp"
             },
             "time": "2026-08-12T20:36:39+00:00"
+        },
+        {
+            "name": "wp-plugin/packeta",
+            "version": "2.3.2",
+            "source": {
+                "type": "svn",
+                "url": "https://plugins.svn.wordpress.org/packeta/",
+                "reference": "tags/2.3.2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://downloads.wordpress.org/plugin/packeta.2.3.2.zip"
+            },
+            "require": {
+                "composer/installers": "~1.0|~2.0"
+            },
+            "type": "wordpress-plugin",
+            "notification-url": "https://wp-packages.org/downloads",
+            "authors": [
+                {
+                    "name": "zasilkovna"
+                }
+            ],
+            "description": "Official plugin for selecting Packeta pickup points or address delivery and submitting orders directly from your e-shop.",
+            "support": {
+                "changelog": "https://wordpress.org/plugins/packeta/#developers",
+                "issues": "https://wordpress.org/support/plugin/packeta",
+                "source": "https://plugins.svn.wordpress.org/packeta"
+            },
+            "time": "2026-09-29T13:03:58+00:00"
         },
         {
             "name": "wp-plugin/redis-cache",
