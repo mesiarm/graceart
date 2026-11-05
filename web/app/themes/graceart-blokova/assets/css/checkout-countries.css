@@ -1,0 +1,84 @@
+/* Checkout: notice next to the country field (checkout-countries.js), the
+   dimmed shipping options while a country change is being saved, and the
+   Packeta plugin's pickup point widget dressed in the theme's colours. */
+body.graceart-shipping-pending .wc-block-components-shipping-rates-control {
+    opacity: 0.4;
+    pointer-events: none;
+    transition: opacity 0.15s;
+}
+
+.wp-block-woocommerce-checkout .graceart-other-country {
+    margin: 8px 0 16px;
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--wp--preset--color--muted);
+}
+
+.wp-block-woocommerce-checkout .graceart-other-country-host {
+    width: 100%;
+}
+
+.wp-block-woocommerce-checkout .graceart-other-country a {
+    text-decoration: underline;
+}
+
+/* Packeta plugin: pickup point button and the chosen point. */
+.wp-block-woocommerce-checkout .packetery-widget-button-wrapper {
+    margin-top: 16px;
+    padding: 16px 20px;
+    border: 1px solid var(--wp--preset--color--line);
+    background-color: var(--wp--preset--color--cream);
+    font-size: 15px;
+    line-height: 1.5;
+    color: var(--wp--preset--color--ink);
+}
+
+.wp-block-woocommerce-checkout .packetery-widget-button-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+}
+
+.wp-block-woocommerce-checkout .packetery-widget-button-logo {
+    width: 44px;
+    height: 44px;
+    object-fit: contain;
+}
+
+.wp-block-woocommerce-checkout .packetery-widget-button-row .button {
+    min-height: 44px;
+    padding: 10px 22px;
+    font-family: inherit;
+    font-size: 14px;
+    border: 1px solid var(--wp--preset--color--brown-dark);
+    border-radius: 0;
+    background-color: #fff;
+    color: var(--wp--preset--color--ink);
+    cursor: pointer;
+}
+
+.wp-block-woocommerce-checkout .packetery-widget-button-row .button:hover {
+    background-color: var(--wp--preset--color--brown-dark);
+    color: #fff;
+}
+
+.wp-block-woocommerce-checkout .packeta-widget-selected-address,
+.wp-block-woocommerce-checkout .packeta-widget-place,
+.wp-block-woocommerce-checkout .packeta-widget-info {
+    margin: 10px 0 0;
+}
+
+.wp-block-woocommerce-checkout .packeta-widget-place {
+    font-weight: 500;
+}
+
+.wp-block-woocommerce-checkout .packeta-widget-selected-address {
+    color: var(--wp--preset--color--muted);
+}
+
+.graceart-packeta-point {
+    display: block;
+    font-size: 13px;
+    color: var(--wp--preset--color--muted);
+}

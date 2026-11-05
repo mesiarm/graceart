@@ -131,10 +131,20 @@
 				<p class="delivery-address"><?php $this->shipping_address(); ?></p>
 				<?php do_action( 'wpo_wcpdf_after_shipping_address', $this->get_type(), $this->order ); ?>
 			<?php endif; ?>
-			<?php $graceart_packeta_point = $this->order instanceof WC_Order && function_exists( 'graceartPacketaOrderPoint' ) ? graceartPacketaOrderPoint( $this->order ) : null; ?>
-			<?php if ( $graceart_packeta_point !== null ) : ?>
+			<?php
+			$graceart_packeta_lines = [];
+			if ( $this->order instanceof WC_Order && $this->order->get_meta( 'packetery_point_id' ) ) {
+				$graceart_packeta_street = (string) $this->order->get_meta( 'packetery_point_street' );
+				$graceart_packeta_city   = trim( $this->order->get_meta( 'packetery_point_zip' ) . ' ' . $this->order->get_meta( 'packetery_point_city' ) );
+				$graceart_packeta_lines  = array_values( array_unique( array_filter( [
+					(string) $this->order->get_meta( 'packetery_point_name' ),
+					trim( $graceart_packeta_street . ', ' . $graceart_packeta_city, ', ' ),
+				] ) ) );
+			}
+			?>
+			<?php if ( $graceart_packeta_lines ) : ?>
 				<p class="delivery-label"><?php esc_html_e( 'Výdajné miesto Packeta:', 'graceart' ); ?></p>
-				<p class="delivery-address"><?php echo wp_kses_post( implode( '<br>', array_map( 'esc_html', graceartPacketaPointLines( $graceart_packeta_point ) ) ) ); ?></p>
+				<p class="delivery-address"><?php echo wp_kses_post( implode( '<br>', array_map( 'esc_html', $graceart_packeta_lines ) ) ); ?></p>
 			<?php endif; ?>
 		</td>
 	</tr>
