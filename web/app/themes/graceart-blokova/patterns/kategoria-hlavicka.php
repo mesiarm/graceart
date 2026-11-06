@@ -19,7 +19,7 @@
 
 <!-- wp:column {"verticalAlignment":"center","width":"45%"} -->
 <div class="wp-block-column is-vertically-aligned-center" style="flex-basis:45%"><!-- wp:image {"aspectRatio":"16/9","scale":"cover","sizeSlug":"full","linkDestination":"none"} -->
-<figure class="wp-block-image size-full"><img src="<?php echo esc_url( get_theme_file_uri( 'assets/images/kat-zapisniky.jpg' ) ); ?>" alt="<?php esc_attr_e( 'Hnedý kožený zápisník s remienkom na drevenom stole vedľa pera', 'graceart' ); ?>" style="aspect-ratio:16/9;object-fit:cover"/></figure>
+<figure class="wp-block-image size-full"><img src="<?php echo esc_url( get_theme_file_uri( 'assets/images/kat-zapisniky.webp' ) ); ?>" alt="<?php esc_attr_e( 'Hnedý kožený zápisník s remienkom na drevenom stole vedľa pera', 'graceart' ); ?>" style="aspect-ratio:16/9;object-fit:cover"/></figure>
 <!-- /wp:image --></div>
 <!-- /wp:column --></div>
 <!-- /wp:columns --></div>

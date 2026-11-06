@@ -10,7 +10,7 @@
 <div class="wp-block-group alignfull has-cream-background-color has-background" style="margin-top:112px;padding-top:96px;padding-right:32px;padding-bottom:96px;padding-left:32px"><!-- wp:columns {"verticalAlignment":"center","style":{"spacing":{"blockGap":{"left":"64px"}}}} -->
 <div class="wp-block-columns are-vertically-aligned-center"><!-- wp:column {"verticalAlignment":"center"} -->
 <div class="wp-block-column is-vertically-aligned-center"><!-- wp:image {"aspectRatio":"4/3","scale":"cover","sizeSlug":"full","linkDestination":"none"} -->
-<figure class="wp-block-image size-full"><img src="<?php echo esc_url( get_theme_file_uri( 'assets/images/o-mne.jpg' ) ); ?>" alt="Ručne viazaný zápisník s ilustráciou stromu v rukách" style="aspect-ratio:4/3;object-fit:cover"/></figure>
+<figure class="wp-block-image size-full"><img src="<?php echo esc_url( get_theme_file_uri( 'assets/images/o-mne.webp' ) ); ?>" alt="Ručne viazaný zápisník s ilustráciou stromu v rukách" style="aspect-ratio:4/3;object-fit:cover"/></figure>
 <!-- /wp:image --></div>
 <!-- /wp:column -->
 

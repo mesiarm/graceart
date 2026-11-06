@@ -5,7 +5,7 @@
  * Categories: graceart
  * Description: Fotka s nadpisom „Nájdite si svoj kúsok“ a tlačidlami Pozrieť zápisníky a Napíšte mi.
  */
-$graceart_cta = esc_url( get_theme_file_uri( 'assets/images/o-mne.jpg' ) );
+$graceart_cta = esc_url( get_theme_file_uri( 'assets/images/o-mne.webp' ) );
 ?>
 <!-- wp:cover {"url":"<?php echo $graceart_cta; ?>","alt":"<?php esc_attr_e( 'Ručne viazaný zápisník s ilustráciou stromu v rukách', 'graceart' ); ?>","dimRatio":60,"customOverlayColor":"#281c14","isUserOverlayColor":true,"minHeight":420,"minHeightUnit":"px","contentPosition":"center center","isDark":true,"align":"full","className":"graceart-hero","layout":{"type":"constrained","contentSize":"680px"}} -->
 <div class="wp-block-cover alignfull is-dark graceart-hero" style="min-height:420px"><span aria-hidden="true" class="wp-block-cover__background has-background-dim-60 has-background-dim" style="background-color:#281c14"></span><img class="wp-block-cover__image-background" alt="<?php esc_attr_e( 'Ručne viazaný zápisník s ilustráciou stromu v rukách', 'graceart' ); ?>" src="<?php echo $graceart_cta; ?>" data-object-fit="cover"/><div class="wp-block-cover__inner-container"><!-- wp:heading {"textAlign":"center","textColor":"base"} -->

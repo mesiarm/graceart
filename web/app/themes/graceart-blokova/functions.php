@@ -330,6 +330,189 @@ function graceart_availability_fallback( $text, $product ) {
 add_filter( 'woocommerce_get_availability_text', 'graceart_availability_fallback', 10, 2 );
 
 /**
+ * Dostupnosť pre zákazníka – pri produkte, variante aj v košíku hneď vidieť
+ * (Veronika 31. 10. 2026): „Skladom – odoslanie do 2 – 3 pracovných dní“ alebo
+ * „Na objednávku – odoslanie do 1 týždňa“. Lehotu na objednávku a počet kusov
+ * na objednávku nastavuje plugin graceart-shop (pri produkte / variante).
+ */
+function graceart_odoslanie_skladom() {
+	return 'do 2 – 3 pracovných dní';
+}
+
+function graceart_dostupnost_text( $product, $qty = 1 ) {
+	if ( function_exists( 'graceartQuantityIsOnBackorder' ) && graceartQuantityIsOnBackorder( $product, max( 1, (int) $qty ) ) ) {
+		return 'Na objednávku – odoslanie ' . graceartLeadTimePhrase( $product );
+	}
+	if ( ! $product->is_in_stock() ) {
+		return 'Vypredané';
+	}
+	return 'Skladom – odoslanie ' . graceart_odoslanie_skladom();
+}
+
+function graceart_availability_text( $text, $product ) {
+	if ( ! $product || $product->is_type( 'variable' ) || ( is_admin() && ! wp_doing_ajax() ) ) {
+		return $text;
+	}
+	return graceart_dostupnost_text( $product );
+}
+add_filter( 'woocommerce_get_availability_text', 'graceart_availability_text', 20, 2 );
+
+/**
+ * Blok skladu na stránke produktu: pri malom sklade by WooCommerce napísal
+ * „Na sklade zostávajú 2 ks“ – počet kusov zákazníkovi neukazujeme, len dostupnosť.
+ */
+function graceart_stock_indicator_text( $html, $parsed_block, $instance ) {
+	$product = wc_get_product( $instance->context['postId'] ?? get_the_ID() );
+	if ( ! $product || $product->is_type( 'variable' ) || '' === trim( $html ) ) {
+		return $html;
+	}
+	$text = esc_html( graceart_dostupnost_text( $product ) );
+	return preg_replace_callback( '#(<div\b[^>]*>)[^<]*(</div>\s*)$#', function ( $m ) use ( $text ) {
+		return $m[1] . $text . $m[2];
+	}, $html, 1 );
+}
+add_filter( 'render_block_woocommerce/product-stock-indicator', 'graceart_stock_indicator_text', 10, 3 );
+
+/**
+ * Košík a pokladňa: pod názvom produktu riadok „Dostupnosť: …“ (podľa počtu kusov –
+ * keď sklad nestačí, celá položka je na objednávku).
+ */
+function graceart_cart_dostupnost( $item_data, $cart_item ) {
+	if ( isset( $cart_item['data'] ) && $cart_item['data'] instanceof WC_Product ) {
+		$item_data[] = array(
+			'key'   => 'Dostupnosť',
+			'value' => graceart_dostupnost_text( $cart_item['data'], $cart_item['quantity'] ?? 1 ),
+		);
+	}
+	return $item_data;
+}
+add_filter( 'woocommerce_get_item_data', 'graceart_cart_dostupnost', 20, 2 );
+
+/**
+ * Okienko „Pridané do košíka“ s tlačidlami Pokračovať v nákupe / Prejsť do košíka
+ * (namiesto presmerovania do košíka – WooCommerce → Nastavenia → Produkty, vypnuté 31. 10. 2026).
+ * Stránka produktu: po pridaní späť na produkt a okienko sa vypíše v pätičke.
+ * Zoznamy (AJAX): okienko príde ako fragment do .graceart-pridane-miesto.
+ * Otvára ho assets/js/pridane.js.
+ */
+function graceart_pridane_strana() {
+	return is_product() || is_shop() || is_product_taxonomy() || is_front_page() || is_search() || is_page( 'zoznam-priani' );
+}
+
+function graceart_pridane_zapamatat( $cart_item_key, $product_id, $quantity ) {
+	$pridane = array( $cart_item_key, (float) $quantity );
+	if ( wp_doing_ajax() ) {
+		$GLOBALS['graceart_pridane_ajax'] = $pridane;
+	} elseif ( isset( $_REQUEST['add-to-cart'] ) && WC()->session ) { // phpcs:ignore WordPress.Security.NonceVerification
+		WC()->session->set( 'graceart_pridane', $pridane );
+	}
+}
+add_action( 'woocommerce_add_to_cart', 'graceart_pridane_zapamatat', 10, 3 );
+
+function graceart_pridane_presmerovanie( $url ) {
+	if ( $url || ! WC()->session || ! WC()->session->get( 'graceart_pridane' ) ) {
+		return $url;
+	}
+	// späť na produkt (GET), aby obnovenie stránky nepridalo produkt znova
+	return wp_validate_redirect( wp_get_raw_referer(), $url );
+}
+add_filter( 'woocommerce_add_to_cart_redirect', 'graceart_pridane_presmerovanie', 20 );
+
+/** Hlášku „… bol pridaný do košíka. Zobraziť košík“ nahrádza okienko. */
+function graceart_pridane_bez_hlasky() {
+	if ( ! function_exists( 'WC' ) || ! WC()->session || ! WC()->session->get( 'graceart_pridane' ) ) {
+		return;
+	}
+	$notices = WC()->session->get( 'wc_notices', array() );
+	if ( empty( $notices['success'] ) ) {
+		return;
+	}
+	$notices['success'] = array_values( array_filter( $notices['success'], function ( $n ) {
+		return false === strpos( is_array( $n ) ? $n['notice'] : (string) $n, 'wc-forward' );
+	} ) );
+	if ( ! $notices['success'] ) {
+		unset( $notices['success'] );
+	}
+	WC()->session->set( 'wc_notices', $notices );
+}
+add_action( 'template_redirect', 'graceart_pridane_bez_hlasky' );
+
+function graceart_pridane_html( $pridane, $otvorit ) {
+	list( $cart_item_key, $pocet ) = array_pad( (array) $pridane, 2, 0 );
+	$item = WC()->cart->get_cart_item( $cart_item_key );
+	if ( ! $item || empty( $item['data'] ) ) {
+		return '';
+	}
+	$pocet = $pocet > 0 ? $pocet : $item['quantity'];
+	$product  = $item['data'];
+	$detaily  = array_filter( array_map( 'trim', explode( "\n", wc_get_formatted_cart_item_data( $item, true ) ) ) );
+	$kosik    = WC()->cart;
+	$spolu    = (float) $kosik->get_displayed_subtotal() - (float) $kosik->get_discount_total();
+	$min      = graceart_free_shipping_min();
+	$doprava  = '';
+	if ( null !== $min ) {
+		$doprava = $spolu >= $min
+			? ' Máte <strong>dopravu zadarmo</strong>.'
+			: sprintf( ' Do dopravy zadarmo chýba <strong>%s</strong>.', wp_strip_all_tags( wc_price( $min - $spolu ) ) );
+	}
+	ob_start();
+	?>
+	<dialog class="graceart-pridane" aria-labelledby="graceart-pridane-nadpis"<?php echo $otvorit ? ' open data-otvorit' : ''; ?>>
+		<div class="graceart-pridane-obsah">
+			<div class="graceart-pridane-hlava">
+				<p id="graceart-pridane-nadpis" class="graceart-pridane-nadpis"><span class="graceart-pridane-fajka" aria-hidden="true"></span>Pridané do košíka</p>
+				<button type="button" class="graceart-pridane-zavriet" aria-label="Zavrieť">&times;</button>
+			</div>
+			<div class="graceart-pridane-produkt">
+				<?php echo $product->get_image( 'woocommerce_thumbnail', array( 'alt' => '', 'loading' => 'eager' ) ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
+				<div>
+					<p class="graceart-pridane-meno"><?php echo esc_html( $product->get_title() ); ?></p>
+					<?php foreach ( $detaily as $riadok ) : ?>
+						<p class="graceart-pridane-detail"><?php echo esc_html( $riadok ); ?></p>
+					<?php endforeach; ?>
+					<p class="graceart-pridane-cena"><?php echo esc_html( wc_stock_amount( $pocet ) ); ?> ks · <?php echo wp_kses_post( $kosik->get_product_subtotal( $product, $pocet ) ); ?></p>
+				</div>
+			</div>
+			<p class="graceart-pridane-kosik">V košíku: <?php echo esc_html( $kosik->get_cart_contents_count() ); ?> ks za <strong><?php echo wp_strip_all_tags( wc_price( $spolu ) ); // phpcs:ignore WordPress.Security.EscapeOutput ?></strong>.<?php echo wp_kses_post( $doprava ); ?></p>
+			<div class="graceart-pridane-tlacidla">
+				<button type="button" class="graceart-pridane-pokracovat">Pokračovať v nákupe</button>
+				<a class="graceart-pridane-do-kosika" href="<?php echo esc_url( wc_get_cart_url() ); ?>">Prejsť do košíka</a>
+			</div>
+		</div>
+	</dialog>
+	<?php
+	return ob_get_clean();
+}
+
+function graceart_pridane_okienko() {
+	if ( ! function_exists( 'WC' ) || ! WC()->cart || ! graceart_pridane_strana() ) {
+		return;
+	}
+	$html = '';
+	$pridane = WC()->session ? WC()->session->get( 'graceart_pridane' ) : '';
+	if ( $pridane ) {
+		WC()->session->set( 'graceart_pridane', null );
+		$html = graceart_pridane_html( $pridane, true );
+	}
+	echo '<div class="graceart-pridane-miesto">' . $html . '</div>'; // phpcs:ignore WordPress.Security.EscapeOutput
+}
+add_action( 'wp_footer', 'graceart_pridane_okienko' );
+
+function graceart_pridane_fragment( $fragments ) {
+	$pridane = $GLOBALS['graceart_pridane_ajax'] ?? '';
+	$fragments['.graceart-pridane-miesto'] = '<div class="graceart-pridane-miesto">' . ( $pridane ? graceart_pridane_html( $pridane, false ) : '' ) . '</div>';
+	return $fragments;
+}
+add_filter( 'woocommerce_add_to_cart_fragments', 'graceart_pridane_fragment' );
+
+function graceart_pridane_script() {
+	if ( graceart_pridane_strana() ) {
+		wp_enqueue_script( 'graceart-pridane', get_theme_file_uri( 'assets/js/pridane.js' ), array( 'jquery' ), wp_get_theme()->get( 'Version' ), true );
+	}
+}
+add_action( 'wp_enqueue_scripts', 'graceart_pridane_script' );
+
+/**
  * Tlačidlá − a + pri množstve na stránke produktu.
  */
 function graceart_quantity_script() {
@@ -618,6 +801,8 @@ function graceart_woocommerce_texts( $translation, $text, $domain ) {
 		'Your review'                   => 'Vaša skúsenosť s produktom',
 		'Please select a rating'        => 'Prosím, vyberte počet hviezdičiek.',
 		'verified owner'                => 'overený nákup',
+		// E-mail s prosbou o hodnotenie: v preklade WooCommerce je navyše „[“ (1.7.16).
+		'Order #%1$s (%2$s)'            => 'Objednávka č. %1$s (%2$s)',
 	);
 	return $texts[ $text ] ?? $translation;
 }
@@ -756,3 +941,22 @@ add_action( 'wp_enqueue_scripts', 'graceart_yith_len_kde_treba', 100 );
  * Krajiny doručenia v pokladni (výber výdajného miesta rieši plugin Packeta).
  */
 require_once get_theme_file_path( 'inc/shipping-countries.php' );
+
+/**
+ * Odpoveď predajkyne na hodnotenie (1.7.16): namiesto prihlasovacieho mena
+ * (napr. „veronika.zabkova“) sa na webe ukáže „Odpoveď od Grace Art“.
+ * Platí pre odpovede z účtu správcu obchodu; v admine sa meno nemení.
+ */
+function graceart_review_reply_author( $author, $comment_id, $comment ) {
+	if ( is_admin() || ! $comment instanceof WP_Comment ) {
+		return $author;
+	}
+	if ( 'review' !== $comment->comment_type || ! $comment->comment_parent || ! $comment->user_id ) {
+		return $author;
+	}
+	if ( ! user_can( (int) $comment->user_id, 'manage_woocommerce' ) ) {
+		return $author;
+	}
+	return __( 'Odpoveď od Grace Art', 'graceart' );
+}
+add_filter( 'get_comment_author', 'graceart_review_reply_author', 10, 3 );

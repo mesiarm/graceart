@@ -12,7 +12,7 @@ $graceart_faq = array(
 	),
 	array(
 		'Ako dlho trvá, kým zápisník dostanem?',
-		'Výrobky, ktoré sú na sklade, odosielam zvyčajne do niekoľkých pracovných dní. Pri výrobe na zákazku si termín dohodneme individuálne.',
+		'Výrobky skladom odosielam do 2 – 3 pracovných dní. Pri výrobkoch na objednávku je doba odoslania uvedená priamo pri produkte.',
 	),
 	array(
 		'Kam posielate a koľko stojí doprava?',

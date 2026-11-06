@@ -33,7 +33,7 @@ $graceart_materials = array(
 <div class="wp-block-group alignfull" style="padding-top:112px;padding-right:32px;padding-bottom:96px;padding-left:32px"><!-- wp:columns {"verticalAlignment":"center","style":{"spacing":{"blockGap":{"left":"72px"}}}} -->
 <div class="wp-block-columns are-vertically-aligned-center"><!-- wp:column {"verticalAlignment":"center"} -->
 <div class="wp-block-column is-vertically-aligned-center"><!-- wp:image {"aspectRatio":"4/5","scale":"cover","sizeSlug":"full","linkDestination":"none","className":"graceart-about-photo"} -->
-<figure class="wp-block-image size-full graceart-about-photo"><img src="<?php echo esc_url( get_theme_file_uri( 'assets/images/o-mne.jpg' ) ); ?>" alt="Ručne viazaný zápisník s ilustráciou stromu v rukách" style="aspect-ratio:4/5;object-fit:cover"/></figure>
+<figure class="wp-block-image size-full graceart-about-photo"><img src="<?php echo esc_url( get_theme_file_uri( 'assets/images/o-mne.webp' ) ); ?>" alt="Ručne viazaný zápisník s ilustráciou stromu v rukách" style="aspect-ratio:4/5;object-fit:cover"/></figure>
 <!-- /wp:image --></div>
 <!-- /wp:column -->
 
