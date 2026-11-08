@@ -22,43 +22,59 @@ body.graceart-shipping-pending .wc-block-components-shipping-rates-control {
     text-decoration: underline;
 }
 
-/* Packeta plugin: pickup point button and the chosen point. */
+/* Packeta plugin: pickup point button and the chosen point (1.7.19).
+   No cream box and no logo beside the button (on a phone it was a logo and
+   a big block next to it): the shipping option above already says Packeta,
+   so only an outlined button follows, full width on a phone, and the chosen
+   point is written below it. */
 .wp-block-woocommerce-checkout .packetery-widget-button-wrapper {
-    margin-top: 16px;
-    padding: 16px 20px;
-    border: 1px solid var(--wp--preset--color--line);
-    background-color: var(--wp--preset--color--cream);
+    margin: 10px 0 4px;
+    padding: 0;
+    border: 0;
+    background: none;
     font-size: 15px;
     line-height: 1.5;
     color: var(--wp--preset--color--ink);
 }
 
+.wp-block-woocommerce-checkout .packetery-widget-button-wrapper .packeta-widget {
+    margin: 0;
+    padding: 0;
+}
+
 .wp-block-woocommerce-checkout .packetery-widget-button-row {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 12px;
+    display: block;
 }
 
 .wp-block-woocommerce-checkout .packetery-widget-button-logo {
-    width: 44px;
-    height: 44px;
-    object-fit: contain;
+    display: none;
 }
 
 .wp-block-woocommerce-checkout .packetery-widget-button-row .button {
-    min-height: 44px;
-    padding: 10px 22px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: auto;
+    min-height: 42px;
+    margin: 0;
+    padding: 8px 24px;
     font-family: inherit;
     font-size: 14px;
+    font-weight: 400;
+    line-height: 1.3;
+    letter-spacing: 0.02em;
+    text-align: center;
+    text-decoration: none;
     border: 1px solid var(--wp--preset--color--brown-dark);
     border-radius: 0;
     background-color: #fff;
     color: var(--wp--preset--color--ink);
+    box-shadow: none;
     cursor: pointer;
 }
 
-.wp-block-woocommerce-checkout .packetery-widget-button-row .button:hover {
+.wp-block-woocommerce-checkout .packetery-widget-button-row .button:hover,
+.wp-block-woocommerce-checkout .packetery-widget-button-row .button:focus-visible {
     background-color: var(--wp--preset--color--brown-dark);
     color: #fff;
 }
@@ -66,7 +82,9 @@ body.graceart-shipping-pending .wc-block-components-shipping-rates-control {
 .wp-block-woocommerce-checkout .packeta-widget-selected-address,
 .wp-block-woocommerce-checkout .packeta-widget-place,
 .wp-block-woocommerce-checkout .packeta-widget-info {
-    margin: 10px 0 0;
+    margin: 8px 0 0;
+    font-size: 14px;
+    overflow-wrap: anywhere;
 }
 
 .wp-block-woocommerce-checkout .packeta-widget-place {
@@ -75,6 +93,15 @@ body.graceart-shipping-pending .wc-block-components-shipping-rates-control {
 
 .wp-block-woocommerce-checkout .packeta-widget-selected-address {
     color: var(--wp--preset--color--muted);
+}
+
+@media (max-width: 600px) {
+    .wp-block-woocommerce-checkout .packetery-widget-button-row .button {
+        display: flex;
+        width: 100%;
+        box-sizing: border-box;
+        padding: 8px 16px;
+    }
 }
 
 .graceart-packeta-point {

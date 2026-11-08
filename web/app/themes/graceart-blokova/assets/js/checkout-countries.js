@@ -170,3 +170,93 @@
         }
     });
 })();
+
+/**
+ * Packeta pickup point window and the Back button (1.7.19).
+ *
+ * The Packeta library opens the map as a layer over the checkout without a
+ * history entry, so Back on a phone left the checkout for the page before
+ * (the product). While the layer is open it gets its own history entry:
+ * Back then only closes the layer, and once it is closed some other way
+ * (a point picked, the cross) that entry is taken back off.
+ */
+(function () {
+    'use strict';
+
+    if (!window.history || typeof window.history.pushState !== 'function') {
+        return;
+    }
+
+    var KEY = 'graceartPacketaOpen';
+    var open = false;
+    var closingByBack = false;
+    var skipNextPop = false;
+
+    function patch() {
+        var widget = window.Packeta && window.Packeta.Widget;
+
+        if (!widget || typeof widget.initIframe !== 'function' || widget.graceartPatched) {
+            return;
+        }
+
+        var initIframe = widget.initIframe;
+
+        widget.graceartPatched = true;
+        widget.initIframe = function (apiKey, callback, opts, inElement) {
+            var result = initIframe.apply(this, arguments);
+            var inline = typeof inElement !== 'undefined' && inElement !== null;
+            var close = widget.close;
+
+            if (inline || typeof close !== 'function') {
+                return result;
+            }
+
+            var state = {};
+            state[KEY] = true;
+            window.history.pushState(state, '');
+            open = true;
+
+            widget.close = function () {
+                var wasOpen = open;
+
+                open = false;
+                widget.close = function () {};
+
+                if (wasOpen && !closingByBack && window.history.state && window.history.state[KEY]) {
+                    skipNextPop = true;
+                    window.history.back();
+                }
+
+                closingByBack = false;
+
+                return close.apply(this, arguments);
+            };
+
+            return result;
+        };
+    }
+
+    window.addEventListener('popstate', function () {
+        if (skipNextPop) {
+            skipNextPop = false;
+            return;
+        }
+
+        if (open && window.Packeta && window.Packeta.Widget) {
+            closingByBack = true;
+            window.Packeta.Widget.close();
+        }
+    });
+
+    // The library may load before or after this file: patch now, once the
+    // page is ready, and at the latest when the pickup point button is
+    // pressed (capture phase, before the plugin's own click handler).
+    patch();
+    document.addEventListener('DOMContentLoaded', patch);
+    window.addEventListener('load', patch);
+    document.addEventListener('click', function (event) {
+        if (event.target && event.target.closest && event.target.closest('.packetery-widget-button-wrapper')) {
+            patch();
+        }
+    }, true);
+})();

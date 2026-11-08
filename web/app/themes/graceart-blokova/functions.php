@@ -803,6 +803,9 @@ function graceart_woocommerce_texts( $translation, $text, $domain ) {
 		'verified owner'                => 'overený nákup',
 		// E-mail s prosbou o hodnotenie: v preklade WooCommerce je navyše „[“ (1.7.16).
 		'Order #%1$s (%2$s)'            => 'Objednávka č. %1$s (%2$s)',
+		// Mini košík: počítadlo pri nadpise „Košík“ nie je v preklade WooCommerce (1.7.18).
+		// Jeden tvar pre všetky počty (text sa prepisuje aj v prehliadači), preto „ks“.
+		'(items: %d)'                   => '(%d ks)',
 	);
 	return $texts[ $text ] ?? $translation;
 }
