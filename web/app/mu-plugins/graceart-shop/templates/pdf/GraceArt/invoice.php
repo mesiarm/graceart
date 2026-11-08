@@ -133,13 +133,22 @@
 			<?php endif; ?>
 			<?php
 			$graceart_packeta_lines = [];
-			if ( $this->order instanceof WC_Order && $this->order->get_meta( 'packetery_point_id' ) ) {
-				$graceart_packeta_street = (string) $this->order->get_meta( 'packetery_point_street' );
-				$graceart_packeta_city   = trim( $this->order->get_meta( 'packetery_point_zip' ) . ' ' . $this->order->get_meta( 'packetery_point_city' ) );
-				$graceart_packeta_lines  = array_values( array_unique( array_filter( [
-					(string) $this->order->get_meta( 'packetery_point_name' ),
-					trim( $graceart_packeta_street . ', ' . $graceart_packeta_city, ', ' ),
-				] ) ) );
+			if ( $this->order instanceof WC_Order ) {
+				// The official Packeta plugin stores the pickup point in its own table, not in order meta.
+				global $wpdb;
+				$graceart_packeta_point = $wpdb->get_row(
+					$wpdb->prepare(
+						"SELECT point_id, point_name, point_street, point_zip, point_city FROM {$wpdb->prefix}packetery_order WHERE id = %d",
+						$this->order->get_id()
+					)
+				);
+				if ( $graceart_packeta_point && $graceart_packeta_point->point_id ) {
+					$graceart_packeta_city  = trim( $graceart_packeta_point->point_zip . ' ' . $graceart_packeta_point->point_city );
+					$graceart_packeta_lines = array_values( array_unique( array_filter( [
+						(string) $graceart_packeta_point->point_name,
+						trim( $graceart_packeta_point->point_street . ', ' . $graceart_packeta_city, ', ' ),
+					] ) ) );
+				}
 			}
 			?>
 			<?php if ( $graceart_packeta_lines ) : ?>
