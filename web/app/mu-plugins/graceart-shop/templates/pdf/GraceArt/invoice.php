@@ -146,7 +146,10 @@
 					$graceart_packeta_city  = trim( $graceart_packeta_point->point_zip . ' ' . $graceart_packeta_point->point_city );
 					$graceart_packeta_lines = array_values( array_unique( array_filter( [
 						(string) $graceart_packeta_point->point_name,
-						trim( $graceart_packeta_point->point_street . ', ' . $graceart_packeta_city, ', ' ),
+						// The point name usually already contains the street, so do not repeat it.
+						stripos( (string) $graceart_packeta_point->point_name, (string) $graceart_packeta_point->point_street ) !== false
+							? $graceart_packeta_city
+							: trim( $graceart_packeta_point->point_street . ', ' . $graceart_packeta_city, ', ' ),
 					] ) ) );
 				}
 			}
