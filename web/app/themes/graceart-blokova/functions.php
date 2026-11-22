@@ -767,6 +767,9 @@ function graceart_wishlist_texts( $translation, $text, $domain ) {
 		'Product added!'                    => 'Pridané do zoznamu prianí',
 		'Browse wishlist'                   => 'Zobraziť zoznam prianí',
 		'The product is already in your wishlist!' => 'Produkt už v zozname prianí máte.',
+		// Hosť nemá pomenovaný zoznam, {{wishlist_name}} by ostalo prázdne („do vášho "" zoznamu“).
+		'{{product_name}} has been added to your {{wishlist_name}} list!'     => '{{product_name}} bol pridaný do zoznamu prianí.',
+		'{{product_name}} has been removed from your {{wishlist_name}} list!' => '{{product_name}} bol odstránený zo zoznamu prianí.',
 	);
 	return $texts[ $text ] ?? $translation;
 }
