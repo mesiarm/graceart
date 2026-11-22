@@ -154,6 +154,7 @@ add_action('template_redirect', function (): void {
     $redirects = [
         'ochrana-sukromia' => '/zasady-ochrany-osobnych-udajov/',
         'cookies' => '/zasady-pouzivania-cookies/',
+        'hodnotenie-objednavky' => '/ohodnotte-svoju-objednavku/',
     ];
     $path = trim((string) wp_parse_url($_SERVER['REQUEST_URI'] ?? '', PHP_URL_PATH), '/');
 
