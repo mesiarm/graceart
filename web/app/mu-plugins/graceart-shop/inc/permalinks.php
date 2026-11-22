@@ -142,3 +142,23 @@ add_action('init', function () {
         update_option('graceart_permalinks_version', GRACEART_PERMALINKS_VERSION);
     }
 }, 20);
+
+/**
+ * Staré adresy právnych stránok (premenované podľa nadpisov) presmeruj trvalo na nové.
+ */
+add_action('template_redirect', function (): void {
+    if (! is_404()) {
+        return;
+    }
+
+    $redirects = [
+        'ochrana-sukromia' => '/zasady-ochrany-osobnych-udajov/',
+        'cookies' => '/zasady-pouzivania-cookies/',
+    ];
+    $path = trim((string) wp_parse_url($_SERVER['REQUEST_URI'] ?? '', PHP_URL_PATH), '/');
+
+    if (isset($redirects[$path])) {
+        wp_safe_redirect(home_url($redirects[$path]), 301);
+        exit;
+    }
+});
