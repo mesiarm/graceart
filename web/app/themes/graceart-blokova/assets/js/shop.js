@@ -54,7 +54,8 @@
 			var reduce = window.matchMedia && window.matchMedia( '(prefers-reduced-motion: reduce)' ).matches;
 			window.setTimeout( function () {
 				window.scrollTo( {
-					top: target.getBoundingClientRect().top + window.pageYOffset,
+					// pevná hlavička (téma 1.7.20) by inak zakryla začiatok produktov
+					top: target.getBoundingClientRect().top + window.pageYOffset - ( ( document.querySelector( '.wp-site-blocks > header' ) || {} ).offsetHeight || 0 ),
 					behavior: reduce ? 'auto' : 'smooth'
 				} );
 			}, 150 );

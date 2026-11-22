@@ -22,14 +22,22 @@ function graceart_register_pattern_category() {
 add_action( 'init', 'graceart_register_pattern_category' );
 
 /**
- * Podpora WooCommerce galérie produktu (zoom, lightbox, posúvanie fotiek).
+ * Podpora WooCommerce galérie produktu (lightbox, posúvanie fotiek).
+ * Zoom pri prejdení myšou je vypnutý (10. 11. 2026, požiadavka developera) – fotka sa zväčší po kliknutí v lightboxe.
  */
 function graceart_setup() {
-	add_theme_support( 'wc-product-gallery-zoom' );
 	add_theme_support( 'wc-product-gallery-lightbox' );
 	add_theme_support( 'wc-product-gallery-slider' );
 }
 add_action( 'after_setup_theme', 'graceart_setup' );
+// Blok galérie WooCommerce si zoom pri vykreslení zapína sám (filter s prioritou 10) – vypnúť neskorším filtrom
+// a skript zoomu vôbec nenačítať (lightbox po kliknutí ostáva).
+add_filter( 'woocommerce_single_product_zoom_enabled', '__return_false', 99 );
+function graceart_bez_zoomu() {
+	wp_dequeue_script( 'wc-zoom' );
+	wp_dequeue_script( 'zoom' );
+}
+add_action( 'wp_footer', 'graceart_bez_zoomu', 1 );
 
 /**
  * Najlacnejší variant, ktorý sa dá kúpiť (na sklade alebo na objednávku).
@@ -237,10 +245,20 @@ function graceart_kategorie_prepinac_shortcode() {
 			return ( false === $pa ? 99 : $pa ) <=> ( false === $pb ? 99 : $pb );
 		}
 	);
-	$current = is_product_category() ? get_queried_object_id() : 0;
-	$links   = array( array( 'Všetko', wc_get_page_permalink( 'shop' ), 0 === $current ) );
-	foreach ( $terms as $term ) {
-		$links[] = array( $term->name, get_term_link( $term ), $current === $term->term_id );
+	if ( is_search() ) {
+		// Vo výsledkoch vyhľadávania pilulky len zúžia hľadanie na kategóriu (hľadané slovo ostáva).
+		$base  = add_query_arg( array( 's' => get_search_query( false ), 'post_type' => 'product' ), home_url( '/' ) );
+		$slug  = (string) get_query_var( 'product_cat' );
+		$links = array( array( 'Všetko', $base, '' === $slug ) );
+		foreach ( $terms as $term ) {
+			$links[] = array( $term->name, add_query_arg( 'product_cat', $term->slug, $base ), $slug === $term->slug );
+		}
+	} else {
+		$current = is_product_category() ? get_queried_object_id() : 0;
+		$links   = array( array( 'Všetko', wc_get_page_permalink( 'shop' ), 0 === $current ) );
+		foreach ( $terms as $term ) {
+			$links[] = array( $term->name, get_term_link( $term ), $current === $term->term_id );
+		}
 	}
 	$html = '<nav class="graceart-cat-switch" aria-label="Kategórie produktov">';
 	foreach ( $links as $link ) {
@@ -363,13 +381,28 @@ add_filter( 'woocommerce_get_availability_text', 'graceart_availability_text', 2
  */
 function graceart_stock_indicator_text( $html, $parsed_block, $instance ) {
 	$product = wc_get_product( $instance->context['postId'] ?? get_the_ID() );
-	if ( ! $product || $product->is_type( 'variable' ) || '' === trim( $html ) ) {
+	if ( ! $product || '' === trim( $html ) ) {
 		return $html;
 	}
-	$text = esc_html( graceart_dostupnost_text( $product ) );
+	$text = graceart_dostupnost_html( graceart_dostupnost_text( $product ) );
+	// data-wp-text by text po načítaní prepísal ako jeden riadok – text dávame priamo (varianty prepisuje quantity.js)
+	$html = preg_replace( '#\sdata-wp-text="[^"]*"#', '', $html, 1 );
 	return preg_replace_callback( '#(<div\b[^>]*>)[^<]*(</div>\s*)$#', function ( $m ) use ( $text ) {
 		return $m[1] . $text . $m[2];
 	}, $html, 1 );
+}
+
+/**
+ * „Skladom – odoslanie do 2 – 3 pracovných dní“ → dva riadky:
+ * hore stav (Skladom / Na objednávku), pod ním kedy sa odosiela.
+ */
+function graceart_dostupnost_html( $text ) {
+	$parts = explode( ' – ', $text, 2 );
+	if ( 2 !== count( $parts ) ) {
+		return esc_html( $text );
+	}
+	return '<span class="graceart-stock-state">' . esc_html( $parts[0] ) . '</span>'
+		. '<span class="graceart-stock-note">' . esc_html( $parts[1] ) . '</span>';
 }
 add_filter( 'render_block_woocommerce/product-stock-indicator', 'graceart_stock_indicator_text', 10, 3 );
 
@@ -963,3 +996,54 @@ function graceart_review_reply_author( $author, $comment_id, $comment ) {
 	return __( 'Odpoveď od Grace Art', 'graceart' );
 }
 add_filter( 'get_comment_author', 'graceart_review_reply_author', 10, 3 );
+
+/**
+ * Pevná hlavička (zmenší sa po posunutí) a šípka „Späť hore“ v pätičke – assets/js/header.js.
+ * Pokladňa: názvy produktov v súhrne objednávky sú odkazy na produkt – assets/js/checkout-summary.js.
+ */
+function graceart_header_script() {
+	wp_enqueue_script( 'graceart-header', get_theme_file_uri( 'assets/js/header.js' ), array(), wp_get_theme()->get( 'Version' ), true );
+	if ( function_exists( 'is_checkout' ) && is_checkout() && ! is_wc_endpoint_url( 'order-received' ) ) {
+		wp_enqueue_script( 'graceart-checkout-summary', get_theme_file_uri( 'assets/js/checkout-summary.js' ), array( 'wp-data' ), wp_get_theme()->get( 'Version' ), true );
+	}
+}
+add_action( 'wp_enqueue_scripts', 'graceart_header_script' );
+
+/**
+ * E-maily WooCommerce v štýle témy (10. 11. 2026): nadpisy pätkovým písmom verzálkami,
+ * tenké béžové čiary, oblé tlačidlá. Farby sú v WooCommerce → Nastavenia → E-maily.
+ * (Písma webu sa do e-mailov nedajú spoľahlivo vložiť – Georgia a Helvetica sú bezpečné náhrady.)
+ */
+function graceart_email_styles( $css ) {
+	return $css . '
+h1, h2, h3 { font-family: Georgia, "Times New Roman", serif !important; font-weight: normal !important; text-transform: uppercase; letter-spacing: 0.04em; color: #3B2E25 !important; }
+h1 { font-size: 26px !important; line-height: 1.25 !important; }
+h2 { font-size: 20px !important; }
+h3 { font-size: 16px !important; }
+a { color: #8A5A3B !important; }
+.td, .order_item td, table.td { border-color: #E6DCCF !important; }
+#body_content table.td thead th, #body_content .order-totals-total th, #body_content .order-totals-total td { color: #3B2E25 !important; }
+.email-order-detail-heading span { color: #7A6A5D !important; }
+a.button, .button, .email-button { border-radius: 999px !important; }
+#template_footer #credit, #template_footer #credit p { color: #7A6A5D !important; }
+';
+}
+add_filter( 'woocommerce_email_styles', 'graceart_email_styles', 20 );
+
+/**
+ * NÁVRH štýlu PDF faktúry v štýle témy (10. 11. 2026) – doplnok k šablóne developera
+ * (mu-plugin graceart-shop/templates/pdf/GraceArt), ktorú tým nemeníme: čierne čiary → béžové,
+ * nadpisy a názov dokladu hnedé, hlavička tabuľky krémová. Ak sa developerovi páči,
+ * presunie to do svojho style.css a túto funkciu zmažeme.
+ */
+function graceart_invoice_styles( $document_type ) {
+	?>
+body { color: #3B2E25; }
+h1, td.document-title h1, .document-type-label { color: #8A5A3B; letter-spacing: 1pt; text-transform: uppercase; font-weight: normal; }
+table.parties, table.parties td.supplier, table.order-details, table.order-details th, table.order-details td { border-color: #CDBBA7 !important; }
+table.order-details thead th { background: #F7F3EE; color: #3B2E25; }
+.party-label, .delivery-label { color: #8A5A3B; text-transform: uppercase; letter-spacing: 0.6pt; }
+table.totals tr.order_total th, table.totals tr.order_total td, tr.order_total th, tr.order_total td { color: #3B2E25; border-top: 0.7pt solid #8A5A3B; }
+	<?php
+}
+add_action( 'wpo_wcpdf_custom_styles', 'graceart_invoice_styles', 20 );

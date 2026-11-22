@@ -51,15 +51,15 @@ $graceart_materials = array(
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p>[AKO TO ZAČALO: 2–3 vety o tom, kedy a prečo ste začali viazať zápisníky.]</p>
+<p>Kožu milujem pre to, ako sa správa. Voňia, pod rukami mäkne a s rokmi dostáva vlastný charakter. Preto pri nej robím všetko ručne a pomaly, aby výsledok vydržal dlho a len krajšie starol.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p>[ČO VÁS BAVÍ NAJVIAC: 1–2 vety o obľúbenej technike, materiáli alebo motíve.]</p>
+<p>Odkedy som v roku 2016 začala s Grace Art, prešli mi rukami stovky kusov kože a každý bol trochu iný. Tú rozmanitosť mám na tejto práci najradšej. Teší ma, keď sa potom niekto ozve, že zápisník je naživo ešte krajší ako na fotke. Vtedy viem, že koža si našla správne miesto.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph {"className":"graceart-signature"} -->
-<p class="graceart-signature">[Vaše meno]</p>
+<p class="graceart-signature">Veronika</p>
 <!-- /wp:paragraph --></div>
 <!-- /wp:column --></div>
 <!-- /wp:columns --></div>

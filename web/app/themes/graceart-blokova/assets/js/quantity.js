@@ -40,7 +40,7 @@
 			return;
 		}
 		var original = box.innerHTML;
-		var stockText = stock ? stock.textContent : '';
+		var stockHtml = stock ? stock.innerHTML : '';
 		var stockClass = stock ? stock.className : '';
 
 		function pulse() {
@@ -51,7 +51,7 @@
 		function resetStock() {
 			if ( stock ) {
 				stock.className = stockClass;
-				stock.textContent = stockText;
+				stock.innerHTML = stockHtml;
 			}
 		}
 		function showStock( html ) {
@@ -66,7 +66,24 @@
 				: ( p.classList.contains( 'available-on-backorder' ) ? 'available-on-backorder' : 'in-stock' );
 			stock.className = stockClass.replace( /wc-block-components-product-stock-indicator--[\w-]+/g, '' )
 				+ ' wc-block-components-product-stock-indicator--' + state + ' is-variation';
-			stock.textContent = p.textContent.trim();
+			setStockText( p.textContent.trim() );
+		}
+		// "Skladom – odoslanie do …" do dvoch riadkov (ako graceart_dostupnost_html v PHP)
+		function setStockText( text ) {
+			var i = text.indexOf( ' – ' );
+			stock.textContent = '';
+			if ( i < 0 ) {
+				stock.textContent = text;
+				return;
+			}
+			var state = document.createElement( 'span' );
+			state.className = 'graceart-stock-state';
+			state.textContent = text.slice( 0, i );
+			var note = document.createElement( 'span' );
+			note.className = 'graceart-stock-note';
+			note.textContent = text.slice( i + 3 );
+			stock.appendChild( state );
+			stock.appendChild( note );
 		}
 
 		window.jQuery( '.graceart-product-form .variations_form' )
