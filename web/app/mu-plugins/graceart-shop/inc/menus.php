@@ -45,8 +45,8 @@ function graceartMenuDefinitions(): array
                 ['label' => 'Doprava a platba', 'slug' => 'doprava-a-platba'],
                 ['label' => 'Vrátenie tovaru', 'option' => 'woocommerce_refund_returns_page_id', 'slug' => 'vratenie-tovaru'],
                 ['label' => 'Obchodné podmienky', 'option' => 'woocommerce_terms_page_id', 'slug' => 'obchodne-podmienky'],
-                ['label' => 'Ochrana osobných údajov', 'option' => 'wp_page_for_privacy_policy', 'slug' => 'ochrana-sukromia'],
-                ['label' => 'Zásady cookies', 'slug' => 'cookies'],
+                ['label' => 'Ochrana osobných údajov', 'option' => 'wp_page_for_privacy_policy', 'slug' => 'zasady-ochrany-osobnych-udajov'],
+                ['label' => 'Zásady cookies', 'slug' => 'zasady-pouzivania-cookies'],
             ],
         ],
     ];

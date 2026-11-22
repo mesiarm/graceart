@@ -155,7 +155,7 @@ function graceart_kontakt_notice() {
 function graceart_kontakt_formular_shortcode() {
 	$privacy = get_privacy_policy_url();
 	if ( '' === $privacy ) {
-		$privacy = home_url( '/ochrana-sukromia/' );
+		$privacy = home_url( '/zasady-ochrany-osobnych-udajov/' );
 	}
 	ob_start();
 	?>
