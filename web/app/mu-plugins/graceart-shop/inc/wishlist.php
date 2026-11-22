@@ -12,6 +12,14 @@ add_filter('yith_wcwl_move_to_another_list_label', fn(): string => __('Presunú�
 add_filter('yith_wcwl_no_product_to_remove_message', fn(): string => __('V zozname prianí zatiaľ nie sú žiadne produkty.', 'graceart'));
 
 /**
+ * Render the heart on the server (jQuery + admin-ajax) instead of the React
+ * component. The React button stays disabled until two slow REST calls finish
+ * (about 2 s on staging) and ships ~1 MB of scripts; the PHP template is usable
+ * as soon as the page is shown and a click works even without JavaScript.
+ */
+add_filter('yith_wcwl_rendering_method', fn(): string => 'php-templates');
+
+/**
  * YITH removes the item on "init"; drop the query string so a refresh does
  * not repeat the request. No notice: the heart icon going hollow is enough.
  */

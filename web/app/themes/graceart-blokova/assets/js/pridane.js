@@ -55,6 +55,11 @@
 	}
 
 	if ( window.jQuery ) {
+		// Srdiečko (YITH, stránka produktu): okienko „Pridané do zoznamu prianí“ je v pätičke zatvorené
+		window.jQuery( document.body ).on( 'added_to_wishlist', function () {
+			otvor( document.querySelector( 'dialog.graceart-pridane-priania' ) );
+		} );
+
 		window.jQuery( document.body ).on( 'added_to_cart', function () {
 			// fragmenty WooCommerce sa vymenia skôr ako sa zavolá táto funkcia
 			window.setTimeout( function () {

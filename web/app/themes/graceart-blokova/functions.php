@@ -317,6 +317,42 @@ function graceart_wishlist_next_to_button() {
 add_action( 'woocommerce_after_add_to_cart_button', 'graceart_wishlist_next_to_button', 20 );
 
 /**
+ * Okienko „Pridané do zoznamu prianí“ (rovnaké ako „Pridané do košíka“). Je v pätičke stránky
+ * produktu zatvorené; assets/js/pridane.js ho otvorí po udalosti added_to_wishlist od YITH.
+ */
+function graceart_wishlist_okienko() {
+	if ( ! is_singular( 'product' ) || ! function_exists( 'YITH_WCWL' ) ) {
+		return;
+	}
+	$product = wc_get_product( get_queried_object_id() );
+	if ( ! $product ) {
+		return;
+	}
+	?>
+	<dialog class="graceart-pridane graceart-pridane-priania" aria-labelledby="graceart-priania-nadpis">
+		<div class="graceart-pridane-obsah">
+			<div class="graceart-pridane-hlava">
+				<p id="graceart-priania-nadpis" class="graceart-pridane-nadpis"><span class="graceart-pridane-fajka" aria-hidden="true"></span>Pridané do zoznamu prianí</p>
+				<button type="button" class="graceart-pridane-zavriet" aria-label="Zavrieť">&times;</button>
+			</div>
+			<div class="graceart-pridane-produkt">
+				<?php echo $product->get_image( 'woocommerce_thumbnail', array( 'alt' => '', 'loading' => 'eager' ) ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
+				<div>
+					<p class="graceart-pridane-meno"><?php echo esc_html( $product->get_title() ); ?></p>
+					<p class="graceart-pridane-cena"><?php echo wp_kses_post( $product->get_price_html() ); ?></p>
+				</div>
+			</div>
+			<div class="graceart-pridane-tlacidla">
+				<button type="button" class="graceart-pridane-pokracovat">Pokračovať v nákupe</button>
+				<a class="graceart-pridane-do-kosika" href="<?php echo esc_url( YITH_WCWL()->get_wishlist_url() ); ?>">Zobraziť zoznam prianí</a>
+			</div>
+		</div>
+	</dialog>
+	<?php
+}
+add_action( 'wp_footer', 'graceart_wishlist_okienko' );
+
+/**
  * Pole s počtom kusov ukázať vždy, aj keď je na sklade len 1 kus.
  * WooCommerce ho vtedy inak skryje a pri produktoch by raz bolo, raz nie.
  */
