@@ -32,3 +32,27 @@ add_action('wp_enqueue_scripts', function (): void {
         wp_deregister_script($handle);
     }
 }, 99);
+
+/**
+ * The front page hero image is the largest contentful paint element. Tell the
+ * browser to fetch it right away instead of waiting for the render-blocking CSS.
+ */
+add_action('wp_head', function (): void {
+    if (! is_front_page()) {
+        return;
+    }
+
+    printf(
+        "<link rel=\"preload\" as=\"image\" href=\"%s\" type=\"image/webp\" fetchpriority=\"high\">\n",
+        esc_url(get_theme_file_uri('assets/images/hero.webp'))
+    );
+}, 1);
+
+add_filter('render_block_core/cover', function (string $html): string {
+    if (! str_contains($html, 'graceart-hero') || str_contains($html, 'fetchpriority=')) {
+        return $html;
+    }
+
+    // Only the first <img> (the cover background) is touched.
+    return preg_replace('/<img /', '<img fetchpriority="high" ', $html, 1) ?? $html;
+});
