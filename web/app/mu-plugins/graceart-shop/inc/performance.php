@@ -42,19 +42,34 @@ add_action('wp_head', function (): void {
         return;
     }
 
+    $base = get_theme_file_uri('assets/images/');
+
     printf(
-        "<link rel=\"preload\" as=\"image\" href=\"%s\" type=\"image/webp\" fetchpriority=\"high\">\n",
-        esc_url(get_theme_file_uri('assets/images/hero.webp'))
+        "<link rel=\"preload\" as=\"image\" href=\"%s\" imagesrcset=\"%s\" imagesizes=\"100vw\" type=\"image/webp\" fetchpriority=\"high\">\n",
+        esc_url($base . 'hero.webp'),
+        esc_attr(esc_url($base . 'hero-800.webp') . ' 800w, ' . esc_url($base . 'hero.webp') . ' 1400w')
     );
 }, 1);
 
 add_filter('render_block_core/cover', function (string $html): string {
-    if (! str_contains($html, 'graceart-hero') || str_contains($html, 'fetchpriority=')) {
+    if (! str_contains($html, 'graceart-hero') || str_contains($html, 'srcset=')) {
         return $html;
     }
 
-    // Only the first <img> (the cover background) is touched.
-    return preg_replace('/<img /', '<img fetchpriority="high" ', $html, 1) ?? $html;
+    // Only the first <img> (the cover background) is touched. The hero also gets a
+    // smaller file for narrow screens, so phones do not download the 1400px version.
+    $base = get_theme_file_uri('assets/images/');
+    $attributes = str_contains($html, 'fetchpriority=') ? '' : 'fetchpriority="high"';
+
+    if (str_contains($html, 'assets/images/hero.webp')) {
+        $attributes .= sprintf(
+            ' srcset="%s 800w, %s 1400w" sizes="100vw"',
+            esc_url($base . 'hero-800.webp'),
+            esc_url($base . 'hero.webp')
+        );
+    }
+
+    return preg_replace('/<img /', '<img ' . $attributes . ' ', $html, 1) ?? $html;
 });
 
 /**
