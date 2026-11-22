@@ -56,3 +56,30 @@ add_filter('render_block_core/cover', function (string $html): string {
     // Only the first <img> (the cover background) is touched.
     return preg_replace('/<img /', '<img fetchpriority="high" ', $html, 1) ?? $html;
 });
+
+/**
+ * Stylesheets the first screen of the front page does not need (shop grid and
+ * product styles sit below the hero, the mini cart drawer and the cookie
+ * banner are hidden or injected by JavaScript) are loaded without blocking the
+ * first paint. Other pages keep normal loading because they show shop content
+ * above the fold.
+ */
+add_filter('style_loader_tag', function (string $tag, string $handle): string {
+    static $deferred = [
+        'wc-blocks-style-mini-cart-contents',
+        'woocommerce-layout',
+        'woocommerce-smallscreen',
+        'woocommerce-general',
+        'cmplz-general',
+        'cmplz-banner-1-optin',
+    ];
+
+    if (is_admin() || ! is_front_page() || ! in_array($handle, $deferred, true)) {
+        return $tag;
+    }
+
+    $pattern = '/media=([\'"])(.*?)\1/';
+    $async = preg_replace($pattern, "media='print' data-media='\$2' onload=\"this.media=this.dataset.media;this.onload=null\"", $tag, 1, $count);
+
+    return $count ? $async . '<noscript>' . $tag . '</noscript>' : $tag;
+}, 10, 2);
