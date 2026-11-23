@@ -912,6 +912,29 @@ function graceart_woocommerce_texts( $translation, $text, $domain ) {
 		'Shipping and discounts calculated at checkout.' => 'Doprava a zľavy sa vypočítajú v pokladni.',
 		'Number of items in the cart: %d' => 'Počet položiek v košíku: %d',
 		'Number of items in the cart: %1$d. Total price of %2$s' => 'Počet položiek v košíku: %1$d. Celková cena: %2$s',
+		'Shipping calculated at checkout.' => 'Doprava sa vypočíta v pokladni.',
+		'Shipping and taxes calculated at checkout.' => 'Doprava a dane sa vypočítajú v pokladni.',
+		'Taxes and discounts calculated at checkout.' => 'Dane a zľavy sa vypočítajú v pokladni.',
+		// Produkt, galéria a pridanie do košíka (chýba v preklade WooCommerce 11.2).
+		'Please select a valid quantity to add to the cart.' => 'Vyberte platné množstvo, ktoré chcete pridať do košíka.',
+		'Please select some products to add to the cart.' => 'Vyberte produkty, ktoré chcete pridať do košíka.',
+		'Please select product attributes before adding to cart.' => 'Pred pridaním do košíka vyberte vlastnosti produktu.',
+		'Added to cart'                 => 'Pridané do košíka',
+		'Previous image'                => 'Predchádzajúci obrázok',
+		'Image thumbnails'              => 'Miniatúry obrázkov',
+		'Full screen image'             => 'Obrázok na celú obrazovku',
+		'Zoom in/out'                   => 'Priblížiť / oddialiť',
+		'Filter'                        => 'Filtrovať',
+		'Your account is using a temporary password. We emailed you a link to change your password.' => 'Používate dočasné heslo. Poslali sme vám e-mail s odkazom na zmenu hesla.',
+		// E-maily zákazníkovi: pozastavená a zrušená objednávka.
+		'Your order is on hold'         => 'Vaša objednávka je pozastavená',
+		'Thanks for your order. We’ve received it, and it’s currently on hold while we complete the next required step, such as confirming, clearing, or finalizing payment.' => 'Ďakujeme za objednávku. Prijali sme ju a je pozastavená, kým nedokončíme ďalší potrebný krok, napríklad potvrdenie alebo prijatie platby.',
+		'We’ll send another update when your order moves forward. Here’s a summary of your order:' => 'Keď sa objednávka posunie ďalej, pošleme vám ďalšiu správu. Tu je súhrn vašej objednávky:',
+		'Order Cancelled: #%s'          => 'Objednávka zrušená: #%s',
+		'Your order #%s has been cancelled.' => 'Vaša objednávka č. %s bola zrušená.',
+		'We’re sorry to let you know that your order #%1$s has been cancelled.' => 'S ľútosťou vám oznamujeme, že vaša objednávka č. %1$s bola zrušená.',
+		'We’re getting in touch to let you know that your order #%1$s has been cancelled.' => 'Oznamujeme vám, že vaša objednávka č. %1$s bola zrušená.',
+		'Store Information'             => 'Informácie o obchode',
 	);
 	return $texts[ $text ] ?? $translation;
 }
