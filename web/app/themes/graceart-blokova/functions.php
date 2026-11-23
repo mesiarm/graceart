@@ -582,6 +582,14 @@ function graceart_pridane_script() {
 add_action( 'wp_enqueue_scripts', 'graceart_pridane_script' );
 
 /**
+ * Tlačidlá do košíka / pokladne ukážu po kliknutí načítavanie (assets/js/prechod.js).
+ */
+function graceart_prechod_script() {
+	wp_enqueue_script( 'graceart-prechod', get_theme_file_uri( 'assets/js/prechod.js' ), array(), wp_get_theme()->get( 'Version' ), true );
+}
+add_action( 'wp_enqueue_scripts', 'graceart_prechod_script' );
+
+/**
  * Tlačidlá − a + pri množstve na stránke produktu.
  */
 function graceart_quantity_script() {
@@ -802,6 +810,27 @@ function graceart_wishlist_texts( $translation, $text, $domain ) {
 		'Remove this product'               => 'Odstrániť zo zoznamu prianí',
 		'Product added!'                    => 'Pridané do zoznamu prianí',
 		'Browse wishlist'                   => 'Zobraziť zoznam prianí',
+		'Product successfully removed.'     => 'Produkt bol odstránený zo zoznamu prianí.',
+		'Product added to cart successfully' => 'Produkt bol pridaný do košíka.',
+		'We are sorry, but this feature is available only if cookies on your browser are enabled.' => 'Ľutujeme, táto funkcia vyžaduje povolené cookies vo vašom prehliadači.',
+		'View &rsaquo;'                     => 'Zobraziť &rsaquo;',
+		'or'                                => 'alebo',
+		'Close'                             => 'Zavrieť',
+		'Add to cart'                       => 'Pridať do košíka',
+		'Add all to cart'                   => 'Pridať všetko do košíka',
+		'Quantity'                          => 'Množstvo',
+		'Quantity:'                         => 'Množstvo:',
+		'Price:'                            => 'Cena:',
+		'Stock:'                            => 'Dostupnosť:',
+		'Added on:'                         => 'Pridané:',
+		'Added on: %s'                      => 'Pridané: %s',
+		'Remove'                            => 'Odstrániť',
+		'Remove from wishlist'              => 'Odstrániť zo zoznamu prianí',
+		'Update'                            => 'Aktualizovať',
+		'Apply'                             => 'Použiť',
+		'Move'                              => 'Presunúť',
+		'Edit title'                        => 'Upraviť názov',
+		'Email'                             => 'E-mail',
 		'The product is already in your wishlist!' => 'Produkt už v zozname prianí máte.',
 		// Hosť nemá pomenovaný zoznam, {{wishlist_name}} by ostalo prázdne („do vášho "" zoznamu“).
 		'{{product_name}} has been added to your {{wishlist_name}} list!'     => '{{product_name}} bol pridaný do zoznamu prianí.',
@@ -878,6 +907,11 @@ function graceart_woocommerce_texts( $translation, $text, $domain ) {
 		// Mini košík: počítadlo pri nadpise „Košík“ nie je v preklade WooCommerce (1.7.18).
 		// Jeden tvar pre všetky počty (text sa prepisuje aj v prehliadači), preto „ks“.
 		'(items: %d)'                   => '(%d ks)',
+		// Mini košík: texty, ktoré chýbajú v slovenskom preklade WooCommerce (11.2).
+		'Your shopping cart is empty'   => 'Váš košík je prázdny',
+		'Shipping and discounts calculated at checkout.' => 'Doprava a zľavy sa vypočítajú v pokladni.',
+		'Number of items in the cart: %d' => 'Počet položiek v košíku: %d',
+		'Number of items in the cart: %1$d. Total price of %2$s' => 'Počet položiek v košíku: %1$d. Celková cena: %2$s',
 	);
 	return $texts[ $text ] ?? $translation;
 }

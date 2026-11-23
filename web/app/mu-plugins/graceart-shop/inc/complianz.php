@@ -14,6 +14,8 @@ add_filter('gettext', function (string $translated, string $text, string $domain
         'Close dialog' => 'Zavrieť okno',
         'Manage options' => 'Spravovať možnosti',
         'Manage services' => 'Spravovať služby',
+        'Read more about these purposes' => 'Prečítajte si viac o týchto účeloch',
+        'Read more about TCF purposes on Cookie Database' => 'Prečítajte si viac o účeloch TCF v databáze cookies',
     ];
 
     return $slovak[$text] ?? $translated;
