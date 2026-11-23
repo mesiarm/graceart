@@ -103,16 +103,16 @@ add_filter('style_loader_tag', function (string $tag, string $handle): string {
 
 /**
  * On the front page the theme script that needs jQuery (the "added to cart" dialog) can run
- * deferred like the WooCommerce scripts. WordPress then also defers jQuery itself, so it no
- * longer blocks the first paint (core only defers a script when all its dependents are deferred).
+ * deferred like the WooCommerce scripts, and jQuery itself is marked deferred too so it no
+ * longer blocks the first paint (core still keeps it blocking if any dependent is blocking).
  */
 add_action('wp_enqueue_scripts', function (): void {
     if (is_admin() || ! is_front_page()) {
         return;
     }
 
-    foreach (['graceart-pridane', 'graceart-quantity'] as $handle) {
-        if (wp_script_is($handle, 'enqueued')) {
+    foreach (['jquery-core', 'jquery', 'graceart-pridane', 'graceart-quantity'] as $handle) {
+        if (wp_script_is($handle, 'registered')) {
             wp_script_add_data($handle, 'strategy', 'defer');
         }
     }
