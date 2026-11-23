@@ -85,6 +85,8 @@ add_filter('style_loader_tag', function (string $tag, string $handle): string {
         'woocommerce-layout',
         'woocommerce-smallscreen',
         'woocommerce-general',
+        'woocommerce-blocktheme',
+        'wc-blocks-packages-style',
         'cmplz-general',
         'cmplz-banner-1-optin',
     ];
@@ -98,3 +100,20 @@ add_filter('style_loader_tag', function (string $tag, string $handle): string {
 
     return $count ? $async . '<noscript>' . $tag . '</noscript>' : $tag;
 }, 10, 2);
+
+/**
+ * On the front page the theme script that needs jQuery (the "added to cart" dialog) can run
+ * deferred like the WooCommerce scripts. WordPress then also defers jQuery itself, so it no
+ * longer blocks the first paint (core only defers a script when all its dependents are deferred).
+ */
+add_action('wp_enqueue_scripts', function (): void {
+    if (is_admin() || ! is_front_page()) {
+        return;
+    }
+
+    foreach (['graceart-pridane', 'graceart-quantity'] as $handle) {
+        if (wp_script_is($handle, 'enqueued')) {
+            wp_script_add_data($handle, 'strategy', 'defer');
+        }
+    }
+}, 999);
