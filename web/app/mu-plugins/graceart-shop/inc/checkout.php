@@ -193,8 +193,6 @@ add_action('wp_enqueue_scripts', function (): void {
         'Company (optional)' => __('Spoločnosť (voliteľné)', 'graceart'),
         'Contact information' => __('Kontaktné údaje', 'graceart'),
         'Country/Region' => __('Krajina / región', 'graceart'),
-        /* translators: %s: field label — WooCommerce's own Slovak file renders this as "Vybrať Krajina / región" */
-        'Select %s' => __('Vyberte: %s', 'graceart'),
         'Country/Region (optional)' => __('Krajina / región (voliteľné)', 'graceart'),
         'Coupon code' => __('Kód kupónu', 'graceart'),
         'Edit' => __('Upraviť', 'graceart'),
@@ -220,7 +218,7 @@ add_action('wp_enqueue_scripts', function (): void {
         'Postal code (optional)' => __('PSČ (voliteľné)', 'graceart'),
         // WooCommerce puts the field name in the nominative ("krajina / región"),
         // so it goes in brackets instead of after a verb that needs the accusative.
-        'Select %s' => __('Vyberte možnosť (%s)', 'graceart'),
+        'Select a %s' => __('Vyberte možnosť (%s)', 'graceart'),
         'Shipping address' => __('Dodacia adresa', 'graceart'),
         'Shipping options' => __('Možnosti dopravy', 'graceart'),
         'State/County' => __('Kraj', 'graceart'),
