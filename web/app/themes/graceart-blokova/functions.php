@@ -1128,7 +1128,8 @@ add_action( 'wpo_wcpdf_custom_styles', 'graceart_invoice_styles', 20 );
  * rovnaké poradie ako predtým (po štýloch blokov a globálnych štýloch).
  */
 function graceart_enqueue_custom_css() {
-	$path = 'assets/css/theme-custom.css';
+	// Zdroj je theme-custom.css; minifikovanú verziu vytvorí scripts/minify-theme-css.py.
+	$path = 'assets/css/theme-custom.min.css';
 	wp_enqueue_style(
 		'graceart-custom',
 		get_theme_file_uri( $path ),
