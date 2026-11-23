@@ -218,6 +218,9 @@ add_action('wp_enqueue_scripts', function (): void {
         'Place order' => __('Objednať s povinnosťou platby', 'graceart'),
         'Postal code' => __('PSČ', 'graceart'),
         'Postal code (optional)' => __('PSČ (voliteľné)', 'graceart'),
+        // WooCommerce puts the field name in the nominative ("krajina / región"),
+        // so it goes in brackets instead of after a verb that needs the accusative.
+        'Select %s' => __('Vyberte možnosť (%s)', 'graceart'),
         'Shipping address' => __('Dodacia adresa', 'graceart'),
         'Shipping options' => __('Možnosti dopravy', 'graceart'),
         'State/County' => __('Kraj', 'graceart'),
