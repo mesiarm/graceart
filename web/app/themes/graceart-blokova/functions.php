@@ -859,6 +859,9 @@ function graceart_checkout_js_texts( $translations, $file, $handle, $domain ) {
 		return $translations;
 	}
 	$texts = array(
+		// Preklad „Vybrať %s“ dosadí názov poľa v 1. páde („Vybrať krajina / región“),
+		// preto názov v zátvorke: „Vyberte možnosť (krajina / región)“.
+		'Select a %s'                                   => 'Vyberte možnosť (%s)',
 		'Please enter a valid %s'                       => 'Prosím, vyplňte toto pole.',
 		'Please select a %s'                            => 'Prosím, vyberte jednu z možností.',
 		'%s is invalid'                                 => 'Prosím, skontrolujte toto pole.',
