@@ -9,5 +9,5 @@ add_filter('image_editor_output_format', function (array $formats): array {
 });
 
 add_filter('wp_editor_set_quality', function (int $quality, string $mime_type): int {
-    return $mime_type === 'image/webp' ? 90 : $quality;
+    return $mime_type === 'image/webp' ? 80 : $quality;
 }, 10, 2);
