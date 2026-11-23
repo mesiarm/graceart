@@ -1086,3 +1086,25 @@ table.totals tr.order_total th, table.totals tr.order_total td, tr.order_total t
 	<?php
 }
 add_action( 'wpo_wcpdf_custom_styles', 'graceart_invoice_styles', 20 );
+
+/**
+ * Vlastné CSS témy.
+ * Bolo v theme.json (styles.css), kde sa vypisovalo priamo do HTML každej stránky (~83 kB).
+ * V samostatnom súbore ho prehliadač uloží do cache. Závislosť na 'global-styles' drží
+ * rovnaké poradie ako predtým (po štýloch blokov a globálnych štýloch).
+ */
+function graceart_enqueue_custom_css() {
+	$path = 'assets/css/theme-custom.css';
+	wp_enqueue_style(
+		'graceart-custom',
+		get_theme_file_uri( $path ),
+		array( 'global-styles' ),
+		(string) filemtime( get_theme_file_path( $path ) )
+	);
+}
+add_action( 'wp_enqueue_scripts', 'graceart_enqueue_custom_css' );
+
+function graceart_editor_custom_css() {
+	add_editor_style( 'assets/css/theme-custom.css' );
+}
+add_action( 'after_setup_theme', 'graceart_editor_custom_css' );
