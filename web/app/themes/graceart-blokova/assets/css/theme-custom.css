@@ -445,7 +445,8 @@
 .graceart-wishlist-page table.wishlist_table .product-name a { color: var(--wp--preset--color--ink); text-decoration: none; font-weight: 500; }
 .graceart-wishlist-page table.wishlist_table .product-name a:hover { color: var(--wp--preset--color--brown); }
 .graceart-wishlist-page .product-remove a { color: var(--wp--preset--color--muted) !important; text-decoration: none; font-size: 20px; }
-.graceart-wishlist-page .product-add-to-cart a.button { border-radius: 999px !important; height: 30px; display: inline-flex; align-items: center; padding: 0 18px !important; font-size: 13px !important; letter-spacing: 0.06em; background-color: #A67A5B !important; color: #fff !important; }
+.graceart-wishlist-page .product-add-to-cart a.button, .graceart-wishlist-page .product-add-to-cart a.add_to_cart_button { border-radius: 999px !important; height: 30px; min-height: 0 !important; display: inline-flex !important; align-items: center; justify-content: center; white-space: nowrap; width: auto; margin: 0 !important; padding: 0 18px !important; font-size: 13px !important; font-weight: 400 !important; line-height: 1 !important; letter-spacing: 0.06em; background-color: #A67A5B !important; color: #fff !important; }
+.graceart-wishlist-page .product-add-to-cart a.add_to_cart_button:hover { background-color: var(--wp--preset--color--brown) !important; }
 .graceart-wishlist-page .yith-wcwl-share { margin-top: 32px; font-size: 14px; color: var(--wp--preset--color--muted); }
 @media (max-width: 781px) {
   .graceart-wishlist-page table.wishlist_table { display: block; overflow-x: auto; }
