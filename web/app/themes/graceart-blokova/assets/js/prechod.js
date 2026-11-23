@@ -5,7 +5,6 @@
 ( function () {
 	var SELECTOR = [
 		'.graceart-pridane-do-kosika',
-		'.wc-block-cart__submit-button',
 		'.wc-block-mini-cart__footer-checkout',
 		'.wc-block-mini-cart__footer-cart',
 	].join( ',' );
